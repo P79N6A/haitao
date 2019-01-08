@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "
+http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, user-scalable=0, width=device-width">
+<title>{$seo_title}</title>
+<link rel="stylesheet" type="text/css" href="../Public/css2/index.css">
+<link rel="stylesheet" href="../Public/css2/bootstrap.min.css" type="text/css">
+<script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+<script src="../Public/js2/bootstrap.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="../Public/js2/jquery.min.js"></script>
+<script type="text/javascript" src="../Public/js2/jquery.SuperSlide.2.1.js"></script>
+<script type="text/javascript" src="../Public/js2/demo.js"></script>
+</head>
+<body style="background-color:#fff">
+  <header class="head">
+    <nav class="top">
+      <div class="inner">
+        <ul>
+          <empty name="yp_userid">
+        <li><a href="javascript:" class="dologin-oa">登录&nbsp;</a>|</li>
+        <li><a href="javascript:" onclick="createAccount(this);" data="DoUserForm">&nbsp;注册&nbsp;</a>|</li>
+        <else /> 
+        <li><a href="{:URL('User-Index/index')}" >欢迎，<empty name="yp_wechat_name">微信用户<else/>{$yp_wechat_name}</empty></a>|</li>
+        <li><a href="{:URL('User-Login/logout')}" >退出</a>|</li>
+        </empty>
+        <li><a href="/index.php?g=User&m=Order&a=index">我的订单&nbsp;</a>|</li>
+        <li><a href="/index.php?g=User&m=Index&a=my_collect">&nbsp;我的收藏&nbsp;</a>|</li>
+          <li><a href="#">&nbsp;联系客服&nbsp;</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="logo" style="border-bottom:3px solid #CE1B41">
+      <div class="head_inner">
+        <a class="reallogo" href="{$site_url}">
+          <img src="{$logo}">
+        </a>
+      </div>
+      <div class="m-step <in name='action_name' value='show'>m-step-2</in>">
+          <span class="bg"></span>
+          <ul class="clearfix">
+            <li class="step step-1 <in name='action_name' value='checkout'>active</in>">
+              <div class="">我的购物车</div>
+            </li>
+            <li class="step step-2 <in name='action_name' value='done'>active</in>">
+              <div class="">提交订单</div>
+            </li>
+            <li class="step step-3 <in name='action_name' value='show'>active</in>">
+              <div class="">支付状态</div>
+            </li>
+          </ul>
+      </div>
+    </div>
+  </header>
+  <!-- 头部结束 -->

@@ -1,0 +1,43 @@
+{__NOLAYOUT__}<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html>
+<head>
+<title>{:L('message_title')}</title>
+<meta http-equiv="Content-Type" content="text/html; charset={:C('DEFAULT_CHARSET')}">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta http-equiv='Refresh' content='{$waitSecond};URL={$jumpUrl}'>
+<load href ="__PUBLIC__/Css/style.css" />
+</head>
+<body>
+<!--{$msgTitle} -->
+<div  style="text-align:center;width:100%;background:#3b94d;">
+    <h5 style="display:none;">{:L('message_title')}</h5>
+    <div class="content guery" style="padding:20px 0;display:inline-block;display:-moz-inline-stack;zoom:1;*display:inline; max-width:280px;font-size:28px;font-weight:bold;color:red;">{$message} {$error}</div>
+    <div class="bottom" style="padding:20px 0;">
+	<notpresent name="closeWin" >
+	<a href="{$jumpUrl}" style="display:block;width:100px;height:30px;line-height:30px;color:#FFF;background:#3B90D4;margin:0 auto;">点击返回</a>
+	</notpresent>
+	</div>
+	
+<?php if ($dialog):?>
+<script type="text/javascript" src="./Public/Js/jquery.min.js"></script> 
+<script type="text/javascript" src="./Public/Js/jquery.artDialog.js?skin=default"></script> 
+<script type="text/javascript" src="./Public/Js/iframeTools.js"></script> 
+<script type="text/javascript" src="./Public/Js/my.js"></script> 
+<script type="text/javascript" src="./Public/Js/swfupload.js"></script> 
+<script style="text/javascript"> 
+ setTimeout(function(){ 
+ <?php if ($jumpUrl!=1):?>art.dialog.open.origin.location.href='{$jumpUrl}';<?php endif;?>
+ art.dialog.close(); 
+ },{:$waitSecond*1000}); 
+</script>
+<?php endif;?>
+
+<?php if ($script):?>
+<script style="text/javascript">{$script}</script>
+<?php endif;?>
+
+</div>
+</body>
+</html>

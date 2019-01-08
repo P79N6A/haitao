@@ -1,0 +1,34 @@
+<include file="Public:header"/>
+<script type="text/javascript">
+var APP	 =	 '__APP__';
+var ROOT =	 '__ROOT__';
+var PUBLIC = '__PUBLIC__';
+</script>
+{__CONTENT__}
+
+    <div class="copyright"><a href="http://www.miitbeian.gov.cn" target="_blank" title="粤ICP备14063096号-1">粤ICP备14063096号-1</a></div> 
+         <table class="fix">
+        <tbody>
+          <tr>
+            <td style="width:15%;border-right:1px solid #c4c4c4"><a href="javascript:history.go(-1)"><img src="__PUBLIC__/Images/f1.png" class="fanhui"></a></td>
+            <td style="width:28.3%;border-right:1px dashed #c4c4c4"><a href="/index.php" style=" color: #707070;text-decoration:none">商城首页</a></td>
+            <td style="width:33%;border-right:1px dashed #c4c4c4;position: relative;"><a href="{:URL('Home-Order/checkout')}" style=" color: #707070;text-decoration:none"><span id="shoppingCart" class="badge shuliang">{$shopping_count|default=''}</span>购物车</a></td>
+            <td style="width:28.3%"><a href="{:URL('User-Index/index')}" style="color: #707070;text-decoration:none">会员服务</a></td>
+          </tr>
+        </tbody>
+      </table>
+   <script>
+    //隐藏微信底栏
+      document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+      WeixinJSBridge.call('hideToolbar');
+      });
+      //发票显示
+      $(document).ready(function(){
+        $('#shoppingCart').removeClass("badge").addClass("badge");
+        $("#click").click(function(){
+           $("#yinchang").slideToggle("fast");
+         });
+      });
+    </script>
+</body>
+</html>

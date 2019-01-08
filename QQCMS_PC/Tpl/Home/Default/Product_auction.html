@@ -1,0 +1,131 @@
+<include file="Home:header"/>
+  <!--Home_rindex-->  
+<div class="gmu-panel">
+  <div class="topbar-space"><h3 class="gmu-panel-middle">排场信息</h3></div><!-- 顶栏的占位 -->
+  <div class="colo-beside">今日秒拍场</div>
+
+  <foreach  name="today_list" item="r" key="i">
+    <if condition="$r['star_time']['time'] lt $tomorrow_small and $r['end_time']['time'] gt $today_small">  
+      <if condition="$r['star_time']['time'] gt $today_small and $r['end_time']['time'] lt $tomorrow_small">  
+        <p href="#"  class="disa">{$i}</p>
+      <else/>
+        <a href="#{$i}" class="time">{$i}
+          <if condition="$r['star_time']['time'] lt time() and $r['end_time']['time'] gt time()">
+            <span class="label label-danger qianggou">正在秒拍</span>
+          </if>
+        </a>
+      </if>
+    </if>
+  </foreach>
+  <div class="colo-beside">明日秒拍场</div>  
+  <foreach  name="today_list" item="r" key="i">
+    <if condition="$r['star_time']['time'] lt $after_to_small and $r['end_time']['time'] gt $tomorrow_small">
+      <a href="#{$i}" class="time">{$i}</a>
+    </if>
+  </foreach>
+</div>
+    <!--end-->    
+  <!-- 本页自用的 css -->
+    <link rel="stylesheet" href="../Public/css/miaopai.css" />
+    <!-- panel 导航边栏 -->
+<div class="body default">
+  <div class="content-list">
+  <foreach  name="today_list" item="r" key="i">
+  <if condition="$r['star_time']['time'] lt $tomorrow_small and $r['end_time']['time'] gt $today_small">
+    <div class="listing withMenu listing-shop-goods">
+      <div class="padding-head" id="{$i}"><p class="colos">{$i}</p><p class="colos2">距离本场结束：<span class="time_out">{$r.end_time.time_out}</span></p></div>
+      <table class="listing beats-goods-table">
+        <colgroup><col style="width:18px;">
+        <col style="width: 15%">
+        <col style="">
+                <col style="width: 10%">
+        <col style="width: 5%">
+        <col style="width: 20%">
+        </colgroup>
+        <tbody>
+          <tr>
+              <th class="designation sort_asc"><a href="javascript:">商品名称</a></th>
+              <th class="price" align="center"><a href="javascript:">商品图片</a></th>
+              <th class="price" align="center"><a href="javascript:">产品描述</a></th>
+              <!--<th class="tax"><a href="javasript:">TTC<br>HT</a></th>-->
+              <th class="designation qty"><a href="javascript:">起拍价</a></th>
+              <th class="designation qty"><a href="javascript:">参考价</a></th>
+              <th class="designation qty"><a href="javascript:">操作</a></th>
+          </tr>
+        <volist name="r" id="vo">
+          <if condition="$vo['id'] neq 0 and $vo['status'] neq 0">
+          <tr>
+              <td class="designation" width="18%">
+                <p class="designation_en"><a href="{$vo.url}">{$vo.title}</a></p>
+              </td>
+              <td class="designation">
+                <img src="{$vo.thumb}"  height="50" width="50" alt="{$vo.title}" class="imgs" style="max-width:60px">
+              </td>
+              <td class="designation">
+                <p class="designation_en"><a href="javascript:"><small>产品描述：{$vo.content|strip_tags=###|mb_substr=###,0,20,'utf8'}……</small></a></p>                                                       
+              </td>
+              <td>
+                <p><a href="javascript:"  class="col">{$vo.start_price}</a></p>
+              </td>
+              <td>
+                <p><a href="javascript:" style="font-size:13px;color:#ACACAC"><del>{$vo.price}</del></a></p>
+              </td>
+              <td>
+                <p><a href="{$vo.url}" style="line-height: normal;" type="button" class="btn btn-danger">参与出价</a></p>
+              </td>
+          </tr>
+          </if>
+        </volist>       
+        </tbody>
+      </table>
+      <div class="pagination pagination2">
+        <div class="pageList pageList2">{$pages}</div>
+      </div>
+      <!-- !Pagination -->
+      <div style="clear: left;"></div>
+    </div>
+    </if>
+  </foreach>
+  </div>
+</div>
+
+<!-- 提示框 -->
+<div id="dialog2" title="温馨提示">
+  <p class="big_one"></p>
+  <small  class="small_one"></small>
+</div>
+
+<script type="text/javascript">
+
+    /*倒计时*/
+    function timer(intDiff,obj){
+
+        window.setInterval(function(){
+        var day=0,
+            hour=0,
+            minute=0,
+            second=0;//时间默认值        
+        if(intDiff > 0){
+            day = Math.floor(intDiff / (60 * 60 * 24));
+            hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+            minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+            second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+        }
+        if (minute <= 9) minute = '0' + minute;
+        if (second <= 9) second = '0' + second;
+        obj.html(day+'天'+hour+'小时'+minute+'分'+second+'秒');
+        intDiff--;
+        if(intDiff<1){
+          location.reload();
+        }
+        }, 1000);
+    } 
+    $(function(){
+        $(".time_out").each(function(){
+        var intDiff = parseInt($(this).text());//倒计时总秒数量
+        timer(intDiff,$(this));
+        })
+    }); 
+    /**/
+    </script>
+<include file="Home:footer"/> 

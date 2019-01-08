@@ -1,0 +1,50 @@
+<include file="Public:adminHead" />
+<div id="Right">
+	<form action="" method="post">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+			<tr>
+				<th width="120">节点：</th>
+				<td>
+					<input name="name" type="text" class="input" size="40" value="{$info.name}" />
+					模块 控制器 或者 操作
+				</td>
+			</tr>
+			<tr>
+				<th>显示名：</th>
+				<td><input class="input" name="title" type="text" size="40" value="{$info.title}" />中英文均可</td>
+			</tr>
+			<tr>
+				<th>状态：</th>
+				<td>
+					<select name="status" style="width: 80px;">
+					{$info.status|frequent_status_converter=###,$status_01,'option'}
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>父级节点：</th>
+				<td>
+				<select name="pid" style="min-width: 80px;">
+					<option value="0">根节点</option>
+					<volist name="nodeList" id="vo">
+					<option <if condition="$info['pid'] eq $vo['id']">selected="selected"</if> value="{$vo.id}">{$vo.title}</option> 
+					</volist>
+					{$info.nodeList}
+				</select>
+				</td>
+			</tr>
+			<tr>
+				<th>显示排序：</th>
+				<td>
+					<input class="input" name="listorder" type="text" size="40" value="{$info.listorder}" />
+				</td>
+			</tr>
+		</table>
+		<input type="hidden" name="id" value="{$info.id}"/>
+	
+	<div class="commonBtnArea" >
+		<input type="submit" class="btn submit" />
+	</div>
+	</form>
+</div>
+<include file="Public:adminFoot" />

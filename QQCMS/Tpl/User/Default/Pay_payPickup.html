@@ -1,0 +1,47 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>上优舶</title>
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+
+<!-- 手机页面全局 css -->
+<link rel="stylesheet" type="text/css" media="all" href="css/Glyphicons.min.css" />
+<link rel="stylesheet" href="../Public/css/bootstrap.min.css">
+<link rel="stylesheet" href="../Public/src/css/template.css">
+<!--拓展样式-->
+<link rel="stylesheet" href="../Public/src/css/index02.css">
+<script src="../Public/js/jquery2.min.js"></script>
+<style type="text/css">
+body{background-color:#f2f2f4;}
+*{-webkit-font-smoothing:antialiased;}
+.bg{padding:20px;}
+.bg .title{width:80%;}
+.bg .title img{width:100%;height:auto}
+.bg .explain{width:80%;display:block;margin:0 auto;color:#707070;font-size:17px}
+.bg .button{display:block;color:white;width:90%;height:42px;margin:35% auto 0 auto;background-color:#ce1b41;text-align:center;line-height:42px;font-size:18px;}
+.bg .button:hover{background-color:#ed214c;}
+@media(min-height:640px){.bg .btn{bottom:165px;}}
+</style>
+</head>
+<body>
+  <div class="bg" id="bg">
+    <div class="title"><img src="../Public/img/title.png"></div>
+    <span class="explain">朋友领取您的红包后成为上优舶新用户并成功消费，您就能获得100元现金券，无上限可叠加！</span>
+    <a href="#" class="button">我要发红包</a>
+  </div>
+
+  <script type="text/javascript">
+      //隐藏微信底栏
+      document.addEventListener('WeixinJSBridgeReady',function onBridgeReady(){WeixinJSBridge.call('hideToolbar');});
+
+      //创建slider组件
+      $('#slider').slider({loop:true});
+  </script>
+  
+  </body>
+</html>

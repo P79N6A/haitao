@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>上优舶</title>
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+
+<!-- 手机页面全局 css -->
+<link rel="stylesheet" type="text/css" media="all" href="css/Glyphicons.min.css" />
+<link rel="stylesheet" href="../Public/css/bootstrap.min.css">
+<link rel="stylesheet" href="../Public/src/css/template.css">
+<!--拓展样式-->
+<link rel="stylesheet" href="../Public/src/css/index02.css">
+<!-- 本页自用css全局 -->
+ <style type="text/css">
+body{background-color:#fff}
+</style>
+<!--组件依赖 js -->
+<script type="text/javascript" src="../Public/src/js/jquery.artDialog.js"></script>
+<script src="../Public/src/jquery-1.11.0.min.js"></script>
+<script src="../Public/src/js/jquery.lazyload.js?v=1.9.1"></script>
+</head>
+<body>
+  <div>
+    <div class="u-module u-default-page">
+      <div class="u-default-logo">
+        <span class="u-d-icon i-d-cart">
+          <img src="../Public/img/cars.png">
+        </span>
+      </div>
+      <p class="u-default-text">购物车历史没发现商品哦</p>
+      <a href="{:U('Home/Index/index')}" class="u-default-btn" >先去首页逛逛吧</a>
+    </div>
+  </div>
+<table class="fix">
+  <tbody>
+    <tr>
+      <td style="width:15%;border-right:1px solid #c4c4c4"><a href="javascript:history.go(-1)"><img src="__PUBLIC__/Images/f1.png" class="fanhui"></a></td>
+      <td style="width:28.3%;border-right:1px dashed #c4c4c4"><a href="index.php?shop_id={$shop_id}" style=" color: #707070;text-decoration:none">商城首页</a></td>
+      <td style="width:28.3%;border-right:1px dashed #c4c4c4"><a href="{:URL('Home-Order/ischeckout')}&shop_id={$shop_id}" style=" color: #707070;text-decoration:none">购物车</a></td>
+      <td style="width:28.3%"><a href="{:URL('User-Index/index')}&shop_id={$shop_id}" style="color: #707070;text-decoration:none">会员服务</a></td>
+    </tr>
+  </tbody>
+</table>
+ <script type="text/javascript">
+      //隐藏微信底栏
+      document.addEventListener('WeixinJSBridgeReady',function onBridgeReady(){WeixinJSBridge.call('hideToolbar');});
+
+      //创建slider组件
+      $('#slider').slider({loop:true});
+     </script>
+    </body>
+</html>

@@ -1,0 +1,54 @@
+<!-- html5不用写text/csss -->
+<style>
+	#image-uploader-wrap{
+		position: absolute;
+		z-index: 999;
+		top: 50%;
+		left: 50%;
+		display: none;
+	}
+	.image-uploader{
+		width: 500px;
+		height: 200px;
+		position: relative;
+		left: -250px;
+		top:-100px;
+		border: 1px solid #106bab;
+		border-radius: 3px;
+		padding: 5px 10px;
+		background-color:#fff;
+	}
+	.image-uploader-head{
+		margin: 10px 0;
+		padding-bottom:10px;
+		border-bottom: 1px solid #106bab;
+	}
+	#image-uploader-wrap form{
+		width:50%;
+		margin: 0 auto;
+		padding-top:10px;
+		text-align:center;
+	}
+	#image-uploader-wrap form input{margin-top:20px;}
+	#imageUploaderTarget {display:none;}
+
+
+</style>
+<div id="image-uploader-wrap">
+	<div class="image-uploader">
+		<div class="image-uploader-head">
+			<a class="pth-btn image-uploader-close" id="image-uploader-close" style="right:20px;">X</a>
+		</div>
+		<!--  target="hidden_frame" -->
+		<form action="/co/index.php/Ajax/uploadOne.shtml" target="hidden_frame"  method="post" enctype="multipart/form-data"><!-- 提交到处理图片的控制器 -->
+			<input class="input" type="file" name="image" />
+			<input class="btn image-uploader-submit" value="上传图片" type="submit"  />
+			<span id="imageUploaderTarget"></span>
+		</form>	
+		<iframe name='hidden_frame' id="hidden_frame"  style="display:none"></iframe> 
+	</div>
+</div>
+<script>
+//alert(	document.getElementsByClassName("pth-btn"));
+//		alert(nd);
+</script>

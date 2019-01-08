@@ -1,0 +1,51 @@
+
+    <!-- 本页自用的 css -->
+    <link rel="stylesheet" href="../Public/Css/index02.css">
+<!-- 本页自用的 css -->
+    <link rel="stylesheet" href="../Public/css/chanpinliebiao.css" />
+    <style type="text/css">hr{margin-top: 0!important}</style>
+
+ 
+<body class="pang">
+    <div class="wid-90">
+      <h3 class="padding-10">我的收藏<small class="margin-left-5">Product</small></h3>
+  </div>
+  <div class="xia">
+  <volist name="list" id="r">
+    <div class="ui">
+                <div class="uia">
+                <a href="{$r.url}">
+                  <img src="{$r.thumb}" class="t">
+                </a>
+                </div>
+                  <div class="uib">
+                        <p class="large">{$r.title}</p>
+                        <div class="col">
+                          {$r.en_name}
+                        </div>
+                        <div class="col">
+                          <del class="font-size-13">
+                          参考价：&yen;{$r.price}
+                          </del>
+                        </div>
+                          <span class="red-span">
+                            会员价：&yen;{$r.member_price}
+                          </span>
+                        <!-- <p class="midd">金会员价：&yen;{$r.gold_price}</p> -->
+                 </div>
+    </div>
+    <p class="jingpin3"></p>
+
+    </volist>
+     <div class="text-center">
+        <ul class="pagination" style="margin-bottom:20px">
+        {$pages}
+        </ul>
+      </div>
+      </div>
+    <!-- Modal -->
+    <script>
+    function dele(id){
+      $(".confi_dele").attr("href","/index.php?g=User&m=Index&a=delete_address&id="+id);
+    }
+    </script>

@@ -1,0 +1,65 @@
+#edit_table{width: 100%;font-size: 15px;font-family: '宋体';font-weight: normal;top:0px;right:0px;background: #fff;z-index: 999;display: none;text-align: left;  position: absolute;top: 50%;left: 0px;}
+#select_ul li{
+	border:2px solid #779DB3;
+	cursor: pointer;
+}
+#select_ul .has_select{
+	border:2px solid #c30008;
+	background:url(/co/Public/admin/images/select_icon1.png)no-repeat scroll 100% 100% transparent;
+	background-size: 15px;
+}
+#user_info{
+	width: 100%;
+	overflow: hidden;
+	position: relative;
+}
+#user_info .info_ul{
+	width: 80%;
+}
+.info_ul li{
+	width: 33%;
+	font-size: 18px;
+	float: left;
+	border-bottom: 1px solid #eee;
+	border-left: 1px solid #eee;
+}
+.info_ul li span{
+	display: inline-block;
+	width: 40%;
+	font-size: 15px;
+	text-align: right;
+	border-right: 1px solid #eee;
+	margin-right: 5px;
+}
+#user_info  .button{
+	position: absolute;
+	top:45%;
+	right:10%;
+}
+#myform{
+	display:none;
+	width:80%;
+	border:1px solid #eee;
+	margin:auto;
+	margin-top: 10px;
+}
+#next{
+	width: 100%;
+}
+#next table{
+	
+	width: 100%;
+}
+#next table th{
+	border-bottom:1px solid #eee;
+	margin:0px;
+	padding:10px 0px 10px 0px;
+	text-align: center;
+}
+#next table td{
+	border-left:1px solid #eee;
+	border-bottom:1px solid #eee;
+	margin:0px;
+	padding:10px 0px 10px 0px;
+	text-align: center;
+}

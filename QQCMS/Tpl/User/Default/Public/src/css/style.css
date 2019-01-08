@@ -1,0 +1,14 @@
+@charset "UTF-8";
+/* header */
+.header{position:relative;height:50px;background:#fff;width:100%;padding:5px}
+.header>a{width:25%;height:30px;line-height:30px;text-align:center;display:block;float:left;color:#000;border-right:1px solid #eee}
+.header .logo{}
+.header .search_1{}
+.header .search_1:hover{background-color:#0067d2;}
+.header .search_1 span{}
+.header .user-icon{}
+.header .user-icon span{}
+.header .user-icon:hover{}
+.header .back{}
+
+/*@media (min-width:641px){body{width:640px;margin:auto;}}*/

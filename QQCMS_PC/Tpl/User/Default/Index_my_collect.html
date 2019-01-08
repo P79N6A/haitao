@@ -1,0 +1,118 @@
+{__NOLAYOUT__}
+<include file="Public:headerubo"/>
+<!-- 商品分类 -->
+<div class="g-content">
+  <div class="m-cat-oper">
+    <div class="oper-more-cnt">
+      <dl class="cat-oper-sec cat-sec-fav f-clearfix">
+        <dt class="oper-sec-tit">品牌:</dt>
+        <dd class="oper-sec-cnt">
+          <div class="oper-sec-lit">
+            <div class="oper-lit-cnt">
+              <div class="f-clearfix">
+                <a href="#"><img src="../Public/img/1.jpg"></a>
+                <a href="#"><img src="../Public/img/2.jpg"></a>
+                <a href="#"><img src="../Public/img/3.jpg"></a>
+                <a href="#"><img src="../Public/img/4.jpg"></a>
+                <a href="#"><img src="../Public/img/5.jpg"></a>
+                <a href="#"><img src="../Public/img/6.jpg"></a>
+                <a href="#"><img src="../Public/img/7.jpg"></a>
+              </div>
+            </div>
+          </div>
+        </dd>
+      </dl>
+      <volist name="goods_type" id="vo">
+      <notempty name="vo.next">
+      <dl class="cat-oper-sec cat-sec-fav f-clearfix" style="height:auto">
+        <dt class="oper-sec-tit">{$vo.name}:</dt>
+        <dd class="oper-sec-cnt">
+          <div class="oper-sec-lit">
+            <div class="oper-lit-cnt">
+              <div class="girl">
+                <volist name="vo.next" id="it">
+                <a href="/index.php?m=Product&a=type_goods&typeid={$it.typeid}">{$it.name}</a>
+                </volist>
+              </div>
+            </div>
+          </div>
+        </dd>
+      </dl>
+      </notempty>
+      </volist>
+      <dl class="cat-oper-sec cat-sec-fav f-clearfix">
+        <empty name="list">
+        <dt class="oper-sec-tit">收藏夹为空Σ( ￣□￣||)</dt>
+        <dd class="oper-sec-cnt">
+          <div class="oper-sec-lit">
+            <div class="oper-lit-cnt">
+              <div class="girl">
+                <a href="{:URL('Home-Random/reviews')}&shop_id={$shop_id}" style="border: 1px solid #e8e4e5;">我要去逛逛(*^__^*)</a>
+              </div>
+            </div>
+          </div>
+        </dd>
+        <else/>
+        <dt class="oper-sec-tit">收藏夹：</dt>
+        </empty>
+      </dl>
+    </div>
+  </div>
+   <!-- 商品列表 -->
+  <section class="m-cat-list">
+  <volist name="list" id="vo">
+  <figure class="cat-list-item">
+    <div class="cat-item-pic">
+      <a href="{$vo.url}"><img src="{$vo.thumb|thumb=###,222,281,1}" style="width:222px;height:281"></a>
+    </div>
+    <figcaption class="cat-item-inf">
+    <span title="{$vo.title}">{$vo.title|str_cut=###,19}</span>
+    <p>{$vo.description}</p>
+    <p style="margin-top:8px">
+      <em>&yen;</em>
+      <span>{$vo.member_price}</span>
+      <del>￥{$vo.price}</del>
+    </p>
+    </figcaption>
+  </figure>
+  </volist>
+  </section>
+</div>
+<!-- <div style="width:100px;">
+                    <button id="{$r.productid}" class="shoucan" type="button" style="width:100%" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"/>删除
+                    </button>
+                  </div>
+ -->
+<include file="Public:footerubo"/>
+    <script>
+    function dele(id){
+      $(".confi_dele").attr("href","/index.php?g=User&m=Index&a=delete_address&id="+id);
+    }
+    </script>
+<script type="text/javascript">
+$(function(){
+  $(".shoucan").click(function(){
+    var productid = $(this).attr("id");
+    var _this = $(this);
+    $.ajax({
+      type: "POST",
+      url: "{:URL('User-Index/deletecollect')}",
+      data: {"productid":productid},
+      dataType: "JSON",
+      timeout: "4000",
+      success: function(json){
+        if (json.status == 0)
+        {
+          art.dialog({lock: true, icon: "warning", time: 3, content: json.info});
+          return false;
+        }
+        art.dialog({lock: true, icon: "ok", time: 3, content: json.info});
+        _this.parent().parent().parent().remove();
+      },
+      error: function(){
+        art.dialog({lock: true, icon: "error", time: 3, content: "执行出错！"});
+      }
+    });
+  });
+})
+</script>

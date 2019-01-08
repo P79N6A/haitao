@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>{$seo_title}</title>
+<meta name="description" content="{$seo_keywords}" />
+<meta name="author" content="{$site_name}" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+<!-- 手机页面全局 css -->
+<link rel="stylesheet" href="../Public/css/bootstrap.min.css">
+<link rel="stylesheet" href="../Public/src/css/template.css">
+<!--拓展样式-->
+<link rel="stylesheet" href="../Public/src/css/index02.css">
+<link rel="stylesheet" href="../Public/css/home_ubo.css">
+<!-- Link Swiper's CSS -->
+<link rel="stylesheet" href="./Public/dist/css/swiper.min.css">
+<style>
+.tab2 p{text-align:center;}
+</style>
+</head>
+<body>
+<div class="big">
+  <div class="logo">
+    <img src="../Public/img/logo.png">
+  </div>
+  <div class="searchs">
+    <form action="{:URL('Home-Product/search_goods')}&shop_id={$shop_id}" method="GET" style="position:relative;">
+      <input type="hidden" name="m" value="Product" />
+      <input type="hidden" name="a" value="search_goods" />
+      <input type="text" name="key_word" class="searchs_box" placeholder="请输入要查找的宝贝">
+      <input type="button" class="searchs_button">
+    </form>
+  </div>
+  <div style="clear:both"></div>
+</div>
+<!-- Demo styles -->
+<style>
+body {
+    background: #eee;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color:#000;
+    margin: 0;
+    padding: 0;
+}
+.swiper-container {
+    width: 100%;
+    height: 27%;
+    
+}
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    
+    /* Center slide text vertically */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+</style>
+<!-- Swiper -->
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+      <volist name="slider_list" id="r">
+        <div class="swiper-slide"><a href="{$r.link|default='javascript:'}"><img style="width:100%;" src="{$r.pic}"></a></div>
+      </volist>
+    </div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+    <!-- Add Arrows -->
+</div>
+<!--幻灯片结束-->
+<table class="tab2">
+  <tobdy>
+    <tr>
+      <td><a href="/index.php?a=index&m=Page&id=12&shop_id=0" class="daohangs"><div class="list"><img src="../Public/img/5.png"></div><p>官方自营</p></a></td>
+      <td><a href="/index.php?a=index&m=Page&id=12&shop_id=0" class="daohangs"><div class="list yanse3"><img src="../Public/img/18.png"></div><p>正品保障</p></a></td>
+      <td><a href="/index.php?a=index&m=Page&id=12&shop_id=0" class="daohangs"><div class="list yanse2"><img src="../Public/img/17.png"></div><p>海外直采</p></a></td>
+      <td><a href="/index.php?a=index&m=Page&id=12&shop_id=0" class="daohangs"><div class="list yanse4"><img src="../Public/img/1.png"></div><p>全场包邮</p></a></td>
+    </tr>
+  </tobdy>
+</table>
+<!-- Swiper JS -->
+<script src="./Public/dist/js/swiper.min.js"></script>
+<!-- Initialize Swiper -->
+<script>
+var swiper = new Swiper('.swiper-container', {
+    pagination: '.swiper-pagination',
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    paginationClickable: true,
+    spaceBetween: 30,
+    centeredSlides: true,
+    autoplay: 2500,
+    autoplayDisableOnInteraction: false
+});
+</script>

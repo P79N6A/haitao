@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>{$seo_title}</title>
+<meta name="description" content="{$seo_keywords}" />
+<meta name="author" content="{$site_name}" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+
+<!-- 手机页面全局 css -->
+<link rel="stylesheet" href="../Public/css/bootstrap.min.css">
+<link rel="stylesheet" href="../Public/src/css/template.css">
+<!--拓展样式-->
+<!-- <link rel="stylesheet" href="__PUBLIC__/Css/expand.css"> -->
+<link rel="stylesheet" href="../Public/src/css/index02.css">
+<link rel="stylesheet" href="../Public/src/css/home_index.css">
+
+<!--组件依赖 js -->
+<script type="text/javascript" src="../Public/src/zepto.min.js"></script>
+<script type="text/javascript" src="../Public/src/gmu.min.js"></script>
+<script type="text/javascript" src="../Public/src/js/event.js"></script>
+<script type="text/javascript" src="../Public/src/js/widget.js"></script>
+<script type="text/javascript" src="../Public/src/js/touch.js"></script>
+<script type="text/javascript" src="../Public/src/js/matchMedia.js"></script>
+<script src="../Public/src/js/jquery.min.js"></script>
+<script type="text/javascript" src="../Public/src/js/jquery.artDialog.js"></script>
+
+<!-- slider 幻灯片-->
+<link type="text/css" rel="stylesheet" href="../Public/src/css/slide.css" />
+<script src="../Public/src/js/slide.js"></script>
+<script type="text/javascript">
+window.onload = function() {
+  var mySwiper = new Swiper('.swiper-container',{
+    //Your options here:
+    mode:'horizontal',
+    loop: true,
+  autoplay:4000,
+  speed: 750,
+    calculateHeight: true,
+    autoplayDisableOnInteraction : false,
+            //etc..
+  });        
+  var mySwiper2 = new Swiper('.swiper-container2',{
+    //Your options here:
+    mode:'horizontal',
+    loop: true,
+  autoplay:4000,
+  speed: 750,
+    calculateHeight: true,
+    autoplayDisableOnInteraction : false,
+    //etc..
+  });  
+}
+
+/*
+Or with jQuery/Zepto
+*/
+</script>
+<style>
+.tab2 p{text-align:center;}
+</style>
+</head>
+<body class="pang">
+<table class="tab">
+<form action="{:URL('Home-Product/search_goods')}&shop_id={$shop_id}" method="GET">
+  <tbody>
+    <tr>
+      <td style="width:60px;"><img src="../Public/images/logo.png" class="logo"></td>
+      <td>
+      <input type="hidden" name="m" value="Product" />
+      <input type="hidden" name="a" value="search_goods" />
+      <div class="row" style="margin-left:0px;margin-right:0px">
+        <div class=" changdu">
+          <div class="input-group">
+            <input type="text" name="key_word" class="form-control chang" id="exampleInputEmail1" placeholder="请输入需要查找的宝贝" value="">
+            <span class="input-group-btn">
+            <button class="btn btn-default" type="submit">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>搜索</button>
+            </span>
+          </div>
+        </div>
+      </div>
+      </td>
+    </tr>
+  </tbody>
+</form>
+</table>   
+<!--幻灯片-->
+<div class="swiper-container " style="text-align: center;">
+    <div class="swiper-wrapper">
+    <volist name="slider_list" id="r">
+        <!--First Slide-->
+        <div class="swiper-slide swiper-slide-duplicate">
+          <a href="{$r.link|default='javascript:'}">
+            <img style="width:100%;" src="{$r.pic|thumb=###,375,251}">
+            </a>    
+          <!-- Any HTML content of the first slide goes here -->
+        </div>
+     </volist> 
+    </div>
+  <div class="slide-pagination"></div>
+</div>
+<!--幻灯片结束-->
+<div class="tiao" style="z-index:999">{if $shop_info['shop_name']}{$shop_info.shop_name}-上优舶{else}上优舶{/if}</div>
+  <table class="wid tab2">
+    <tbody>
+      <tr>
+          <td>
+            <a href="/index.php?a=index&m=Page&id=12" class="daohang">
+              <img src="__PUBLIC__/Images/1.png" style="margin-top:12px;">
+            </a>
+            <p style="margin-top:12px">官方自营</p>
+          </td>
+          <td>
+            <a href="/index.php?a=index&m=Page&id=12" class="daohang yanse3">
+              <img src="__PUBLIC__/Images/3.png">
+            </a>
+            <p>正品保障</p>
+          </td>
+          <td>
+            <a href="/index.php?a=index&m=Page&id=12" class="daohang yanse2">
+              <img src="__PUBLIC__/Images/4.png">
+            </a>
+            <p>海外直采</p>
+          </td>
+          <td>
+            <a href="/index.php?a=index&m=Page&id=12" class="daohang yanse4"><img src="__PUBLIC__/Images/5.png" style="margin-top:8px;"></a>
+            <p>全场包邮</p>
+          </td>
+      </tr>
+    </tbody>
+  </table>

@@ -1,0 +1,171 @@
+<include file="Home:header"/>
+	<!--Home_rindex-->  
+    <include file="Home:rindex"/>
+    <!--end--> 			
+<script type="text/javascript">
+$(function(){
+    $('#select_num_page').change(function(){ $('#form_num_page').submit(); });
+	$('.category-description-toggler button').click(function() {
+		var $categoryDescription = $('.listing .wineInfo');
+		
+		if (!$categoryDescription.hasClass('expanded')) {
+			$categoryDescription.addClass('expanded');
+			$(this).html('Replier');
+		} else {
+			$categoryDescription.removeClass('expanded');
+			$(this).html('Plus');
+		}
+	});
+});
+</script>
+<div class="body default">
+	<div class="content-list">
+		<div class="listing withMenu listing-shop-goods">
+			<label class="chanpin">私人酒窖</label>
+
+			<table class="listing shop-goods-table">
+				<colgroup><col style="width:18px;">
+				<col style="width: 15%">
+				<col style="">
+								<col style="width: 10%">
+				<col style="width: 5%">
+				<col style="width: 20%">
+				</colgroup>
+                <tbody>
+                	<tr>
+                        <th class="designation sort_asc"><a href="javascript:">商品名称</a></th>
+                        <th class="price" align="center"><a href="javascript:">价格</a></th>
+                        <!--<th class="tax"><a href="javasript:">TTC<br>HT</a></th>-->
+                        <th class="designation qty"><a href="javascript:">图示</a></th>
+                        <th class="designation qty"><a href="javascript:">加入购物车</a></th>
+                    </tr>
+                    <volist name="list" id="r">
+                    <tr>
+                        <td class="designation">
+                            <strong><a href="{$r.url}&shop_id={$shop_id}">{$r.title}</a></strong>
+                            <p class="designation_en"><a href="{$r.url}">{$r.en_name}</a></p>
+                        </td>
+                        <td class="price">
+                        <span><strong>参考价：</strong>{$r.price}&nbsp;￥
+                        <p><strong>会员价：</strong>{$r.member_price}&nbsp;￥</p>
+                        </span>
+                                                                                           
+                        </td>
+                        <td><img src="{$r.thumb}"  height="50" width="50" alt="{$r.title}" class="imgs" style="max-width:60px"></td>
+                        <td class="qty shop-goods-c">
+				            <a class="btn btn-primary shop-goods-a" onclick="changeorder('3','{$r.id}','add',addCart);">加入购物车</a>
+                        </td>
+                    </tr>
+					</volist>				
+				</tbody>
+			</table>
+			<style>
+				.tooltipster-custom {
+					border-radius: 5px;
+					border: 1px solid #cccccc;
+					background: #ededed;
+					color: #666666;
+				}
+				.tooltipster-custom .tooltipster-content {
+					font-family: Arial, sans-serif;
+					font-size: 12px;
+					line-height: 14px;
+					padding: 8px 10px;
+					text-align:justify;
+				}
+			</style>
+			<script>
+			$(function() {
+				$('.tooltip').tooltipster({theme: '.tooltipster-custom', contentAsHTML: true, maxWidth: 500});
+			});
+			</script>
+			<div class="pagination pagination2">
+				<div class="pageList pageList2">{$pages}</div>
+			</div>
+			<!-- !Pagination -->
+			<div style="clear: left;"></div>
+		</div>
+	</div>
+</div>
+
+<!-- Segment Pixel - Millesimes_All Pages - DO NOT MODIFY --><img src="./Bordeaux Blanc Yquem - Millesimes.com_files/seg" width="1" height="1"><!-- End of Segment Pixel -->
+
+    <!-- 提示框 -->
+    <div id="dialog2" title="温馨提示">
+      <p class="big_one"></p>
+      <small  class="small_one"></small>
+    </div>
+    <!-- 提示框 -->
+<script type="text/javascript">
+  function changeorder(moduleid,id,doit,ordercall){
+  var datas={'moduleid':moduleid,'id': id,'num':1};
+  $.ajax({
+    type:"POST",
+    url: "/index.php?m=Order&a=ajax&do="+doit,
+    data: datas,
+    timeout:"4000",
+    dataType:"JSON",
+    success: function(json){
+      if(json.data==1){
+        ordercall.call();
+      }else{
+      ordererror(json);
+      }
+      
+    },
+    error:function(){
+      alert("出错");
+    }
+  });
+}
+
+function addCart(){
+
+	art.dialog({
+    title: '温馨提示',
+    content: '<div id="dialog1" title="提示成功"><p >成功添加进购物车</p><small>（增加或减少需在购物车里设置！亲）</small></div>',
+    width:'20%',
+	okVal:'去结算',
+	cancelVal:'继续购物',
+	lock:true,
+	background:'#000',
+	opacity:0.7,
+	//icon:'skins/icons/',
+    ok: function () {
+		window.location.href="{:URL('Home-Order/checkout')}";
+    },
+    cancel: function(){
+      this.close();
+    }
+    });
+}
+
+function ordererror(data){
+	var url = "{:URL('User-Login/index')}&goodid={$id}";
+	//$("#dialog2 .big_one").text(data.info);
+	dialogInfo(data.info,url);
+}
+
+function dialogInfo(info,url)
+{
+	art.dialog({
+    title: '温馨提示',
+    content: info,
+    fixed: true,
+	okVal:'好的',
+	icon: "warning",
+	cancelVal:'还是算了',
+	lock:true,
+	background:'#000',
+	opacity:0.3,
+	//icon:'skins/icons/',
+    ok: function () {
+		window.location.href=url;
+    },
+    cancel: function(){
+      this.close();
+    }
+    });
+}
+</script>
+<include file="Home:footer"/>	

@@ -1,0 +1,74 @@
+@charset "utf-8";
+@charset "utf-8";
+
+/*CSS reset*/
+/*头部*/
+@font-face {font-family: 'Glyphicons Halflings';src: url('../fonts/glyphicons-halflings-regular.eot');src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg')}
+body {color:#323232;background:#fff;font-family: "Microsoft YaHei","HelveticaNeue","\5B8B\4F53","Helvetica Neue", Helvetica, Arial,sans-serif!important}
+h1{font-size:1.3em !important}
+ul{padding-left:0px !important;list-style:none}
+.p10{padding:10px}
+.mt5{margin-top: 10px}
+.header{height:36px;background-color:#F0AD4E;margin:0px;padding:0;position:relative}
+.header h1{margin-top:0px !important}
+.header .title{width:100%;text-align:center;color:#fff;font-size:16px;position:absolute;top:5px;margin-top:0;padding-top:0;margin-bottom:0}
+.tiao{width:100%;background:rgba(0,0,0,0.6);position:absolute;margin-top:-30px;color:white;padding:5px;padding-left:10px}
+/*幻灯片底部*/
+.fr{float:right;margin-right:10px}
+.tiao del{font-size:12px;color:#91908E}
+/*shangpinxinxi*/
+.da{font-size:17px}
+.summarybox{background-color:#fff;padding-bottom:10px;padding:0 10px}
+.summarybox a{color:#333 !important}
+.headertitle{color:#333;font-size:16px;border-bottom:1px solid #ddd;width:100%;display:block;line-height:36px;margin-bottom:10px}
+.segline {width:100%;border-bottom:1px solid #ddd}
+.fudong{float:right;line-height:36px}
+/*tuijianliyou*/
+.tuijian{padding:10px;width:100%;border:1px solid #e5e5e5;border-radius:5px;margin:30px auto}
+legend{margin-bottom:0px !important;border-bottom:0px !important;height:26px;width:40%;background-color:#fff;color:#6E1607;font-weight:bolder;font-size:18px;line-height:26px;position:relative;left:30%;bottom:25px}
+.zi{font-size:15px}
+/*anniu*/
+.anniu{width:100%;padding:0 5% 10px 5%}
+.chang{width:60%;margin-bottom:10px;float:right}
+.chang2{width:35%}
+/*pinglun*/
+.title2{border-bottom: 1px solid #ddd;width:100%;display:block;line-height:36px;padding:15px;font-size:16px}
+.commentbox {margin-bottom:38px;padding-top:0px}
+.commentbox img {border-radius:50%;float:left}
+.replayListBox{margin-left:50px;margin-top:30px}
+.replayListBox ul li{border-top:1px dashed #ddd;list-style:none}
+/*.comment-head textarea{ width:100%;border-radius:4px;display:block;height:84px;padding:10px;border:1px solid #ddd;}*/
+.comment-detail {margin-left:60px}
+#user-comment-list-ul li {border-bottom:1px dashed #ddd; padding:0 10px}
+.commentbox {margin-bottom:10px}
+.comment-list {background-color:#fff}
+.commentbox .scorediv {color:#666}
+.commentbox .scorediv .n-datetime {color:#999}
+.commentbox .commenttitle {text-align:center;color:#fff;background-color:#aaa;border-radius:4px;font-weight:100;padding:8px 0;cursor:pointer;}
+.commentbox .title:hover {background-color:#ccc}
+.replyListBox {margin-left:50px;margin-top:10px}
+.replyListBox ul li {border-top:1px dashed #ddd;border-bottom:none}
+.reply-content {margin-left:38px}
+.commentbox .ui_button_load {text-indent: -140px;margin-left:140px}
+.duiqi{margin-top:20px;float:right}
+.bianju{margin-top:0px!important}
+/*尾部*/
+.fix{width:100%;position:fixed;border:1px solid #e5e5e5;bottom:0;text-align:center;height:38px;font-size:14px;background-color:white}
+.fanhui{width:17px;margin-left:7px;margin-top:2px}
+.fix-bot{width:100%;border-radius:0px !important;}
+.wu{height:40px}
+.fudong2{float:left;margin-left: 10px;font-size:16px}
+.yanse{color:#A2A1A0 !important;}
+.juli{margin:20px 0 10px 0;}
+
+
+/*shangpinjieshao*/
+.table{border-bottom:1px dashed #ddd;margin-bottom:10px !important}
+.segline2{width:100%;border-bottom:1px solid #ddd;margin-bottom: 10px}
+.price{font-weight:bold;color:#fff;font-size:14px}
+.price2{font-weight:bold;color:#337AB7}
+.chang3{width:100%;}
+/*jieshao*/
+.jieshao{padding:10px;border:1px solid #e5e5e5;border-radius:5px;width:100%;margin:15px auto}
+.jieshao img{width:100%;}
+.chanqu{padding:10px;width:100%;border:1px solid #e5e5e5;border-radius:5px;margin:30px auto;background-color:#6E1607;color:white;}

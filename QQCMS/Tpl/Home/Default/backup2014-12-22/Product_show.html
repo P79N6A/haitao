@@ -1,0 +1,700 @@
+
+<include file="Home:header2"/>
+    <!-- slider 幻灯片-->
+    <link type="text/css" rel="stylesheet" href="__PUBLIC__/Css/slide.css" />
+   <script src="__PUBLIC__/Js/slide.js"></script>
+    <script type="text/javascript">
+    window.onload = function() {
+      var mySwiper = new Swiper('.swiper-container',{
+        //Your options here:
+        mode:'horizontal',
+        loop: true,
+      autoplay:1500,
+      speed: 750,
+        calculateHeight: true,
+        pagination: '',
+        paginationClickable: true,
+        autoplayDisableOnInteraction: true,
+        autoplayStopOnLast: true,
+        //etc..
+      });   
+    }
+
+    /*
+    Or with jQuery/Zepto
+    */
+    </script>
+    <!--qq_cms js-->
+    <script src="__PUBLIC__/Js/qqcms.js"></script>
+    <!-- dialog对话框 -->
+    <script type="text/javascript" src="__PUBLIC__/src/js/widget/dialog/dialog.js"></script>
+
+<!-- 顶部图片 -->
+  <div class="swiper-container" style="text-align: center;">
+      <div class="swiper-wrapper">
+      <volist name="top_pics" id="r">
+          <!--First Slide-->
+          <div class="swiper-slide">
+            <a href="{$r.link|default='javascript:'}">
+              <img style="width:100%;" src="{$r.filepath}">
+              </a>    
+            <!-- Any HTML content of the first slide goes here -->
+          </div>
+       </volist> 
+      </div>
+    <div class="slide-pagination"></div>
+  </div>
+
+<!-- 顶部图片 end -->
+
+    <div  style="width:90%;margin:2em auto">
+<!-- 商城商品开始 -->
+<if condition="$catid eq 5">
+    <!-- 本页自用的 css -->
+    <link rel="stylesheet" href="../Public/css/chanpin.css">
+    <h1 class="text-center">{$title}</h1>
+    <h4 class="text-center">{$en_name}</h4>
+
+    <table class="table" style="margin-bottom:0">
+      <tr>
+        <td >参考价：<span class="old-price">{$price}元</span></td>
+        <td><a href="{:URL('Home-Product/pro_collect')}&pro_id={$id}">收藏此商品</a></td>
+      </tr>
+      <tr>
+        <td>会员价：<span class="price">{$member_price}元</span></td>
+        <td class="colo-text">返现：{$menber_ratio}元</td>
+      </tr>
+      <tr>
+        <td>金会员：<span class="price2">{$gold_price}元</span></td>
+        <td class="colo-text">返现：{$gold_ratio}元</td>
+      </tr>
+    </table>
+    <div class="text-center ssss">
+      <div class="halfwid" data-toggle="modal"><p class="mar-bot">库存 ：{$stock|default='已售罄'}</p></div>
+      <a href="{:URL('Home-Product/appraise')}&id={$id}" class="btn btn-success wid-max">商品评价<i class="glyphicon glyphicon-chevron-right"></i></a>
+    </div> 
+
+    <div class="jieshao">
+   <p class="text-chanpin">产品介绍</p>
+    {$content}
+        </div>
+</if>
+<!-- 商城商品结束 -->
+
+<!-- 私人酒窖开始 -->
+<if condition="$catid eq 25">
+    <!-- 本页自用的 css -->
+    <link rel="stylesheet" href="../Public/css/chanpin.css">
+    <h1 class="text-center">{$title}</h1>
+    <h2 class="text-center">{$en_name}</h2>
+
+    <table class="table" style="margin-bottom:0">
+      <tr>
+        <td >参考价：<span class="old-price">{$price}元</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>会员价：<span class="price">{$member_price}元</span></td>
+        <!-- <td class="colo-text">返现：{$menber_ratio}元</td> -->
+      </tr>
+      <!-- <tr>
+        <td>金会员：<span class="price2">{$gold_price}元</span></td>
+        <td class="colo-text">返现：{$gold_ratio}元</td>
+      </tr> -->
+    </table>
+    <div class="text-center ssss">
+      <div class="halfwid" data-toggle="modal"><p class="mar-bot">库存 ：{$stock|default='已售罄'}</p></div>
+      <a href="{:URL('Home-Product/appraise')}&id={$id}" class="btn btn-success wid-max">商品评价<i class="glyphicon glyphicon-chevron-right"></i></a>
+    </div> 
+
+    <div class="jieshao">
+            <p class="text-chanpin">产品介绍</p>
+    {$content|htmlspecialchars_decode=###}
+        </div>
+</if>
+<!-- 私人酒窖结束 -->
+
+<!-- 酒庄直购开始 -->
+<if condition="$catid eq 6">
+    <!-- 本页自用的 css -->
+    <link rel="stylesheet" href="../Public/css/chanpin.css">
+    <h1 class="text-center">{$title}</h1>
+    <h2 class="text-center">{$en_name}</h2>
+    <table class="table" style="margin-bottom:0">
+      <tr>
+        <td >参考价：<span class="old-price">{$price}元</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>直购价：<span class="price">{$gold_price}元</span></td>
+        <td></td>
+      </tr>
+    </table>
+
+    <div class="text-center ssss">
+      <div class="halfwid" data-toggle="modal"><p class="mar-bot">库存 ：{$stock|default='已售罄'}</p></div><div class="halfwid" data-toggle="modal"><p class="mar-bot">每人限购： {$single_buy}</p></div>
+    </div> 
+
+    <div class="jieshao">
+            <p class="text-chanpin">产品介绍</p>
+		{$content}
+        </div>
+
+ </if>
+<!-- 酒庄直购结束 -->  
+
+<!-- 团购开始 -->
+<if condition="$catid eq 26">
+    <!-- 本页自用的 css -->
+    <link rel="stylesheet" href="../Public/css/chanpin.css">
+    <h1 class="text-center">{$title}</h1>
+    <h2 class="text-center">{$en_name}</h2>
+
+    <div class="jieshao">
+            <p class="text-chanpin">产品介绍</p>
+    {$content}
+        </div>
+
+ </if>
+<!-- 团购结束 -->  
+
+<!--秒拍 start-->
+<if condition="$catid eq 9">
+    <link rel="stylesheet" href="../Public/css/miaopaitu.css" />
+    <h1 class="text-center">{$title}</h1>
+    <h2 class="text-center">{$en_name}</h2>
+    <table class="table" style="margin-bottom:0">
+      <tr>
+        <td style="width:114px">参考价：<span class="old-price">{$price}元</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>秒拍价：<span class="price">{$second_price}元</span></td>
+        <td></td>
+      </tr>
+    </table>
+
+    <div class="text-center ssss">
+    <div class="halfwid" data-toggle="modal"><p class="mar-bot">库存 ：{$stock|default='已售罄'}</p></div><div class="halfwid" data-toggle="modal"><p class="mar-bot">每人限购：{$single_buy}</p></div>
+    </div>
+
+  <div class="jieshao">
+            <p class="text-chanpin">产品介绍</p>
+    {$content}
+        </div>
+  <div class="jieshao">
+  <h4 class="text-center">留言板</h4>
+  <?php 
+  $sql="select  b.wechat_name as realname,b.wechat_pic,a.* from `qq_guestbook` as a left join `qq_user` as b on b.id=a.userid where a.type=2 and a.product_id=".$id;
+  $query=mysql_query($sql);
+  while ($row = mysql_fetch_assoc($query)){
+    $guest_list[]=$row;
+  }
+  ?>
+  <volist name="guest_list" id="vo">
+    <div class="media">
+      <a class="pull-left" href="javascript:">
+        <img class="media-object img-miaopaitu" style="width:40px;" src="{$vo.wechat_pic|default='__PUBLIC__/Images/user.jpg'}">
+      </a>
+      <div class="media-body">
+        <h4 class="media-heading">{$vo.realname|default='游客'}</h4>
+        {$vo.content}
+      </div>
+    </div>
+    </volist>
+    <textarea class="form-control margin-10" rows="3" id="guest_content" name="content"></textarea>
+      <button type="submit" name="sub" class="btn btn-primary btn-block" onclick="update_guest({$id})">发表留言</button>
+  </div>
+</if>
+<!--秒拍 end-->
+
+<!--拍卖-->
+  <if condition="$catid eq 7">
+    <link rel="stylesheet" href="../Public/css/miaopaichanpin.css">
+    <h1 class="text-center">{$title}</h1>
+    <h2 class="text-center">{$en_name}</h2>
+    <table class="table" style="margin-bottom:0">
+      <tr>
+        <td style="width:114px">起拍价：{$start_price}元</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>最小加价：<span class="old-price">{$min_price}元</span></td>
+        <td></td>
+      </tr>
+    </table>
+
+    <div class="liuyan">
+      <div class="liuyan2">
+        <table class="wid">
+          <tr>
+            <td>最新出价：<span class="price">{$auction_info.price}</span>元</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="liuyan2"><p>{$auction_info.realname}：</p>{$auction_info.content}<p class="text-right">{$auction_info.createtime|date="Y年m月d日H时i分s秒",###}</p></div>
+      <div class="text-center">
+        <a class="halfwid c1" href="javascript:location.reload()"><p class="mar-bot">更新出价</p></a><a href="/index.php?a=auction_info&m=Product&id={$id}" class="halfwid c2"><p class="mar-bot">查看出价详情</p></a>
+      </div> 
+
+    </div>
+    <div class="jieshao">
+            <p class="text-chanpin">产品介绍</p>
+        {$content}
+    </div> 
+  </if>
+
+<!--拍卖 end-->
+<!-- 底部 -->
+    <div class="copyright"><a href="http://www.miitbeian.gov.cn" target="_blank" title="粤ICP备14063096号-1">粤ICP备14063096号-1</a></div> 
+    </div><!-- container-fluid -->
+    <!--默认一次只能加一瓶酒-->
+      <input type="hidden" value='1' id="buynum" />
+    <!---->
+    <table class="fix">
+        <tbody>
+          <tr>
+            <td style="width:15%;border-right:1px solid #c4c4c4"><a href="javascript:history.go(-1)"><img src="__PUBLIC__/Images/f1.png" class="fanhui"></a></td> 
+            <if condition="$catid neq 26">
+            <td style="width:30%">
+              <if condition="$catid eq 9 or $catid eq 7">
+            <a href="/index.php" style=" color: #707070;text-decoration:none">商城首页</a>
+            <else/>
+            <bottom id="btn1" class="btn btn-warning fix-bot" type="buttom" onclick="changeorder('buynum','{$moduleid}','{$id}','add',orderok);">加入购物车</bottom>
+            </if>
+            </td>
+            <td>
+              <if condition="$catid eq 7">
+              <bottom id="btn1" class="btn btn-danger fix-bot" type="buttom" onclick="change_price({$id})">参与出价</bottom>
+              <else/>
+            <a href="javascript:" class="btn btn-danger fix-bot" onclick="changeorder_second('{$moduleid}','{$id}','add');">立即购买</a>
+              </if>
+            </td>
+
+            <else/>
+            
+            <td><a href="javascript:$('#dialog4').dialog('open');" class="btn btn-danger fix-bot" >立即团购</a></td>
+            </if>
+          </tr>
+        </tbody>
+      </table>
+    <!-- 订单提交成功提示框 -->
+    <div id="dialog1" title="提示成功">
+      <p >成功添加进购物车</p>
+      <small >（增加或减少需在购物车里设置！亲）</small>
+    </div>
+    <!-- 订单提交成功提示框 -->
+
+    <!-- 提示框 -->
+    <div id="dialog2" title="温馨提示">
+      <p class="big_one"></p>
+      <small  class="small_one"></small>
+    </div>
+    <!-- 提示框 -->
+
+
+    <!-- 拍卖提交提示框 -->
+    <div id="dialog3" title="参与出价">
+      <p>最新出价：<span class="new_price"></span></p>
+      <p>我的出价：<span class="user_price"></span></p>
+      <div class="input-group">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" onclick="edit_price('sub')">-</button>
+        </span>
+        <input type="text" class="form-control text-center can_price" readonly="true"  value=""/>
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" onclick="edit_price('add')">+</button>
+        </span>
+      </div>
+    <p>留言：</p>
+      <textarea class="form-control height-100 guest_text" rows="3"></textarea>
+    </div>
+    <!-- 拍卖提交提示框 -->
+    <!-- 团购提交提示框 -->
+    <div id="dialog4" title="参与团购">
+      <div class="input-group">
+        <p> 公司名：</p><input type="text" class="form-control text-center" name="company" value=""/>
+      </div>
+      <div class="input-group">
+        <p>  <font color="red">*</font> 联系人：</p><input type="text" class="form-control text-center" name="name" value=""/>
+      </div>
+      <div class="input-group">
+        <p>   <font color="red">*</font>联系电话：</p><input type="text" class="form-control text-center" name="mobile" value=""/>
+      </div>
+      <div class="input-group">
+         <p>  <font color="red">*</font>需求数量：</p><input type="text" class="form-control text-center" name="num" value=""/>
+      </div>
+    <p>备注留言：</p>
+      <textarea class="form-control height-100 " rows="3" name="content"></textarea>
+    </div>
+    <!-- 团购提交提示框 -->
+    <!-- 直购跟拍卖升级金会员 -->
+    <div id="dialog5" title="温馨提示">
+      <p class="big_one"></p>
+      <small  class="small_one"></small>
+    </div>
+
+ <!-- 隐藏界面 -->
+    <div class="modal" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" onclick="$('#myModal3').hide()" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">升级通道</h4>
+          </div>
+          <div class="modal-body">
+            <p><strong>亲！</strong>请选择升级方式。</p>
+            <input type="button" id="up_year"  onclick="uplevel('1')" class="btn-warning btn btn-block pay_button" value="直接支付288元年费" />
+            <input type="button" id="up_fee"  onclick="uplevel('2')" class="btn-primary btn btn-block pay_button" value="充值2000元电子现金" />
+          </div>
+          <div class="modal-footer margin-top-0">
+            <a href="javascript:location.reload()" class="btn btn-default">取消</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal3 -->
+    <div class="modal " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" onclick="$('#myModal').hide()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">升级通道</h4>
+          </div>
+          <div class="modal-body">
+            <p><strong>亲！</strong>请点击以下支付按钮进入支付页面。</p>
+            (本次升级需支付<font color="red">&yen;<span class="pay_money"></span></font>)
+            <a href="" class="btn btn-warning btn btn-block pay_button">进入支付</a>
+          </div>
+          <div class="modal-footer margin-top-0">
+            <a href="javascript:location.reload()" class="btn btn-default">取消</a>
+          </div>
+        </div>
+      </div>
+    </div>   
+     <div class="modal " id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"  onclick="$('#myModal2').hide()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">失败</h4>
+          </div>
+          <div class="modal-body">
+            <p><strong>亲！</strong>获取失败了。</p>
+            (<span class="error_info"></span>)
+          </div>
+          <div class="modal-footer margin-top-0">
+            <a href="javascript:location.reload()" class="btn btn-default">刷新页面试试</a>
+          </div>
+        </div>
+      </div>
+    </div>
+<div id="BgDiv1"></div>
+  <div class="DialogDiv"  style="display:none; ">
+                    <div class="U-guodu-box">
+                    <div>
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" >
+                        <tr><td  align="center"><img src="__PUBLIC__/Images/loading.gif"></td></tr>
+                        <tr><td  valign="middle" align="center" style="color:#fff">正在获取支付按钮，请稍等！</td></tr>
+                    </table>
+                    </div>
+              </div>
+        </div>
+    <!-- 升级通道end -->
+    <script type="text/javascript">
+    var productid={$id},min_price={$min_price},now_toprice;//拍卖价格
+      //隐藏微信底栏
+      document.addEventListener('WeixinJSBridgeReady',function onBridgeReady(){WeixinJSBridge.call('hideToolbar');});
+
+      //创建slider组件
+      $('#slider').slider({loop:true});
+
+      //确认收货
+      $(document).ready(function(){
+        $('#state').hide();
+      })
+      function edit_price(type){
+        if(type=="add"){
+          now_toprice=parseFloat(now_toprice)+parseFloat(min_price);
+          $("#dialog3 .can_price").val(now_toprice.toFixed(2)+"元");
+        }else if(type=='sub'){
+          now_toprice=parseFloat(now_toprice)-parseFloat(min_price);}
+          $("#dialog3 .can_price").val(now_toprice.toFixed(2)+"元");
+      }
+      function change_price(proid){
+        var productid=proid;
+        $.ajax({
+          type:"POST",
+          url:"/index.php/?m=Order&a=change_price",
+          data:{"productid":productid},
+          dataType:"JSON",
+          success:function(result){
+          data=eval('('+result+')');
+            if(data.status==1){
+                if(data.new_price!=null){
+                  $('#dialog3 .new_price').text(data.new_price+"元");
+              }else{ 
+                $('#dialog3 .new_price').text("还没人出价，快抢沙发");}
+                if(data.user_price!=null){
+                  $('#dialog3 .user_price').text(data.user_price+"元");}else{
+                      $('#dialog3 .user_price').text("您暂时还没出手，赶紧出手吧");
+                }
+                $("#dialog3 .can_price").val(data.can_price+"元");
+                $("#dialog3 .now_price").val(data.can_price);
+                now_toprice=parseFloat(data.can_price);
+                $('#dialog3').dialog('open');
+            }else{
+           ordererror(data);
+            }
+          },
+          error:function(){
+
+          }
+        });
+      }
+      function orderok(){
+        $('#dialog1').dialog('open');
+      }     
+       function ordererror(data){
+        $("#dialog2 .big_one").text(data.info);
+        $('#dialog2').dialog('open');
+      }
+      // dialog 对话框（onclick="$('#dialog1').dialog('open')"）
+      $('#dialog1').dialog({
+        autoOpen:false,
+        closeBtn:false,
+        buttons:{
+          '继续购物': function(){
+            this.close();
+          },
+          '去结算': function(){
+            window.location.href="{:URL('Home-Order/checkout')}";
+          }
+        }
+      }).dialog('this')._options['_wrap'].addClass('login-dialog');
+      $('#dialog2').dialog({
+        autoOpen:false,
+        closeBtn:false,
+        buttons:{
+          '继续购物': function(){
+            this.close();
+          }
+        }
+      }).dialog('this')._options['_wrap'].addClass('login-dialog');
+
+      $('#dialog3').dialog({
+        autoOpen:false,
+        closeBtn:false,
+        buttons:{
+          '取消出价': function(){
+            this.close();
+          },
+          '确定出价': function(){
+             var content=$("#dialog3 .guest_text").val();
+             if(!productid || !now_toprice){data.info="喔噢，出错了，请刷新页面试试~";ordererror(data);return false;}
+             $.ajax({
+              type:"POST",
+              url:"/index.php/?m=Order&a=update_price",
+              data:{"productid":productid,"price":now_toprice,"content":content},
+              dataType:"JSON",
+              success:function(result){
+            data=eval('(' + result + ')');
+              if(data.status==1){
+                window.location.reload();
+              }else{  this.close();ordererror(data); }
+              },
+              error:function(){
+
+              }
+             });
+          }
+        }
+      }).dialog('this')._options['_wrap'].addClass('login-dialog');
+
+      $('#dialog4').dialog({
+        autoOpen:false,
+        closeBtn:false,
+        buttons:{
+          '继续购物': function(){
+            this.close();
+          },
+          '提交': function(){
+            var company=$("#dialog4 input[name='company']").val();
+            var name=$("#dialog4 input[name='name']").val();
+            var mobile=$("#dialog4 input[name='mobile']").val();
+            var num=$("#dialog4 input[name='num']").val();
+            var content=$("#dialog4 textarea[name='content']").val();
+            if(!name || !mobile || !num){
+              res={"info":''};
+             res.info="请填写好必填信息";
+              this.close();
+              ordererror(res);
+              return false;
+            }
+              this.close();
+            var datas={"company":company,"name":name,"mobile":mobile,"num":num,"content":content,"productid":productid};
+            $.ajax({
+              type:"POST",
+              url:"/index.php/?m=Product&a=group_buy_update",
+              data:datas,
+              dataType:"JSON",
+              success:function(result){
+               data=eval('(' + result + ')');
+            var company=$("#dialog4 input[name='company']").val('');
+            var name=$("#dialog4 input[name='name']").val('');
+            var mobile=$("#dialog4 input[name='mobile']").val('');
+            var num=$("#dialog4 input[name='num']").val('');
+            var content=$("#dialog4 textarea[name='content']").val('');
+              ordererror(data);
+           //window.location.href="{:URL('Home-Product/group_buy')}";
+              }
+            });
+          }
+        }
+      }).dialog('this')._options['_wrap'].addClass('login-dialog');
+
+      $('#dialog5').dialog({
+        autoOpen:false,
+        closeBtn:false,
+        buttons:{
+          '升级金会员': function(){
+           this.close();
+        $.ajax({
+         type:"POST",
+          url:"/index.php?a=get_role_fee&m=Upleve&g=User",
+          data:{},
+         timeout:"6000",
+         dataType:"JSON",
+         success:function(result){
+          data=eval('(' + result + ')');
+          $("#up_year").val("直接支付"+data.gold_fee+"元年费");
+          $("#up_fee").val("充值"+data.gold_money+"元电子现金");
+      }
+    });
+          $("#myModal3").show();
+          },
+          '继续购物': function(){
+            this.close();
+          }
+        }
+      }).dialog('this')._options['_wrap'].addClass('login-dialog');
+
+  function uplevel(type){
+    open_div();
+    $.ajax({
+      type:"POST",
+      url:"/index.php?a=index&m=Upleve&g=User",
+      data:{"type":type},
+      timeout:"6000",
+      dataType:"JSON",
+      success:function(result){
+        close_div();
+       data=eval('(' + result + ')');
+        if(data.status!=0){
+          $(".pay_button").attr("href",data.url);
+          $(".pay_money").text(data.fee);
+          $("#myModal").show();
+        }else{
+        $(".error_info").text(data.msg);
+          $("#myModal2").show();
+        }
+      }
+    });
+  }
+       function menbererror(data){
+        $("#dialog5 .big_one").text(data.info);
+        $('#dialog5').dialog('open');
+      }
+      function open_div(){
+      $("#BgDiv1").css({ display: "block", height: $(document).height() });
+      var yscroll = document.documentElement.scrollTop;
+      var screenx=$(window).width();
+      var screeny=$(window).height();
+      $(".DialogDiv").css("display", "block");
+       $(".DialogDiv").css("top",yscroll+"px");
+       var DialogDiv_width=$(".DialogDiv").width();
+       var DialogDiv_height=$(".DialogDiv").height();
+        $(".DialogDiv").css("left",(screenx/2-DialogDiv_width/2)+"px")
+       $(".DialogDiv").css("top",(screeny/2-DialogDiv_height/2)+"px")
+       $("body").css("overflow","hidden");
+  }
+  function close_div(){
+      $("#BgDiv1").css("display", "none");
+      $(".DialogDiv").css("display", "none");
+  }
+function changeorder(obj,moduleid,id,doit,ordercall){
+  var objs  =  document.getElementById(obj);
+  var datas={'moduleid':moduleid,'id': id,'num':objs.value};
+  $.ajax({
+    type:"POST",
+    url: "/index.php?m=Order&a=ajax&do="+doit,
+    data: datas,
+    timeout:"4000",
+    dataType:"JSON",
+    success: function(result){
+      data=eval('(' + result + ')');
+      if(data.data==1){
+        ordercall.call();
+      }else{
+        if(data.status==101){menbererror(data);}
+        else
+       ordererror(data);
+        //alert(data.info);
+      }
+      
+    },
+    error:function(){
+      alert("出错");
+    }
+  });
+}
+
+function changeorder_second(moduleid,id,doit){
+  var num=1;
+  var datas={'moduleid':moduleid,'id': id,'num':num};
+  $.ajax({
+    type:"POST",
+    url: "/index.php?m=Order&a=ajax&do="+doit,
+    data: datas,
+    timeout:"4000",
+    dataType:"JSON",
+    success: function(result){
+      data=eval('(' + result + ')');
+      if(data.data==1){
+            window.location.href="{:URL('Home-Order/checkout')}";
+      }else{
+        if(data.status==101){menbererror(data);}
+        else
+      ordererror(data);
+      }
+      
+    },
+    error:function(){
+      alert("出错");
+    }
+  });
+}
+  
+  function update_guest(proid){
+    var content=$('#guest_content').val();
+    $.ajax({
+      type:"POST",
+      url:"/index.php?a=guest_book&m=Product",
+      data:{"content":content,"productid":proid},
+      dataType:"JSON",
+      success:function(result){
+      data=eval('(' + result + ')');
+        if(data.status==1)location.reload();
+      },
+      error:function(){
+
+      }
+    });
+  }
+      </script>
+  </body>
+</html>
+
+
+

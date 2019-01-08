@@ -1,0 +1,98 @@
+<include file="Public:adminHead" />
+<div id="Right">
+		<form action="" method="post">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+			
+			<tr>
+				<th width="120">文章标题：</th>
+				<td>
+					<input name="id" type="hidden" value="{$info.id}" />
+					<input name="createtime" type="hidden" value="<?php echo time();?>" />
+					<input name="catid" type="hidden" value="1" />
+					<input name="userid" type="hidden" value="<?php echo session('uid');?>" />
+					<input name="lang" type="hidden" value="1" />
+					<input name="username" type="hidden" value="<?php echo $u_name; ?>" />
+					<input class="input" name="title" type="text" value="{$info.title}" size="40" />
+				</td>
+			</tr>
+		
+		
+			<tr>
+				<th width="120">图片：</th>
+				<td>
+				
+					<input name="thumb" type="text" class="input" size="120" value="{$info.thumb}" data="target-1" />
+					<a class="pth-btn" data="hook-1">上传</a>
+				
+					
+				
+				</td>
+			</tr>
+			<tr>
+				<th width="120">文章内容：</th>
+				<td>
+			
+					<!-- <input class="input" name="shop_about" type="text"  size="40" value="{$vo['shop_about']}" /> -->
+					<textarea  id="editor_id"  name="content" style="width:700px;height:400px;">
+						{$info['content']}
+					</textarea>
+				</td>
+			</tr>
+			
+				<script charset="utf-8" src="/kindeditor/kindeditor.js"></script> 
+				<script charset="utf-8" src="/kindeditor/lang/zh_CN.js"></script> 
+				<script>          
+
+					var editor;         
+					KindEditor.ready(function(K) {
+					                  editor = K.create('#editor_id');
+					               }); 
+				</script>
+		</table>
+		<div class="commonBtnArea" >
+			<input type="submit" class="btn submit" />
+		</div>
+		</form>
+</div>
+
+<script type="text/javascript">
+function imageUploader(hook,target){
+	//$("[href='#']")
+	this.hook = $("[data='"+hook+"']");
+	this.target =  $("[data='"+target+"']");
+	var self = this;
+	this.hook.click(function(){
+		$("#image-uploader-wrap").css("display","block");
+		$("#imageUploaderTarget").html(target);
+	})
+	
+	if (typeof imageUploader._initialized == "undefined") {
+		//载入上传文件的模板
+		$("<div class=\"iu-container\"></div>").appendTo($("body"));
+		$(".iu-container").load("{$site_url}{$vendor}imageUploader/tpl.html",'',
+				function(){
+					$(".image-uploader-close").click(function(){
+						$("#image-uploader-wrap").css("display","none");
+					});
+					
+				}
+				);
+		imageUploader.uploadCallback = function(data){
+			var target = $("#imageUploaderTarget").html();
+			target = $("[data='"+target+"']");
+			if(data.status==0){
+				alert(data.info);
+			}else{
+				target.val(data.info);
+				$(".image-uploader-close").click();
+			}
+		}
+		
+		imageUploader._initialized = true;
+	}
+}
+var imgUp1 = new imageUploader('hook-1','target-1');
+
+</script>
+
+<include file="Public:adminFoot" />

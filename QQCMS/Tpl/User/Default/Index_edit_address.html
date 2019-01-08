@@ -1,0 +1,190 @@
+
+    <!-- 本页自用的 css -->
+    <link rel="stylesheet" href="../Public/Css/index02.css">
+    <style type="text/css">table.table tbody tr td{vertical-align: middle}</style>
+
+    <!-- 本页自用的 js -->
+    <script src="../Public/js/jquery2.min.js?version=1.11.0"></script>
+ 
+
+<body class="pang">
+    <div class="wid-90">
+      <h3 class="padding-10">收货地址管理</h3>
+      <table class="table table-bordered table-striped">
+        <tbody>
+          <tr>
+            <td>
+              姓名
+            </td>
+            <td> <input type="text" class="form-control"  name="consignee" id="consignee" placeholder="联系人姓名" value="{$address.consignee}">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              手机号码
+            </td>
+            <td>
+            <input type="text"  name="mobile"  class="form-control" id="mobile" placeholder="联系电话" value="{$address.mobile}">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              省份
+            </td>
+            <td>
+              <select name="province" id="province" onchange="area_change(this.value, 1,'province','city','area');" class="ddlbox form-control" >
+                 <option value="0">选择省份</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              市
+            </td>
+            <td>
+            <select name="city" onchange="area_change(this.value, 2,'province','city','area');" id="city" class="ddlbox form-control" >
+                 <option value="0">选择城市</option>
+             </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              区
+            </td>
+            <td>
+            <select class="form-control ddlbox" name="area" onchange="area_change(this.value, 3,'province','city','area');" id="area" class="" >
+              <option value="0">选择地区</option>
+             </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              详细地址
+            </td>
+            <td>
+            <textarea rows="3" class="form-control"  name="address" class=""  id="address" placeholder="请填写详细街道地址">{$address.address}</textarea>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" onclick="address_save({$address.id|default=0})" class="btn btn-warning btn btn-block">确认</button>
+      <input type="hidden" class="button_success" data-toggle="modal" data-target="#myModal" />
+      <input type="hidden" class="button_error" data-toggle="modal" data-target="#myModal2" />
+    </div>
+    <div class="div-none"></div><!-- 底拦站位 -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">更改成功</h4>
+          </div>
+          <div class="modal-body">
+            <p><strong>亲！</strong>更改成功。</p>
+            (点击完成跳转会员页面)
+          </div>
+          <div class="modal-footer margin-top-0">
+            <a href="{:URL('User-Index/index')}" class="btn btn-default">完成</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">更改失败</h4>
+          </div>
+          <div class="modal-body">
+            <p><strong>亲！</strong>更改失败。</p>
+            (<span class="error_info"></span>)
+          </div>
+          <div class="modal-footer margin-top-0">
+            <a href="javascript:history.go(-1)" class="btn btn-default">返回</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+<script>
+
+//保存收货地址
+
+function address_save(id){
+  var province = $('#province').val();
+  var city = $('#city').val();
+  var area = $('#area').val();
+  var address = $('#address').val();
+  var consignee = $('#consignee').val();
+  var mobile = $('#mobile').val();
+  if(province=='' || city=='' || area=='' || address=='' || consignee=='' || mobile==''){
+    $('.error_info').text('请填写正确');
+       $(".button_error").click();
+    return false;
+  }
+  var address_datas={'id':id,'address':address,'province':province,'city':city,'area':area,'consignee':consignee,'mobile':mobile};
+ // frequent_submit("/index.php?m=Ajax&a=address&do=save","post","'id':'"+id+"','address':'"+address+"','province':'"+province+"','city':'"+city+"','area':'"+area+"','consignee':'"+consignee+"','mobile':'"+mobile+"'");
+  $.ajax({
+    type:"POST",
+    url:"/index.php?m=Ajax&a=address&do=save",
+    data: address_datas,
+    timeout:"4000",
+    dataType:"JSON",
+    success: function(data){ 
+      if(data.error){
+    $('.error_info').text(data.error);
+       $(".button_error").click();return false;
+      }
+      if(data.id){
+       // address_show(data);
+       $(".button_success").click();
+      }else{
+    $('.error_info').text("操作失败");
+       $(".button_error").click();
+      }
+    },
+    error:function(){
+    $('.error_info').text("链接错误");
+       $(".button_error").click();
+    }
+  });
+}
+
+
+  //地址
+    function area_change(id,level,province,city,area,lang,provinceid,cityid,areaid){
+
+  var datas={'level':level,'provinceid':provinceid,'cityid':cityid,'areaid':areaid,'lang':lang};
+  $.ajax({
+    type:"POST",
+    url: "/index.php?m=Ajax&a=Area&id="+id,
+    data: datas,
+    timeout:"4000",
+    dataType:"json",async:false,
+    success: function(data){ 
+      if(level==0){
+      $('#'+province).html(data.province);
+      $('#'+city).html(data.city);
+      $('#'+area).html(data.area);
+      }else if(level==1){
+      $('#'+city).html(data.city);
+      $('#'+area).html(data.area);
+      }else if(level==2){
+        $('#'+area).html(data.area);
+      }
+    },
+    error:function(){
+    }
+  }); 
+}
+$(document).ready(function(){
+  
+area_change(0, 0,'province','city','area','',{$address.province|default=0},{$address.city|default=0},{$address.area|default=0});//地址
+});
+
+</script>

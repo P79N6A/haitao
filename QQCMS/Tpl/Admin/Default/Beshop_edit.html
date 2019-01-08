@@ -1,0 +1,116 @@
+
+<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+	<tr>
+		  <th >店铺昵称
+		  </th>
+		  <td>
+		  {$info.shop_name}
+		  </td>
+	</tr>
+	<tr>
+		  <th >微信昵称
+		  </th>
+		  <td>
+		  {$info.wechat_name}
+		  </td>
+	</tr>
+	<tr>
+		  <th >真实姓名
+		  </th>
+		  <td>
+		  {$info.real_name}
+		  </td>
+	</tr>
+	<tr>
+		  <th >身份证号
+		  </th>
+		  <td>
+		  {$info.id_number}
+		  </td>
+	</tr>
+	<tr>
+		  <th >身份证复印件
+		  </th>
+		  <td>
+		  <img src="{$info.id_img}" style="height:200px" />
+		  </td>
+	</tr>
+	<tr>
+		  <th >手机号码
+		  </th>
+		  <td>
+		  {$info.mobile}
+		  </td>
+	</tr>
+	<tr>
+		  <th >联系地址
+		  </th>
+		  <td>
+		  {$area[$info['province']]}-{$area[$info['city']]}-{$area[$info['area']]}-{$info.address}
+		  </td>
+	</tr>
+	<tr>
+		  <th >推荐上级
+		  </th>
+		  <td>
+		  {$info.parent}
+		  </td>
+	</tr>
+	<tr>
+		  <th >银行账号
+		  </th>
+		  <td>
+		  {$info.account_number}
+		  </td>
+	</tr>
+	<tr>
+		  <th >账号名称
+		  </th>
+		  <td>
+		  {$info.account_name}
+		  </td>
+	</tr>
+	<tr>
+		  <th >开户行
+		  </th>
+		  <td>
+		  {$info.bank_name}
+		  </td>
+	</tr>
+	<tr>
+		  <th >申请时间
+		  </th>
+		  <td>
+		  {$info.createtime|date="Y-m-d H:i:s",###}
+		  </td>
+	</tr>
+	<tr>
+		  <th >审核状态
+		  </th>
+		  <td>
+            <if condition="$info['status'] eq 0">
+                <font color="red">未通过</font>
+             <else/>
+                <font color="green">已通过</font>
+             </if>
+		  </td>
+	</tr>
+</table>
+<div  class="btn">
+<if condition="$info['status'] eq 0">
+<a class="button" href="javascript:confirm_checked('{:U('Beshop/checked',array(id=>$info['id']))}')" />审核通过</a>
+<else />
+<a class="button" href="javascript:confirm_unchecked('{:U('Beshop/unchecked',array(id=>$info['id']))}')" />撤销审核</a>
+</if>
+<a class="button" href="javascript:confirm_delete('{:U('Beshop/delete',array(id=>$info['id']))}')">{:L('delete')}</a>
+</div>
+</div>
+<script type="text/javascript">
+function confirm_checked(url){
+	art.dialog.confirm("确定通过？", function(){location.href = url;});
+}
+function confirm_unchecked(url){
+	art.dialog.confirm("确定撤销？", function(){location.href = url;});
+}
+</script>
+</body></html>

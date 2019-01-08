@@ -1,0 +1,356 @@
+<link rel="stylesheet" type="text/css" href="Public/Css/adminuser_edit.css">
+
+<if condition="$vo['groupid'] gt 5 and $vo['groupid'] lt 14">
+<!--二维码-->
+<div style="width:100%;text-align:center;padding-bottom:20px;border:1px solid #e5e5e5">
+<img src="{$qrcode.url}" width="30%;">
+<h2 style="margin:0px auto;">{$vo.shop_name}</h2>
+</div></if>
+<!--选择上级板块-->
+	<div id="edit_table" class="edit_form">
+	<div style="background:#0B62C0;width:100%;color:#fff;padding:10px 0px 10px 0px;border-radius:6px 6px 0px 0px;">
+	<span onclick="$('#edit_table').fadeToggle();" style="float:right;cursor:pointer;margin-right:10px;">关闭</span><span style="margin-left:10px">选择上级</span>
+	</div>
+	<div id="info_table" style="overflow:hidden;padding:10px 0px 10px 0px">
+		
+	</div>
+	<input type="hidden" value="" id="fianl_par" />
+	<input type="hidden" value="" id="fianl_parname" />
+	<input style="padding:5px 25px 5px 25px;background: #1b75b6;color: #fff;border:none;margin-left:2%" name="sub" type="submit"   onclick="par_save()" value="确定" />
+	</div>
+	<div id="user_info">
+		<ul class="info_ul">
+			<li><span>真实姓名：</span>{$vo.realname}</li>
+			<li><span>邮箱：</span>{$vo.email}</li>
+			<li><span>级别：</span>
+			<volist name="rlist" id="row" >
+			<eq name="vo['groupid']" value="$row['id']">{$row['name']}</eq>
+			</volist>
+			</li>
+			<li><span>上级：</span>{$parent['realname']|default='上优舶'}</li>
+			<li><span>手机号码：</span>{$vo.mobile}</li>
+			<li><span>传真地址：</span>{$vo.fax}</li>
+			<li><span>省份：</span>{$adress['name'][0]}</li>
+			<li><span>城市：</span>{$adress['name'][1]}</li>
+			<li><span>区域：</span>{$adress['name'][2]}</li>
+			<li style="width:100%"><span style="width:13%">真实地址：</span>{$vo.address}</li>
+		</ul>
+			<input type="button" class="button" value="修改信息" onclick="$('#myform').fadeToggle()" />
+		
+	</div>
+<!--修改信息板块-->
+      <form id="myform" action="<if condition="$action_name=='add'">{:U('User/insert')}<else />{:U('User/update')}</if>" method="post" >
+      	<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+      	<tr>
+		<td width="120">{:L('username')}</td>
+		<td> <input type="text" class="input-text"  name="username" validate="required:true,en_num:true, minlength:5, maxlength:20" value="{$vo['username']}" /></td>
+		</tr>
+		<tr>
+		<td>{:L('password')}</td><td><input type="password" id="pwd" name="pwd" class="input-text" validate=" <if condition="$action_name=='add'">required:true,</if> minlength:5, maxlength:20"/></td>
+		</tr>
+		<tr>
+			<td>身份证</td>
+			<td><input type="text" class="input-text"  name="identity" value="{$vo.identity}" ></td>
+		</tr>
+		<tr>
+			<td>{:L('realname')}</td>
+			<td><input type="text" class="input-text"  name="realname" value="{$vo.realname}" ></td>
+		</tr>
+		<tr>
+			<td>{:L('email')}</td>
+			<td><input type="text" class="input-text"  name="email" value="{$vo.email}" validate="email:true, minlength:1, maxlength:40"></td>
+		</tr>
+		<tr>
+
+		<td>{:L('user_is_enable')}</td>
+		<td>
+		{:L('yes')}<input type="radio" name="status" value="1" <eq name="vo['status']" value="1">checked="checked"</eq> />
+		{:L('no')}<input type="radio" name="status" value="0" <eq name="vo['status']" value="0">checked="checked"</eq> />
+		</td>
+		</tr>
+		<tr>
+			<td>{:L('sex')}</td>
+			<td><input type="radio" id="" name="sex" value=1 <eq name='vo.sex' value='1'>checked </eq> /> {:L('sex1')}&nbsp;<input type="radio" id="" name="sex" value=2 <eq name='vo.sex' value='2'>checked </eq> /> {:L('sex2')} &nbsp;<input type="radio" id="" name="sex" value=1 <eq name='vo.sex' value='0'>checked </eq> />{:L('sex0')}</td>
+		</tr>
+		<tr>
+			<td>{:L('mobile')}</td>
+			<td><input type="text" class="input-text"  name="mobile" value="{$vo.mobile}"></td>
+		</tr>
+		<tr>
+			<td>{:L('fax')}</td>
+			<td><input type="text" class="input-text"  name="fax" value="{$vo.fax}"></td>
+		</tr>
+		<tr>
+			<td>{:L('address')}</td>
+			<td><input type="text" class="input-text"  name="address" value="{$vo.address}"></td>
+		</tr>
+
+		<tr>
+			<td >省份：</td><td>
+			<select name="province" id="province" onchange="area_change(this.value,1,'province','city','area',{$langid});" class="ddlbox" value="{$vo.province}">
+			<if condition="$adress['name'][0] neq null">
+			<option value="{$vo.province}">{$adress['name'][0]}</option><else/>
+			<option value="0" onchange="area_change(0,0,'province','city','area',1);">请选择省份</option>
+			</if>
+			</select> 
+			<span class="button" onclick="area_change(0,0,'province','city','area',1);" >修改地域</span>
+			</td>
+		</tr>
+		<tr>
+			<td >城市：</td><td>
+			<select name="city" onchange="area_change(this.value, 2,'province','city','area',{$langid});" 	id="city" class="ddlbox" >
+			<if condition="$adress['name'][1] neq null">
+			<option value="{$vo.city}">{$adress['name'][1]}</option><else/>
+			<option value="0"  onkeypress="area_change(0,0,'province','city','area',1);">请选择城市</option></if>
+			</select>
+		</td>
+		</tr>
+		<tr>
+			<td >区域：</td><td>
+			<select name="area" onchange="area_change(this.value, 3,'province','city','area',{$langid});" 	id="area" class="ddlbox" >
+			<if condition="$adress['name'][2] neq null">
+			<option value="{$vo.province}">{$adress['name'][2]}</option><else/>
+			<option value="0"  onkeypress="area_change(0,0,'province','city','area',1);">请选择区域</option></if>
+			</select>
+		</td></tr>
+		
+<if  condition="$vo['groupid'] neq null">
+<if  condition="$vo['groupid'] gt 5 and $vo['groupid'] lt 14">
+		<tr><td valign="top">微店类型</td>
+		<td>
+		<select name="groupid">
+		<volist name="rlist" id="row">
+			<if  condition="$row['id'] gt 5 and $row['id'] lt 14 ">
+			<option   value="{$row['id']}" <eq name="vo['groupid']" value="$row['id']">selected="selected"</eq>>{$row['name']}</option>
+			</if>
+		</volist>
+		</select>
+		</td>
+		</tr>
+<elseif condition="$vo['groupid'] LT 6 OR $vo['groupid'] GT 13" />
+		<tr><td valign="top">会员类型</td>
+		<td>
+		<select name="groupid">
+		<volist name="rlist" id="row">
+			<if  condition="$row['id'] LT 6 OR $row['id'] GT 13 ">
+			<option   value="{$row['id']}" <eq name="vo['groupid']" value="$row['id']">selected="selected"</eq>>{$row['name']}</option>
+			</if>
+		</volist>
+		</select>
+		</td>
+		</tr>
+</if>				
+		<tr>
+			<td>上级单位</td>
+			<td>
+				<span id="parent_name">{$parent['realname']|default='上优舶'}</span>
+					<input name="parent_id" type="hidden" value="{$vo['parent_id']}" />
+				<span class="button" onclick="change_par({$vo['id']});" >更换上级</span>
+				<input style="height:25px;margin-left:10px" placeholder="输入微店真实姓名" type="text" value="" id="search_par"/><span class="button" onclick="search_par({$vo['id']});" >搜索上级</span>
+			</td>
+		</tr>
+</if>
+
+		<tr>
+			<td>电子现金金额</td>
+			<td><input type="text" class="input-text"  name="cash_use" value="{$vo.cash_use}" validate="number:true"></td>
+		</tr>
+
+		</table>
+
+		<div class="btn">
+		<if condition="$action_name=='edit'"><input type="hidden" name="id" value="{$vo['id']}" />
+		<input type="hidden" name="opwd" value="{$vo['password']}" /></if>
+		<input type="hidden" name="forward" value="{$_SERVER['HTTP_REFERER']}" />
+		<INPUT TYPE="submit"  value="{:L('dosubmit')}" class="button" >
+		<input TYPE="reset"  value="{:L('cancel')}" class="button" onclick="$('#myform').fadeToggle()"/>
+		</div>
+
+      </form>
+
+<if condition="$vo['groupid'] gt 5 and $vo['groupid'] lt 14">
+<!--下属微店板块-->
+	<div id="next">
+		<h1>下级微店<span>统计共有：{$shop_count}家</span></h1>
+		<table>
+		<tr>
+		<th>名称</th>
+		<th>级别</th>
+		<th>成立时间</th>
+		<th>电话</th>
+		<th>地址</th>
+		<th>操作</th>
+		</tr>
+		<volist name="shop_list" id="vo">
+		<tr>
+			<td>{$vo.realname}-{$vo.shop_name}</td>
+			<td>{$vo.role_name}</td>
+			<td>{$vo.createtime|date='Y-m-d',###}</td>
+			<td>{$vo.mobile}</td>
+			<td>{$vo.address}</td>
+			<td><a class="product_edit1" style="border-radius:5px;border-right:#BDBABA 1px solid" href="/index.php?a=edit&m=User&g=Admin&id={$vo.id}&groupid={$vo.groupid}">查看详情</a></td>
+		</tr>
+		</volist>	
+		</table>
+	</div>
+
+<!--下属会员板块-->
+	<div id="next">
+		<h1>下级会员<span>统计共有：{$menber_count}位</span></h1>
+		<table>
+		<th>名称</th>
+		<th>级别</th>
+		<th>成立时间</th>
+		<th>电话</th>
+		<th>地址</th>
+		<th>操作</th>
+		<volist name="menber_list" id="vo">
+		<tr>
+			<td>{$vo.realname}</td>
+			<td>{$vo.role_name}</td>
+			<td>{$vo.createtime|date='Y-m-d',###}</td>
+			<td>{$vo.mobile}</td>
+			<td>{$vo.address}</td>
+			<td><a  class="product_edit1" style="border-radius:5px;border-right:#BDBABA 1px solid" href="/index.php?a=edit&m=User&g=Admin&id={$vo.id}&groupid={$vo.groupid}">查看详情</a></td>
+		</tr>
+		</volist>	
+		</table>
+	</div>
+<!--销售详情板块-->
+<div id="next">
+	<h1>销售详情：<font color="red">自消费{$sell_list.self_fee}￥</font>,
+	<font color="green">客户消费{$sell_list.next_fee}￥</font>,
+	<font color="red">自消费比例{$sell_list.scale}</font>
+	</h1>
+	<table>
+	<th>订单号</th>
+	<th>消费会员</th>
+	<th>消费总金额</th>
+	<th>创建时间</th>
+	<th>支付时间</th>
+	<th>操作</th>
+	<volist name="order_list" id="vo">
+		<tr>
+			<td>{$vo.sn}</td>
+			<td>{$vo.realname}-{$vo.wechat_name}</td>
+			<td>{$vo.amount}</td>
+			<td>{$vo.add_time|date='Y-m-d',###}</td>
+			<td>{$vo.pay_time|date='Y-m-d',###}</td>
+			<td><a  class="product_edit1" style="border-radius:5px;border-right:#BDBABA 1px solid" href="/index.php?a=show&m=Order&g=Admin&id={$vo.id}">查看详情</a></td>
+		</tr>
+		</volist>	
+		</table>
+</div>
+<else/>
+
+<!--订单详情板块-->
+<div id="next">
+	<h1>消费详情：<font color="green">历史消费金额{$menber_total.total_price}￥,已购买{$menber_num.num}件商品,可用电子现金{$vo.cash_use}￥</font></h1>
+	<table>
+	<th>订单号</th>
+	<th>消费总金额</th>
+	<th>创建时间</th>
+	<th>支付时间</th>
+	<th>操作</th>
+	<volist name="menber_order" id="vo">
+		<tr>
+			<td>{$vo.sn}</td>
+			<td>{$vo.amount}</td>
+			<td>{$vo.add_time|default=''|date='Y-m-d',###}</td>
+			<td>{$vo.pay_time|default=''|date='Y-m-d',###}</td>
+			<td><a  class="product_edit1" style="border-radius:5px;border-right:#BDBABA 1px solid" href="/index.php?a=show&m=Order&g=Admin&id={$vo.id}">查看详情</a></td>
+		</tr>
+		</volist>	
+		</table>
+</div>
+</if>
+</div>
+
+
+
+
+
+
+
+
+
+
+    <script type="text/javascript">
+    		function area_change(id,level,province,city,area,lang,provinceid,cityid,areaid){
+
+	var datas={'level':level,'provinceid':provinceid,'cityid':cityid,'areaid':areaid,'lang':lang};
+	$.ajax({
+		type:"POST",
+		url: "/index.php?m=Ajax&a=Area&id="+id,
+		data: datas,
+		timeout:"4000",
+		dataType:"json",
+		success: function(data){
+			if(level==0){
+			$('#'+province).html(data.province);
+			$('#'+city).html(data.city);
+			$('#'+area).html(data.area);
+			}else if(level==1){
+			$('#'+city).html(data.city);
+			$('#'+area).html(data.area);
+			}else if(level==2){
+				$('#'+area).html(data.area);
+			}
+		},
+		error:function(){
+			alert("time out,try it");
+		}
+	}); 
+}
+/*area_change(0,0,'province','city','area',1);*/
+
+	function change_par(id){
+			$.ajax({
+				type:"get",
+				url: "/index.php?m=Ajax&a=change_par",
+				data: {'id':id},
+				timeout:"4000",
+				dataType:"html",
+				success: function(data){
+					$('#info_table').empty().append(data);
+					$('#edit_table').fadeIn();
+				},
+				error:function(){
+					alert("time out,try it");
+				}
+			}); 
+	}	
+	function search_par(id){
+		var name=$('#search_par').val();
+			$.ajax({
+		type:"get",
+		url: "/index.php?m=Ajax&a=search_par",
+		data: {'name':name,'id':id},
+		timeout:"4000",
+		dataType:"html",
+		success: function(data){
+			$('#info_table').empty().append(data);
+			$('#edit_table').fadeIn();
+		},
+		error:function(){
+			alert("time out,try it");
+		}
+	}); 
+	}
+	function par_select(obj){
+		var id=$(obj).find('input').val();
+		var name=$(obj).find('span').text();
+		$('#fianl_par').val(id);
+		$('#fianl_parname').val(name);
+		$(obj).prevAll().removeClass('has_select');
+		$(obj).nextAll().removeClass('has_select');
+		$(obj).addClass('has_select');
+	}
+	function par_save(){
+		var id=$('#fianl_par').val();
+		var name=$('#fianl_parname').val();
+		$("input[name='parent_id']").val(id);
+		$("#parent_name").text(name);
+		$('#edit_table').fadeToggle();
+	}
+</script>

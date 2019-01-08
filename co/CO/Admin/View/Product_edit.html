@@ -1,0 +1,262 @@
+<include file="Public:adminHead" />
+
+
+
+
+<div id="Right">
+<span class="yulan_open" onclick="open_yulan();">预览</span>
+<div id="yulan">
+	<div class="title"><h2 class="yulan_close" onclick="$('#yulan').toggle();">&times</h2><h2>预览区</h2></div>
+	<div class="info">
+		<img src="{$info.top_pics.0}" class="yulan_img">
+		<h1 class="yulan_title"></h1>
+		<ul>
+			<li>
+			<div><span >市价：</span><span class="yulan_price" style="color:rgb(184, 178, 178);"></span></div>
+			</li>
+			<li>
+			<div style="border-radius:8px;margin-right:1%;padding:10px 0px 10px 0px;width:46%;border:1px #4CAE4C solid;height:90%;float:right;text-align:center;background:#5CB85C;"><span style="color:#fff;">商品评价</span></div>
+			<div style="border-radius:8px;margin-left:1%;padding:10px 0px 10px 0px;width:46%;border:1px #DDD solid;height:90%;text-align:center;"><span>库存：</span><span class="yulan_stock" style="color:rgb(184, 178, 178);"></span></div>
+			</li>	
+			<li>
+			<h1 style="line-height:40px;">产品介绍</h1>
+			<div class="yulan_content" style="border:1px #DDD solid;overflow:hidden;width:97%;padding:10px 1% 10px 1%;border-radius:8px"></div>
+			</li>
+
+		</ul>
+
+	</div>
+</div>
+		<form action="" method="post" onsubmit="return check();">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+			
+			<!--标题-->
+			<tr>
+				<th width="120"><font color="red">*</font>商品名称：</th>
+				<td>
+					<input name="id" type="hidden" value="{$info.id}" />
+					<input class="input form-control" name="title" type="text" value="{$info.title}" size="40" />
+				</td>
+			</tr>
+			<!--英文名称-->
+			<tr>
+				<th width="120">商品外文名称：</th>
+				<td>
+					<input class="input form-control" name="en_name" type="text" value="{$info.en_name}" size="40" />
+				</td>
+			</tr>
+
+		<!--顶部图片-->
+			<tr> 
+				<th width="120"><font color="red">*</font>顶部图片：</th>
+				<td>
+				
+					<input name="top_pics[]" type="hidden" class="input" size="120" value="{$info.top_pics.0}" data="target-1" readonly="true"/>
+					<img src="{$info.top_pics.0}" style="max-width:640px" pic="target-1-pic"/>
+					<a class="pth-btn" data="hook-1" >上传</a>
+					<br />
+					<input name="top_pics[]" type="hidden" class="input" size="120" value="{$info.top_pics.1}" data="target-2" readonly="true"/>
+					<img src="{$info.top_pics.1}" style="max-width:640px" pic="target-2-pic"/>
+					<a class="pth-btn" data="hook-2" >上传</a>
+					<br />
+					<input name="top_pics[]" type="hidden" class="input" size="120" value="{$info.top_pics.2}" data="target-3" readonly="true"/>
+					<img src="{$info.top_pics.2}" style="max-width:640px" pic="target-3-pic"/>
+					<a class="pth-btn" data="hook-3" >上传</a>
+					<br />
+				
+				</td>
+			</tr>
+			<tr>
+				<th></th>
+				<td><font color="red">请上传640*300,即长:640px,宽:300px尺寸的jpg格式图片</font></td>
+			</tr>
+		<!--缩略图片-->
+			<tr> 
+				<th width="120"><font color="red">*</font>商品图标：</th>
+				<td>
+				
+					<input name="thumb" type="hidden" class="input" size="120" value="{$info.thumb}" data="target-4" readonly="true"/>
+					<img src="{$info.thumb}" style="max-height:100px" pic="target-4-pic"/>
+					<a class="pth-btn" data="hook-4" >上传</a>
+					<br />
+					
+				
+				</td>
+			</tr>
+			<tr>
+				<th></th>
+				<td><font color="red">请上传200*200,即长:200px,宽:200px尺寸的jpg格式图片</font></td>
+			</tr>
+			<!--参考价-->
+			<tr>
+				<th width="120"><font color="red">*</font>参考价：</th>
+				<td>
+					<input class="input form-control" name="price" type="text" value="{$info.price}" size="40" onkeyup="check_number(this);" onblur="check_number(this);"  />
+				</td>
+			</tr>
+			<!-- 会员价-->	
+			<tr>
+		
+			<th width="120">会员价：</th>
+			<td>
+				<input class="input form-control" name="member_price" type="text" value="{$info.member_price}" size="40" />
+			</td>
+			</tr>	 			
+		<!--库存-->
+				<tr>
+
+				<th width="120"><font color="red">*</font>库存：</th>
+				<td>
+					<input class="input form-control" name="stock" type="text" value="{$info.stock}" size="40" onkeyup="check_number(this);" onblur="check_number(this);" />
+				</td>
+				</tr>	
+		<!--产地-->
+				<tr>
+
+				<th width="120">产地：</th>
+				<td>
+					<input class="input form-control" name="address" type="text" value="{$info.address}" size="40" />
+				</td>
+				</tr>			
+		<!--容量-->
+				<tr>
+
+				<th width="120">容量：</th>
+				<td>
+					<input class="input form-control" name="liquid" type="text" value="{$info.liquid}" size="40" />
+				</td>
+				</tr>			
+		<!--酒精度-->
+				<tr>
+
+				<th width="120">酒精度：</th>
+				<td>
+					<input class="input form-control" name="vol" type="text" value="{$info.vol}" size="40" />
+				</td>
+				</tr>
+			<!-- <tr>
+				<th width="120">商品分类：</th>
+				<td>
+					
+					<select name="p_catid" style="min-width: 80px;">
+						<option value="0">请选择</option>
+						<volist name="fenlei" id="vo">
+			
+							<option <if condition="$info['p_catid'] eq $vo['id']">selected="selected"</if> 
+								value="{$vo.id}">{$vo.title}
+							</option> 
+						</volist>
+					</select>
+				</td>
+			</tr>-->
+
+
+		<!--商品简介-->	
+			<tr>
+				<th width="120">商品简介：</th>
+				<td>
+			
+					<!-- <input class="input" name="shop_about" type="text"  size="40" value="{$vo['shop_about']}" /> -->
+					<textarea  id="editor_id"  name="content" style="width:700px;height:400px;">
+						{$info['content']}
+					</textarea>
+				</td>
+			</tr>
+			
+				<script charset="utf-8" src="/kindeditor/kindeditor.js"></script> 
+				<script charset="utf-8" src="/kindeditor/lang/zh_CN.js"></script> 
+				<script>          
+
+					var editor;         
+					KindEditor.ready(function(K) {
+					                  editor = K.create('#editor_id');
+					               }); 
+				</script>
+		</table>
+		<div class="commonBtnArea" >
+			<input type="submit" class="btn submit" style="margin-left:100px" />
+		</div>
+		</form>
+</div>
+<script type="text/javascript">
+function imageUploader(hook,target){
+	//$("[href='#']")
+	this.hook = $("[data='"+hook+"']");
+	this.target =  $("[data='"+target+"']");
+	var self = this;
+	this.hook.click(function(){
+		$("#image-uploader-wrap").css("display","block");
+		$("#imageUploaderTarget").html(target);
+	})
+	
+	if (typeof imageUploader._initialized == "undefined") {
+		//载入上传文件的模板
+		$("<div class=\"iu-container\"></div>").appendTo($("body"));
+		$(".iu-container").load("{$site_url}{$vendor}imageUploader/tpl.html",'',
+				function(){
+					$(".image-uploader-close").click(function(){
+						$("#image-uploader-wrap").css("display","none");
+					});
+					
+				}
+				);
+		imageUploader.uploadCallback = function(data){
+			var target = $("#imageUploaderTarget").html();
+			target = $("[data='"+target+"']");
+			var pic=$("#imageUploaderTarget").html()+"-pic";
+			pic=$("[pic='"+pic+"']");
+			if(data.status==0){
+				alert(data.info);
+			}else{
+				pic.attr('src',data.info);
+				target.val(data.info);
+				$(".image-uploader-close").click();
+			}
+		}
+		
+		imageUploader._initialized = true;
+	}
+}
+var imgUp1 = new imageUploader('hook-1','target-1');
+var imgUp1 = new imageUploader('hook-2','target-2');
+var imgUp1 = new imageUploader('hook-3','target-3');
+var imgUp1 = new imageUploader('hook-4','target-4');
+
+
+
+function check(){
+	var title=$("[name='title']").val();
+	var price=$("[name='price']").val();
+	var stock=$("[name='stock']").val();
+	var thumb=$("[name='thumb']").val();
+	if(title=="" || price=="" || stock=="" || thumb=="" || title==null || price==null || stock==null || top_pics==null || thumb==null){
+		alert("请填写完整商品信息");
+		return false;
+	}
+
+}
+
+
+	function open_yulan(){
+		$("input[name='top_pics']").each(function(){
+			if($(this).val()!=null || $(this).val()!=''){
+				$('.yulan_img').attr('src',$(this).val());
+			}
+		});
+		if($("#box_title input[name='title']").val()!=null ||$("#box_title input[name='title']").val()!=''){
+		$('.yulan_title').text($("#box_title input[name='title']").val());
+		}
+		if($(" input[name='price']").val()!=null ||$("input[name='price']").val()!=''){
+		$('.yulan_price').text($("input[name='price']").val()+'元');
+		}
+		if($(" input[name='stock']").val()!=null ||$("input[name='stock']").val()!=''){
+		$('.yulan_stock').text($("input[name='stock']").val());
+		}
+		if($("#content").text()!=null ||$("#content").text()!=''){
+		var send=jQuery('iframe').contents().find('.ke-content');
+		$('.yulan_content').html($(send).html());
+		}
+		$('#yulan').toggle();
+	}
+</script>
+<include file="Public:adminFoot" />

@@ -1,0 +1,105 @@
+<include file="Public:adminHead" />
+<style type="text/css">
+#jj{
+width:100%;
+border:1px solid #eee;
+margin:10px 0px 10px 0px;
+}
+  #jj th{
+    padding:10px 0px 10px 0px;
+    border-bottom:1px solid #d5dfe8;
+    border-right:1px solid #eee;
+    background: #eef3f7;
+    text-align: center;
+  }
+  #jj  tr{
+    border-bottom:1px solid #E9E6E6;
+  }
+   #jj  tr:hover{
+
+    background: #fbffe4;
+   }
+    #jj td{
+    padding:10px 0px 10px 0px;
+    border-right:1px solid #eee;
+    }
+</style>
+<div id="Right">
+	<div class="contentArea">
+  <div style="display:inline-block;margin-left:10px">试运营将结束：<div style="display:inline-block;width:30px;height:10px;background: #E2CD32;"></div></div>
+  <div style="display:inline-block;margin-left:10px">即将缴纳年费：<div style="display:inline-block;width:30px;height:10px;background: #E42B2B;"></div></div>
+<div class="table-list">
+    <table width="100%" cellspacing="0" id='jj'>
+        <thead>
+      		<tr>
+      <th align="center" style="padding:5px 0px 5px 0px">店铺名</th>  
+      <th align="center" style="padding:5px 0px 5px 0px">微信名</th> 
+      <th >级别</th>
+      <!-- <th>上级单位</th> -->
+      <th >成立时间</th>  
+      <th >手机</th>
+      <th >押金</th>
+      <th>平台管理年费</th>
+      <th >自消费金额</th>
+      <th >客户消费</th>
+            <th >自消费比例</th>
+      <th >销售返利</th>
+      <th >下级返利</th><!-- 
+      <th >下级平台管理费分润</th> -->
+      <th >总返利</th>
+      <th >状态</th>
+      <th  >操作</th>
+      		</tr>
+      	</thead>
+      	<tbody>
+      		<volist name="ulist" id="user" key="k">
+      		<tr  <switch name="user['status_flat']" >
+                   <case value="1"></case>
+                  <case value="2">style="background: #E2CD32;"</case>
+                  <case value="3">style="background: #E42B2B;"</case>
+                  <default />
+                  </switch>>
+          <td align="center" style="padding:8px 0px 8px 0px">{$user['shop_name']}</td>
+          <td align="center" style="padding:5px 0px 5px 0px">{$user['wechat_name']}</td>
+      <td align="center">{$user['groupname']}</td>
+          <!-- <td align="center">{$user['parent_name']}</td> -->
+          <td align="center">{$user['beshop_time']|date="Y-m-d",###}</td>
+          <td align="center">{$user['mobile']}</td>         
+          <td align="center">{$user['deposit']}</td>      
+          <td align="center">{$user['manage']}</td> 
+          <td align="center">{$user['self_fee']}</td> 
+          <td align="center">{$user['next_fee']}</td> 
+            <td align="center">{$user['scale']}</td> 
+          <td align="center">{$user['sell_back']}</td> 
+          <td align="center">{$user['next_sell_back']}</td> <!-- 
+          <td align="center">{$user['next_splitt']}</td>  -->
+          <td align="center">{$user['total_back']}</td> 
+      <td align="center">
+            <if condition="$user['beshop_time']+2592000 gt time() and $user['test_status'] eq 0"> 
+                  <font color="red">试运营中</font>
+                  <else/>
+                        <if condition="$user['status'] eq 1">
+          <font color="green">运营中</font>
+          <else />
+          <font color="red">停营中</font>
+          </if>
+                  </if>
+          </td>
+			<td align="center"><a  class="pth-btn" href="/co{:U('User/edit',array(id=>$user['id']))}">详情</a></td>      		
+      		</tr>
+      		</volist>
+      	</tbody>
+    </table>
+  
+  </div>
+</div>
+     <div class="text-center">
+        <ul class="pagination" style="margin-bottom:20px">
+        {$page}
+        </ul>
+      </div>
+		
+	</div>
+</div>
+
+<include file="Public:adminFoot" />

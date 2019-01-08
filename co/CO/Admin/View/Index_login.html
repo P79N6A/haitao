@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>登录-{$site.name}</title>
+	<link href="{$site_url}__VIEW__/css/adminStyle.css" rel="stylesheet" />	
+    </head>
+<body class="loginWeb">
+    <div class="loginBox">
+        <div class="innerBox">
+			<div class="logo" style="text-align: center;">
+                <a href="{$site_url}/Admin" style="color:#000;font-size:32px;">上优舶经营者平台</a>
+            </div>
+            <div class="loginInfo">
+                <div id="login_container">
+                </div>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript" src="{$site_url}__VIEW__/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".submit").click(function(){
+		if($("#email").val()==''||$("#pwd").val()==''){
+			alert('填写完整，才能登录!');
+			return false;
+		}
+		$('#form1').submit();
+	});
+});
+</script>
+<notempty name="oa_appId">
+<!--引入微信获取code JS/css文件（支持https）-->
+<script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+<link rel="stylesheet" href="{$site_url}__VIEW__/css/weixin_oa.css" type="text/css">
+<!--end-->
+<script type="text/javascript">
+var obj = new WxLogin({
+  id:"login_container", 
+  appid: "{$oa_appId}", 
+  scope: "snsapi_login", 
+  redirect_uri: "{$redirect_uri}",
+});
+</script>
+</notempty>
+</body>
+</html>

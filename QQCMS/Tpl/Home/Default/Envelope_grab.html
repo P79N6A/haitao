@@ -1,0 +1,19 @@
+<include file="Home:headerred"/>
+<style type="text/css">
+.bg{width:100%;background-color:#f2f2f4;}
+</style>
+<div class="bg" id="bg">
+    <div class="user">
+      <img src="{$userinfo.wechat_pic|default='__PUBLIC__/Images/user.jpg'}">
+      <p class="have"><strong>{$userinfo.wechat_name|default="微信用户"}</strong>发了一个上优舶现金红包，赶快抢！</p>
+    </div>
+    <div class="user-btn">
+      <a href="{:U('Home/Envelope/openWallet',array('iswallet'=>$iswallet,'enveloper'=>$enveloper,'order_id'=>$order_id))}"><img src="../Public/img/btn.png" class="red"></a>
+    </div>
+</div>
+<div class="foot">
+ <img src="../Public/img/logo.png">
+ <p><strong>LEVI 、ZARA 、H&M</strong>以上品牌3折起！</p>
+ <div style="clear:both"></div>
+</div>
+<include file="Home:footer"/>

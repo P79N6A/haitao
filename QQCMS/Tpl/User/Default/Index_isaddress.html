@@ -1,0 +1,147 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>上优舶</title>
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+<!-- 手机页面全局 css -->
+<link rel="stylesheet" href="__PUBLIC__/Css/bootstrap.min.css">
+<link rel="stylesheet" href="../Public/css/index02.css">
+<!-- 本页自用css全局 -->
+<link rel="stylesheet" href="../Public/css/address.css">
+<link rel="stylesheet" href="../Public/css/base.css">
+<!--组件依赖 js -->
+<script type="text/javascript" src="../Public/js/jquery2.min.js"></script>
+<load href="__PUBLIC__/Js/jquery.form.js"/>
+<!-- dialog V6 -->
+<load href="../Public/css/ui-dialog.css" />
+<load href="../Public/dist/dialog-min.js" />
+<style type="text/css">
+body{background-color:#F7F7F7}
+ul{padding-left: 0px !important;}
+.shuliang {position: absolute;right: 0;background: rgb(35, 189, 21)!important;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<form method="post" action="order.html"> 
+<div class="container">
+  <div class="cart clear">
+    <div class="shadow">
+      <table width="100%" border="0">
+        <tbody>
+          <tr>
+            <td width="85%">
+              <h4 class="fl">我的收货地址</h4>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="c_list cb">
+        <ul>
+          <volist name="default_address" id="item">
+          <li>
+            <table>
+              <tbody>
+                <tr>
+                  <td width="65%">
+                    <p class="margin-right-5">姓名: {$item.consignee}&nbsp;&nbsp;&nbsp;手机：{$item.mobile}</p>
+                    <p class="margin-right-5">[{$area[$item['province']]}&nbsp;{$area[$item['city']]}&nbsp;{$area[$item['area']]}]</p>
+                    <p class="margin-right-5">{$item.address}</p>
+                  </td>
+                  <td width="10%"> <input type="radio" class="checkbox checked" name="check_item" id="check_item" checked="checked" value="{$item.id}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+          </volist>
+          <volist name="address" id="item">
+          <li>
+            <table>
+              <tbody>
+                <tr>
+                  <td width="65%">
+                    <p class="margin-right-5">姓名: {$item.consignee}&nbsp;&nbsp;&nbsp;手机：{$item.mobile}</p>
+                    <p class="margin-right-5">[{$area[$item['province']]}&nbsp;{$area[$item['city']]}&nbsp;{$area[$item['area']]}]</p>
+                    <p class="margin-right-5">{$item.address}</p>
+                  </td>
+                  <td width="10%"> <input type="radio" class="checkbox" name="check_item" id="check_item" value="{$item.id}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+          </volist>
+        </ul>
+      </div>
+    </div>  
+  </div>
+</div>
+<div class="cart_bg">
+<button type="button" class="btn btn-warning btn-block" onClick="checkedaddress();">确定</button>
+<a href="{:URL('User-Index/address')}" class="btn btn-warning btn-block">管理收货地址</a>
+</div>
+</form>
+
+<table class="fix">
+  <tbody>
+    <tr>
+      <td style="width:15%;border-right:1px solid #c4c4c4"><a href="javascript:history.go(-1)"><img src="__PUBLIC__/Images/f1.png" class="fanhui"></a></td>
+      <td style="width:28.3%;border-right:1px dashed #c4c4c4"><a href="/index.php" style=" color: #707070;text-decoration:none">商城首页</a></td>
+      <td style="width:33%;border-right:1px dashed #c4c4c4;position: relative;"><a href="{:URL('Home-Order/ischeckout')}" style=" color: #707070;text-decoration:none"><span id="shoppingCart" class="badge shuliang">{$shopping_count|default=''}</span>购物车</a></td>
+      <td style="width:28.3%"><a href="{:URL('User-Index/index')}" style="color: #707070;text-decoration:none">会员服务</a></td>
+    </tr>
+  </tbody>
+</table>
+<script type="text/javascript">
+$(function(){
+  //单独选择某一个
+  $("input[name='check_item']").click(function(){
+      var radio=$("input[name='check_item']");
+      radio.each(function(r,e){
+        e.checked = false;
+        $(e).removeClass("checked");
+      });
+      var index = $("input[name='check_item']").index(this);
+      this.checked = true;
+      $("input[name='check_item']").eq(index).toggleClass("checked");//伪复选
+  });
+});
+
+function checkedaddress()
+{
+  var id = 0;
+  var radio=$("input[name='check_item']");
+  radio.each(function(r,e){
+    if(e.checked == true)
+    id = e.value;
+  });
+  if (id == 0)
+  {
+    var dia = dialog({title: '收货地址信息', content: '请选择收货地址！',quickClose: true}).show();
+    setTimeout(function () {
+      dia.close().remove();
+    }, 3000);
+    return false;
+  }
+  window.location.href = "{:U('Home/Order/clearing',array('cartid'=>$_REQUEST['cartid']))}&address="+id;
+}
+</script>
+<script>
+//隐藏微信底栏
+  document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+  WeixinJSBridge.call('hideToolbar');
+  });
+  //发票显示
+  $(document).ready(function(){
+    $('#shoppingCart').removeClass("badge").addClass("badge");
+    $("#click").click(function(){
+       $("#yinchang").slideToggle("fast");
+     });
+  });
+</script>
+</body>
+</html>

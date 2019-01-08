@@ -1,0 +1,262 @@
+<link rel="stylesheet" href="../Public/css/goulan.css">
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.artDialog.js?skin=default"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/iframeTools.js"></script>
+<style type="text/css">
+.list-group-item button{color: #fff;}
+.list-group-item .btn-inverse{background: #CBD4DE;}
+</style>
+  <body style="padding-bottom: 3em;">
+<div style="width:90%;margin:2em auto">
+    {if $order['pay_status']==2}
+    <legend>购买成功，感谢惠顾！</legend>
+    {elseif $order['cash_pay_status']==1 && $order['allinipay_amount']==""}
+    <legend>购买成功，感谢惠顾！</legend>
+    {else}
+    <legend>下单成功，请及时支付！</legend>
+    {/if}
+    <!-- <div class="alert alert-info alert-dismissable">
+      <strong>你知道吗？</strong>在微信中回复“订单”即可查看订单哦！
+    </div> -->
+    <div class="panel-group" id="accordion" style="margin-bottom:20px">
+        <div class="panel panel-default">
+     <div class="panel-heading">
+            <h4 class="panel-title text-center">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="collapsed" id="open_ad">
+                商品详情
+              </a>
+            </h4>
+          </div>
+      <div id="collapseOne" class="panel-collapse collapse" style="height: 0px;">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th style="width:65%">商品</th>
+          <th style="width:20%">单价</th>
+          <th style="width:15%">数量</th>
+        </tr>
+      </thead>
+      <tbody>
+      	<volist name="order_data" id="vo">
+        <tr>
+          <td>
+            {$vo.product_name}
+            <volist name="vo.attribute" id="ab">
+            &nbsp;&nbsp;{$ab.specsname}:{$ab.propertyvalue}
+            </volist>
+          </td>
+          <td class="text-right">&yen;{$vo.product_price}</td>
+          <td>×{$vo.number}</td>
+        </tr>
+        </volist>
+      </tbody>
+    </table></div></div></div>
+
+    <table class="table table-bordered table-striped">
+      <tbody>
+        <tr>
+          <td class="text-right" style="font-weight:bold">邮费</td>
+          <td class="text-right text-warning" style="font-weight:bold" colspan="2">
+        {if $order['shipping_fee']>0}&yen;{$order['shipping_fee']|number_format=###,2}{else}免邮
+        {/if}</td>
+        </tr>
+         <tr>
+          <td class="text-right" style="font-weight:bold">行邮税≦50元免征</td>
+          <td class="text-right text-warning" style="font-weight:bold" colspan="2">
+            <gt name="order.direct_total" value="50">
+            &yen;{$order['direct_total']|number_format=###,2}
+            <else/>
+            <del style="color:gray;">&yen;{$order['direct_total']|number_format=###,2}</del>
+            </gt>
+          </td>
+        </tr>
+        <tr>
+          <td class="text-right" style="font-weight:bold">合计</td>
+          <td class="text-right text-warning" style="font-weight:bold" colspan="2">&yen;{$order['order_amount']|number_format=###,2}</td>
+        </tr>
+         <tr>
+          <td class="text-right" style="font-weight:bold">实付款</td>
+          <td class="text-right text-warning" style="font-weight:bold" colspan="2">&yen;{$order['allinipay_amount']|number_format=###,2}</td>
+        </tr>
+        <tr style="display:none;">
+          <td class="text-right" style="font-weight:bold">银行转账金额</td>
+          <td class="text-right"  colspan="2">&yen;{$order['cod_amount']|default=0|number_format=###,2}</td>
+        </tr>
+        <tr>
+          <td class="text-right" style="font-weight:bold">使用电子现金</td>
+          <td class="text-right"  colspan="2">&yen;{$order['cash_coupon']|default=0|number_format=###,2}</td>
+        </tr>
+        <tr style="display:none;">
+          <td class="text-right" style="font-weight:bold">返电子现金总额</td>
+          <td class="text-right"  colspan="2">&yen;{$order['rebate_fee']|default=0|number_format=###,2}</td>
+        </tr>
+        <if condition="$order['invoice_title'] neq null">
+        <tr style="display:none;">
+          <td class="text-right" style="font-weight:bold">发票台头</td>
+          <td class="text-right"  colspan="2">{$order['invoice_title']}</td>
+        </tr>
+        </if>
+        <tr>
+          <td class="text-right" style="font-weight:bold">订单号</td>
+          <td class="text-right text-info" colspan="2">{$order['sn']}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <if condition="($paybutton) OR ($order['pay_button'])">
+    <legend>支付方式</legend>
+    <ul class="list-group width90">
+      </notempty>
+      <notempty name="order.pay_button">
+      <form name="form2" action="wxpay/unifiedorder.php" method="POST">
+        <input type="hidden" name="orderid" value="{$order.id}" />
+        <input type="hidden" name="sn" value="{$order.sn}" />
+        <input type="hidden" name="wechat_amount" value="{$order.wechat_amount}" />
+        <input type="hidden" name="userid" value="{$order.userid}" />
+        <input type="hidden" name="openId" value="{$order.openId}" />
+        <li class="list-group-item" data-qrcode="1">
+        <input type="submit" class="btn btn-success btn-block" value="微信支付" align=center/>
+        </li>
+      </form>
+      </notempty>
+      <notempty name="paybutton">
+      <li class="list-group-item">
+        <form name="form2" action="{$pay_acturl_m}" method="{$gateway_method}">
+          <volist name="paybutton" id="vo">
+            <input type="hidden" name="{$key}" id="{$key}" value="{$vo}" />
+          </volist>
+          <button class="btn btn-primary btn-block" style="width:80%; margin: 0 auto;" type="submit" align="center">手机银行支付</button>
+        </form>
+      </li>
+      <li class="list-group-item">
+        <button style="width:80%; margin: 0 auto;" href="javascript:" class="btn btn-inverse btn-block" onclick="order_qrcode();">体验店POS机刷卡支付</button>
+      </li>
+      <li class="list-group-item" align="center" data-qrcode="1" id="order_qrcode" style="display:none;">
+          <img src="{$order.order_qrcode}" style="width:200px;height:200px;margin:0 auto;" alt="体验店POS机刷卡支付" />
+      </li>
+      </notempty>
+    </ul>
+    <script type="text/javascript">
+    function order_qrcode()
+    {
+      $("#order_qrcode").toggle();
+    }
+    </script>
+    </if>
+
+    <legend>地址及联系信息</legend>
+    <address>
+      {$Area[$order['province']]}{$Area[$order['city']]}{$Area[$order['area']]}-{$order['address']}<br>
+      <strong>联系人</strong>：{$order['consignee']}<br>
+      <strong>电话</strong>{$order['mobile']}<br>
+    </address>
+
+    <legend>物流信息</legend>
+    <ul class="list-group width90">
+        <li class="list-group-item">
+          <p class="list-group-item-heading">配送公司</p>
+          <span class="list-group-item-text">{$order.shipping_name|default='默认快递'}</span>
+        </li>
+        <li class="list-group-item">
+          <p class="list-group-item-heading">物流单号</p>
+          <span class="list-group-item-text">{$order.shipping_sn|default='暂无'}</span>
+        </li>
+        <volist name="msg" id="item">
+        <li class="list-group-item">
+          <p class="list-group-item-heading">{$item.Remark}</p>
+          <span class="list-group-item-text">{$item.AcceptTime}</span>
+        </li>
+        </volist>
+        </ul>
+    <legend>订单状态</legend>
+    <ul class="list-group width90">
+      {if $order['pay_status']==0 && $order['status']<'2'}
+          <!--微信支付未支付可以取消订单-->
+        <li class="list-group-item">
+          <p class="list-group-item-heading"><a href="javascript:" class="btn btn-danger" onclick="order_save('order_status',3);">取消订单</a></p>
+          <span class="list-group-item-text">尚未支付可以取消订单</span>
+          <p class="list-group-item-text">电子现金会在取消后返还</p>
+        </li>
+      {/if}
+      <li class="list-group-item">
+          <p class="list-group-item-heading">{$order.add_time|date="Y年m月d日 H时i分",###}</p>
+          <span class="list-group-item-text">下单成功</span>
+      </li>
+      <in name="order.status" value="0,6">
+      <li class="list-group-item">
+          <p class="list-group-item-heading">订单有效期至&nbsp;{$order.end_time|date="Y年m月d日 H时i分",###}</p>
+          <eq name="order.status" value="6">
+          <span class="list-group-item-text">订单已过期</span>
+          </eq>
+      </li>
+      </in>
+      <eq name="order.status" value="3">
+      <li class="list-group-item">
+          <span class="list-group-item-text">交易已关闭</span>
+      </li>
+      </eq>
+      {if $order['status']==1 ||$order['status']==2}
+      <li class="list-group-item">
+        <p class="list-group-item-heading">{$order.pay_time|date="Y年m月d日",###}</p>
+        <span class="list-group-item-text">已确认</span>
+      </li>
+      {/if}
+      {if $order['cash_pay_status']==1 && $order['cash_coupon'] > 0}
+        <li class="list-group-item">
+          <p class="list-group-item-heading">{$order.add_time|date="Y年m月d日",###}</p>
+          <span class="list-group-item-text">已使用现金劵成功支付{$order['cash_coupon']|default=0|number_format=###,2}元</span>
+        </li>
+      {/if}
+      {if $order['pay_status']==2}
+        <li class="list-group-item">
+          <p class="list-group-item-heading">{$order.pay_time|date="Y年m月d日",###}</p>
+          <span class="list-group-item-text">已付款</span>
+        </li>
+      {/if}
+      {if $order['shipping_status']==1}
+        <li class="list-group-item">
+          <p class="list-group-item-heading">{$order.shipping_time|date="Y年m月d日",###}</p>
+          <span class="list-group-item-text">已发货</span>
+        </li>
+      {/if}
+      {if $order['status']==2}
+        <li class="list-group-item">
+          <p class="list-group-item-heading"></p>
+          <span class="list-group-item-text">已完成</span>
+        </li>
+      {/if}
+      </ul>
+</div>
+<script>
+  
+function order_save(doid,num){ 
+
+  var datas={ id:'{$order.id}', 'num':num};
+  art.dialog({
+    title: '温馨提示',
+    content: '确定要取消此订单吗',
+    width:'80%',
+    ok: function () {
+      $.ajax({
+        type:"POST",
+        url: ROOT+"/index.php?g=User&m=Order&a=ajax&do="+doid,
+        data: datas,
+        timeout:"4000",
+        dataType:"JSON",
+        success: function(data){ 
+          if(data.id){
+            art.dialog({ icon: 'ok',time:'1',content: '{:L(do_ok)}'});
+            setTimeout(function(){  window.location.href = '{:U("Order/show?id=".$order[id])}';},1000);
+          }else{
+            art.dialog({ lock:true,icon: 'error',time:'2',content: '{:L(do_error)}'});
+          }
+        },
+        error:function(){
+          art.dialog({ lock:true,icon: 'error',time:'2',content: 'Link error,{:L(do_error)}'});
+        }
+      });
+      
+    },
+    cancel: true
+  });
+}
+</script>

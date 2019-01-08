@@ -1,0 +1,174 @@
+{__NOLAYOUT__}
+<include file="Public:headerart"/>
+<!-- 本页自用的 js -->
+<load href="../Public/js/jquery.form.js"/>
+<load href="../Public/js/jquery.validate.js"/>
+<!-- dialog V6 -->
+<load href="../Public/css/ui-dialog.css" />
+<load href="../Public/dist/dialog-min.js" />
+<!-- 本页自用的 css -->
+<link rel="stylesheet" href="../Public/Css/index02.css">
+<style type="text/css">
+table.table tbody tr td{vertical-align: middle; text-align: right;}
+.wid-90{width: 71%;margin: 0px auto; padding-bottom: 30px;}
+</style>
+<script type="text/javascript">
+jQuery(document).ready(function($){
+  area_change(0, 0,'province','city','area','',{$address.province|default=0},{$address.city|default=0},{$address.area|default=0});
+  $("#myformback").validate({
+    event:"blur",
+    errorElement: "em",
+    errorPlacement: function(error, element) {
+      error.appendTo( element.parent("td") );
+    },
+    success: function(label) {
+      label.addClass("success");
+    }
+  });
+
+  $('#myformback').ajaxForm({
+    beforeSend:function(){
+      var d = dialog({title:'正在提交..'}).show();
+      setTimeout(function () {
+        d.close().remove();
+      }, 2000);
+    },
+    success: address_save,  // post-submit callback
+    dataType: 'json'
+  });
+});
+</script>
+<!-- 本页自用的 js -->
+<script src="../Public/js/jquery2.min.js?version=1.11.0"></script>
+<div class="wid-90">
+<form id="myformback" method="post" action="{:U('Home/Ajax/address',array('do'=>'save'))}" onsubmit="return checkaddress();">
+<input type="hidden" name="token" class="button_success" value="{$shortoken}" />
+  <h3 class="padding-10">收货地址管理</h3>
+  <table class="table table-bordered table-striped">
+    <tbody>
+      <tr>
+        <td>
+          姓名
+        </td>
+        <td> 
+            <input type="text" class="form-control"  name="consignee" id="consignee" placeholder="联系人姓名" validate="required:true, minlength:2, maxlength:25" value="{$address.consignee}">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          手机号码
+        </td>
+        <td>
+            <input type="text"  name="mobile"  class="form-control" id="mobile" placeholder="联系电话" validate="required:true, mobile:true, minlength:11, maxlength:11" maxlength="11" value="{$address.mobile}">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          省份
+        </td>
+        <td>
+            <select name="province" id="province" onchange="area_change(this.value, 1,'province','city','area');" class="ddlbox form-control" >
+               <option value="0">选择省份</option>
+            </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          市
+        </td>
+        <td>
+            <select name="city" onchange="area_change(this.value, 2,'province','city','area');" id="city" class="ddlbox form-control" >
+                 <option value="0">选择城市</option>
+             </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          区
+        </td>
+        <td>
+            <select class="form-control ddlbox" name="area" onchange="area_change(this.value, 3,'province','city','area');" id="area" class="" >
+              <option value="0">选择地区</option>
+             </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          详细地址
+        </td>
+        <td>
+            <textarea rows="3" class="form-control"  name="address" class="" id="address" placeholder="请填写详细街道地址">{$address.address}</textarea>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <input type="hidden" name="id" value="{$address.id|default=0}">
+  <button type="submit" class="btn btn-warning btn btn-block" style="background-color: #780000;">确认</button>
+</form>
+</div>
+<div class="div-none"></div><!-- 底拦站位 -->
+<script type="text/javascript">
+function checkaddress()
+{
+  var province = $('#province').val();
+  var city = $('#city').val();
+  var area = $('#area').val();
+  var address = $('#address').val();
+  var consignee = $('#consignee').val();
+  var mobile = $('#mobile').val();
+  if(province=='' || city=='' || area=='' || address=='' || consignee=='' || mobile==''){
+      art.dialog({title:"上优舶国际时尚直购门户",fixed: true,lock: true,opacity: "0.3",content: '请填写完整的地址',cancelVal: '关闭',cancel: true});
+    return false;
+  }
+}
+
+//保存收货地址
+function address_save(data){
+  var id  = $("#myformback input[name='id']").val();
+  if (id == 0)
+    var btninfo = '添加成功！';
+  else
+    var btninfo = '修改成功！';
+
+  if(data.error){
+    art.dialog({lock:true,icon:"error",content:data.error,time:3});
+  }
+  if(data.id){
+    art.dialog({lock:true,icon:"ok",content:btninfo,time:3});
+    setTimeout(function () {
+      window.location.href="{:URL('User-Index/address')}";
+    }, 2000);
+  }else{
+    art.dialog({lock:true,icon:"error",content:"操作失败！",time:3});
+  }
+}
+
+
+//地址
+function area_change(id,level,province,city,area,lang,provinceid,cityid,areaid)
+{
+  var datas={'level':level,'provinceid':provinceid,'cityid':cityid,'areaid':areaid,'lang':lang};
+  $.ajax({
+    type:"POST",
+    url: "/index.php?m=Ajax&a=Area&id="+id,
+    data: datas,
+    timeout:"4000",
+    dataType:"json",async:false,
+    success: function(data){ 
+      if(level==0){
+        $('#'+province).html(data.province);
+        $('#'+city).html(data.city);
+        $('#'+area).html(data.area);
+      }else if(level==1){
+        $('#'+city).html(data.city);
+        $('#'+area).html(data.area);
+      }else if(level==2){
+        $('#'+area).html(data.area);
+      }
+    },
+    error:function(){
+    }
+  }); 
+}
+</script>
+<include file="Public:footerubo"/>

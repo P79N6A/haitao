@@ -1,0 +1,131 @@
+<include file="Home:headerubo"/>
+<link rel="stylesheet" href="../Public/css/index.css"> 
+<style type="text/css">
+.beijing2{width: 100%;}
+</style>
+<div id="home-content">
+  <article class="article">
+    <h1 class="text-center h1-wenzhangye">{$title}</h1>
+    {if $thumb}<img src="{$thumb}" class="wid-100 margin-bottom-5">{/if}
+    {$content}
+    {if $_GET['id']==12}
+<!--     <div class="huiyuan">
+      <input type="button" onclick="open_select()" class="btn-warning btn btn-block pay_button" value="马上升级为金会员" />
+  </div> -->
+    {/if}
+  </article>
+</div>
+ <div class="listel" style="margin-top:10px; clear:both;"></div> 
+<!-- 隐藏界面 --> 
+<!-- <div id="BgDiv1"></div> -->
+<!-- 升级提示框 -->
+<div id="up_menber" style="display:none;" class="modal-body">
+  <p><strong>亲！</strong>请选择升级方式。</p>
+  <!-- <input type="button" id="3"  onclick="doQuery(this);" class="btn-warning btn btn-block pay_button" value="直接支付288元年费" />
+  <input type="button" id="1"  onclick="doQuery(this);" class="btn-primary btn btn-block pay_button" value="充值2000元电子现金" /> -->
+  <table class="table table-bordered">
+    <tr>
+        <td>升级方式</td>
+        <td colspan="2">支付平台</td>
+    </tr>
+    <tr>
+        <td>直接支付288元年费</td>
+        <td id="3">
+          <input type="button" id="3" data="288" onclick="doQuery(this);" class="btn-warning btn btn-block pay_button" value="支付宝支付" />
+        </td>
+        <td id="3">
+          <input type="button" id="1" data="288" onclick="doQuery(this);" class="btn-primary btn btn-block pay_button" value="微信支付" />
+        </td>
+    </tr>
+    <tr>
+        <td>充值2000元电子现金</td>
+        <td id="1">
+          <input type="button" id="3" data="2000" onclick="doQuery(this);" class="btn-warning btn btn-block pay_button" value="支付宝支付" />
+        </td>
+        <td id="1">
+          <input type="button" id="1" data="2000" onclick="doQuery(this);" class="btn-primary btn btn-block pay_button" value="微信支付" />
+        </td>
+    </tr>
+  </table>
+</div>
+<!-- end -->
+
+<!-- 缴费通道 -->
+<div id="alipdiv" style="display:none; width:238px;">
+</div>
+
+<div id="Querydiv" style="display:none; width:238px;">
+  <h4>请扫描下方二维码进行支付。</h4>
+  <img id="Querycode" src="支付二维码" width="226" alt="支付二维码" />
+</div>
+<!-- END -->
+<!-- 升级通道end -->
+<script type="text/javascript">
+function open_select()
+{
+  art.dialog({
+    content: document.getElementById('up_menber'),
+    id: 'EF893L',
+    fixed: true,
+    lock: true,
+    opacity: 0.3,
+  });
+} 
+
+function doQuery(obj)
+{
+  var amount = $(obj).attr("data");
+  var type_pay = obj.id;
+  var type = $(obj).parent().attr("id");
+  art.dialog({
+    okVal: "我要支付",
+    lock:true,
+    opacity:0.5,
+    icon: "face-smile",
+    content: "亲！请点击以下支付按钮进入支付进行支付。（本次充值金额 ￥"+amount+".00）",
+    ok: function () {
+        var list = art.dialog.list;
+        $.ajax({
+          type: "POST",
+          url: "{:URL('Home-Order/doQuery')}",
+          data: {"amount":amount,"type_pay":type_pay,'type':type},
+          timeout: "6000",
+          dataType: "JSON",
+          success: function(json){
+            if (json.status == 0)
+            {
+
+              for (var i in list) {
+                  list[i].close();
+              };
+              art.dialog({lock:true,time:30,opacity:0.5,icon:"warning",content:json.info});
+            }
+            else
+            {
+              for (var i in list) {
+                  list[i].close();
+              };
+              if (type_pay==3)
+              {
+                $("#alipdiv").html(json.data);
+              art.dialog({title:"支付通道",lock:true,opacity:0.5,content:document.getElementById('alipdiv'),});
+              }
+              else
+              {
+                $("#Querycode").attr("src",json.data);
+              art.dialog({title:"支付通道",lock:true,opacity:0.5,content:document.getElementById('Querydiv'),});
+              }
+              
+            } 
+          },
+          error: function(){
+            alert("出错！");
+          }
+        });
+        return false;
+    },
+    cancel: true
+  });
+}
+</script>
+<include file="Home:footerubo"/>

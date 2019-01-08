@@ -1,0 +1,211 @@
+{__NOLAYOUT__}<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <title>有酒派</title>
+    <meta name="description" content="{$seo_description}" />
+    <meta name="author" content="Morry O'conner" />
+  <link href="__ROOT__/index.php?m=Format&a=rss" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
+  <script src="__PUBLIC__/Js/jquery.min.js"></script>
+  <script src="__PUBLIC__/Js/jquery.validate.js"></script>
+  <script src="__PUBLIC__/Js/qqcms.js"></script>
+    <link href="__PUBLIC__/Css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script src="__PUBLIC__/Js/bootstrap.min.js"></script>  
+    <link href="../Public/css/index02.css" rel="stylesheet" media="screen">
+    <script type="text/javascript">
+      document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+      WeixinJSBridge.call('hideToolbar');
+      });
+    </script> 
+</head>
+
+<script type="text/javascript">
+var APP  =   '__APP__';
+var ROOT =   '__ROOT__';
+var PUBLIC = '__PUBLIC__';
+</script>
+    <!-- 本页自用的 css -->
+    <link rel="stylesheet" href="../Public/Css/index02.css">
+    <style type="text/css">table.table tbody tr td{vertical-align: middle}</style>
+
+    <!-- 本页自用的 js -->
+	<load href="__PUBLIC__/Js/jquery.form.js"/>
+  <!--表单验证提示-->
+  <load href="__PUBLIC__/Js/messages_cn.js"/>
+ 
+
+<body class="pang">
+    <div class="wid-90">
+      <h3 class="padding-10">有酒派</h3>
+     
+		<form id="myform"  method="post" action="{:URL('Home-Activity/post_msg')}">
+      <table class="table table-bordered table-striped">
+        <tbody>
+          <tr>
+            <td>
+              名称
+            </td>
+            <td> <input type="text" id="username" value="{$u_address.consignee|default=''}" name="username" class="input-text  form-control" validate="required:true, minlength:2, maxlength:20" placeholder="收货人姓名"/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              手机号码
+            </td>
+            <td><input type="text" class="input-text form-control" value="{$u_address.mobile|default=''}"  name="mobile" validate=" mobile:true, minlength:11, maxlength:11"  placeholder="长度为11位的手机号码">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              省份
+            </td>
+            <td>
+              <select name="province" id="province" onchange="area_change(this.value, 1,'province','city','area');" class="ddlbox form-control" >
+                 <option value="0">选择省份</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              市
+            </td>
+            <td>
+            <select name="city" onchange="area_change(this.value, 2,'province','city','area');" id="city" class="ddlbox form-control" >
+                 <option value="0">选择城市</option>
+             </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              区
+            </td>
+            <td>
+            <select class="form-control ddlbox" name="area" onchange="area_change(this.value, 3,'province','city','area');" id="area" class="" >
+              <option value="0">选择地区</option>
+             </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              收货地址
+            </td>
+            <td><input type="text" class="input-text form-control" value="{$u_address.address|default=''}" name="address" validate=" minlength:1, maxlength:200"  placeholder="真实地址">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <input type="hidden" name="uu" value="{$user.id|default=0}" />
+      <input type="hidden" name="typeid" value="{$type}" />
+      <input type="submit" class="btn btn-warning btn btn-block wid-90" value="提交" />
+      </form>
+      <input type="hidden" class="button_success" data-toggle="modal" data-target="#myModal" />
+      <input type="hidden" class="button_error" data-toggle="modal" data-target="#myModal2" />
+    </div>
+    <div class="div-none"></div><!-- 底拦站位 -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">提交成功</h4>
+          </div>
+          <div class="modal-body">
+            <p><strong>亲！</strong>提交成功。</p>
+            <!-- (点击完成跳转到有酒派商城) -->
+          </div>
+          <div class="modal-footer margin-top-0">
+            <!-- <a href="{:URL('Home-Index/index')}" class="btn btn-default">完成</a> -->
+            <a href="/index.php?a=index&m=Activity&type={$type}" class="btn btn-default">完成</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">提交失败</h4>
+          </div>
+          <div class="modal-body">
+            <p><strong>亲！</strong><span class="fail_msg"></span></p>
+            (请刷新页面重试)
+          </div>
+          <div class="modal-footer margin-top-0">
+            <a href="/index.php?a=index&m=Activity&type={$type}" class="btn btn-default">刷新页面</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div id="result" style="display:none;width:100%;height:100%;background:url('Public/Images/reing_bg.png');color:#fff;font-size:25px;text-align:center;position:fixed;z-index:999;top:0px;"></div>
+<script>
+
+  //地址
+    function area_change(id,level,province,city,area,lang,provinceid,cityid,areaid){
+
+  var datas={'level':level,'provinceid':provinceid,'cityid':cityid,'areaid':areaid,'lang':lang};
+  $.ajax({
+    type:"POST",
+    url: "/index.php?m=Areaajax&a=Area&id="+id,
+    data: datas,
+    timeout:"4000",
+    dataType:"json",async:false,
+    success: function(data){ 
+      if(level==0){
+      $('#'+province).html(data.province);
+      $('#'+city).html(data.city);
+      $('#'+area).html(data.area);
+      }else if(level==1){
+      $('#'+city).html(data.city);
+      $('#'+area).html(data.area);
+      }else if(level==2){
+        $('#'+area).html(data.area);
+      }
+    },
+    error:function(){
+    }
+  }); 
+}
+area_change(0, 0,'province','city','area','',{$u_address.province|default=0},{$u_address.city|default=0},{$u_address.area|default=0});//地址
+jQuery(document).ready(function($){
+	$('#myform').ajaxForm({
+		beforeSend:function(){
+			$('#result').html('<p style="margin:auto;background: #3c3c3f;position: fixed;top: 25%;left: 25%;overflow: hidden;padding: 30px;border-radius: 10px;"><img src="__PUBLIC__/Images/loading.gif">&nbsp;&nbsp;<span>正在提交</span></p>').show();
+		 },
+		success: complete,  // post-submit callback
+		dataType: 'json'
+	});
+});
+
+function complete(data){
+	if (data.status==1)
+	{	
+		$(".button_success").click();
+	}else{
+    $('#result').html("").fadeOut();
+    $(".fail_msg").text(data.msg);
+		$(".button_error").click();
+	}
+}
+
+</script>
+
+    <div class="copyright"><a href="http://www.miitbeian.gov.cn" target="_blank" title="粤ICP备14063096号-1">粤ICP备14063096号-1</a></div> 
+
+   <script>
+    //隐藏微信底栏
+      document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+      WeixinJSBridge.call('hideToolbar');
+      });
+
+    </script>
+</body>
+</html>
+
+

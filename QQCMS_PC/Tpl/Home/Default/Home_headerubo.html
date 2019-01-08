@@ -1,0 +1,288 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "
+http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, user-scalable=0, width=device-width">
+<title>{$seo_title}</title>
+<link rel="stylesheet" type="text/css" href="../Public/css2/index.css">
+<link rel="stylesheet" href="__PUBLIC__/Css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="__PUBLIC__/Css/wx_reg.css" type="text/css">
+<link rel="stylesheet" href="../Public/css/pageGroup.css" type="text/css">
+<script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+<script src="../Public/js2/bootstrap.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="../Public/js2/jquery.min.js"></script>
+<script type="text/javascript" src="../Public/js2/jquery.SuperSlide.2.1.js"></script>
+<script type="text/javascript" src="../Public/js2/jquery.jqzoom.js"></script>
+<script type="text/javascript" src="../Public/js2/base.js"></script>
+<script type="text/javascript" src="../Public/js2/jquery.spinner.js"></script>
+<script src="../Public/js2/jquery.tabs.js"></script>
+<script src="../Public/js2/jquery.lazyload.js"></script>
+
+<!-- dialog对话框 -->
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.artDialog.js?skin=default"></script>
+<!-- END -->
+</head>
+<style>/*.body_css{background-color:#eee;}*/</style>
+<body class="body_css">
+<header class="head">
+  <nav class="top">
+    <div class="inner">
+      <ul>
+        <empty name="yp_userid">
+        <li><a href="javascript:" class="dologin-oa">登录&nbsp;</a>|</li>
+        <li><a href="javascript:" onclick="createAccount(this);" data="DoUserForm" id="DoUserForm">&nbsp;注册&nbsp;</a>|</li>
+        <else /> 
+        <li><a href="{:URL('User-Index/index')}" >欢迎，<empty name="yp_wechat_name">微信用户<else/>{$yp_wechat_name}</empty></a>|</li>
+        <li><a href="{:URL('User-Login/logout')}" >退出</a>|</li>
+        </empty>
+        <li><a href="javascript:" id="{$yp_userid|default='0'}" data-href="{:U('User/Order/index')}" onClick="checkUser(this);">&nbsp;我的订单&nbsp;</a>|</li>
+        <li><a href="javascript:" id="{$yp_userid|default='0'}" data-href="{:U('User/Index/my_collect')}" onClick="checkUser(this);">&nbsp;我的收藏&nbsp;</a></li>
+      </ul>
+    </div>
+
+  </nav>
+  <div class="logo">
+    <div class="head_inner">
+      <a class="reallogo" href="{$site_url}">
+        <img src="{$logo}">
+      </a>
+      <div class="searchCont clearfix">
+        <div>
+          <form action="{:URL('Home-Product/search_goods')}" method="GET">
+            <input type="text" name="key_word" class="tex" placeholder="请输入您要查找的宝贝" value="{$key_word}">
+            <input type="hidden" name="m" value="Product" />
+            <input type="hidden" name="a" value="search_goods" />
+            <input type="submit" value="搜索"  class="but">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <nav class="main">
+    <div class="head_inner">
+      <ul class="main_nav_link J_main_nav_link">
+        <li><a href="{$site_url}" <empty name="_GET.typeid"> class="current" </empty>>首页</a></li>
+        <volist name="goods_type" id="vo">
+          <li><a href="/index.php?m=Product&a=type_goods&typeid={$vo.typeid}&shop_id=0" <in name="vo.typeid" value="$_GET['typeid']">class="current"</in>>{$vo.name}</a></li>
+        </volist>
+      </ul>
+      <div class="m-shopcart">
+        <a href="javascript:" class="w-icon w-icon-10" target="_blank" id="{$yp_userid|default='0'}" data-href="{:U('Home/Order/checkout')}" onClick="checkUser(this);">&nbsp;</a>
+      </div>
+      <div style="clear:both"></div>
+    </div>
+  </nav>
+</header>
+<!-- 头部结束 -->
+
+<!-- 微信注册绑定隐藏域 -->
+<div style="display:none;" id="reg-tt">
+  <div class="impower-box">
+    <div class="normal-panel">
+      <div class="_title">微信注册绑定</div>
+      <div class="panel-content">
+        <div class="wrp-code"><img class="qrcode-x" src="__PUBLIC__/Images/qr.jpg"></div>
+        <div class="infoTo">
+          <div class="js-status" id="re_default_tip">
+          <p>请使用微信扫描二维码微信注册绑定</p>
+          <p>“上优舶国际时尚直购门户”</p>
+          </div>
+          <div class="status-succ" style="display:none" id="re_after_scan">
+            <i class="status-icon icon_msg succ-icon"></i>
+            <div class="status-txt">
+              <h4>扫描成功</h4>
+              <p>恭喜你，注册成功！</p>
+            </div>
+          </div>
+          <div class="status-succ" style="display:none" id="erre_after_scan">
+            <i class="status-icon icon_msg error-icon"></i>
+            <div class="status-txt">
+              <h4>扫描成功</h4>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END -->
+
+<empty name="yp_userid">
+<div id="login-oa">
+  <div id="login_container">
+  
+  </div>
+</div>
+<!--引入微信获取code JS/css文件（支持https）-->
+<script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/pc_css/weixin_oa.css" type="text/css">
+<!--end-->
+<script type="text/javascript">
+var obj = new WxLogin({
+  id:"login_container", 
+  appid: "{$oa_appId}", 
+  scope: "snsapi_login", 
+  redirect_uri: "{$redirect_uri}",
+});
+</script>
+<script type="text/javascript">
+$(function(){
+  $(".dologin-oa").click(function()
+  {
+    var wxcontent = $("#login-oa").html();
+    //alert(wxcontent);
+    art.dialog({
+      title:"上优舶国际时尚直购门户",
+      fixed: true,
+      lock: true,
+      opacity: "0.3",
+      content: wxcontent,
+      ok: function(){
+        $("#DoUserForm").click();
+      },
+      okVal: '新用户注册',
+      cancelVal: '关闭',
+      cancel: true
+    });
+  });
+});
+</script>
+</empty>
+<eq name="_GET.wxreg" value="1">
+<script>
+setTimeout(function (){
+  createAccount();
+},1000);
+</script>
+</eq>
+<script type="text/javascript">
+/*检查是否登录*/
+function checkUser(obj)
+{
+  var id = obj.id;
+  if (id == '0')
+  {
+    art.dialog({title:"登录提示",fixed: true,lock: true,opacity: "0.3",content:"您需要登录后才可继续！",ok: function () {$(".dologin-oa").click();}, cancel: true});
+    return false;
+  }
+  else
+  {
+    window.location.href = $(obj).attr("data-href");
+  }
+}
+
+function createAccount(obj)
+{
+  var id = $(obj).attr("data"); 
+  var url = "{:URL('User-Register/creatcode')}";
+  var datas={'id': id};
+  $.ajax({
+    type:"POST",
+    url: url,
+    data: datas,
+    timeout:"4000",
+    dataType:"JSON",
+    success: function(data){
+        var list = data.data;
+          if(list.status==1){
+            $(".qrcode-x").attr('src',list.piclink);
+            getdialog('reg-tt',list.codeid);
+          }else{
+            alert("出错");
+          }
+    },
+    error:function(){
+      alert("出错");
+    }
+  }); 
+}
+
+function doRegister(token)
+{
+  var url = "{:URL('User-Register/serverapprove')}";
+  var _token = token;
+  var list;
+  $.ajax({
+    type:"POST",
+    url: url,
+    data: {'token': _token},
+    timeout:"4000",
+    dataType:"JSON",
+    success: function(json){
+      var status = json.status;
+      switch (status)
+      {
+        case 404:
+          setTimeout(function () {
+            doRegister(_token);
+          }, 2000);
+        break;
+        case 1:
+          $("#re_default_tip").hide();
+          $("#re_after_scan").show();
+          setTimeout(function () {
+            window.location.href = "{:U('Home/Index/index')}";
+            return false;
+          }, 1000);
+        break;
+        case 0:
+          $("#re_default_tip").hide();
+          $("#erre_after_scan").find('p').text(json.info);
+          $("#erre_after_scan").show();
+          setTimeout(function () {
+            var ffff = art.dialog.list;
+            for (var i in ffff) {
+                ffff[i].close();
+            };
+          }, 2000);
+        break;
+        case 405:
+          $("#re_default_tip").hide();
+          $("#erre_after_scan").find('p').text(json.info);
+          $("#erre_after_scan").show();
+          setTimeout(function () {
+            var ffff = art.dialog.list;
+            for (var i in ffff) {
+                ffff[i].close();
+            };
+          }, 2000);
+        break;
+        default:break;
+      }
+    },
+    error:function(){
+      alert("出错");
+    }
+    }); 
+  }
+
+function getdialog(id,codeid)
+{/*art.dialog({content: document.getElementById('reg-tt'),id: 'EF893L'});*/
+  var timer;
+  art.dialog({title: '微信注册绑定',fixed: true,opacity: "0.1",id: id,background: "#FFF",lock:true,content: document.getElementById(id),
+    init: function () {
+      doRegister(codeid);  
+      var that = this, i = 60;
+      var fn = function () {
+        that.title(i + '秒后关闭');
+        !i && that.close();
+        i --; 
+      };
+      timer = setInterval(fn, 1000);
+      fn();
+   },
+    close: function () {
+      clearInterval(timer);
+    },
+    cancel: function () {
+      var wxreg = "{$_GET.wxreg}";
+      if (wxreg == 1)
+      window.location.href="{:URL('Home-Index/index')}";
+      else
+      this.close();
+    }
+  });
+}
+</script>

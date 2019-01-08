@@ -1,0 +1,117 @@
+<include file="Home:header2"/>
+<!-- 本页自用的 css -->
+    <link rel="stylesheet" href="../Public/css/chanpinliebiao.css" />
+    <script type="text/javascript">
+      //隐藏微信底栏
+      document.addEventListener('WeixinJSBridgeReady',function onBridgeReady(){WeixinJSBridge.call('hideToolbar');});
+      </script>
+<body class="pang">
+  <table class="tabl">
+    <tbody>
+      <tr>
+        <td style="width:50px;"><img src="__PUBLIC__/Images/xiuda.png" class="logo"></td>
+        <td>
+     <form action="{:URL('Home-Product/search_goods')}" method="GET">
+        <input type="hidden" name="m" value="Product" />
+        <input type="hidden" name="a" value="search_goods" />
+        <input type="search" name="key_word" class="form-control chang" id="exampleInputEmail1" placeholder="请输入需要查找的宝贝">
+        </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+    <table class="wid2">
+      <tbody>
+        <tr>
+           <td><a href="{:URL('Home-Product/type_goods_list')}" class="yuan"><img src="__PUBLIC__/Images/1.png" class="wa" style="margin-top:12px;margin-left:8px;width:29px"><p class="ps" >分类</p></a></td>
+           <td><a href="{:URL('Home-Order/checkout')}" class="yuan"><img src="__PUBLIC__/Images/3.png" class="wa" style="width:27px;margin-top:9px;margin-left:10px"><p class="ps" style="margin-left:3px;width:53px">购物车</p></a></td>
+           <td><a href="{:URL('User-Index/index')}" class="yuan"><img src="__PUBLIC__/Images/4.png" class="wa"><p class="ps" style="margin-left:9px">个人</p></a></td>
+           <td><a href="/index.php?a=index&m=Page&id=30" class="yuan"><img src="__PUBLIC__/Images/5.png" class="wa" style="margin-top:8px;margin-left:9px"><p class="ps">客服</p></a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="wid">
+      <tbody>
+        <tr>
+          <td><a href="index.php?m=Product&a=type_goods&typeid={$typeid}&order_price={$order_list.order_price}">价格↓</a></td>
+          <td><a href="index.php?m=Product&a=type_goods&typeid={$typeid}&order_sell_num={$order_list.order_sell_num}">销量</a></td>
+          <td><a href="index.php?m=Product&a=type_goods&typeid={$typeid}&order_hits={$order_list.order_hits}">人气</a></td>
+          <td><a href="index.php?m=Product&a=type_goods&typeid={$typeid}&order_time={$order_list.order_time}">上架时间</a></td>
+        </tr>
+      </tbody>
+    </table>
+  <div class="xia">
+  <volist name="list" id="r">
+    <div class="ui">
+                <div class="uia">
+                <a href="{$r.url}">
+                  <img src="{$r.thumb}" class="t">
+                </a>
+                </div>
+                  <div class="uib">
+                        <p class="large">{$r.title}</p>
+                        <div class="col">
+                          {$r.en_name}
+                        </div>
+                        <div class="col">
+                          <del class="font-size-13">
+                          参考价：&yen;{$r.price}
+                          </del>
+                        </div>
+                          <span class="red-span">
+                            会员价：&yen;{$r.member_price}
+                          </span>
+                        <!-- <p class="midd">金会员价：&yen;{$r.gold_price}</p> -->
+                 </div>
+    </div>
+    <p class="jingpin3"></p>
+
+    </volist>
+     <div class="text-center">
+        <ul class="pagination" style="margin-bottom:20px">
+        {$pages}
+        </ul>
+      </div>
+  </div>
+
+      <div class="theme-pavilion" style="padding:5px">
+      <ul style="margin:0px;padding:0px;overflow:hidden">
+      <volist name="next_list" id="r">
+      <li style="list-style-type:none;float:left;width:49%;margin:0px 1% 3px 0px">
+        <a href="{:URL('Home-Product/type_goods')}&typeid={$r.typeid}">
+        <img src="{$r.pic}" class="half-img" style="width:100%" />
+        </a>
+      </li>
+        </volist>
+      </ul>
+    </div>
+
+   <table class="wid3">
+      <tbody>
+        <tr>
+           <td><a href="{:URL('Home-Product/type_goods_list')}" class="yuan"><img src="__PUBLIC__/Images/1.png" class="wa" style="margin-top:12px;margin-left:8px;width:29px"><p class="ps" style="margin-left:9px">分类</p></a></td>
+           <td><a href="{:URL('Home-Order/checkout')}" class="yuan"><img src="__PUBLIC__/Images/3.png" class="wa" style="width:27px;margin-top:9px;margin-left:10px"><p class="ps" style="margin-left:3px;width:43px">购物车</p></a></td>
+           <td><a href="{:URL('User-Index/index')}" class="yuan"><img src="__PUBLIC__/Images/4.png" class="wa"><p class="ps" style="margin-left:9px">个人</p></a></td>
+           <td><a href="/index.php?a=index&m=Page&id=30" class="yuan"><img src="__PUBLIC__/Images/5.png" class="wa" style="margin-top:8px;margin-left:9px"><p class="ps">客服</p></a></td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
+    <div class="copyright"><a href="http://www.miitbeian.gov.cn" target="_blank" title="粤ICP备14063096号-1">粤ICP备14063096号-1</a></div> 
+
+      <table class="fix">
+        <tbody>
+          <tr>
+            <td style="width:15%;border-right:1px solid #c4c4c4"><a href="javascript:history.go(-1)"><img src="__PUBLIC__/Images/f1.png" class="fanhui"></a></td>
+            <td style="width:28.3%;border-right:1px dashed #c4c4c4"><a href="/index.php" style=" color: #707070;text-decoration:none">商城首页</a></td>
+            <td style="width:33%;border-right:1px dashed #c4c4c4;position: relative;"><a href="{:URL('Home-Order/checkout')}" style=" color: #707070;text-decoration:none"><span id="shoppingCart" class="badge shuliang">{$shopping_count|default=''}</span>购物车</a></td>
+            <td style="width:28.3%"><a href="{:URL('User-Index/index')}" style="color: #707070;text-decoration:none">会员服务</a></td>
+          </tr>
+        </tbody>
+      </table>
+</body>
+</html>

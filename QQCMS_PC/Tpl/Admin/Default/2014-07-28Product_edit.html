@@ -1,0 +1,344 @@
+
+<span class="yulan_open" onclick="open_yulan();">预览</span>
+<div id="yulan">
+	<div class="title"><h2 class="yulan_close" onclick="$('#yulan').toggle();">&times</h2><h2>预览区</h2></div>
+	<div class="info">
+		<img src="" class="yulan_img">
+		<h1 class="yulan_title"></h1>
+		<ul>
+			<li>
+			<div><span >参考价：</span><span class="yulan_price" style="color:rgb(184, 178, 178);"></span></div>
+			</li>
+<if condition="$_GET['catid'] eq 9 or $vo['catid'] eq 9">
+			
+			<li>
+			<div><span >秒拍价：</span><span class="yulan_second_price" style="color:red;"></span></div>
+			</li>
+<elseif condition="$_GET['catid'] eq 7 or $vo['catid'] eq 7" />
+			<li>
+			<div><span >起拍价：</span><span class="yulan_start_price" style="color:red;"></span></div>
+			</li>
+			<li>
+			<div><span >最小加价：</span><span class="yulan_min_price" style="color:rgb(216, 216, 0);"></span></div>
+			</li>
+<else/>
+			<li>
+			<div><span>会员价：</span><span class="yulan_member_price"  style="color:red;"></span></div>
+			<div style="color:rgb(184, 178, 178);"><span>返电子币：</span><span class="yulan_menber_ratio"></span></div>
+			</li>
+			<li>
+			<div><span>金会员：</span><span class="yulan_gold_price" style="color:rgb(216, 216, 0);"></span></div>
+			<div style="color:rgb(184, 178, 178);"><span>返电子币：</span><span class="yulan_gold_ratio"></span></div>
+			</li>
+</if>
+			<li>
+<if condition="$_GET['catid'] eq 9 or $vo['catid'] eq 9">
+			<div style="border-radius:8px;margin-right:1%;padding:10px 0px 10px 0px;width:46%;border:1px #DDD solid;height:90%;float:right;text-align:center;"><span>每人限购：</span>
+			<span class="yulan_single_buy" style="color:rgb(184, 178, 178);"></span></div>
+<else/>
+			<div style="border-radius:8px;margin-right:1%;padding:10px 0px 10px 0px;width:46%;border:1px #4CAE4C solid;height:90%;float:right;text-align:center;background:#5CB85C;"><span style="color:#fff;">商品评价</span></div>
+</if>
+			<div style="border-radius:8px;margin-left:1%;padding:10px 0px 10px 0px;width:46%;border:1px #DDD solid;height:90%;text-align:center;"><span>库存：</span><span class="yulan_stock" style="color:rgb(184, 178, 178);"></span></div>
+			</li>	
+			<li>
+			<h1>产品介绍</h1>
+			<div class="yulan_content" style="border:1px #DDD solid;overflow:hidden;width:97%;padding:0px 1% 0px 1%;border-radius:8px"></div>
+			</li>
+
+		</ul>
+
+	</div>
+</div>
+<div id="msg"></div>
+<form name="myform" id="myform" action="<if condition="$action_name=='add'">{:U($module_name.'/insert')}<else />{:U($module_name.'/update')}</if>&iscreatehtml=1" method="post">
+<div id="filelist" class="hide"></div>
+<div class="error"><ul></ul></div>
+<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+<!-- 		<volist name="fields" id="r">
+<if condition="!empty($r['status'])">
+	<tr>
+		<td width="15%" ><if condition="$r['required']"><font color="red">*</font></if>{$r.name}</td>
+		<td width="85%" id="box_{$r['field']}">
+		{$r|getform=$form,###}
+		</td>
+	</tr>
+</if>
+</volist> -->
+
+
+	<!-- 类型-->
+	<!-- <if condition="$_GET['catid'] eq 5 or $vo['catid'] eq 5">
+	<input type="hidden" value="5" name="catid"/>
+	<elseif condition="$_GET['catid'] eq 6 or $vo['catid'] eq 6"/>
+	<input type="hidden" value="6" name="catid"/>
+	<elseif condition="$_GET['catid'] eq 7 or $vo['catid'] eq 7"/>
+	<input type="hidden" value="7" name="catid"/>
+	<elseif condition="$_GET['catid'] eq 9 or $vo['catid'] eq 9" />
+	<input type="hidden" value="9" name="catid"/>
+	</if> -->
+
+	<input type="hidden" <if condition="$_GET['catid'] neq null"> value="{$_GET['catid']}"<elseif condition="$vo['catid'] neq null "/> value="{$vo['catid']}"</if> name="catid"/>
+	<!-- <tr>
+		<td width="10%" ><if condition="$fields['catid']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.catid.name}</td>
+		<td width="85%" id="box_{$fields['catid']['field']}">
+	
+	{$fields['catid']|getform=$form,###}
+		</td>
+	</tr> -->
+	<!--图片-->
+	<tr>
+		<td width="10%" ><if condition="$fields['top_pics']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.top_pics.name}</td>
+		<td width="85%" id="box_{$fields['top_pics']['field']}">
+		{$fields['top_pics']|getform=$form,###}
+		<p><font color="red">建议图片高度：宽度：</font></p>
+		</td>
+	</tr>
+	<!--类别-->
+<if condition="$_GET['catid'] eq 5 or $vo['catid'] eq 5">
+	<tr>
+		<td width="10%" ><if condition="$fields['typeid']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.typeid.name}</td>
+		<td width="85%" id="box_{$fields['typeid']['field']}">
+		{$fields['typeid']|getform=$form,###}
+		</td>
+	</tr>
+</if>
+	<!--名称-->
+	<tr>
+		<td width="10%" ><if condition="$fields['title']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.title.name}</td>
+		<td width="85%" id="box_{$fields['title']['field']}">
+		{$fields['title']|getform=$form,###}
+		</td>
+	</tr>
+	<!--外文名称-->
+	<tr>
+		<td width="10%" ><if condition="$fields['en_name']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.en_name.name}</td>
+		<td width="85%" id="box_{$fields['en_name']['field']}">
+		{$fields['en_name']|getform=$form,###}
+		</td>
+	</tr>
+	<!--产地-->
+	<tr>
+		<td width="10%" ><if condition="$fields['address']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.address.name}</td>
+		<td width="85%" id="box_{$fields['address']['field']}">
+		{$fields['address']|getform=$form,###}
+		</td>
+	</tr>
+	<!--容量-->
+	<tr>
+		<td width="10%" ><if condition="$fields['liquid']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.liquid.name}</td>
+		<td width="85%" id="box_{$fields['liquid']['field']}">
+		{$fields['liquid']|getform=$form,###}
+		</td>
+	</tr>
+	<!--酒精度-->
+	<tr>
+		<td width="10%" ><if condition="$fields['vol']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.vol.name}</td>
+		<td width="85%" id="box_{$fields['vol']['field']}">
+		{$fields['vol']|getform=$form,###}
+		</td>
+	</tr>
+
+<if condition="$_GET['catid'] neq 26 and $vo['catid'] neq 26">
+	<!--参考价-->
+	<tr>
+		<td width="10%" ><if condition="$fields['price']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.price.name}</td>
+		<td width="85%" id="box_{$fields['price']['field']}">
+		{$fields['price']|getform=$form,###}
+		</td>
+	</tr>
+</if>
+	<!--秒拍价-->
+<if condition="$_GET['catid'] eq 9 or $vo['catid'] eq 9">
+	<tr>
+		<td width="10%" ><if condition="$fields['second_price']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.second_price.name}</td>
+		<td width="85%" id="box_{$fields['second_price']['field']}">
+		{$fields['second_price']|getform=$form,###}
+		</td>
+	</tr>
+</if>
+	<!--起拍价-->
+<if condition="$_GET['catid'] eq 7 or $vo['catid'] eq 7">
+	<tr>
+		<td width="10%" ><if condition="$fields['start_price']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.start_price.name}</td>
+		<td width="85%" id="box_{$fields['start_price']['field']}">
+		{$fields['start_price']|getform=$form,###}
+		</td>
+	</tr>	
+	<tr>
+		<td width="10%" ><if condition="$fields['min_price']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.min_price.name}</td>
+		<td width="85%" id="box_{$fields['min_price']['field']}">
+		{$fields['min_price']|getform=$form,###}
+		</td>
+	</tr>
+</if>
+
+<if condition="$_GET['catid'] neq 26 and $vo['catid'] neq 26">
+	<!--会员价-->
+	<tr>
+		<td width="10%" ><if condition="$fields['member_price']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.member_price.name}</td>
+		<td width="80%" ><span id="box_{$fields['member_price']['field']}">
+		{$fields['member_price']|getform=$form,###}</span><if condition="$fields['menber_ratio']['required']"><font color="red">*</font></if>{$fields.menber_ratio.name}&nbsp&nbsp&nbsp<span id="box_{$fields['menber_ratio']['field']}">
+		{$fields['menber_ratio']|getform=$form,###}</span></td>
+	</tr>
+	<!--金会员-->
+	<tr>
+		<td width="10%" ><if condition="$fields['gold_price']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.gold_price.name}</td>
+		<td width="10%" > <span  id="box_{$fields['gold_price']['field']}"> 
+		{$fields['gold_price']|getform=$form,###}</span><if condition="$fields['gold_ratio']['required']"><font color="red">*</font></if>{$fields.gold_ratio.name}<span id="box_{$fields['gold_ratio']['field']}">
+		{$fields['gold_ratio']|getform=$form,###}</span></td>
+	</tr>
+
+<!-- 	会员现金返还
+	<tr>
+	<td width="10%" ><if condition="$fields['menber_ratio']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.menber_ratio.name}</td>
+	<td width="85%" id="box_{$fields['menber_ratio']['field']}">
+	{$fields['menber_ratio']|getform=$form,###}
+	</td>
+</tr>
+
+金会员现金返还		
+<tr>
+	<td width="10%" ><if condition="$fields['gold_ratio']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.gold_ratio.name}</td>
+	<td width="85%" id="box_{$fields['gold_ratio']['field']}">
+	{$fields['gold_ratio']|getform=$form,###}
+	</td>
+</tr> -->
+<!--会员消费返利-->
+		<tr>
+		<td width="10%" ><if condition="$fields['menber_rebate']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.menber_rebate.name}</td>
+		<td width="85%" id="box_{$fields['menber_rebate']['field']}">
+		{$fields['menber_rebate']|getform=$form,###}
+		</td>
+	</tr>
+<!--上级返利比率-->
+		<tr>
+		<td width="10%" ><if condition="$fields['parent_rebate']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.parent_rebate.name}</td>
+		<td width="85%" id="box_{$fields['parent_rebate']['field']}">
+		{$fields['parent_rebate']|getform=$form,###}
+		</td>
+	</tr>
+</if>
+<if condition="$_GET['catid'] eq 9 or $vo['catid'] eq 9 or $_GET['catid'] eq 7 or $vo['catid'] eq 7">
+
+	<!--秒拍开始时间-->
+	<tr>
+		<td width="10%" ><if condition="$fields['second_star']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.second_star.name}</td>
+		<td width="85%" id="box_{$fields['second_star']['field']}">
+		{$fields['second_star']|getform=$form,###}
+		</td>
+	</tr>
+	<!--秒拍结束时间-->
+	<tr>
+		<td width="10%" ><if condition="$fields['second_end']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.second_end.name}</td>
+		<td width="85%" id="box_{$fields['second_end']['field']}">
+		{$fields['second_end']|getform=$form,###}
+		</td>
+	</tr>
+</if>
+
+<if condition="$_GET['catid'] neq 26 and $vo['catid'] neq 26 ">
+	<!--库存与限购-->
+	<tr>
+		<td width="10%" ><if condition="$fields['stock']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.stock.name}</td>
+		<td width="10%" > <span  id="box_{$fields['stock']['field']}"> 
+		{$fields['stock']|getform=$form,###}</span>
+	<if condition="$_GET['catid'] neq 5 and $vo['catid'] neq 5">
+		<if condition="$fields['single_buy']['required']"><font color="red">*</font></if>{$fields.single_buy.name}<span id="box_{$fields['single_buy']['field']}">
+		{$fields['single_buy']|getform=$form,###}</span></if>
+		</td>
+	</tr>
+</if>
+	<!--产品介绍-->
+	<tr>
+		<td width="10%" ><if condition="$fields['content']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.content.name}</td>
+		<td width="85%" id="box_{$fields['content']['field']}">
+		{$fields['content']|getform=$form,###}
+		</td>
+	</tr>
+	<!--上架时间-->
+	<tr>
+		<td width="10%" ><if condition="$fields['createtime']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.createtime.name}</td>
+		<td width="85%" id="box_{$fields['createtime']['field']}">
+		{$fields['createtime']|getform=$form,###}
+		</td>
+	</tr>
+<if condition="$_GET['catid'] eq 5 or $vo['catid'] eq 5 ">
+	<!--推荐-->
+	<tr>
+		<td width="10%" ><if condition="$fields['posid']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.posid.name}</td>
+		<td width="85%" id="box_{$fields['posid']['field']}">
+		{$fields['posid']|getform=$form,###}
+		</td>
+	</tr>
+</if>
+	<!--状态-->
+	<tr>
+		<td width="10%" ><if condition="$fields['status']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.status.name}</td>
+		<td width="85%" id="box_{$fields['status']['field']}">
+		{$fields['status']|getform=$form,###}
+		</td>
+	</tr>
+</table>
+<div id="bootline"></div>
+<div id="btnbox" class="btn">
+<if condition="$vo['id']!=''"><input TYPE="hidden" name="id" value="{$vo.id}"></if>
+<input type="hidden"  name="lang" value="{$langid}" />
+<input type="hidden" name="forward" value="{$_SERVER['HTTP_REFERER']}" />
+<INPUT TYPE="submit"  value="{:L('dosubmit')}" class="button" >
+<input TYPE="reset"  value="{:L('cancel')}" class="button">
+</div>
+</form>
+</div>
+<script type="text/javascript">
+	function open_yulan(){
+		$("input[name='top_pics[]']").each(function(){
+			if($(this).val()!=null || $(this).val()!=''){
+				$('.yulan_img').attr('src',$(this).val());
+			}
+		});
+		if($("#box_title input[name='title']").val()!=null ||$("#box_title input[name='title']").val()!=''){
+		$('.yulan_title').text($("#box_title input[name='title']").val());
+		}
+		if($(" input[name='price']").val()!=null ||$("input[name='price']").val()!=''){
+		$('.yulan_price').text($("input[name='price']").val()+'元');
+		}
+		if($(" input[name='member_price']").val()!=null ||$("input[name='member_price']").val()!=''){
+		$('.yulan_member_price').text($("input[name='member_price']").val()+'元');
+		}
+		if($(" input[name='gold_price']").val()!=null ||$("input[name='gold_price']").val()!=''){
+		$('.yulan_gold_price').text($("input[name='gold_price']").val()+'元');
+		}
+		if($(" input[name='stock']").val()!=null ||$("input[name='stock']").val()!=''){
+		$('.yulan_stock').text($("input[name='stock']").val());
+		}
+		if($(" input[name='menber_ratio']").val()!=null ||$("input[name='menber_ratio']").val()!=''){
+			var price=parseFloat($("input[name='member_price']").val());
+			var ratio=parseFloat($("input[name='menber_ratio']").val());
+			var total=price*ratio;
+			$('.yulan_menber_ratio').text(total.toFixed(2)+'元');
+		}
+		if($(" input[name='gold_ratio']").val()!=null ||$("input[name='gold_ratio']").val()!=''){
+			var price=parseFloat($("input[name='gold_price']").val());
+			var ratio=parseFloat($("input[name='gold_ratio']").val());
+			var total=price*ratio;
+			$('.yulan_gold_ratio').text(total.toFixed(2)+'元');
+		}
+		if($(" input[name='second_price']").val()!=null ||$("input[name='second_price']").val()!=''){
+		$('.yulan_second_price').text($("input[name='second_price']").val()+'元');
+		}
+		if($(" input[name='single_buy']").val()!=null ||$("input[name='single_buy']").val()!=''){
+		$('.yulan_single_buy').text($("input[name='single_buy']").val());
+		}
+		if($("#content").text()!=null ||$("#content").text()!=''){
+		var send=jQuery('iframe').contents().find('.editMode');
+		$('.yulan_content').html($(send).html());
+		}
+		if($(" input[name='start_price']").val()!=null ||$(" input[name='start_price']").val()!=''){
+		$('.yulan_start_price').text($("input[name='start_price']").val()+'元');
+		}
+		if($(" input[name='min_price']").val()!=null ||$(" input[name='min_price']").val()!=''){
+		$('.yulan_min_price').text($("input[name='min_price']").val()+'元');
+		}
+		$('#yulan').toggle();
+	}
+</script>

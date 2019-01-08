@@ -1,0 +1,187 @@
+<include file="Public:adminHead" />
+
+<div id="Right">
+	<div class="contentArea">
+		<form action="" method="post">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+				<tr>
+					<th width="120">店铺名称：</th>
+					<td>
+						<input name="id" type="hidden" value="{$info.id}" />
+						<input class="input" name="shop_name" type="text"  size="40" value="{$info.shop_name}" />
+					</td>
+				</tr>
+				<tr>
+					<th width="120">店铺图片：</th>
+					<td>
+						<input name="store_image" type="text" class="input" size="120" value="{$info.store_image}" data="target-1" />
+						<a class="pth-btn" data="hook-1">上传</a>
+					</td>
+				</tr>
+				<tr>
+					<th width="120">营业时间：</th>
+					<td>
+					
+						<input class="input" name="shop_hours" type="text"  size="40" value="{$info.shop_hours}" />
+						
+						
+
+					</td>
+				</tr>
+				<!-- <tr>
+					<th width="120">商家类型：</th>
+					<td>
+					
+						<select name="leixing" style="min-width: 80px;">
+							
+							<volist name="sj_leixing" id="vo">
+
+								<option <if condition="$info['leixing'] eq $vo['typeid']">selected="selected"</if> 
+									value="{$vo.typeid}">{$vo.name}
+								</option> 
+							</volist>
+						</select>
+						
+						
+
+					</td>
+				</tr> -->
+
+					<tr>
+					<th width="120">商家分类：</th>
+					<td>
+					
+						<select name="sjfenlei" style="min-width: 80px;">
+						
+							<volist name="sj_fenlei" id="vo">
+
+								<option <if condition="$info['sjfenlei'] eq $vo['typeid']">selected="selected"</if>
+									value="{$vo.typeid}">{$vo.name}
+								</option> 
+							</volist>
+						</select>
+						
+						
+
+					</td>
+				</tr>
+				
+				
+				<if condition="$info['groupid'] eq 6">
+					<tr>
+						<th width="120">产品显示方式：</th>
+						<td>
+							<span> 
+								<input type='radio' name='pb_typel' value='0' <if condition="$info['pb_typel'] eq 0">checked="checked"</if> /> 横版排列 
+							</span>
+							<span style="margin: 0 0 0 30px;">
+								<input type='radio' name='pb_typel' value='1'  <if condition="$info['pb_typel'] eq 1">checked="checked"</if> /> 方格排列	
+							</span>
+						</td>
+					</tr>
+
+				
+				</if>
+
+
+
+				<tr>
+					<th width="120"></th>
+					<td>
+						
+						
+						&nbsp;
+						<input  name="outside_order" type="checkbox" value="1"  
+							<?php  
+								if($info['outside_order']==1){ 
+									echo 'checked="checked"';
+								}
+							?>  
+						/>
+						&nbsp;
+						紧急外送
+						
+
+					</td>
+				</tr>
+				<!-- <tr>
+					<th width="120">店铺简介：</th>
+					<td>
+				
+						
+						<textarea  id="editor_id"  name="shop_about" style="width:700px;height:400px;">
+
+							{$info['shop_about']}
+
+						</textarea>
+					</td>
+				</tr> -->
+				
+					
+
+					<tr>
+						<th> 店铺简介：</th>
+						<td>
+							<!-- <input type="text" class="input-text"  name="shop_about" value="{$vo.shop_about}"> -->
+							<textarea id="editor_id" name="shop_about" style="width:700px;height:400px;">{$info['shop_about']}</textarea>
+						</td>
+					</tr>
+					<script charset="utf-8" src="/kindeditor/kindeditor.js"></script> 
+					<script charset="utf-8" src="/kindeditor/lang/zh_CN.js"></script> 
+					<script>          
+
+						var editor;         
+						KindEditor.ready(function(K) {
+						                  editor = K.create('#editor_id');
+						               }); 
+					</script>
+
+		
+			</table>
+		
+		<div class="commonBtnArea" >
+			<input type="submit" class="btn submit" />
+		</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+function imageUploader(hook,target){
+	//$("[href='#']")
+	this.hook = $("[data='"+hook+"']");
+	this.target =  $("[data='"+target+"']");
+	var self = this;
+	this.hook.click(function(){
+		$("#image-uploader-wrap").css("display","block");
+		$("#imageUploaderTarget").html(target);
+	})
+	
+	if (typeof imageUploader._initialized == "undefined") {
+		//载入上传文件的模板
+		$("<div class=\"iu-container\"></div>").appendTo($("body"));
+		$(".iu-container").load("{$site_url}{$vendor}imageUploader/tpl.html",'',
+				function(){
+					$(".image-uploader-close").click(function(){
+						$("#image-uploader-wrap").css("display","none");
+					});
+					
+				}
+				);
+		imageUploader.uploadCallback = function(data){
+			var target = $("#imageUploaderTarget").html();
+			target = $("[data='"+target+"']");
+			if(data.status==0){
+				alert(data.info);
+			}else{
+				target.val(data.info);
+				$(".image-uploader-close").click();
+			}
+		}
+		
+		imageUploader._initialized = true;
+	}
+}
+var imgUp1 = new imageUploader('hook-1','target-1');
+
+</script>
+<include file="Public:adminFoot" />

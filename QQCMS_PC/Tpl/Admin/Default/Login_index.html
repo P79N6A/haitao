@@ -1,0 +1,71 @@
+{__NOLAYOUT__}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={:C('DEFAULT_CHARSET')}" />
+<title>{:L('system_name')}</title>
+<load href='./Public/Css/style.css' />
+<load href="./Public/Js/jquery.min.js"/>
+<load href="./Public/Js/jquery.validate.js"/>
+<load href="./Public/Js/jquery.form.js"/>
+<load href="./Public/Js/my.js"/>
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	background-color: #016aa9;
+	overflow:hidden;
+}
+.STYLE1 {
+	color: #000000;
+	font-size: 12px;
+	line-height:19px;
+}
+-->
+</style>
+
+<script language="JavaScript">
+jQuery(document).ready(function($){
+	$('#form1').ajaxForm({
+		beforeSend:function(){
+			$('#result').html('<img src="./Public/Images/msg_loading.gif">').show();;
+		 },
+		success:complete,  // post-submit callback
+		dataType:'json'
+	});
+
+});
+function complete(data){
+        if (data.status==1)
+        {
+		 $('#result').html(data.info).show();
+		 //art.dialog.tips('{:L("logined_ok")}',2);
+		 setTimeout(function(){	window.location.href = '{:U("Index/index")}';},0);
+        }else{
+            $('#result').html(data.info).show();
+        }
+}
+function reload(){
+	document.login.username.focus();
+	if(self!=top){
+	 window.top.location.href = '{:U("Login/index")}';
+	}
+}
+</script>
+</head>
+<body onLoad="reload()" id="loginbg" >
+<div>
+<div style="position:relative;margin:0 auto;margin-top:88px;width:930px;height:372px;background-image:url(./Public/Images/admin_login.jpg);background-repeat:no-repeat;background-position:center center;">
+<form method='post' name="login" id="form1" action="{:U('Login/doLogin')}">
+	<div id="result" class="result none" style="position:absolute;top:97px;left:360px;width:200px;height:20px;line-height:20px;text-align:center;color:#C00;"></div>
+	<div style="position:absolute;top:175px;left:380px;width:230px;height:20px;line-height:20px;">{:L('account')}：<input type="text" name="username" id="username" style="width:105px;height:16px;background-color:#292929;border:solid 1px #7dbad7;font-size:12px;color:#6cd0ff"></div>
+    <div style="position:absolute;top:200px;left:380px;width:230px;height:20px;line-height:20px;">{:L('password')}：<input type="password" name="password" id="password" style="width:105px;height:16px; background-color:#292929; border:solid 1px #7dbad7;font-size:12px; color:#6cd0ff"></div>
+    <div style="position:absolute;top:225px;left:380px;width:230px;height:20px;line-height:20px;">{:L('verify')}：<input name="verifyCode" style="width:56px;height:16px; background-color:#292929; border:solid 1px #7dbad7;font-size:12px; color:#6cd0ff" id="verifyCode" value="" maxlength="4" />&nbsp;<img src="{:U('Home/Index/verify')}" onclick="javascript:resetVerifyCode();" align="absmiddle" style="vertical-align:middle;cursor:pointer;" height="20" title="{:L('resetVerifyCode')}" id="verifyImage"/></div>
+  <div style="position:absolute;top:250px;left:380px;width:230px;height:20px;line-height:20px;"><input type="hidden" name="ajax" value="1"><input type="image" style="border:0px;margin-left:48px;" src="./Public/Images/dl.gif">&nbsp;&nbsp;&nbsp;<input type="hidden" name="ajax" value="1"><input name="reset" type="reset" value=" " style="width:49px;height:18px;border:0px;background-image:url(./Public/Images/cz.gif);background-repeat:no-repeat;"><input type="hidden" name="ajax" value="1"></div>
+</form>
+</div>
+</div>
+</body>
+</html>

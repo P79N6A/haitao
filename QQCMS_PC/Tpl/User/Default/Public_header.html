@@ -1,0 +1,294 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN" class=""><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  
+  <title>{$seo_title}</title>
+  <meta http-equiv="description" content="{$seo_description}">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="__PUBLIC__/pc_css/main.css" type="text/css">
+  <link rel="stylesheet" href="../Public/css/bootstrap.css" type="text/css">
+  <link rel="stylesheet" href="../Public/css/index.css" type="text/css">
+  <link rel="stylesheet" href="../Public/css/logreg.css" type="text/css">
+  <link rel="stylesheet" href="__PUBLIC__/Css/wx_reg.css" type="text/css">
+  
+  <!--组件依赖 js -->
+
+<script type="text/javascript" src="__PUBLIC__/pc_js/jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/pc_js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/pc_js/main.js"></script>
+
+  <!-- dialog对话框 -->
+  <script type="text/javascript" src="__PUBLIC__/Js/jquery.artDialog.js?skin=default"></script>
+  <!-- END -->
+
+  <!--[if IE 6]>
+  <link href="__PUBLIC__/pc_css/v2/xmas/style.ie6.css?_=1323277207" rel="stylesheet" type="text/css">
+  <![endif]-->
+</head>
+<body style="">
+<div id="doUser" class="create-user"></div>
+<div id="DoUserForm" class="qr-user" style="display:none;"></div>
+  <div class="container">
+    <div class="header header-fr">
+      <a href="/" class="logo"><span>上优舶</span><img src="__PUBLIC__/pc_img/logo2.png" alt="" /></a>
+      <!-- <div class="years"></div> -->
+      <!-- Account creation -->
+      
+      <div class="wrapperConnection">
+        <div class="createAccountBox">
+            <empty name="yp_userid">
+            <a href="javascript:" onclick="createAccount(this);" data="DoUserForm">注册</a>
+            <else /> 
+                <a href="{:URL('User-Index/index')}" >欢迎，<empty name="yp_realname"><empty name="yp_wechat_name">微信用户<else/>{$yp_wechat_name}</empty><else/>{$yp_realname}</empty></a>
+            </empty>
+        </div>
+
+        
+        <!-- LOGIN -->
+        <div class="loginBox">
+            <empty name="yp_userid">
+            <a href="javascript:" id="dologin-oa" target="_blank">登录</a>
+            <else /> 
+            <a href="{:URL('User-Login/logout')}" >退出</a>
+            </empty>
+            
+            <!--<a href="{:URL('User-Login/wxdologin')}" id="toggleLoginForm" onclick="return false;">登录</a>-->
+            <form id="loginForm" action="http://www.millesimes.com/login.php" method="post">
+                <input type="hidden" name="action" value="login">
+                <input type="text" name="email" title="Adresse mail" class="field example"><br>
+                <input type="password" name="pass" title="Mot de passe" value="" class="field">
+                <input type="submit" name="login" value="OK"><br>
+                <a href="http://www.millesimes.com/mot_de_passe_oublie_sur_millesimes_sa.html">Mot de passe oublié ?</a>
+            </form>
+        </div>
+      </div>
+
+      <!-- CART -->
+      <div class="cartBox">
+        <p><a href="/index.php?m=Order&a=checkout">购物车</a></p>
+        <p><a href="/index.php?g=User&m=Order&a=index">我的订单</a></p>
+      </div>
+    </div>
+
+    <div class="nav">
+      <ul class="firstLevel" style="margin:0px;padding:0px;font-size:10px">
+        <li class="searchBar">
+          <form action="{:URL('Home-Product/search_goods')}" method="GET" class="searchForm">
+            <div class="search">
+            <input position="left" type="search" name="key_word" placeholder="搜索" class="searchInput example" autocomplete="off" value="{$key_word}">
+            
+            <input type="submit" class="searchTooltip tooltipstered example" value="" >
+            </div>
+            
+            <input type="hidden" name="m" value="Product" />
+            <input type="hidden" name="a" value="search_goods" />
+            <div class="options">
+
+              <div style="clear:left;"></div>
+            </div>
+          </form>
+        </li>
+        <volist name="goods_type" id="vo">
+        <li><a onclick="shouwbox(this);" id="{$vo.typeid}" href="javascript:">{$vo.name}</a></li>
+        </volist>
+      </ul>
+      <div class="expandedNav">
+    <volist name="goods_type" id="vo">
+      <div class="shopCategory box_{$vo.typeid}" id="{$vo.typeid}">
+        <div class="shopBlock rouge">
+          <h4>
+            <a href="/index.php?m=Product&a=type_goods&typeid={$vo.typeid}&shop_id=0" title="{$r.name}">{$vo.name}</a>
+          </h4>
+        <ul>
+        <volist name="vo['next']" id="r">
+          <li><a href="/index.php?m=Product&a=type_goods&typeid={$r.typeid}&shop_id=0" title="{$r.name}">{$r.name}</a>
+          </li>
+        </volist> 
+        </ul>         
+        </div>
+      </div>
+    </volist>        
+      </div>
+          </div>
+          <div style="clear: both;"></div>
+<div id="login-oa">
+    <div id="login_container">
+    
+    </div>
+</div>
+
+<div style="display:none;" id="reg-tt">
+  <div class="impower-box">
+    <div class="normal-panel">
+      <div class="_title">微信注册绑定</div>
+      <div class="panel-content">
+        <div class="wrp-code"><img class="qrcode-x" src="__PUBLIC__/Images/qr.jpg"></div>
+        <div class="infoTo">
+          <div class="js-status" id="re_default_tip">
+          <p>请使用微信扫描二维码微信注册绑定</p>
+          <p>“上优舶国际时尚直购门户”</p>
+          </div>
+          <div class="status-succ" style="display:none" id="re_after_scan">
+            <i class="status-icon icon_msg succ-icon"></i>
+            <div class="status-txt">
+              <h4>扫描成功</h4>
+              <p>正在跳转到注册页面！</p>
+            </div>
+          </div>
+          <div class="status-succ" style="display:none" id="erre_after_scan">
+            <i class="status-icon icon_msg error-icon"></i>
+            <div class="status-txt">
+              <h4>扫描成功</h4>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<empty name="yp_userid">
+<!--引入微信获取code JS/css文件（支持https）-->
+<script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/pc_css/weixin_oa.css" type="text/css">
+<!--end-->
+<script type="text/javascript">
+var obj = new WxLogin({
+  id:"login_container", 
+  appid: "{$oa_appId}", 
+  scope: "snsapi_login", 
+  redirect_uri: "{$redirect_uri}",
+});
+</script>
+<script type="text/javascript">
+$(function(){
+  $(".dologin-oa").click(function()
+  {
+    var wxcontent = $("#login-oa").html();
+    //alert(wxcontent);
+    art.dialog({
+      title:"上优舶国际时尚直购门户",
+      fixed: true,
+      lock: true,
+      opacity: "0.3",
+      content: wxcontent,
+      /*ok: function () {
+          window.location.href="{:URL('User-Login/index')}";
+            return false;
+        },
+        okVal: '通过账号登录',*/
+        cancelVal: '关闭',
+        cancel: true //为true等价于function(){}
+        });
+  });
+});
+</script>
+</empty>
+
+<script type="text/javascript">
+function createAccount(obj)
+{
+  var id = $(obj).attr("data"); 
+  var url = "{:URL('User-Register/creatcode')}";
+  var datas={'id': id};
+  $.ajax({
+    type:"POST",
+    url: url,
+    data: datas,
+    timeout:"4000",
+    dataType:"JSON",
+    success: function(data){
+        var list = data.data;
+          if(list.status==1){
+            $(".qrcode-x").attr('src',list.piclink);
+            getdialog('reg-tt',list.codeid);
+          }else{
+            alert("出错");
+          }
+    },
+    error:function(){
+      alert("出错");
+    }
+  }); 
+}
+
+function doRegister(token)
+{
+  var url = "{:URL('User-Register/serverapprove')}";
+  var _token = token;
+  var list;
+  $.ajax({
+    type:"POST",
+    url: url,
+    data: {'token': _token},
+    timeout:"4000",
+    dataType:"JSON",
+    success: function(json){
+      var status = json.status;
+      switch (status)
+      {
+        case 404:
+          setTimeout(function () {
+            doRegister(_token);
+          }, 2000);
+        break;
+        case 1:
+          $("#re_default_tip").hide();
+          $("#re_after_scan").show();
+          setTimeout(function () {
+            window.location.href=json.data;
+            return false;
+          }, 1000);
+        break;
+        case 0:
+          $("#re_default_tip").hide();
+          $("#erre_after_scan").find('p').text(json.info);
+          $("#erre_after_scan").show();
+          setTimeout(function () {
+            var ffff = art.dialog.list;
+            for (var i in ffff) {
+                ffff[i].close();
+            };
+          }, 2000);
+        break;
+        case 405:
+          $("#re_default_tip").hide();
+          $("#erre_after_scan").find('p').text(json.info);
+          $("#erre_after_scan").show();
+          setTimeout(function () {
+            var ffff = art.dialog.list;
+            for (var i in ffff) {
+                ffff[i].close();
+            };
+          }, 2000);
+        break;
+        default:break;
+      }
+    },
+    error:function(){
+      alert("出错");
+    }
+    }); 
+  }
+
+function getdialog(id,codeid)
+{
+  var timer;
+  art.dialog({title: '微信注册绑定',fixed: true,opacity: "0.1",id: id,background: "#FFF",lock:true,content: document.getElementById(id),
+    init: function () {
+      doRegister(codeid);  
+      var that = this, i = 60;
+      var fn = function () {
+        that.title(i + '秒后关闭');
+        !i && that.close();
+        i --; 
+      };
+      timer = setInterval(fn, 1000);
+      fn();
+   },
+    close: function () {
+      clearInterval(timer);
+    },
+  });
+}
+</script>

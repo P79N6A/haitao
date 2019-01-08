@@ -1,0 +1,72 @@
+<include file="Home:headerubo"/>
+<script src="__PUBLIC__/Js/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.artDialog.js?skin=default"></script>
+
+<!-- 内容区域 -->
+<div class="u-brand-list" id="thelist">
+  <volist name="topics" id="vo">
+  <div class="u-brand">
+    <div class="p-relative">
+      <a href="{$vo.this_url}" class="u-brand-pic"><img src="{$vo.pic}" class="lazy"></a>
+    </div>
+    <div class="u-brand-msg e-border-b">
+      <p class="u-brand-name">
+        <span class="u-brand-discount">{$vo.description}</span>
+        {$vo.title}
+      </p>
+    </div>
+  </div>
+  </volist>
+</div>
+<div class="J_pager_more" id="pullUp" <gt name="count" value="6">style="display:block"<else/>style="display:none"</gt>>
+  <div class="u-loading u-loading-text" style="font-size: 16px;">
+    正在加载>>
+  </div>
+</div>
+<div class="kuan"></div>
+<script type="text/javascript">
+$(document).ready(function(){
+    var range = 10;             //距下边界长度/单位px
+    var maxnum = 20;            //设置加载最多次数
+    var num = 2;
+    var totalheight = 0; 
+    var main = $("#thelist");                     //主体元素
+    $(window).scroll(function(){
+      var srollPos = $(window).scrollTop();    //滚动条距顶部距离(页面超出窗口的高度)
+      totalheight = parseFloat($(window).height()) + parseFloat(srollPos);
+      if(($(document).height()-range) <= totalheight  && num != maxnum) {
+          $.post(
+            "/index.php?m=Index&a=getitem", {
+              "page": num,
+              "pagesize": 6
+            },
+          function(response, status) {
+            if (status == "success") {
+              $("#thelist").show();
+              var _length = response.list.length
+              if (_length == 0 || _length < 6) {
+                // $("#pullUp").hide();
+                $(".u-loading-text").text("没有更多的数据了");
+              } else {
+                $("#pullUp").show();
+              }
+
+              // $("#thelist").empty();
+              $.each(response.list, function(key, value) {
+                var brand_html = '';
+                brand_html += '<div class="u-brand"><div class="p-relative">';
+                brand_html += '<a href="'+ value.this_url +'" class="u-brand-pic">';
+                brand_html += '<img src="'+ value.pic +'" class="lazy"></a></div>';
+                brand_html += '<div class="u-brand-msg e-border-b"><p class="u-brand-name">';
+                brand_html += '<span class="u-brand-discount">'+ value.description +'</span>'+ value.title +'';
+                brand_html += '</p></div></div>';
+                main.append(brand_html);
+              }); 
+            };
+        },"json");
+        num++;
+      }
+    });
+});
+</script>
+<include file="Home:footer"/>

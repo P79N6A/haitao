@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>闲逛</title>
+    <meta name="description" content="{$seo_keywords}" />
+    <meta name="author" content="有酒派" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+
+    <!-- 手机页面全局 css -->
+    <link rel="stylesheet" href="__PUBLIC__/Css/bootstrap.min.css">
+    <link rel="stylesheet" href="__PUBLIC__/src/css/template.css">
+    <!--拓展样式-->
+    <link rel="stylesheet" href="__PUBLIC__/Css/expand.css">
+
+
+    <!--组件依赖 js -->
+    <script type="text/javascript" src="__PUBLIC__/src/js/zepto.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/src/js/gmu.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/src/js/core/event.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/src/js/core/widget.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/src/js/extend/touch.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/src/js/extend/matchMedia.js"></script>
+    <style type="text/css">
+    .top-nav{position:fixed;top:0;left:0;right:0}
+    .top-nav>:first-child,.top-nav>:last-child{border-radius:0!important}
+    .top-nav>:first-child{border-left:0!important}
+    .top-nav>:last-child{border-right:0!important}
+    .top-nav .btn{border-top:0!important;background:#eee!important}
+    .top-nav .btn.active{background:#fff!important;border-bottom:0!important;box-shadow:inset 0 0 0!important}
+    .space{height:40px;clear:both}
+    ul.unstyle{list-style:none}
+    </style>
+</head>
+
+
+<body class="pang">
+  <div class="btn-group btn-group-justified top-nav">
+    <a {if $action_name!='hits'}href="{:URL('Home-Random/hits')}"{/if} class="btn btn-default {if $action_name=='hits'}active{/if}">最多人看</a>
+    <a {if $action_name!='reviews'}href="{:URL('Home-Random/reviews')}"{/if} class="btn btn-default {if $action_name=='reviews'}active{/if}">最多人评</a>
+    <a {if $action_name!='sells'}href="{:URL('Home-Random/sells')}"{/if} class="btn btn-default {if $action_name=='sells'}active{/if}">最多人买</a>
+  </div>

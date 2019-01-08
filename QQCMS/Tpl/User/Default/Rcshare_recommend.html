@@ -1,0 +1,114 @@
+<!-- dialog V6 -->
+<load href="../Public/css/ui-dialog.css" />
+<load href="../Public/dist/dialog-min.js" />
+<load href="../Public/dist/dialog-config.js" />
+<!-- 手机页面全局 css -->
+<link rel="stylesheet" type="text/css" media="all" href="../Public/css/Glyphicons.min.css" />
+<link rel="stylesheet" href="../Public/src/css/template.css" />
+<link rel="stylesheet" type="text/css" href="../Public/css/share.css" />
+<div class="bg" id="bg">
+  <img src="../Public/img/tuijianss.png">
+  <p>推荐新用户，可获100元现金</p>
+</div>
+<div class="share">
+  <a href="javascript:" class="ShareTimeline">推荐给好友或分享到朋友圈</a>
+  <p>*在新用户首次购物后发放到上优舶账户</p>
+</div>
+<div class="foot">
+ <img src="../Public/img/ubologo.jpg">
+ <p>长按二维码关注上优舶公众号海淘时尚大牌</p>
+ <div style="clear:both"></div>
+</div>
+<div class="share-layer">
+  <img class="responed" src="../Public/img/share.png">
+</div>
+<notempty name="appId">
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script language="javascript" type="text/javascript">
+wx.config({
+    debug: false,//这里是开启测试，如果设置为true，则打开每个步骤，都会有提示，是否成功或者失败
+    appId: '{$appId}',
+    timestamp: '{$timestamp}',//这个一定要与上面的php代码里的一样。
+    nonceStr: '{$nonceStr}',//这个一定要与上面的php代码里的一样。
+    signature: '{$signature}',
+    jsApiList: [
+      // 所有要调用的 API 都要加到这个列表中
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo'
+    ]
+});
+
+wx.ready(function(){
+  wx.onMenuShareTimeline({
+      title: '海淘国际名牌服饰3折起，新用户领取100元购物卡', // 分享标题
+      link: '{$share_url}', // 分享链接
+      imgUrl: '{$site_url}/QQCMS/Tpl/User/Default/Public/img/rcshare.png', // 分享图标
+      desc:'关注上优舶领取购物卡，首单立减100，同时为朋友赢得100元奖励',
+      success: function () {
+        var d = dialog({
+              title: '温馨提示',
+              quickClose: true,
+              content: '分享成功！'
+          }).show();
+      },
+      cancel: function () { 
+        var d = dialog({
+              title: '温馨提示',
+              quickClose: true,
+              content: '您取消了分享，好东西要与好朋友分享，请再考虑考虑！'
+          }).width(180).show();
+      },
+      fail: function () {
+        var d = dialog({
+              title: '温馨提示',
+              quickClose: true,
+              content: '分享失败，不要紧，可能是网络问题，一会儿再试试'
+          }).width(180).show();
+      }
+  });
+
+  wx.onMenuShareAppMessage({
+    title: '海淘国际名牌服饰3折起，新用户领取100元购物卡', // 分享标题
+    desc: '关注上优舶领取购物卡，首单立减100，同时为朋友赢得100元奖励', // 分享描述
+    link: '{$share_url}', // 分享链接
+    imgUrl: '{$site_url}/QQCMS/Tpl/User/Default/Public/img/rcshare.png', // 分享图标
+    type: 'link', // 分享类型,music、video或link，不填默认为link
+    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+    success: function () { 
+        var d = dialog({
+              title: '温馨提示',
+              quickClose: true,
+              content: '分享成功！'
+          }).show();
+    },
+    cancel: function () { 
+        var d = dialog({
+            title: '温馨提示',
+            quickClose: true,
+            content: '您取消了分享，好东西要与好朋友分享，请再考虑考虑！'
+        }).width(180).show();
+    },
+    fail: function () {
+        var d = dialog({
+              title: '温馨提示',
+              quickClose: true,
+              content: '分享失败，不要紧，可能是网络问题，一会儿再试试'
+          }).width(180).show();
+    }
+  });
+});
+</script>
+<script type="text/javascript">
+$(function($){
+  $(".ShareTimeline").click(function(){
+    $(".share-layer").show();
+  });
+
+  $(".share-layer").click(function(){
+    $(this).hide();
+  });
+});
+</script>
+</notempty>

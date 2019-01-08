@@ -1,0 +1,204 @@
+<include file="Public:adminHead" />
+<!--[if IE]>
+<script src="{$site_url}__VIEW__/js/chart_js/excanvas.js"></script>
+<![endif]-->
+<script type="text/javascript" src="{$site_url}__VIEW__/js/chart_js/pieChart.js"></script>
+<script type="text/javascript" src="{$site_url}__VIEW__/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="{$site_url}__VIEW__/js/MyDate/WdatePicker.js"></script>
+<link rel="stylesheet" type="text/css" href="{$site_url}__VIEW__/js/MyDate/skin/WdatePicker.css">
+<style type="text/css">
+/* holder */
+#chart_top{
+  width:45%;
+  float: right
+}
+#chartData td{
+  padding:10px 0px 10px 0px;
+  font-size: 25px;
+  cursor: pointer;
+
+}
+#chartData tr{
+  padding:0px 30px 0px 30px;
+  overflow: hidden;
+}
+/* #holder{width:100%;height:450px;} */
+</style>
+
+<div id="Right">
+	<div class="contentArea">
+<div id="chart_top"> 
+<h1 style="line-height:40px;" onclick="cc()">消费比例图:</h1>    
+<table id="chartData">
+      <tr style="color:red">
+        <td style="text-align: right;" id="self_click">自消费:</td><td>{$user['self_fee']}￥</td>
+      </tr>
+      <tr style="color:#DFB200">
+        <td style="text-align: right;">客户消费:</td><td>{$user['next_fee']}￥</td>
+      </tr>
+    </table>
+    <canvas id="chart" width="600" height="400" style="float:right"></canvas>
+<!-- <div id="holder"></div> -->
+<!-- <p style="font-size:25px;color:red;margin-top:400px">亲爱的店长，自消费比例不能超过20%。</p> -->
+</div>
+	<div class="table-list">
+  <ul>
+    <li class="text">店铺： </li>
+    <li>{$user['shop_name']}</li>
+  </ul>
+  <ul>
+    <li class="text">经营者： </li>
+    <li>{$user['realname']}</li>
+  </ul>
+<!--   <ul>
+    <li class="text">级别：</li>
+    <li>{$user['groupname']}</li>
+  </ul>
+  <ul>
+    <li class="text">上级单位：</li>
+    <li>{$user['parent_name']}</li>
+  </ul> -->
+  <ul>
+    <li class="text">成立时间：</li>
+    <li>{$user['beshop_time']|date="Y-m-d",###}</li>
+  </ul>
+  <ul>
+    <li class="text">手机：</li>
+    <li>{$user['mobile']}</li>
+  </ul>
+  <ul>
+    <li class="text">下级会员个数：</li>
+    <li>{$user['menber_count']}</li>
+  </ul>
+<!--   <ul>
+    <li class="text">下级微店个数：</li>
+    <li>{$user['shop_count']}</li>
+  </ul> -->
+<!--   <ul>
+    <li class="text">押金：</li>
+    <li>￥{$user['receipt']}</li>
+  </ul> -->
+<!--   <ul>
+    <li class="text">平台管理年费：</li>
+    <li>￥{$user['manage']}</li>
+  </ul> -->
+<!--   <ul>
+    <li class="text">自消费金额：</li>
+    <li>￥{$user['self_fee']}</li>
+  </ul> -->
+  <ul>
+    <li class="text">客户消费：</li>
+    <li>￥{$user['next_fee']}</li>
+  </ul>
+<!--   <ul>
+    <li class="text">自消费比例：</li>
+    <li>{$user['scale']}</li>
+  </ul> -->
+  <ul>
+    <li class="text">销售返利：</li>
+    <li>￥{$user['sell_back']}</li>
+  </ul>
+<!--   <ul>
+    <li class="text">下级返利：</li>
+    <li>￥{$user['next_sell_back']}</li>
+  </ul> -->
+<if condition="$user['groupid'] eq 6">
+  <ul>
+    <li class="text">下级平台管理费分润：</li>
+    <li>￥{$user['next_splitt']}</li>
+  </ul>
+</if>
+  <ul>
+    <li class="text">总返利：</li>
+    <li>￥{$user['total_back']}</li>
+  </ul>
+  <ul>
+    <li class="text"  style="border-bottom:1px solid #d5dfe8;">状态：</li>
+    <if condition="$user['beshop_time']+2592000 gt time()  and $user['test_status'] eq 0"> 
+    <li style="border-bottom:1px solid #d5dfe8;"><font color="red">试运营中</font></li>
+    <else/>
+    <if condition="$user['status'] eq 1">
+    <li style="border-bottom:1px solid #d5dfe8;"><font color="green">运营中</font></li> 
+          <else />
+    <li style="border-bottom:1px solid #d5dfe8;"><font color="red">停营中</font></li>
+         </if>
+      </if>
+  </ul>
+  </div>
+
+    <div class="panel-group" id="accordion" style="margin-bottom:20px;width: 52%;margin-top: 20px;">
+        <div class="panel panel-danger">
+     <div class="panel-heading">
+            <h4 class="panel-title text-center">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="collapsed" id="open_ad">
+                历史记录
+              </a>
+            </h4>
+          </div>
+      <div id="collapseOne" class="panel-collapse collapse" style="height: 0px;">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th >月份</th>
+          <th >自消费</th>
+          <th >客户消费</th>
+          <th >自消费比例</th>
+          <th >销售返利</th>
+          <th >下级返利</th>
+          <th >总返利</th>
+        </tr>
+      </thead>
+      <tbody>
+        <volist name="user['month_fee']" id="vo">
+        <tr>
+          <td>{$vo.month}</td>
+          <td >&yen;{$vo.self_fee}</td>
+          <td>&yen;{$vo.next_fee}</td>
+          <td>{$vo.scale}</td>
+          <td>&yen;{$vo.sell_back}</td>
+          <td>&yen;{$vo.next_sell_back}</td>
+          <td>&yen;{$vo.total_back}</td>
+        </tr>
+        </volist>
+      </tbody>
+    </table></div></div></div>
+<script>
+$(document).ready(function(){
+  document.getElementById("self_click").click();
+});
+</script>
+
+<!-- <table class="char">
+  <tbody>
+    <tr>
+      <th scope="row">自消费</th>
+      <td>99</td>
+    </tr>
+    <tr>
+      <th scope="row">客户消费</th>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table> -->
+	   <!-- <div class="btn" style="width:52%;cursor:default">
+         <form id="excelform" action="{$site_url}{:U(Exportdata.'/'.index)}" method="post" style="display:inline-block">
+         <input class="Wdate input-text valid" name="star" type="text"  size="25" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" value="">&nbsp;至&nbsp;
+       <input class="Wdate input-text valid"name="end" type="text"  size="25" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" value="">
+       </form>
+       <input type="submit" class="pth-btn"   value="导出销售数据"  onclick="check_excel()"/>
+       </div> -->
+</div>
+</div>
+<script type="text/javascript">
+function check_excel(){
+  var star=$(".btn input[name='star']").val();
+  var end=$(".btn input[name='end']").val();
+  if(star=="" || end==""){
+    alert("请先选择好起始时间");return false;
+  }
+  if(confirm("确定导出所有商店销售数据")){
+   $("#excelform").submit();
+  }
+}
+</script>
+<include file="Public:adminFoot" />

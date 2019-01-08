@@ -1,0 +1,215 @@
+<include file="Home:header2"/>
+    <!--qq_cms js-->
+    <script src="__PUBLIC__/Js/qqcms.js"></script>
+    <!-- dialog对话框 -->
+    <script type="text/javascript" src="__PUBLIC__/src/js/widget/dialog/dialog.js"></script>
+
+<!-- 本页自用的 css -->
+ <link rel="stylesheet" href="../Public/css/pingjia.css" />
+
+ <body >  
+   <div class="container">
+   <form action="" method="POST">
+     <div class="btn-group" data-toggle="buttons" style="margin:10px auto">
+        <label class="btn btn-default active" onclick="change_level(this)">
+          <input type="radio" name="level" value="1" id="option1" autocomplete="off" checked>好评
+        </label>
+        <label class="btn btn-default" onclick="change_level(this)">
+          <input type="radio" name="level" value="2" id="option2" autocomplete="off">中评
+        </label>
+        <label class="btn btn-default" onclick="change_level(this)">
+          <input type="radio" name="level" value="3" id="option3" autocomplete="off">差评
+        </label>
+      </div>
+      <textarea class="form-control" rows="3" placeholder="请输入评论..." name="content" style="margin:0 auto"></textarea>
+      <input type="hidden" value="{$product_id}" name="id" />
+      <input type="hidden" value="1" name="sub" />
+      <button type="submit" class="btn btn-primary btn-block" style="margin:10px auto" onclick="this.form.submit()">提交评论</button>
+      </form>
+   </div><!-- .container -->
+   <ul class="tabs">
+<li <if condition="$type eq 1">class="up"</if>><a href="{:URL('Home-Product/appraise')}&id={$product_id}&shop_id={$shop_id}" rel="external" onclick="showtab(1,3);" id="a1" class="nene">好评<span class="badge">{$count.hight}</span></a></li>
+<li <if condition="$type eq 2">class="up"</if>><a href="{:URL('Home-Product/appraise')}&id={$product_id}&type=2&shop_id={$shop_id}" rel="external" onclick="showtab(2,3);" id="a2"  class="nene">中评<span class="badge">{$count.center}</span></a></li>
+<li <if condition="$type eq 3">class="up"</if>><a href="{:URL('Home-Product/appraise')}&id={$product_id}&type=3&shop_id={$shop_id}" rel="external" onclick="showtab(3,3);" id="a3"  class="nene">差评<span class="badge">{$count.low}</span></a></li>
+</ul>
+<div id="tab1" class="tab">
+  <div class="bao">
+  <volist name="list" id="vo">
+  <div class="liuyan" style="width: 100%;">
+    <div class="liuyan2"><p>{$vo.realname|default='游客'}：</p>{$vo.content}<p class="text-right">{$vo.createtime|date='Y年m月d日',###}</p></div>
+    </div>
+  </volist>
+
+<div class="text-center">
+    <ul class="pagination">
+       {$pages}
+     </ul>
+</div>
+  </div>
+</div>
+
+    <!--默认一次只能加一瓶酒-->
+      <input type="hidden" value='1' id="buynum" />
+    <!---->
+    <table class="fix">
+        <tbody>
+          <tr>
+            <td style="width:15%;border-right:1px solid #c4c4c4"><a href="javascript:history.go(-1)"><img src="__PUBLIC__/Images/f1.png" class="fanhui"></a></td>
+            <td style="width:30%">
+            <bottom id="btn1" class="btn btn-warning fix-bot" type="buttom" onclick="changeorder('buynum','3','{$product_id}','add',orderok);">加入购物车</bottom>
+            </td>
+            <td>
+            <a href="javascript:" class="btn btn-danger fix-bot" onclick="changeorder_second('3','{$product_id}','add');">立即购买</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    <!-- 订单提交成功提示框 -->
+    <div id="dialog1" title="提示成功">
+      <p >成功添加进购物车</p>
+      <small >（增加或减少需在购物车里设置！亲）</small>
+    </div>
+    <!-- 订单提交成功提示框 -->
+
+    <!-- 提示框 -->
+    <div id="dialog2" title="温馨提示">
+      <p class="big_one"></p>
+      <small  class="small_one"></small>
+    </div>
+    <!-- 提示框 -->
+
+<script type="text/javascript">
+  
+      //隐藏微信底栏
+      document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+      WeixinJSBridge.call('hideToolbar');
+      });
+    </script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+      var count_type={$type};
+      switch(count_type){
+        case 1:$("#a1").find("span").addClass("s1");break;
+        case 2:$("#a2").find("span").addClass("s1");break;
+        case 3:$("#a3").find("span").addClass("s1");break;
+        default:$("#a1").find("span").addClass("s1");break;
+      }
+    });
+
+    function change_level(obj){
+      $(obj).addClass("active");
+      $(obj).siblings("label").removeClass("active");
+    }
+function showtab(n,count){
+        for(var i=1;i<=count+1;i++){
+                if (i==n){
+                        getObject('tab'+i).style.display='block';
+                        getObject('a'+i).style.background = '#f1f1f1';
+                        getObject('a'+i).style.padding ='4px 8px 5px 8px';
+                        }
+                else {
+                        getObject('tab'+i).style.display='none';
+                        getObject('a'+i).style.background = '#fff';
+                        getObject('a'+i).style.padding ='4px 8px 4px 8px';
+                        }
+        }
+}
+
+//多浏览器对象方法
+function getObject(objectId) {
+    if(document.getElementById && document.getElementById(objectId)) {
+        // W3C DOM
+        return document.getElementById(objectId);
+    } else if (document.all && document.all(objectId)) {
+        // MSIE 4 DOM
+        return document.all(objectId);
+    } else if (document.layers && document.layers[objectId]) {
+        // NN 4 DOM.. note: this won't find nested layers
+        return document.layers[objectId];
+    } else {
+        return false;
+    }
+} // getObject
+
+
+      function orderok(){
+        $('#dialog1').dialog('open');
+      }     
+       function ordererror(data){
+        $("#dialog2 .big_one").text(data.info);
+        $('#dialog2').dialog('open');
+      }
+      // dialog 对话框（onclick="$('#dialog1').dialog('open')"）
+      $('#dialog1').dialog({
+        autoOpen:false,
+        closeBtn:false,
+        buttons:{
+          '继续购物': function(){
+            this.close();
+          },
+          '去结算': function(){
+            window.location.href="{:URL('Home-Order/checkout')}";
+          }
+        }
+      }).dialog('this')._options['_wrap'].addClass('login-dialog');
+      $('#dialog2').dialog({
+        autoOpen:false,
+        closeBtn:false,
+        buttons:{
+          '继续购物': function(){
+            this.close();
+          }
+        }
+      }).dialog('this')._options['_wrap'].addClass('login-dialog');
+      function changeorder(obj,moduleid,id,doit,ordercall){
+  var objs  =  document.getElementById(obj);
+  var datas={'moduleid':moduleid,'id': id,'num':objs.value};
+  $.ajax({
+    type:"POST",
+    url: "/index.php?m=Order&a=ajax&do="+doit,
+    data: datas,
+    timeout:"4000",
+    dataType:"JSON",
+    success: function(result){
+      data=eval('(' + result + ')');
+      if(data.data==1){
+        ordercall.call();
+      }else{
+      ordererror(data);
+        //alert(data.info);
+      }
+      
+    },
+    error:function(){
+      alert("出错");
+    }
+  });
+}
+
+function changeorder_second(moduleid,id,doit){
+  var num=1;
+  var datas={'moduleid':moduleid,'id': id,'num':num};
+  $.ajax({
+    type:"POST",
+    url: "/index.php?m=Order&a=ajax&do="+doit,
+    data: datas,
+    timeout:"4000",
+    dataType:"JSON",
+    success: function(result){
+      data=eval('(' + result + ')');
+      if(data.data==1){
+            window.location.href="{:URL('Home-Order/checkout')}&shop_id={$shop_id}";
+      }else{
+      ordererror(data);
+      }
+      
+    },
+    error:function(){
+      alert("出错");
+    }
+  });
+}
+      </script>
+  </body>
+</html>

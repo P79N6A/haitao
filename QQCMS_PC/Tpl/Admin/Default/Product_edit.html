@@ -1,0 +1,510 @@
+
+<script type="text/javascript" src="./Public/Js/jquery.masterblaster.js"></script>
+<link rel="stylesheet" type="text/css" href="./Public/Css/jquery.masterblaster.css">
+<style>
+.mb-container{border: 1px solid #abadb3;border-radius: 3px; box-sizing: border-box;background-color: #fff;display: inline-block;text-decoration: none;}
+/*.mb-container ul.mb-taglist{height: 38px;}*/
+.mb-container li.mb-tag{margin: 3.5px;}
+.mb-container .mb-input{border: none;height: 26px;margin: 0px;}
+.mb-meta{padding-left: 0px;}
+#specsname{border-radius: 4px; height: 26px; padding: 6px;font-size: 1em;}
+._input_button {display: inline-block;outline: none;cursor: pointer;text-align: center;text-decoration: none;font: 12px/100% 'Microsoft yahei',Arial, Helvetica, sans-serif;padding: .5em 2em .55em;text-shadow: 0 1px 1px rgba(0,0,0,.3);-webkit-border-radius: .5em;-moz-border-radius: .5em;border-radius: .5em;-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);box-shadow: 0 1px 2px rgba(0,0,0,.2);}
+.white {color: #606060;border: solid 1px #b7b7b7;background: #fff;background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ededed));background: -moz-linear-gradient(top, #fff, #ededed);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#ededed');}
+
+.thumb_box{position: initial;width: 15%;}
+.zj .extend_id{width: 70%;}
+.zj .specs_id{width: 20%;}
+.zj li{float: left;}
+.zj a {color: #fff;line-height: 22px;padding: 5px;height: 22px;margin-right: 10px;border: 1px solid #F6F6F6;text-align: center;background: #106999;padding-right: 10px;border-radius: 5px;}
+.zj a:hover{text-decoration:none;}
+.aui_content{width: 96%;}
+.specs-tag-remove{background: #106999 url(/Public/Css/close.png) center 2px no-repeat;cursor: pointer;text-decoration: none;display: inline-block;margin-left: 5px;width: 10px;height: 12px;}
+.list-specs a{color: #fff;line-height: 22px;padding: 5px;height: 22px;margin-right: 10px;border: 1px solid #F6F6F6;text-align: center;background: #9D9FA0;border-radius: 5px;text-decoration:none;}
+</style>
+<span class="yulan_open" onclick="open_yulan();">预览</span>
+<div id="yulan">
+	<div class="title"><h2 class="yulan_close" onclick="$('#yulan').toggle();">&times</h2><h2>预览区</h2></div>
+	<div class="info">
+		<img src="" class="yulan_img">
+		<h1 class="yulan_title"></h1>
+		<ul>
+			<li>
+			<div><span >参考价：</span><span class="yulan_price" style="color:rgb(184, 178, 178);"></span></div>
+			</li>
+			<if condition="$_GET['catid'] eq 9 or $vo['catid'] eq 9">
+			
+			<li>
+			<div><span >秒拍价：</span><span class="yulan_second_price" style="color:red;"></span></div>
+			</li>
+			<elseif condition="$_GET['catid'] eq 7 or $vo['catid'] eq 7" />
+			<li>
+			<div><span >起拍价：</span><span class="yulan_start_price" style="color:red;"></span></div>
+			</li>
+			<li>
+			<div><span >最小加价：</span><span class="yulan_min_price" style="color:rgb(216, 216, 0);"></span></div>
+			</li>
+			<else/>
+			<li>
+			<div><span>会员价：</span><span class="yulan_member_price"  style="color:red;"></span></div>
+			<div style="color:rgb(184, 178, 178);"><span>返现：</span><span class="yulan_menber_ratio"></span></div>
+			</li>
+			<li>
+			<div><span>金会员：</span><span class="yulan_gold_price" style="color:rgb(216, 216, 0);"></span></div>
+			<div style="color:rgb(184, 178, 178);"><span>返现：</span><span class="yulan_gold_ratio"></span></div>
+			</li>
+			</if>
+			<li>
+			<if condition="$_GET['catid'] eq 9 or $vo['catid'] eq 9">
+			<div style="border-radius:8px;margin-right:1%;padding:10px 0px 10px 0px;width:46%;border:1px #DDD solid;height:90%;float:right;text-align:center;"><span>每人限购：</span>
+			<span class="yulan_single_buy" style="color:rgb(184, 178, 178);"></span></div>
+			<else/>
+			<div style="border-radius:8px;margin-right:1%;padding:10px 0px 10px 0px;width:46%;border:1px #4CAE4C solid;height:90%;float:right;text-align:center;background:#5CB85C;"><span style="color:#fff;">商品评价</span></div>
+			</if>
+			<div style="border-radius:8px;margin-left:1%;padding:10px 0px 10px 0px;width:46%;border:1px #DDD solid;height:90%;text-align:center;"><span>库存：</span><span class="yulan_stock" style="color:rgb(184, 178, 178);"></span></div>
+			</li>	
+			<li>
+			<h1>产品介绍</h1>
+			<div class="yulan_content" style="border:1px #DDD solid;overflow:hidden;width:97%;padding:0px 1% 0px 1%;border-radius:8px"></div>
+			</li>
+
+		</ul>
+
+	</div>
+</div>
+<div id="msg"></div>
+<form name="myform" id="myform" action="<if condition="$action_name=='add'">{:U($module_name.'/insert')}<else />{:U($module_name.'/update')}</if>&iscreatehtml=1" method="post">
+<div id="filelist" class="hide"></div>
+<div class="error"><ul></ul></div>
+<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+	<input type="hidden" <if condition="$_GET['catid'] neq null"> value="{$_GET['catid']}"<elseif condition="$vo['catid'] neq null "/> value="{$vo['catid']}"</if> name="catid"/>
+	<tr>
+		<td width="10%">url链接</td>
+		<td><input class="input-text" readonly="true" value="http://<?php echo $_SERVER['HTTP_HOST'];?>/index.php?m=Product&a=show&id={$vo.id}" style="width:60%" /></td>
+	</tr>
+	<!--图片-->
+	<tr>
+		<td width="10%" ><if condition="$fields['top_pics']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.top_pics.name}</td>
+		<td width="85%" id="box_{$fields['top_pics']['field']}">
+		{$fields['top_pics']|getform=$form,###}
+		<p><font color="red">建议图片高度：宽度：</font></p>
+		</td>
+	</tr>
+	<!--类别-->
+<if condition="$_GET['catid'] eq 5 or $vo['catid'] eq 5">
+	<tr>
+		<td width="10%" ><if condition="$fields['typeid']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.typeid.name}{$fields.typeid.typeid}</td>
+		<td width="85%" id="box_{$fields['typeid']['field']}">
+		<!-- {$fields['typeid']|getform=$form,###} -->
+		<?php 
+			$typeid=explode(",",$vo['typeid']);
+
+			function each_type($id=0,$typeid=array()){
+				$sql="SELECT * from `qq_type` where parentid=".$id;
+				$query=mysql_query($sql);
+				$i=1;
+				while ($row = mysql_fetch_assoc($query)) {
+					$str.='<div style="margin-left: 10px; "><input style="width: 15px;height: 15px;margin-right:5px" type="checkbox" class="input_checkbox" name="typeid[]" onclick="has_oncheck(this)" id="typeid_'.$i.'"';
+					$flat=0;
+					foreach ($typeid as $k => $v) {
+						if($v==$row['typeid'] && $flat!=1){
+							$str.=' checked ';
+							$flat=1;
+						}
+					}
+					$str.='  value="'.$row['typeid'].'" >'.$row['name'];
+					$str.=each_type($row['typeid'],$typeid);
+					$str.='</div>';
+					$i++;
+				}
+
+				return $str;
+			}
+
+			$str.=each_type(8,$typeid);
+			echo $str;
+		?>
+		</td>
+	</tr>
+</if>
+<tr>
+	<td colspan="2"><input class="_input_button white" id="showfieldset" type="button" value="点击添加新属性"></td>
+</tr>
+<tr>
+	<td colspan="2">
+		<fieldset>
+			<legend>规格属性</legend> 
+			<table width="100%" class="table_form list-specs"> 
+				<tr>
+					<th style="text-align:left;" width="20%"><b>属性名称</b></th>
+				  	<th style="text-align:left;"><b>属性值</b></th>
+				  	<th style="text-align:left;"><b>操作</b></th>
+				</tr>
+				<volist name="specsInfo" id="zo">
+				<tr>
+					<td><a data-specs_id="{$zo.specs_id}" rel="2" href="javascript:"><b>{$zo.specsname}</b></a></td>
+					<td>
+						<volist name="zo.extend" id="item">
+						<a data-specs_id="{$zo.specs_id}" data-extend_id="{$item.extend_id}" onclick="extendShow(this);" href="javascript:">
+							<b data-lock="0">{$item.propertyvalue}</b>
+						</a>
+						</volist>
+					</td>
+					<td><a href="javascript:" style="background: #AB0E0E;" id="{$zo.specs_id}" onclick="delOneSpecs(this,'{:URL('Admin-Ajax/delOneSpecs')}');"><b>删除</b></a></td>
+				</tr>
+				</volist>
+			</table>
+		</fieldset>
+	</td>
+</tr>
+
+<tr>
+	<td colspan="2">
+		<fieldset>
+			<legend>规格属性配置</legend> 
+			<table width="100%" class="table_form list-specs" id="table-specs"> 
+				<tr>
+					<th style="text-align:left;"><b>规格属性</b></th>
+					<th style="text-align:left;" width="5%"><input type="checkbox" name="lockbutton" onclick="choiceall(this);" value="radiobutton"></th>
+					<th style="text-align:left;" width="8%"><b>市场价</b></th>
+					<th style="text-align:left;" width="8%"><b>会员价</b></th>
+					<th style="text-align:left;" width="8%"><b>库存</b></th>
+					<th style="text-align:left;" width="8%"><b>操作</b></th>
+				</tr>
+				<?php $ppk = 0;?>
+				<volist name="product_property" id="xo">
+				<tr style="opacity: 1;" data-arr_id="specs">
+					<td id="td-ex_id{$ppk}">
+						<volist name="xo.specs_extend" id="co">
+						<script type="text/javascript">
+						$("[data-extend_id='{$co.extend_id}']").css("background","#6DA0BA");
+						</script>
+						<a data-ex_id="{$co.extend_id}" data-sp_id="{$co.specs_id}" href="javascript:">
+							<input type="hidden" placeholder="attribute_group" class="input-text" name="attribute_group{$ppk}[]" value="{$co.extend_id}">
+								<b>{$co.propertyvalue}</b>
+						</a>
+						</volist>
+					</td>
+					<td><input type="checkbox" name="lock_extend[]" value="{$ppk}"></td>
+					<td><input type="text" data-input="price" class="input-text" name="price{$ppk}" value="{$xo.price}"></td>
+					<td><input type="text" data-input="member_price" class="input-text" name="member_price{$ppk}" value="{$xo.member_price}"></td>
+					<td><input type="text" data-input="stock" class="input-text" name="stock{$ppk}" value="{$xo.stock}"></td>
+					<td><a href="javascript:" style="background: #AB0E0E;" data-property_id="{$xo.property_id}" onclick="delOnePro(this,'{:URL('Admin-Ajax/delOnePro')}');"><b>删除</b></a></td>
+					<input type="hidden" placeholder="save_extend" name="save_extend{$ppk}" value="1">
+					<input type="hidden" placeholder="property_id" name="property_id{$ppk}" value="{$xo.property_id}">
+				</tr>
+				<?php $ppk++;?>
+				</volist>
+			</table>
+		</fieldset>
+	</td>
+</tr>
+
+<!--规格属性-->
+<tr>
+	<td colspan="2">
+		<div style="width:100%;display:none;" id="fieldset-specsname">
+		<fieldset>
+			<legend>规格属性</legend> 
+			<table width="100%" class="table_form"> 
+				<tr>
+					<td width="10%">属性名</td>
+				  	<td>
+				  		<input name="specsname" id="specsname" placeholder="属性名称" value="" />
+				  	</td>
+				</tr>
+				<tr>
+					<td width="10%">属性值</td>
+				  	<td>
+				  		<input id="tags" placeholder="按回车添加"/>
+				  	</td>
+				</tr> 
+				<tr>
+					<div id="subjectSpecs" style="display:none;"></div>
+					<td colspan="2"><input class="_input_button white" id="saveSpecsname" type="button" value="保存添加的属性"></td>
+				</tr>
+				<!-- 已添加属性 -->
+				<tr>
+					<td colspan="2">
+						<div class="zj" id="showsel" style="float: left;width: 100%;"></div>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+		</div>
+	</td>
+</tr>
+<script type="text/javascript">
+/*初始化属性*/
+var ProductUrl = "{:URL('Admin-Product/edit',array('id'=>$Product_id))}";
+var tagRemoveUrl = "{:URL('Admin-Ajax/removeTag')}";
+var saveextendUrl = "{:URL('Admin-Ajax/saveextend')}";
+var arr_id = {$ppk};
+
+$("#tags").masterblaster({
+	animate:true
+});
+
+/*$("#showsel").find("#specs_id").live('click',function(){
+	alert(1);
+});*/
+</script> 
+<!--名称-->
+<tr>
+	<td width="10%" ><if condition="$fields['title']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.title.name}</td>
+	<td width="85%" id="box_{$fields['title']['field']}">
+	{$fields['title']|getform=$form,###}
+	</td>
+</tr>	
+<if condition="$_GET['catid'] neq 25 and $vo['catid'] neq 25">
+	<!--商品编号-->
+	<tr>
+		<td width="10%" ><if condition="$fields['good_sn']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.good_sn.name}</td>
+		<td width="85%" id="box_{$fields['good_sn']['field']}">
+		{$fields['good_sn']|getform=$form,###}
+		</td>
+	</tr>
+</if>
+	<!--外文名称-->
+	<tr>
+		<td width="10%" ><if condition="$fields['en_name']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.en_name.name}</td>
+		<td width="85%" id="box_{$fields['en_name']['field']}">
+		{$fields['en_name']|getform=$form,###}
+		</td>
+	</tr>
+	<!--产地-->
+	<tr>
+		<td width="10%" ><if condition="$fields['address']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.address.name}</td>
+		<td width="85%" id="box_{$fields['address']['field']}">
+		{$fields['address']|getform=$form,###}
+		</td>
+	</tr>
+	<!--容量-->
+	<tr>
+		<td width="10%" ><if condition="$fields['liquid']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.liquid.name}</td>
+		<td width="85%" id="box_{$fields['liquid']['field']}">
+		{$fields['liquid']|getform=$form,###}
+		</td>
+	</tr>
+	<!--酒精度-->
+	<tr>
+		<td width="10%" ><if condition="$fields['vol']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.vol.name}</td>
+		<td width="85%" id="box_{$fields['vol']['field']}">
+		{$fields['vol']|getform=$form,###}
+		</td>
+	</tr>
+
+<if condition="$_GET['catid'] neq 26 and $vo['catid'] neq 26">
+	<!--参考价-->
+	<tr>
+		<td width="10%" ><if condition="$fields['price']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.price.name}</td>
+		<td width="85%" id="box_{$fields['price']['field']}">
+		{$fields['price']|getform=$form,###}
+		</td>
+	</tr>
+</if>
+	<!--秒拍价-->
+<if condition="$_GET['catid'] eq 9 or $vo['catid'] eq 9">
+	<tr>
+		<td width="10%" ><if condition="$fields['second_price']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.second_price.name}</td>
+		<td width="85%" id="box_{$fields['second_price']['field']}">
+		{$fields['second_price']|getform=$form,###}
+		</td>
+	</tr>
+</if>
+	<!--起拍价-->
+<if condition="$_GET['catid'] eq 7 or $vo['catid'] eq 7">
+	<tr>
+		<td width="10%" ><if condition="$fields['start_price']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.start_price.name}</td>
+		<td width="85%" id="box_{$fields['start_price']['field']}">
+		{$fields['start_price']|getform=$form,###}
+		</td>
+	</tr>	
+	<tr>
+		<td width="10%" ><if condition="$fields['min_price']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.min_price.name}</td>
+		<td width="85%" id="box_{$fields['min_price']['field']}">
+		{$fields['min_price']|getform=$form,###}
+		</td>
+	</tr>
+</if>
+
+<if condition="$_GET['catid'] neq 26 and $vo['catid'] neq 26">
+	<!--会员价-->
+	<tr>
+		<td width="10%" ><if condition="$fields['member_price']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.member_price.name}</td>
+		<td width="80%" ><span id="box_{$fields['member_price']['field']}">
+		{$fields['member_price']|getform=$form,###}</span><if condition="$fields['menber_ratio']['required']"><font color="red">*</font></if>{$fields.menber_ratio.name}&nbsp&nbsp&nbsp<span id="box_{$fields['menber_ratio']['field']}">
+		{$fields['menber_ratio']|getform=$form,###}</span></td>
+	</tr>
+	<!--金会员-->
+	<tr>
+		<td width="10%" ><if condition="$fields['gold_price']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.gold_price.name}</td>
+		<td width="10%" > <span  id="box_{$fields['gold_price']['field']}"> 
+		{$fields['gold_price']|getform=$form,###}</span><if condition="$fields['gold_ratio']['required']"><font color="red">*</font></if>{$fields.gold_ratio.name}<span id="box_{$fields['gold_ratio']['field']}">
+		{$fields['gold_ratio']|getform=$form,###}</span></td>
+	</tr>
+
+<!--会员消费返利-->
+		<tr>
+		<td width="10%" ><if condition="$fields['menber_rebate']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.menber_rebate.name}</td>
+		<td width="85%" id="box_{$fields['menber_rebate']['field']}">
+		{$fields['menber_rebate']|getform=$form,###}
+		</td>
+	</tr>
+<!--上级返利比率-->
+		<tr>
+		<td width="10%" ><if condition="$fields['parent_rebate']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.parent_rebate.name}</td>
+		<td width="85%" id="box_{$fields['parent_rebate']['field']}">
+		{$fields['parent_rebate']|getform=$form,###}
+		</td>
+	</tr>
+</if>
+<!--直购行邮税-->
+<if condition="$_GET['catid'] eq 6 or $vo['catid'] eq 6 ">
+	<tr>
+		<td width="10%" ><if condition="$fields['direct_shipping']['required']"><font color="red">*</font><else/>&nbsp;&nbsp;</if>{$fields.direct_shipping.name}</td>
+		<td width="85%" id="box_{$fields['direct_shipping']['field']}">
+		{$fields['direct_shipping']|getform=$form,###}
+		</td>
+	</tr>
+</if>
+<!--直购行邮税结束-->
+<if condition="$_GET['catid'] eq 9 or $vo['catid'] eq 9 or $_GET['catid'] eq 7 or $vo['catid'] eq 7">
+
+	<!--秒拍开始时间-->
+	<tr>
+		<td width="10%" ><if condition="$fields['second_star']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.second_star.name}</td>
+		<td width="85%" id="box_{$fields['second_star']['field']}">
+		{$fields['second_star']|getform=$form,###}
+		</td>
+	</tr>
+	<!--秒拍结束时间-->
+	<tr>
+		<td width="10%" ><if condition="$fields['second_end']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.second_end.name}</td>
+		<td width="85%" id="box_{$fields['second_end']['field']}">
+		{$fields['second_end']|getform=$form,###}
+		</td>
+	</tr>
+</if>
+
+<if condition="$_GET['catid'] neq 26 and $vo['catid'] neq 26 ">
+	<!--库存与限购-->
+	<tr>
+		<td width="10%" ><if condition="$fields['stock']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.stock.name}</td>
+		<td width="10%" > <span  id="box_{$fields['stock']['field']}"> 
+		{$fields['stock']|getform=$form,###}</span>
+	<if condition="$_GET['catid'] neq 5 and $vo['catid'] neq 5">
+		<if condition="$fields['single_buy']['required']"><font color="red">*</font></if>{$fields.single_buy.name}<span id="box_{$fields['single_buy']['field']}">
+		{$fields['single_buy']|getform=$form,###}</span></if>
+		</td>
+	</tr>
+</if>	
+<!--推荐理由-->
+	<tr>
+		<td width="10%" ><if condition="$fields['sell_content']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.sell_content.name}</td>
+		<td width="85%" id="box_{$fields['sell_content']['field']}">
+		{$fields['sell_content']|getform=$form,###|htmlspecialchars_decode=###}
+		</td>
+	</tr>
+	<!--产品介绍-->
+	<tr>
+		<td width="10%" ><if condition="$fields['content']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.content.name}</td>
+		<td width="85%" id="box_{$fields['content']['field']}">
+		{$fields['content']|getform=$form,###|htmlspecialchars_decode=###}
+		</td>
+	</tr>
+	<!--上架时间-->
+	<tr>
+		<td width="10%" ><if condition="$fields['createtime']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.createtime.name}</td>
+		<td width="85%" id="box_{$fields['createtime']['field']}">
+		{$fields['createtime']|getform=$form,###}
+		</td>
+	</tr>
+<if condition="$_GET['catid'] eq 5 or $vo['catid'] eq 5 ">
+	<!--推荐-->
+	<tr>
+		<td width="10%" ><if condition="$fields['posid']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.posid.name}</td>
+		<td width="85%" id="box_{$fields['posid']['field']}">
+		{$fields['posid']|getform=$form,###}
+		</td>
+	</tr>
+</if>
+<!--状态-->
+<tr>
+	<td width="10%" ><if condition="$fields['status']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.status.name}</td>
+	<td width="85%" id="box_{$fields['status']['field']}">
+	{$fields['status']|getform=$form,###}
+	</td>
+</tr>
+</table>
+<div id="bootline"></div>
+<div id="btnbox" class="btn">
+<if condition="$vo['id']!=''"><input TYPE="hidden" name="id" value="{$vo.id}"></if>
+<input type="hidden"  name="lang" value="{$langid}" />
+<input type="hidden" name="forward" value="{$_SERVER['HTTP_REFERER']}" />
+<INPUT TYPE="submit"  value="{:L('dosubmit')}" class="button" >
+<input TYPE="reset"  value="{:L('cancel')}" class="button">
+</div>
+</form>
+</div>
+
+<script type="text/javascript">
+	function open_yulan(){
+		$("input[name='top_pics[]']").each(function(){
+			if($(this).val()!=null || $(this).val()!=''){
+				$('.yulan_img').attr('src',$(this).val());
+			}
+		});
+		if($("#box_title input[name='title']").val()!=null ||$("#box_title input[name='title']").val()!=''){
+		$('.yulan_title').text($("#box_title input[name='title']").val());
+		}
+		if($(" input[name='price']").val()!=null ||$("input[name='price']").val()!=''){
+		$('.yulan_price').text($("input[name='price']").val()+'元');
+		}
+		if($(" input[name='member_price']").val()!=null ||$("input[name='member_price']").val()!=''){
+		$('.yulan_member_price').text($("input[name='member_price']").val()+'元');
+		}
+		if($(" input[name='gold_price']").val()!=null ||$("input[name='gold_price']").val()!=''){
+		$('.yulan_gold_price').text($("input[name='gold_price']").val()+'元');
+		}
+		if($(" input[name='stock']").val()!=null ||$("input[name='stock']").val()!=''){
+		$('.yulan_stock').text($("input[name='stock']").val());
+		}
+		if($(" input[name='menber_ratio']").val()!=null ||$("input[name='menber_ratio']").val()!=''){
+			var price=parseFloat($("input[name='member_price']").val());
+			var ratio=parseFloat($("input[name='menber_ratio']").val());
+			var total=ratio;
+			$('.yulan_menber_ratio').text(total.toFixed(2)+'元');
+		}
+		if($(" input[name='gold_ratio']").val()!=null ||$("input[name='gold_ratio']").val()!=''){
+			var price=parseFloat($("input[name='gold_price']").val());
+			var ratio=parseFloat($("input[name='gold_ratio']").val());
+			var total=ratio;
+			$('.yulan_gold_ratio').text(total.toFixed(2)+'元');
+		}
+		if($(" input[name='second_price']").val()!=null ||$("input[name='second_price']").val()!=''){
+		$('.yulan_second_price').text($("input[name='second_price']").val()+'元');
+		}
+		if($(" input[name='single_buy']").val()!=null ||$("input[name='single_buy']").val()!=''){
+		$('.yulan_single_buy').text($("input[name='single_buy']").val());
+		}
+		if($("#content").text()!=null ||$("#content").text()!=''){
+		var send=jQuery('iframe').contents().find('.editMode');
+		$('.yulan_content').html($(send).html());
+		}
+		if($(" input[name='start_price']").val()!=null ||$(" input[name='start_price']").val()!=''){
+		$('.yulan_start_price').text($("input[name='start_price']").val()+'元');
+		}
+		if($(" input[name='min_price']").val()!=null ||$(" input[name='min_price']").val()!=''){
+		$('.yulan_min_price').text($("input[name='min_price']").val()+'元');
+		}
+		$('#yulan').toggle();
+	}
+	function has_oncheck(obj){
+		if($(obj).attr("checked")=="checked"){
+			$(obj).parent().find("div").find('input').attr("checked",true);
+		}else{
+			$(obj).parent().find("div").find('input').attr("checked",false)
+		}
+	}
+</script>
+<script type="text/javascript" src="./Public/Js/specs_extend.js"></script>

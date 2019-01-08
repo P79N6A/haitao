@@ -1,0 +1,285 @@
+<include file="Public:adminHead" />
+<style type="text/css">
+#edit_table{
+	width: 100%;
+	font-size: 15px;
+	font-family: '宋体';
+	font-weight: normal;
+	position: absolute;
+	top:0px;
+	background: #fff;
+	z-index: 999;
+	display: none;
+	text-align: left;
+}
+#select_ul li{
+	border:2px solid #779DB3;
+	cursor: pointer;
+}
+#select_ul .has_select{
+	border:2px solid #c30008;
+	background:url(/co/Public/admin/images/select_icon1.png)no-repeat scroll 100% 100% transparent;
+	background-size: 20px;
+}
+.left {
+width: 50%;
+float: left;
+border-right: 1px solid #E5E5E5;
+}
+.boe {
+width: 97%;
+padding: 10px;
+padding-top: 0px;
+}
+.right {
+width: 45%;
+float: left;}
+.boe2 {
+width: 95%;
+padding: 10px;
+padding-top: 5px;
+padding-bottom: 7px;
+}
+.wid {
+width: 100%;
+margin: 15px auto;
+margin-bottom: 35px;
+}
+.info img {
+width: 100%;
+height: auto;
+}
+#look_info{
+width: 100%;
+font-size: 15px;
+font-family: '宋体';
+font-weight: normal;
+position: absolute;
+top: 0px;
+background: #fff;
+z-index: 999;
+display: none;
+text-align: center;
+}
+#look_info iframe{
+	width: 640px;
+	height: 800px;
+	border: none;
+	box-shadow: 20px;
+}
+.table1 tr{
+	line-height: 40px;
+}
+.table1 th,.table1 td{
+	border-bottom: 1px solid #E5E5E5;
+}
+</style>
+<div id="Right">
+<span class="yulan_open" onclick="open_yulan();">预览</span>
+<div id="yulan">
+	<div class="title"><h2 class="yulan_close" onclick="$('#yulan').toggle();">&times</h2><h2>预览区</h2></div>
+	<div class="info">
+	      <div class="wid" style="display:inline-block;margin-bottom:0;padding-right:3px;border-bottom:1px solid #e5e5e5">
+        <div class="left">
+        <!--秒拍-->
+          <a href="javascript:">
+            <img src="{$offic_column[0]['pic']}" class="boe">
+          </a>
+        </div>
+        <div class="right">
+        <!--团购-->
+          <a href="javascript:"><img src="{$offic_column[1]['pic']}" class="boe2" style="border-bottom:1px solid #e5e5e5"></a>
+
+        <!--小型板块1-->
+          <a href="javascript:"><img src="{$column[0]['pic']}" id="column_{$column[0]['id']}" class="boe2"></a>
+        </div>
+      </div>
+
+      <div class="wid" style="display:inline-block;margin-bottom:0;padding-right:3px">
+        <div class="left">
+        <!--中型板块-->
+          <a href="javascript:">
+            <img src="{$column[5]['pic']}" id="column_{$column[5]['id']}" class="boe">
+          </a>
+        </div>
+        <div class="right">
+        <!--小型板块2-->
+          <a href="javascript:"><img src="{$column[1]['pic']}" id="column_{$column[1]['id']}" class="boe2" style="border-bottom:1px solid #e5e5e5"></a>
+        <!--小型板块3-->
+          <a href="javascript:"><img src="{$column[2]['pic']}" id="column_{$column[2]['id']}" class="boe2"></a>
+        </div>
+      </div>
+      <!--拍卖-->
+      <a href="javascript:" class="border-a" style="border-bottom:1px solid #e5e5e5"><img src="{$offic_column[2]['pic']}"  class="wid-max"></a>
+
+      <div class="wid" style="display:inline-block;margin-bottom:0;padding-right:3px">
+        <div class="left">
+        <!--直购-->
+          <a href="javascript:">
+            <img src="{$offic_column[3]['pic']}" class="boe">
+          </a>
+        </div>
+        <div class="right">
+        <!--小型板块4-->
+          <a href="javascript:"><img src="{$column[3]['pic']}" id="column_{$column[3]['id']}" class="boe2" style="border-bottom:1px solid #e5e5e5"></a>
+        <!--小型板块5-->
+          <a href="javascript:"><img src="{$column[4]['pic']}" id="column_{$column[4]['id']}" class="boe2"></a>
+        </div>
+      </div>
+     <!--私人酒窖-->
+      <a href="javascript:" class="border-a"><img src="{$offic_column[4]['pic']}" class="wid-max"></a>
+       <!--大型板块-->
+      <a href="javascript:" class="border-a"><img src="{$offic_column[5]['pic']}"  class="wid-max"></a>
+       <!--大型板块-->
+      <a href="javascript:" class="border-a"><img src="{$column[6]['pic']}"  id="column_{$column[6]['id']}" class="wid-max"></a>
+
+	</div>
+</div>
+	<div class="contentArea">
+  
+
+
+	<div id="edit_table" class="edit_form">
+	<div style="background:#0B62C0;width:100%;color:#fff;padding:10px 0px 10px 0px;border-radius:6px 6px 0px 0px;">
+	<span onclick="$('#edit_table').fadeToggle();" style="float:right;cursor:pointer;margin-right:10px;">关闭</span><span style="margin-left:10px">编辑</span>
+	</div>
+	<div id="info_table" style="overflow:hidden;padding:10px 0px 10px 0px">
+		
+	</div>
+	<input type="hidden" value="" name="columntype_id" />
+	<input type="hidden" value="" name="slid_data_id" />
+	<input type="hidden" value="" name="slid_data_link" />
+	<input type="hidden" value="" name="img_url" />
+	<input style="padding:5px 25px 5px 25px;background: #1b75b6;color: #fff;border:none;margin-left:2%" name="sub" type="submit"   onclick="info_save()" value="保存" />
+	</div>
+	
+	<div id="look_info">
+	<div class="title"><h2 class="yulan_close" onclick="$('#look_info').toggle();">&times</h2><h2>预览区</h2></div>
+		<iframe src=""></iframe>
+	</div>
+
+
+		<div style="float:right;width:50%;text-align:center;overflow:hidden">
+		<img  src="__PUBLIC__/Images/ad.jpg">
+		</div>
+		<form action="" method="post">
+			
+			<table width="50%" border="0" cellspacing="0" cellpadding="0" class="table1">
+				
+					<volist name="column" id='r'>
+					<tr>
+						<th width="120">{$r.column_name}</th>
+						<td>
+							<span style="margin: 0 0 0 30px;">
+								<span onclick="img_edit({$r.id});" class="form_editor" style="color:#fff;padding:5px 15px 5px 15px;background:#27944A;border-radius:5px;cursor:pointer;">选择模板</span>
+							</span>
+							<span style="margin: 0 0 0 30px;">
+								<button onclick="return open_url(this)" url="{$r.url}"  class="form_editor" id="info_{$r['id']}" style="border:none;color:#fff;padding:5px 15px 5px 15px;background:#27944A;border-radius:5px;cursor:pointer;">查看详情</button>	
+							</span>
+						</td>
+					</tr>	
+					</volist>
+		
+			</table>
+		
+		<!-- <div class="commonBtnArea" >
+			<input type="submit" class="btn submit" />
+		</div> -->
+		</form>
+
+	</div>
+</div>
+<script type="text/javascript">
+/*function frequent_submit(url,method,data){
+	    var	f= document.createElement('form')
+		f.action = url;
+		f.method = method;
+		document.body.appendChild(f);
+	eval ("var data = {"+data+"}");
+	for(var key in data){  
+	    if(typeof data[key]  === 'string'||'number'){
+		    var temp=document.createElement('input');
+			temp.type= 'hidden';
+			temp.name= key ;
+			temp.value= data[key];	
+			f.appendChild(temp);
+	    }
+	}
+	f.submit();
+}*/
+function info_save(){
+/*columntype_id：栏目id*/
+	var columntype_id=$("input[name='columntype_id']").val();
+	var slid_data_id=$("input[name='slid_data_id']").val();
+	var src=$("input[name='img_url']").val();
+	var link=$("input[name='slid_data_link']").val();
+	if(columntype_id!=''&&slid_data_id!=''){
+var datas={'columntype_id':columntype_id,'slid_data_id':slid_data_id};
+	$.ajax({
+		type:"get",
+		url:"/index.php?m=Ajax&a=column_edit",
+		data:datas,
+		timeout:4000,
+		dataType:"html",
+		success:function (data){
+			if(data){
+				alert("保存成功！");
+				$('#column_'+columntype_id).attr('src',src);
+				$('#info_'+columntype_id).attr('url',link);
+			$('#edit_table').fadeToggle();
+			}
+		},
+		error: function(data){
+			alert('网络延迟，请重试!');
+		}
+
+	});
+	}else{
+		alert("未选择");
+	}
+}
+
+function select_info(obj,slid_data_id,link){
+	$("input[name='slid_data_id']").val(slid_data_id);
+	$("input[name='slid_data_link']").val(link);
+	var src=$(obj).find('img').attr('src');
+	$("input[name='img_url']").val(src);
+	$(obj).prevAll().removeClass('has_select');
+	$(obj).nextAll().removeClass('has_select');
+	$(obj).addClass('has_select');
+}
+
+function img_edit(columntype_id){
+/*columntype_id：栏目id*/
+
+var datas={'columntype_id':columntype_id};
+	//frequent_submit('/co/index.php/Ajax/catch_colu',"post","'columntype_id':"+columntype_id);
+	$.ajax({
+		type:"post",
+		url:"/index.php?m=Ajax&a=catch_colu",
+		data:datas,
+		timeout:4000,
+		dataType:"html",
+		success:function (data){
+			$('#info_table').empty().append(data);
+			$("input[name='columntype_id']").val(columntype_id);
+			$('#edit_table').fadeToggle();
+		},
+		error: function(data){
+			alert('网络延迟，请重试!');
+		}
+
+	});
+
+}
+	function open_yulan(){
+		$('#yulan').fadeIn();
+	}
+	function open_url(obj){
+		var url=$(obj).attr("url");
+		$('#look_info').find('iframe').attr('src',url);
+		$('#look_info').fadeIn();
+		return false;
+	}
+</script>
+<include file="Public:adminFoot" />

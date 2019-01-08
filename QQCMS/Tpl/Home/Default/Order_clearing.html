@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>上优舶</title>
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+<!-- 手机页面全局 css -->
+<link rel="stylesheet" href="__PUBLIC__/Css/bootstrap.min.css">
+<!-- 本页自用css全局 -->
+<link rel="stylesheet" href="../Public/css/ischeckout.css">
+<!--组件依赖 js -->
+<script type="text/javascript" src="../Public/js/jquery-1.10.2.js"></script>
+<load href="__PUBLIC__/Js/jquery.form.js"/>
+<!-- dialog V6 -->
+<load href="../Public/css/ui-dialog.css" />
+<load href="../Public/dist/dialog-min.js" />
+<style type="text/css">
+body{background-color:#F7F7F7}
+ul{padding-left: 0px !important;}
+</style>
+</head>
+<body>
+  <header>
+    <div class="back-shopping-bag" id="backShoppingBag">
+      <a href="javascript:history.go(-1);"><div class="back-btn"></div></a>
+      确认订单
+    </div>
+  </header>
+  <form method="post" id="clearForm" action="{:URL('Home-Order/done')}&shop_id={$shop_id}">
+  <input type="hidden" name="cartid" value="{$cartid}" />
+  <input type="hidden" name="addressid" value="{$address.id|default='0'}" />
+  <input type="radio" name="checkedcash" id="checkedcash" style="display:none;" value="1" />
+  <section class="main_pt">
+    <div class="add">
+      <div class="detail">
+        <span class="name">{$address.consignee|default='微信用户'}</span>
+        <span class="number">{$address.mobile|default='暂无'}</span>
+        <span class="adds">
+        {$area[$address['province']]}&nbsp;{$area[$address['city']]}&nbsp;{$area[$address['area']]}&nbsp;{$address.address|default='暂无'}
+        </span>
+        <div class="clear"></div>
+      </div>
+      <a href="{:URL('User-Index/isaddress',array('address' => $address['id'], 'cartid' => $cartid))}" class="btn"></a>
+    </div>
+    <div class="commodity">
+      <ul class="u_car">
+        <volist name="cart" id="item">
+        <li>
+          <div class="u_car_main">
+            <a  href="{$item['product_url']|default='JavaScript:void(0);'}" class="img">
+              <img src="{$item['product_thumb']|default='__PUBLIC__/Images/nopic.jpg'|thumb=###,100,120,1}">
+            </a>
+            <p class="name">
+              {$item['product_name']|default='暂无标题'}
+              <volist name="item.attribute" id="ab">
+               &nbsp;&nbsp;{$ab.specsname}:{$ab.propertyvalue}
+              </volist>
+            </p>
+            <div class="right">
+              <span class="price">{$item['product_price']|default='0.00'|number_format=###,2}</span>
+              <span class="number">&times;{$item['number']|default='0'}</span>
+              <span class="number">税率{$item['post_rate']|default='0'}%</span>
+            </div>
+            <div class="del">删除</div>
+            <div class="clear"></div>
+          </div>
+        </li>
+        </volist>
+      </ul>
+    </div>
+    <div class="money">
+      <span class="use">可使用现金券</span>
+      <a href="#" class="money_number" id="money_text">{$User['cash_use']|default='0.00'}</a>
+      <div class="case"><input type="number" min="0" name="cash_use" id="cash_use" class="form-control" placeholder="请输入金额"/></div>
+      <input type="hidden" name="money_number" value="{$User['cash_use']|default='0.00'}" />
+      <div class="clear"></div>
+    </div>
+    <div class="u-foot">
+      <dl>
+        <dt>结算</dt>
+        <dd>
+          <span class="fl">商品合计</span>
+          <span class="fr">&yen;{$goods['totalprice']|default='0.00'|number_format=###,2}</span>
+          <div class="clear"></div>
+        </dd>
+        <dd>
+          <span class="fl">运费</span>
+          <span class="fr">{$goods['totalfee']|default='包邮'}</span>
+          <elt name="goods.totalfee" value="0">
+          <span class="bao">全场包邮哦</span>
+          </elt>
+          <div class="clear"></div>
+        </dd>
+        <dd>
+          <span class="fl">行邮税</span>
+          <span class="fr">&yen;{$goods['totaldirect']|default='0.00'|number_format=###,2}</span>
+          <elt name="goods.totaldirect" value="50">
+          <span class="baos">行邮税&le;50,免征哦</span>
+          </elt>
+          <div class="clear"></div>
+        </dd>
+      </dl>
+      <div class="last">
+        <div class="m_last">
+          实付款：<span class="all">&yen;<i id="realprice">{$goods['realprice']|default='0.00'|number_format=###,2}</i></span>
+        </div>
+        <button type="button" class="btn" onClick="checkcart();">提交订单</button>
+        <div class="clear"></div>
+      </div>
+    </div>
+    </form>
+  </section>
+<script type="text/javascript">
+jQuery(document).ready(function($){
+  $('#myform').ajaxForm({
+    beforeSend:function(){
+        var d = dialog({title: '正在提交...'}).show();
+        setTimeout(function () {
+            d.close().remove();
+        }, 2000);
+     },
+    success: complete,  // post-submit callback
+    dataType: 'json'
+  });
+
+  $(".money_number").click(function(){
+    $(this).toggleClass('Reverse');
+    var nextSibling = this.nextSibling;
+    var checkedcash = document.getElementById('checkedcash');
+    if (checkedcash.checked === false)
+      checkedcash.checked = true;
+    else
+      checkedcash.checked = false;
+    $(nextSibling).slideToggle("fast");
+  });
+});
+
+function complete(data){
+  if (data.status==1)
+  { 
+    alert(data.info);
+  }else{
+    alert(data.info);
+  }
+}
+
+/*检查是否有选择商品*/
+function checkcart(){
+  var checkedcash = document.getElementById('checkedcash');
+  var cash_use = document.getElementById('cash_use');
+  if (checkedcash.checked === true)
+  {
+    if (cash_use.value > 0)
+    {
+      var d = dialog({title: '正在提交...'}).showModal();
+      setTimeout(function () {
+        $("#clearForm").submit();
+      }, 2000);
+    }
+    else
+    {
+      var dia = dialog({title: '提交订单信息', content: '使用现金券必须输入正确金额',quickClose: true}).show();
+      setTimeout(function () {
+        dia.close().remove();
+      }, 3000);
+    }
+  }
+  $("#clearForm").submit();
+}
+
+$("input[name='cash_use']").bind('keyup',function(e,o){
+  var realpriceobj = document.getElementById('realprice'); // 实付款节点
+  var money_text = document.getElementById('money_text');
+  var totalcash_use = "{$User.cash_use|default='0'}";
+  var keyCode = [0,48,49,50,51,52,53,54,55,56,57,8,13,38,40,96,97,98,99,100,101,102,103,104,105];
+
+  var realprice = {$goods.realprice};
+  if (keyCode.indexOf(e.keyCode) != -1)
+  {
+    var coupon = this.value;
+    if (coupon != '')
+    {
+      if (!isNaN(coupon))
+      {
+        realprice -= parseInt(coupon);
+        if (realprice < 0) realprice = 0;
+      }
+    }
+
+    realprice = realprice.toFixed(2);
+    realprice = comma(realprice);
+    realpriceobj.innerHTML = realprice;
+    if (coupon>=0)
+    {
+      var iscash_use = parseInt(totalcash_use - coupon);
+    }
+    else
+    {
+      var iscash_use = parseInt(totalcash_use);
+    }
+    money_text.innerHTML = iscash_use;
+  }
+});
+function commafy(num) {
+  num = num + '';
+  var reg = /(-?d+)(d{3})/;
+  if(reg.test(num)){
+    num = num.replace(reg, '$1,$2');
+  }
+  return num;
+}
+function comma(num) {
+    var source = String(num).split(".");//按小数点分成2部分
+    source[0] = source[0].replace(new RegExp('(\\d)(?=(\\d{3})+$)','ig'),"$1,");//只将整数部分进行都好分割
+    return source.join(".");//再将小数部分合并进来
+}
+</script>
+<script type="text/javascript">
+//隐藏微信底栏
+document.addEventListener('WeixinJSBridgeReady',function onBridgeReady(){WeixinJSBridge.call('hideToolbar');});
+</script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+{__NOLAYOUT__}<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>{$seo_title}</title>
+    <meta name="description" content="{$seo_keywords}" />
+    <meta name="author" content="{$site_name}" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+
+    <!-- 手机页面全局 css -->
+    <link rel="stylesheet" href="__PUBLIC__/Css/bootstrap.min.css">
+    <link rel="stylesheet" href="__PUBLIC__/src/css/template.css">
+    <!--拓展样式-->
+    <link rel="stylesheet" href="__PUBLIC__/Css/expand.css">
+
+
+    <!-- 本页自用的 css -->
+	<script src="__PUBLIC__/Js/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Public/css/index02.css">
+    <style type="text/css">
+      .margin-bottom-0{
+        margin-bottom: 0!important
+      }
+      .margin-bottom-5{
+        margin-bottom: 5px
+      }
+      .wenzhangye-small-font{
+        text-align: center;
+        display: block;
+        color: #aaa;
+        margin-bottom: 5px
+      }
+      .margin-0-10{
+        margin: 0 10px;
+        margin-bottom: 5px
+      }
+      .div-none-zhanwei{
+        height: 60px
+      }
+      .h1-wenzhangye{
+        margin-top: 20px;
+        margin-bottom: 10px;
+        font-family: "微软雅黑"
+      }
+    </style>
+</head>
+<body class="article">
+  <article class="article">
+  {if $_GET['act']=="register"}
+    <?php $code=M("qrcode")->where("userid=1")->find();?>
+    <div class="code-zoom">
+      <h1 class="text-center">恭喜您注册成功</h1>
+  <img src="{$code.url}" class="margin-auto display-block margin-bottom-20 qrcode">
+      <p class="text-center">微信扫一扫，立即关注</p>
+    </div>
+    <div class="alert alert-info alert-dismissable" style="font-size:20px">
+      <strong>注意</strong>&nbsp;为了更好地为您服务，若尚未关注有酒派公众号请扫描上图二维码或搜索“有酒派”并关注进一步享受我们带来的服务
+    </div>
+  {else}
+    <h1 class="text-center h1-wenzhangye">{$title}</h1>
+    <small class="wenzhangye-small-font">发布时间：{$createtime|date="Y年m月d日",###}</small>
+    <img src="{$thumb}" class="wid-100 margin-bottom-5">
+    <div id="wz">
+    {$content}
+    </div>
+  {/if}
+  </article>
+   
+  <table class="fix">
+    <tbody>
+      <tr>
+        <td style="width:15%;border-right:1px solid #c4c4c4"><a href="javascript:history.back()"><img src="__PUBLIC__/Images/f1.png" class="fanhui"></a></td>
+        <td style="width:28.3%;border-right:1px dashed #c4c4c4"><a href="/index.php" style=" color: #707070;text-decoration:none">商城首页</a></td>
+        <td style="width:28.3%;border-right:1px dashed #c4c4c4"><a href="{:URL('Home-Order/checkout')}" style=" color: #707070;text-decoration:none">购物车</a></td>
+        <td style="width:28.3%"><a href="{:URL('User-Index/index')}" style="color: #707070;text-decoration:none">会员服务</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="div-none-zhanwei"></div><!-- 底拦站位 -->
+  <script type="text/javascript">
+    //隐藏微信底栏
+    document.addEventListener('WeixinJSBridgeReady',function onBridgeReady(){WeixinJSBridge.call('hideToolbar');});
+    //格式化内容
+	$(document).ready(function(){
+		$('#wz').find("*").each(function(){
+			var tem_width=$(this).outerWidth(true);
+			if(Number(tem_width)>=640){
+				$(this).css('width','98%');
+				$(this).css('margin',0);
+				$(this).css('margin','auto');
+			}
+			if($(this).css("margin-left")!='0px'){
+				$(this).css("margin-left",0);
+			}
+			if($(this).css("padding-left")!='0px'){
+				$(this).css("padding-left",0);
+			}
+			if($(this).css("padding-right")!='0px'){
+				$(this).css("padding-right",0);
+			}
+			if($(this).css("margin-right")!='0px')
+				$(this).css("margin-right",0);
+			if($(this).css("text-align")=='center')
+				$(this).css("text-align",'left');
+		});
+
+		$('#wz').find("img").each(function(){
+			$(this).addClass("wid-100 margin-bottom-5");
+		});
+	});
+  </script>
+</body>
+</html>
+
+
+
+
+
+

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>{$seo_title}</title>
+<meta name="description" content="{$seo_keywords}" />
+<meta name="author" content="{$site_name}" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+
+<!-- 手机页面全局 css -->
+<link rel="stylesheet" href="../Public/css/bootstrap.min.css">
+<link rel="stylesheet" href="../Public/src/css/template.css">
+<!--拓展样式-->
+<!-- <link rel="stylesheet" href="__PUBLIC__/Css/expand.css"> -->
+<link rel="stylesheet" href="../Public/src/css/index02.css">
+<link rel="stylesheet" href="../Public/css/home_ubo.css">
+
+<!--组件依赖 js -->
+<!-- <script type="text/javascript" src="../Public/src/zepto.min.js"></script>
+<script type="text/javascript" src="../Public/src/gmu.min.js"></script>
+<script type="text/javascript" src="../Public/src/js/event.js"></script>
+<script type="text/javascript" src="../Public/src/js/widget.js"></script>
+<script type="text/javascript" src="../Public/src/js/touch.js"></script>
+<script type="text/javascript" src="../Public/src/js/matchMedia.js"></script>
+<script src="../Public/src/js/jquery.min.js"></script>
+<script type="text/javascript" src="../Public/src/js/jquery.artDialog.js"></script> -->
+
+<!-- slider 幻灯片-->
+<link type="text/css" rel="stylesheet" href="../Public/src/css/slide.css" />
+<script src="../Public/src/js/slide.js"></script>
+<script type="text/javascript">
+window.onload = function() {
+  var mySwiper = new Swiper('.swiper-container',{
+    //Your options here:
+    mode:'horizontal',
+    loop: true,
+  autoplay:4000,
+  speed: 750,
+    calculateHeight: true,
+    autoplayDisableOnInteraction : false,
+            //etc..
+  });        
+  var mySwiper2 = new Swiper('.swiper-container2',{
+    //Your options here:
+    mode:'horizontal',
+    loop: true,
+  autoplay:4000,
+  speed: 750,
+    calculateHeight: true,
+    autoplayDisableOnInteraction : false,
+    //etc..
+  });  
+}
+
+/*
+Or with jQuery/Zepto
+*/
+</script>
+<style>
+.tab2 p{text-align:center;}
+</style>
+</head>
+<body>
+ <!--  <div class="big">
+    <img src="../Public/img/bg2.png" alt="上优舶" />
+  </div> -->
+  <div class="big">
+    <div class="logo">
+      <img src="../Public/img/logo.png">
+    </div>
+    <div class="searchs">
+      <form style="position:relative;">
+        <input type="text" class="searchs_box" placeholder="请输入要查找的宝贝">
+        <input type="button" class="searchs_button">
+      </form>
+    </div>
+    <div style="clear:both"></div>
+  </div>
+
+ <!--幻灯片-->
+  <!-- <div class="swiper-container " style="text-align: center;">
+      <div class="swiper-wrapper">
+        <volist name="slider_list" id="r">
+        <div class="swiper-slide swiper-slide-duplicate">
+            <a href="{$r.link|default='javascript:'}">
+              <img style="width:100%;" src="{$r.pic|thumb=###,375,251}">
+              </a>
+     
+          </div>
+        </volist>
+      </div>
+      <div class="slide-pagination"></div>
+    </div> -->
+  <div class="swiper-container " style="text-align: center;">
+    <div class="swiper-wrapper">
+      <volist name="slider_list" id="r">
+      <div class="swiper-slide swiper-slide-duplicate">
+          <a href="{$r.link|default='javascript:'}">
+            <img style="width:100%;" src="{$r.pic}">
+            </a>
+          <!-- Any HTML content of the first slide goes here -->
+        </div>
+      </volist> 
+    <!--First Slide-->
+      </div>
+    <div class="slide-pagination"></div>
+  </div>
+  <!--幻灯片结束-->
+  <!-- <div class="tiao" style="z-index:999">
+    <span class="price cRed f18 ">上优舶</span>
+  </div> -->
+ <!--  <table class="tab2">
+        <tobdy>
+          <tr>
+            <td><a href="{:URL('Home-Product/type_goods_list')}&shop_id={$shop_id}" class="daohang"><img src="../Public/img/1.png" style="margin-top:12px"><p style="margin-top:12px">分类</p></a></td>
+            <td><a href="{:URL('Home-Random/reviews')}&shop_id={$shop_id}" class="daohang yanse3"><img src="../Public/img/18.png"><p>品牌</p></a></td>
+            <td><a href="{:URL('User-Index/index')}&shop_id={$shop_id}" class="daohang yanse2"><img src="../Public/img/17.png"><p>个人</p></a></td>
+            <td><a href="/index.php?a=index&m=Page&id=30&shop_id={$shop_id}" class="daohang yanse4"><img src="../Public/img/5.png"><p>客服</p></a></td>
+            <empty name="user_mobile">
+            <td>
+              <a href="{:URL('User-Register/index')}&shop_id={$shop_id}" class="daohang yanse4"><img src="../Public/img/5.png"><p>完善资料</p></a>
+            </td>
+            </empty>
+
+            <td>
+            <a href="{:URL('User-Login/testlog')}&shop_id={$shop_id}" class="daohang yanse4"><img src="../Public/img/17.png"><p>登录</p></a>
+            </td>
+          </tr>
+        </tobdy>
+      </table> -->
+  <table class="tab2">
+        <tobdy>
+          <tr>
+            <td><a href="/index.php?a=index&m=Page&id=12&shop_id=0" class="daohangs"><div class="list"><img src="../Public/img/5.png"></div><p>官方自营</p></a></td>
+            <td><a href="/index.php?a=index&m=Page&id=12&shop_id=0" class="daohangs"><div class="list yanse3"><img src="../Public/img/18.png"></div><p>正品保障</p></a></td>
+            <td><a href="/index.php?a=index&m=Page&id=12&shop_id=0" class="daohangs"><div class="list yanse2"><img src="../Public/img/17.png"></div><p>海外直采</p></a></td>
+            <td><a href="/index.php?a=index&m=Page&id=12&shop_id=0" class="daohangs"><div class="list yanse4"><img src="../Public/img/1.png"></div><p>全场包邮</p></a></td>
+          </tr>
+        </tobdy>
+  </table>

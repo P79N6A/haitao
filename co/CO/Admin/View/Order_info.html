@@ -1,0 +1,248 @@
+
+<include file="Public:adminHead" /><style type="text/css">
+	#back_button{
+		cursor:pointer;position:fixed;border:1px solid #415EF5;padding:3px 5px 3px 5px ;top:97px;right:30px;text-align:center;width:150px;height:25px;background:#fff;color:#fff;background: #33A3EE;
+	}</style>
+<div id="Right">
+
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab" <?php if($order_info['status']==3){ echo 'style="display:none;"';}?> >
+			<tbody>
+				<tr align="center">
+					<?php 
+						if($order_info['status']==0){
+							echo '<td style="width:100px;">
+						<a href="/co/index.php/Order/queren_order.shtml?order_id='.$_GET['order_id'].'">
+							<input type="submit" class="btn submit" value="确认订单"/>
+						</a>
+					</td>';
+						}
+					?>
+					<?php 
+						if($order_info['pay_status']==0){
+							echo '<td style="width:100px;">
+									<a href="/co/index.php/Order/queren_pay.shtml?order_id='.$_GET['order_id'].'">
+										<input type="submit" class="btn submit" value="支付"/>
+									</a>
+								</td>';
+						}
+					?>
+					<?php
+						if($order_info['shipping_status']==0 &&$order_info['pay_status']==2){
+							echo '  <td style="width:100px;">
+										<a href="/co/index.php/Order/queren_fahuo.shtml?order_id='.$_GET['order_id'].'">
+											<input type="submit" class="btn submit" value="发货"/>
+										</a>
+									</td>';
+						}
+					?>
+					<?php
+						if($order_info['status']==1&&$order_info['pay_status']==2&&$order_info['shipping_status']==1){
+							echo '  <td style="width:100px;">
+										<a href="/co/index.php/Order/queren_wancheng.shtml?order_id='.$_GET['order_id'].'">
+											<input type="submit" class="btn submit" value="完成"/>
+										</a>
+									</td>';
+						}
+					?>
+					
+					
+					<!--<td style="width:100px;"><input type="submit" class="btn submit" value="退货"/></td> -->
+					<?php
+						if($order_info['status'] == 1 && $order_info['pay_status']!=2){
+							echo '  <td style="width:100px;">
+										<a href="/co/index.php/Order/zuofei_order.shtml?order_id='.$_GET['order_id'].'">
+											<input type="submit" class="btn submit" value="作废"/>
+										</a>
+									</td>';
+						}
+					?>
+
+					
+					<!-- <td style="width:100px;"><input type="submit" class="btn submit" value="取消"/></td> -->
+					
+					
+					
+				</tr>
+			</tbody>
+		</table>
+		<?php 
+			if ($order_info['status']==3){
+				echo'
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+					<tr><td><input type="submit" class="btn submit" value="订单已作废"/></td></tr>
+				</table>';
+			}
+		?>
+		<span  id="back_button" onclick="history.go(-1)">返回</span>
+		<!-- <form action="" method="post"> -->
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+			
+			<tr>
+				<th width="120">订单编号：</th>
+				<td>
+					{$order_info['sn']}
+				</td>
+			</tr>
+			<tr>
+				<th width="120">创建时间：</th>
+				<td>
+					<?php echo date('Y-m-d  H:i:s',$order_info['add_time']) ;?>
+				</td>
+			</tr>
+
+			<tr>
+				<th width="120">收货人：</th>
+				<td>
+					{$order_info['consignee']}
+				</td>
+			</tr>
+
+			<tr>
+				<th width="120">收货地址：</th>
+				<td>
+					{$Area[$order_info['province']]}{$Area[$order_info['city']]}{$Area[$order_info['area']]}-{$order_info['address']}
+				</td>
+			</tr>
+
+			<tr>
+				<th width="120">联系电话：</th>
+				<td>
+					{$order_info['mobile']}
+				</td>
+			</tr>
+
+			<!-- <tr>
+				<th width="120">邮编：</th>
+				<td>
+					{$order_info['zipcode']}
+				</td>
+			</tr> -->
+
+			<tr>
+				<th width="120">订单邮费：</th>
+				<td>
+					<form action="/co/index.php/Order/order_Shipping.shtml" method="post">
+							<input type="text" class="form-control"   name="order_Shipping" value="{$order_info['shipping_fee']}" style="width:40%;display:inline">
+							<input type="hidden" name="order_id" value="{$_GET['order_id']}"/>
+							<input type="submit" class="btn submit" style="min-width:35px;" value="修改"/></td>
+					</form>
+
+				</td>
+			</tr>
+			
+
+			<tr>
+				<th width="120">订单总费用：</th>
+				<td>
+					<span style="color:red;">￥{$order_info['order_amount']}</span>
+				</td>
+			</tr>
+			
+		</table>
+
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab">
+				<tbody><tr>
+					<td style="width:120px;">商品名称</td>
+					<td style="width:120px;">图片</td>
+					<td style="width:150px;">单价</td>
+					<td style="width:150px;">数量</td>
+					<td style="width:40px;">小计</td>
+					
+					
+				</tr>
+				<volist name='order_list' id="r">
+					
+				<tr align="center" id="11">
+					<td>{$r['product_name']}</td>
+					<td><img style="width:70px;height:70px;" src="{$r['product_thumb']}"></td>
+					<td>{$r['product_price']}</td>
+					<td>{$r['number']}</td>
+					<td>{$r['price']}</td>
+					
+				</tr>		
+				
+				</volist>
+				
+			</tbody>
+		</table>
+
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab">
+				<tbody>
+				<tr align="center">
+					<td style="width:120px;">支付方式：</td>
+					<td style="width:120px;">{$order_info['pay_name']}</td>
+					<td style="width:150px;">支付时间：</td>
+					<td style="width:150px;">
+						<?php 
+							if($order_info['pay_time'] == 0){
+								echo '未支付';
+							}else{
+								echo date('Y-m-d  H:i:s',$order_info['pay_time']) ;
+							}
+						?>
+					</td>
+					
+					
+					
+				</tr>
+				<tr align="center" id="11">
+					<td>配送方式：</td>
+					<td>
+						<form action="/co/index.php/Order/order_shippingname.shtml" method="post">
+							<input type="text" class="form-control" name="shipping_name" value="{$order_info['shipping_name']}" style="width: 50%;display:inline">
+							
+							<input type="hidden" name="order_id" value="{$_GET['order_id']}"/>
+							<input type="submit" class="btn submit" style="min-width:35px;"/></td>
+						</form>
+					 </td>
+					<td>发货时间：</td>
+					<td>
+						<?php 
+							if($order_info['shipping_time'] == 0){
+								echo '未发货';
+							}else{
+								echo date('Y-m-d  H:i:s',$order_info['shipping_time']) ;
+							}
+						?>
+					</td>
+					
+					
+				</tr>		
+				<tr align="center" id="11">
+					<td>货单号码：</td>
+					<td>
+						<form action="/co/index.php/Order/order_num.shtml" method="post">
+							<input type="text" class="form-control" name="order_sn" value="{$order_info['shipping_sn']}" style="width: 50%;display:inline">
+							
+							<input type="hidden" name="order_id" value="{$_GET['order_id']}"/>
+							<input type="submit" class="btn submit" style="min-width:35px;"/></td>
+						</form>
+					<td>收货时间：</td>
+
+					<td>
+						<?php //echo date('Y-m-d  H:i:s',$order_info['accept_time']) ;?>
+						<?php 
+							if($order_info['accept_time'] == 0){
+								echo '未收货';
+							}else{
+								echo date('Y-m-d  H:i:s',$order_info['accept_time']) ;
+							}
+						?>
+					</td>
+					
+					
+				</tr>
+				
+			</tbody>
+		</table>
+
+		
+		<!-- <div class="commonBtnArea" >
+		
+
+			<input type="submit" class="btn submit" />
+		</div> -->
+		<!-- </form> -->
+</div>
+
+<include file="Public:adminFoot" />

@@ -1,0 +1,39 @@
+<include file="Public:adminHead" />
+<div id="Right">
+	<form action="" method="post">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+			<tr>
+				<th style="width:120px;">参考格式：</th>
+				<td>09:00</td>
+			</tr>
+			<volist name="list" id="vo">
+			<tr>
+				<th>时间：</th>
+				<td>
+					<input name="times[]" type="text" class="input" size="40" value="{$vo}" />
+				</td>
+			</tr>
+			</volist>
+			<tr>
+				<th>时间：</th>
+				<td>
+					<input name="times[]" type="text" class="input" size="40" value="" />
+					[<a href="javascript:void(0)" id="add" style="padding:5px 10px;"> + </a>]
+				</td>
+			</tr>
+		</table>
+	<div class="commonBtnArea">
+		<input type="submit" class="btn submit" />
+	</div>
+	</form>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#add").click(function(){
+		var tr = $(this).closest('tr');
+		var str = '<tr><th>时间：</th><td><input name="times[]" type="text" class="input" size="40" value="" /></td></tr>';
+		tr.before(str);
+	});
+})
+</script>
+<include file="Public:adminFoot" />

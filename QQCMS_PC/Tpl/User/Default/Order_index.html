@@ -1,0 +1,38 @@
+{__NOLAYOUT__}
+<include file="Public:headerubo"/> 
+<body class="pang">
+<div class="wid-90 dingdan">
+<h1 class="text-center">我的订单</h1>
+<table class="table table-bordered table-striped width90">
+        <thead>
+          <tr>
+            <th width="35%">日期</th>
+            <th width="25%">订单号</th>
+            <th width="25%">总消费</th>
+            <th width="15%">状态</th>
+          </tr>
+        </thead>
+        <tbody>
+	<volist name="list" id="vo" key="k">
+          <tr>
+            <td>{$vo['add_time']|toDate=###,'Y年m月d日H时'}</td>
+            <td><a href="{:URL('User-Order/show',array(id=>$vo['id']))}">{$vo.sn}</a></td>
+            <td >&yen;{$vo.order_amount|number_format=###,2}</td>
+            <td>{if $vo['status']==2}订单完成{elseif $vo['pay_status']==2}已付款{else}{:L("order_status_".$vo[status])} {/if}<br><button><a href="{:URL('User-Order/show',array(id=>$vo['id']))}">详情</a></button></td>
+          </tr>
+	</volist>
+        </tbody>
+      </table>
+</div>
+    <div class="text-center">
+        <ul class="pagination" style="margin-bottom:20px">
+        {$pages}
+        </ul>
+        </div>
+<script>
+	$("#catid").attr("value",'{$catid}');
+		function confirm_deleteall(){
+			art.dialog.confirm("{:L('real_delete')}", function(){ $('#myform').submit();});
+	}
+</script>
+<include file="Public:footerubo"/>

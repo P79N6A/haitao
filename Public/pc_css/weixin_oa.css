@@ -1,0 +1,10 @@
+/*微信登录二维码相关样式*/
+#login_container{
+	border: 1px solid #E2E2E2;
+}
+#login-oa{display:none;}
+.impowerBox .qrcode {width: 300px;}
+.impowerBox .title {display: none; background:#D2DBE0;}
+.impowerBox .info {width: 200px;}
+.status_icon {display:none}
+.impowerBox .status {text-align: center;} 

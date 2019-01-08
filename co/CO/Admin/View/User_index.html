@@ -1,0 +1,87 @@
+<include file="Public:adminHead" />
+<style type="text/css">
+#jj{
+width:100%;
+border:1px solid #eee;
+margin:10px 0px 10px 0px;
+}
+  #jj th{
+    padding:10px 0px 10px 0px;
+    border-bottom:1px solid #d5dfe8;
+    border-right:1px solid #eee;
+    background: #eef3f7;
+    text-align: center;
+  }
+  #jj  tr{
+    border-bottom:1px solid #E9E6E6;
+  }
+   #jj  tr:hover{
+
+    background: #fbffe4;
+   }
+    #jj td{
+    padding:10px 0px 10px 0px;
+    border-right:1px solid #eee;
+    }
+</style>
+<div id="Right">
+	<div class="contentArea">
+  <div style="display:inline-block;margin-left:10px">金会员即将结束：<div style="display:inline-block;width:30px;height:10px;background: #79BDFC;"></div></div>
+	<form name="myform" action="{:U('User/deleteall')}" method="post">
+<div class="table-list">
+    <table width="100%" cellspacing="0" id="jj">
+        <thead>
+      		<tr>
+      <th align="center" style="padding:5px 0px 5px 0px">微信名</th>  
+      <th>级别</th>
+      <!-- <th>所属微店</th> -->
+      <th>成为会员时间</th>
+      <th>手机</th>
+      <th>消费金额</th>
+      <th >可用电子现金</th>
+      <th>状态</th>
+      <th>操作</th>
+      <!-- <th >操作</th> -->
+      		</tr>
+      	</thead>
+      	<tbody>
+      		<volist name="ulist" id="user" key="k">
+      		<tr <switch name="user['recharge_flat']" >
+                   <case value="1">style="background: #79BDFC;"</case>
+                  <default />
+                  </switch>>
+			<td align="center" style="padding:5px 0px 5px 0px">{$user['wechat_name']}</td>
+      <td align="center">{$user['groupname']}</td>
+          <!-- <td align="center">{$user['parent_name']}</td> -->
+          <td align="center">{$user['createtime']|date="Y-m-d",###}</td> 
+          <td align="center">{$user['mobile']}</td>       
+          <td align="center">{$user['self_fee']}</td>     
+          <td align="center">{$user['cash_use']}</td> 
+      <td align="center">
+          <eq name="user['status']" value="1">
+          已激活
+          <else />
+          未激活
+          </eq>
+          </td>        
+			<td align="center"><a class="pth-btn" href="/co{:U('User/edit',array(id=>$user['id']))}">详情</a></td>      		
+      		</tr>
+      		</volist>
+      	</tbody>
+    </table>
+  
+  </div>
+</div>
+</form>
+
+     <div class="text-center">
+        <ul class="pagination" style="margin-bottom:20px">
+        {$page}
+        </ul>
+      </div>
+
+		
+	</div>
+</div>
+
+<include file="Public:adminFoot" />

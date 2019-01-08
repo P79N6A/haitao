@@ -1,0 +1,264 @@
+  <!-- 本页自用的 js -->
+  <load href="../Public/js/jquery.form.js"/>
+  <!--表单验证提示-->
+  <load href="../Public/js/jquery.validate.js"/>
+
+<!-- dialog V6 -->
+<load href="../Public/css/ui-dialog.css" />
+<load href="../Public/dist/dialog-min.js" />
+<load href="../Public/dist/dialog-config.js" />
+
+<div style="clear: both;"></div>
+
+<!-- 登录注册按钮 -->
+<!-- <div class="priceList">
+  <p id="m-bottom">
+        <button type="button" onclick="createAccount(this);" data="DoUserForm" class="btn btn-default btn-lg btn-primary">
+        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 注册
+    </button>
+    <button type="button" class="btn btn-default btn-lg btn-warning">
+        <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 登录
+    </button>
+</div> -->
+<!-- END -->
+
+<style>
+.denglu table td > h6{
+  margin-left: 18px;
+  font-size: 14px;
+  color: #B71916;
+}
+H6{float: left;margin-bottom: 0px;margin-top: 0px;}
+.sendSMS H6{margin-bottom: 0px; float: left;}
+.btn-war {color: #ffffff;background-color: #29A8A3;border-color: #FFFFFF;}
+.btn-send {padding: 5px 5px;font-size: 18px;line-height: 1.3333333;border-radius: 6px;}
+.btn-send:active, .btn-send:link, .btn-send:hover{text-decoration: none; color: #ffffff;}
+.table-bordered input{height: 20px;}
+</style>        
+
+<!-- 推广 -->
+<div class="sidePane">
+<!-- NEWSLETTER -->
+
+  <div class="subMenu"></div>
+</div>
+        <!-- END -->
+
+<!-- 注册框 -->
+<form id="myform"  method="post" action="{:U('User/Register/wechat_doreg')}" onsubmit="return check();">
+<input type="hidden" name="token" class="button_success" value="{$shortoken}" />
+<h1 class="text-center">登记个人身份资料</h1>
+<div class="denglu">
+    <div class="alert alert-info alert-dismissable">
+      <p>资料用于购物的商品在海关申报入境，必须真实有效，个人身份信息不实会导致商品无法入境.</p>
+    </div>
+
+  <table class="table table-striped table-bordered">
+    <tr>
+      <td class="align">真实姓名</td>
+      <td>
+        <div class="col-sm-11">
+          <input type="text" id="realname" name="realname" class="input-text  form-control" validate="required:true, minlength:2, maxlength:25" placeholder="为了您的购物更方便，请填写真实姓名" value="{$user.realname}" />
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="align">身份证</td>
+      <td>  
+        <div class="col-sm-11">
+          <input type="text" class="input-text form-control" autocomplete="off" maxlength="18" name="identity" id="identity" validate="required:true, idcard:true,minlength:18, maxlength:18" placeholder="请输入一个正确的身份证号" value="{$user.identity|default=''}" />
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="align">手机号码</td>
+        <td class="sendSMS">  
+          <div class="col-sm-11">
+            <input type="text" style="width: 50%;float: left;" class="input-text form-control"  name="mobile" validate="required:true, mobile:true, minlength:11, maxlength:11" placeholder="长度为11位的手机号码" value="{$user.mobile}" />
+            <a href="javascript:" style="float: left;margin-left: 10px;" class="btn btn-send btn-war" onclick="sendSMS(this);">获取验证码</a>
+          </div>
+        </td>
+    </tr>
+    <tr style="display:none;" id="sendsms-text">
+      <td class="align">手机验证码</td>
+        <td>  
+          <div class="col-sm-11">
+            <input type="text" style="width: 30%;float: left;" class="input-text form-control" id="smscode" name="smscode" alt="mobile" validate="sendsms:'{:U('User/Register/checksmscode')}', minlength:1, maxlength:40" placeholder="请输入手机验证码">
+            <font color="#dddddd" size="1" style="line-height: 28px;font-style: italic;font-weight: bold;float: left;color: #29A8A3;">&nbsp;&nbsp;【10分钟内有效】</font>
+          </div>
+        </td>
+    </tr>
+    <tr style="display:none;">
+      <td class="align">邮箱</td>
+        <td>  
+          <div class="col-sm-11">
+            <input type="text" class="input-text form-control"  name="email" validate="email:true, minlength:1, maxlength:40" placeholder="选填">
+          </div>
+        </td>
+    </tr>
+    <tr style="display:none;">
+      <td class="align">省份</td>
+        <td>  
+          <div class="col-sm-11">
+            <select name="province" id="province" onchange="area_change(this.value, 1,'province','city','area');" class="ddlbox form-control" >
+                 <option value="0">选择省份</option>
+              </select>
+          </div>
+        </td>
+    </tr>
+    <tr style="display:none;">
+      <td class="align">市</td>
+        <td>  
+          <div class="col-sm-11">
+            <select name="city" onchange="area_change(this.value, 2,'province','city','area');" id="city" class="ddlbox form-control" >
+                 <option value="0">选择城市</option>
+             </select>
+          </div>
+        </td>
+    </tr>
+    <tr style="display:none;">
+      <td class="align">区</td>
+        <td>  
+          <div class="col-sm-11">
+            <select class="form-control ddlbox" name="area" onchange="area_change(this.value, 3,'province','city','area');" id="area" class="" >
+              <option value="0">选择地区</option>
+             </select>
+          </div>
+        </td>
+    </tr>
+    {if  $member_config['member_login_verify']}
+    <tr>
+      <td>
+        验证码
+      </td>
+      <td><input name="verifyCode" class="form-control"  class="inputbox" id="verifyCode"  size="6" value="" maxlength="4" placeholder="输入下图的验证码"/><br/><img src="{:U('Home/Index/verify')}" onclick="javascript:resetVerifyCode();" class="checkcode" align="absmiddle"  title="{:L('resetVerifyCode')}" id="verifyImage"/>
+      </td>
+    </tr>
+    {/if}
+    <td colspan="2"><input type="checkbox" class="input-text terms" checked >我已阅读并同意遵守<a href="{:URL('User-Register/terms')}">《上优舶国际时尚直购门户用户手册》</a></td>
+  </table>
+
+</div>
+<div class="anniu">
+<input type="hidden" name="checkout_act" value="{$_GET['checkout_act']}" />
+<input type="submit" class="btn btn-primary btn-lg" style="margin-bottom:10px" value="保存资料" />
+</div>
+<!-- END -->
+</form>
+<div class="listel" style="margin-top:10px; clear:both;"></div>
+<script>
+
+  //地址
+    function area_change(id,level,province,city,area,lang,provinceid,cityid,areaid){
+
+  var datas={'level':level,'provinceid':provinceid,'cityid':cityid,'areaid':areaid,'lang':lang};
+  $.ajax({
+    type:"POST",
+    url: "/index.php?m=Ajax&a=Area&id="+id,
+    data: datas,
+    timeout:"4000",
+    dataType:"json",
+    async:false,
+    success: function(data){ 
+      if(level==0){
+      $('#'+province).html(data.province);
+      $('#'+city).html(data.city);
+      $('#'+area).html(data.area);
+      }else if(level==1){
+      $('#'+city).html(data.city);
+      $('#'+area).html(data.area);
+      }else if(level==2){
+        $('#'+area).html(data.area);
+      }
+    },
+    error:function(){
+    }
+  }); 
+}
+area_change(0, 0,'province','city','area','',{$address.province|default=0},{$address.city|default=0},0);//地址
+jQuery(document).ready(function($){
+
+  $('#myform').ajaxForm({
+    beforeSend:function(){
+      //$('#result').html('<img src="__PUBLIC__/Images/loading.gif"><span>正在提交</span>').show();;
+     },
+    success: complete,  // post-submit callback
+    dataType: 'json'
+  });
+});
+
+function complete(data){
+  if (data.status == 0)
+  {
+    var d = dialog({title: '温馨提示',backdropOpacity: '0.2',backdropBackground: '#fff',cancelValue: '关闭',content: data.info}).showModal();
+    setTimeout(function () {
+        d.close().remove();
+    }, 3000);
+  }
+  else
+  {
+    var d = dialog({
+      title: '温馨提示',
+      backdropOpacity: '0.2',
+      backdropBackground: '#fff',
+      okValue:'个人中心',
+      cancelValue: '返回',
+      content: data.info,
+      ok: function () {
+        window.location.href="{:URL('User-Index/index')}";
+        return false;
+      },
+      cancel: function () {
+        if (data.status == 2)
+          window.location.href = data.data;
+        else
+          window.location.href = "{:URL('Home-Index/index')}";
+        return false;
+      }
+    }).showModal();
+  }
+}
+ function check(){
+  var item=$('.terms').attr('checked');
+  if(item!='checked'){
+    $('.terms').parent().append("<p><em for='mobile'>请勾选此协议</em></p>");
+    return false;
+  }
+ }
+
+function sendSMS(obj)
+{
+  var aobj = $(obj);
+  var objs = $(obj).parent();
+  var mobile = $(objs).find("input[name='mobile']").val();
+  $.ajax({
+    type:"POST",
+    url: "{:URL('User-Register/sendSMS')}",
+    data: {mobile:mobile},
+    timeout:"4000",
+    dataType:"json",
+    async:false,
+    success: function(json){
+      if (json.status == 1)
+      {
+        aobj.attr('disabled','disabled');
+        aobj.text('已发送');
+        $("#sendsms-text").find('input').attr('id',json.data);
+        $("#sendsms-text").find('input').attr('alt',mobile);
+        $("#sendsms-text").fadeIn();
+      }else if(json.status == '101'){
+        aobj.attr('disabled','disabled');
+        aobj.text('信息已发送');
+        $("#sendsms-text").find('input').attr('id',json.data);
+        $("#sendsms-text").find('input').attr('alt',mobile);
+        $("#sendsms-text").fadeIn();
+      }else{
+        alert(json.info);
+      }
+    },
+    error: function(){
+      alert("连接错误");
+    }
+  });
+}
+</script>

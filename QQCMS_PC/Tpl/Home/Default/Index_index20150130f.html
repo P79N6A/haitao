@@ -1,0 +1,257 @@
+<include file="Home:header"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Css/jquery.jslides.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Css/ScrollPic.css" />
+<script src="__PUBLIC__/Js/jquery.jslides.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/ScrollPic.js"></script>
+	<!--Home_rindex-->  
+    <include file="Home:rindex"/>
+    <!--end--> 
+    <!-- CONTENT -->
+	<div class="carrousel-special-offers" style="margin-top:10px">
+            <div class="b_cont banner">
+                <div id="scroll_jdt">
+                <YP:list sql="select id,title,pic,link from `qq_pcslide_data` where fid=11 and status=1 Order by id desc limit 0,5">
+                    <div class="ct_p_05">
+                        <a href="{$r.link}"><img alt="{$r.pic}" width="730" src="{$r.pic}"></a>
+                    </div>
+                </YP:list>
+                </div>
+                <div class="scrDotList_wrap">
+                    <span class="scrDotList" id="slide_dot">
+                        <span></span>
+                    </span>
+                </div>
+                
+               <!-- <a href="javascript:void(0)" id="scroll_left" class="scrArrAbsLeft"></a>
+                <a href="javascript:void(0)" id="scroll_right" class="scrArrAbsRight"></a>-->
+        </div>
+		<script type="text/javascript">
+        $(document).ready(function() {
+          $("#owl-carousel").owlCarousel({
+            navigation : false, // Show next and prev buttons
+            slideSpeed : 300,
+            paginationSpeed : 400,
+            //Autoplay
+            autoPlay : 4000,
+            stopOnHover : true,
+            singleItem: true,
+            rewindSpeed: 0
+          });
+        });
+        </script>
+  
+  
+		<script type="text/javascript">
+        (function(){
+            var focusScroll_01 = new ScrollPic();
+            focusScroll_01.scrollContId   = "scroll_jdt"; //内容容器ID
+            focusScroll_01.dotListId = "slide_dot";
+            focusScroll_01.dotClassName = "";
+            focusScroll_01.dotOnClassName = "on";
+            focusScroll_01.listType       = "";//列表类型(number:数字，其它为空)
+            focusScroll_01.listEvent      = "onmouseover"; //切换事件
+            focusScroll_01.frameWidth     = 730;//显示框宽度
+            focusScroll_01.pageWidth      = 730; //翻页宽度
+            focusScroll_01.upright        = false; //垂直滚动
+            focusScroll_01.speed          = 10; //移动速度(单位毫秒，越小越快)
+            focusScroll_01.space          = 100; //每次移动像素(单位px，越大越快)
+            focusScroll_01.autoPlay       = true; //自动播放
+            focusScroll_01.autoPlayTime   = 5; //自动播放间隔时间(秒)
+            focusScroll_01.circularly     = true;
+            focusScroll_01.initialize(); //初始化
+            document.getElementById('scroll_left').onmousedown = function(){
+                focusScroll_01.pre();
+                return false;
+            }
+            document.getElementById('scroll_right').onmousedown = function(){
+                focusScroll_01.next();
+                return false;
+            }
+        })()
+        </script>
+    </div>
+
+	<div class="listel" style="margin-top:10px; clear:both;"></div>
+
+<div class="body">
+	<div class="homeMosaic">
+        <div class="row">
+            <div class="news largeBlock">
+                <a href="{$column[0].url}">
+                    <img src="{$column[0].pic}" width="480" height="234" alt="champagne"  border="0">
+                </a>
+            </div>
+        	<div class="blockSeparator"></div>
+            <div class="news largeBlock">
+                <a href="{$column[1].url}">
+                    <img src="{$column[1].pic}" width="480" height="234" alt="champagne"  border="0">
+                </a>
+            </div>
+        </div>
+    	<div class="rowSeparator"></div>
+    <div class="row">
+      <div class="newcomings largeBlock">
+        <img class="title" src="__PUBLIC__/pc_img/nouveautes_titre.gif">
+        <table class="layoutTable">
+          <tbody><tr>
+            <td><img class="image" src="__PUBLIC__/pc_img/nouveautes_image.jpg"></td>
+            <td>
+              <img class="subTitle" src="__PUBLIC__/pc_img/nouveautes_soustitre.gif">
+              <script src="__PUBLIC__/pc_js/jquery.mousewheel.min.js" type="text/javascript"></script>
+              <script src="__PUBLIC__/pc_js/jcarousellite_1.0.1.min.js" type="text/javascript"></script>
+              <script>
+                jQuery(function(){
+                  jQuery.ajax({
+                    url: '/liste.html?pageType=newcomings&ajax=true',
+                    success: function(data) {
+                      $('#newcomingsContainer').html(data);
+                      $(".newsContainer").jCarouselLite({
+                        vertical:true,
+                        circular:true,
+                        mouseWheel: true,
+                        visible:3,
+                        auto: 1500,
+                        speed:500
+                      });
+                    }
+                  });
+                });
+              </script>
+              <div class="newsContainer" id="newcomingsContainer" style="visibility: visible; overflow: hidden; position: relative; z-index: 2; left: 0px; height: 138px;"><style>
+
+  li.newcommingsCarouselItem {
+    border-bottom: 1px solid #999999;
+    padding:0px 4px;
+    height:45px;
+  }
+
+  table.verticalAlignWrapper
+  {
+    height:45px;
+    padding:0;
+    margin:0;
+  }
+
+  table.newcommingsWine {
+    width:338px;
+    margin:0;
+    padding:0;
+    max-height:45px;
+    line-height:normal;
+    vertical-align: middle;
+  }
+
+  table.newcommingsWine tr td {
+    padding:0;
+    margin:0;
+  }
+
+  table.newcommingsWine span.wineName {
+    font-weight: bold;
+    font-size:12px;
+  }
+
+  table.newcommingsWine span.wineName a {
+    text-decoration: none;
+    color:#000000;
+  }
+
+  table.newcommingsWine span.wineName a:visited {
+    color:#000000;
+  }
+
+  table.newcommingsWine span.wineName a:hover {
+    text-decoration: underline;
+  }
+  
+  table.newcommingsWine span.wineYear {
+    font-size:10px;
+  }
+
+  table.newcommingsWine span.winePrice {
+    font-size:12px;
+    font-weight:bold;
+  }
+
+  table.newcommingsWine span.winePrice span {
+    font-size:12px;
+    color:#BE1B1B;
+  }
+
+  table.newcommingsWine span.wineTax {
+    font-size:12px;
+    font-weight: bold;
+  }
+
+  table.newcommingsWine span.wineDescription {
+    font-size:10px;
+    color:#999999;
+  } 
+
+</style>
+<script type="text/javascript" src="__PUBLIC__/pc_js/jquery-newcomm.js"></script>
+<script type="text/javascript" src="__PUBLIC__/pc_js/scroll.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.list_lh li:even').addClass('lieven');
+  
+  $("div.list_lh").myScroll({
+    speed:80, //数值越大，速度越慢
+    rowHeight:48 //li的高度
+
+  });
+})
+</script>
+<link type="text/css" href="__PUBLIC__/pc_css/scroll_newcomm.css" rel="stylesheet" />
+  <ul style="margin: 0px; padding: 0px;">
+
+     <div class="bcon">
+  <!-- 代码开始 -->
+  <div class="list_lh">
+    <ul>
+    <volist name="comment" id="vo">
+      <li>
+        <p><a href="javascript:">{$vo.title}</a><a href="javascript:" class="btn_lh">领号</a></p>
+        <p><a href="javascript:" class="a_blue">{$vo.content}</a><span>{$vo.createtime|toDate=###,'Y-m-d H:i:s'}</span></p>
+      </li>
+    </volist>
+    </ul>
+  </div>
+  <!-- 代码结束 -->
+ 
+  </ul>
+</div>
+            </td>
+          </tr>
+        </tbody></table>
+    <div class="footerBar">
+        <a href="http://www.millesimes.com/liste.html?pageType=newcomings">
+            <div class="imageDiv">
+                <img src="__PUBLIC__/pc_img/nouveautes_bt.gif">
+            </div>
+            <div class="textDiv">Toute la liste</div>
+        </a>
+    </div>
+</div>
+<div class="blockSeparator"></div>
+    <div class="amateurs midBlock">
+    	<a class="more" href="{$column[3].url}"><img src="{$column[3].pic}" width="236" height="234"></a>      
+    </div>
+      	<div class="blockSeparator"></div>
+        <div class="primeurs midBlock">
+            <a href="{$column[4].url}">
+                <img src="{$column[4].pic}" width="223" height="109" alt="{$column[4].column_name}">
+            </a> 
+            <p> </p>
+            <a href="{$column[5].url}">
+                <img src="{$column[5].pic}" width="223" height="109" alt="{$column[5].column_name}">
+            </a>
+            <p></p>      
+        </div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+<include file="Home:footer"/>

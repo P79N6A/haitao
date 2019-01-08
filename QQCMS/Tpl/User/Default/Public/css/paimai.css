@@ -1,0 +1,162 @@
+.pang{
+ padding: 0;
+ background:rgba(255,255,255,1)
+}
+.chang{
+    width: 100%;
+    margin:7px auto;
+}
+.tabl{
+    border-bottom: 1px solid #dfdfdf;
+    box-shadow:1px 1px 7px rgb(209,209,209);
+    width:100%;
+}
+
+                        .logo{
+    float: left;width: 50px;
+    padding: 10px;
+}
+.chang{
+    width: 95%
+}
+.copyright{
+    text-align: center;
+    margin-bottom: 50px;
+    font-size:.8em;
+    margin-top: 8px
+}
+
+p,div,span,a,i,table{
+    font-family: "微软雅黑"
+}
+.fix{
+    width: 100%;
+    position: fixed;
+    border:1px solid #e5e5e5;
+    bottom: 0;
+    text-align: center;
+    height: 38px;
+    font-size: 14px;
+    font-family: "微软雅黑";
+    background:white;
+    z-index: 999!important
+
+}
+.fanhui{
+    width: 18px;
+}
+.wid{
+    width: 100%
+}
+.xia{
+    
+}
+.ulc{
+    margin-top: 10px;
+    list-style:none;padding:0
+}
+.t{
+    width: 110px;
+    float: left;
+    border: 1px solid #e1e1e1;
+    border-radius: 10px;
+    height:145px;
+}
+.uib{
+    margin-left: 120px;
+    line-height: 25px
+
+}
+.ui{
+ border-bottom: 1px solid #d7d7d7;
+ padding: 15px;
+}
+.copyright{
+    margin-top:20px;
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: .8em;
+    color: black!important;
+    padding:5px;
+}
+.large{
+    font-weight: bold;
+}
+.uic{
+    font-size: 12px;
+    color: #585858
+}
+.col{
+    color: #f50;
+    font-size: 15px
+}
+.ui-panel{
+    width: 9em!important;
+    background: #eee!important;
+    padding: 0!important
+}
+.colo-beside{
+    background: rgb(148,148,148);
+    padding: 6px;
+    width: 100%;
+    text-align:center;
+    color:white
+}
+.time{
+    text-align: center;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #cacaca;
+    display: block;font-size: 15px;
+    margin-bottom: 0!important;
+    color: black!important
+}
+.disa{
+    text-align: center;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #cacaca;
+    display: block;font-size: 15px;
+    margin-bottom: 0!important;
+    color:#9c9c9c;
+}
+.qianggou{
+    padding: 5px;
+    display: block;
+}
+.padding-head{
+    padding:6px;
+    background: #e5e5e5
+}
+.colos{
+    margin-left:8px;
+    color: rgb(255,122,0);
+    margin-bottom: 0!important;
+    font-size:16px;
+    font-weight: bold;
+    display: inline-block;
+
+}
+.colos2{
+    line-height: 2;
+    font-size: 12px;
+    margin-bottom: 0!important;
+    display: inline-block;
+    float: right;
+
+}
+.brand{
+    width: 117px!important
+}
+.yuanjia{
+    margin:0!important;
+    font-size: 13px;
+    color: #acacac!important;
+}
+.margin-bottom-0{
+    margin-bottom: 0!important
+}
+.paimai-p{
+    height: 26px;
+    overflow: hidden;
+}

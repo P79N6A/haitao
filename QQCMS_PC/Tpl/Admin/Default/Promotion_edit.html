@@ -1,0 +1,143 @@
+<link rel="stylesheet" href="__PUBLIC__/Css/jquery-labelauty.css" />
+<style type="text/css">
+ul{list-style-type: none;}
+li{display: inline-block;}
+li{margin: 10px 5px;}
+input.labelauty + label{font:12px "Microsoft Yahei";}
+</style>
+<?php/* print_r($UserGroupInfo);exit;*/?>
+<script type="text/javascript">
+$(function(){	
+	$('.tabPanel ul li').click(function(){
+		$(this).addClass('hit').siblings().removeClass('hit');
+		$('.panes>div:eq('+$(this).index()+')').show().siblings().hide();	
+	})
+})
+</script>
+
+<div id="msg"></div>
+<form name="myform" id="myform" action="<if condition="$action_name=='add'">{:U($module_name.'/insert')}<else />{:U($module_name.'/update')}</if>&iscreatehtml=1" method="post">
+<div id="filelist" class="hide"></div>
+<div class="error"><ul></ul></div>
+<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+	<tr>
+		<td width="10%" ><if condition="$fields[catid]['required']"><font color="red">*</font></if>{$fields[catid].name}</td>
+		<td width="90%" colspan="6" id="box_{$fields[catid]['field']}">
+		{$fields[catid]|getform=$form,###}
+		</td>
+	</tr>
+	<tr>
+		<td width="10%" ><if condition="$fields[title]['required']"><font color="red">*</font></if>{$fields[title].name}</td>
+		<td width="90%" colspan="6" id="box_{$fields[title]['field']}">
+		{$fields[title]|getform=$form,###}
+		</td>
+	</tr>
+
+	<tr>
+		<td width="10%" ><if condition="$fields[logo]['required']"><font color="red">*</font></if>{$fields[logo].name}</td>
+		<td width="90%" colspan="6" id="box_{$fields[logo]['field']}">
+		{$fields[logo]|getform=$form,###}
+		</td>
+	</tr>
+
+	<!-- 活动发起人 -->
+	<tr style="display:none;">
+		<td width="10%" ><if condition="$fields[eventser]['required']"><font color="red">*</font></if>{$fields[eventser].name}</td>
+		<td width="90%" colspan="6" id="box_{$fields[eventser]['field']}">
+		{$fields[eventser]|getform=$form,###}
+		</td>
+	</tr>
+
+	<tr>
+		<td width="10%">发起人【商家】</td>
+		<td width="5%"><empty name="uInfo[realname]">{$uInfo[username]}<else/>{$uInfo[realname]}</empty></td>
+		<td width="5%"><input type="checkbox" name="setstore" data-labelauty="设置发起人" value="设置发起人"></td>
+		<td width="80%" colspan="5" id="setstoreShow" style="display:none;">
+			<div class="tabPanel">
+				<ul>
+				<volist name="UserGroupInfo" id="vv">
+					<li>{$vv.name}</li>
+				</volist>
+				</ul>
+				<div class="panes">
+					<volist name="UserGroupInfo" id="vv">
+					<div class="pane">
+					<volist name="vv[UserInfo]" id="item">
+						<li>
+							<input type="radio" name="eventser" <in name="vo[eventser]" value="$item[userid]">checked="checked"</in> <empty name="item[realname]"> data-labelauty="{$item.username}"<else/> data-labelauty="{$item.realname}"</empty> value="{$item.userid}">
+						</li>
+					</volist>
+					</div>
+					</volist>
+				</div>
+			</div>
+		</td>
+	</tr>
+
+	<!-- 活动报名开放时间段 -->
+	<!-- 开始时间 -->
+	<tr>
+		<td width="10%">设置允许条件</td>
+		<td width="10%" ><if condition="$fields[sttime]['required']"><font color="red">*</font></if>{$fields[sttime].name}</td>
+		<td width="10%" id="box_{$fields[sttime]['field']}">
+		{$fields[sttime]|getform=$form,###}
+		</td>
+		<td width="10%" ><if condition="$fields[edtime]['required']"><font color="red">*</font></if>{$fields[edtime].name}</td>
+		<td width="10%" id="box_{$fields[edtime]['field']}">
+		{$fields[edtime]|getform=$form,###}
+		</td>
+		<td width="10%" ><if condition="$fields[minprice]['required']"><font color="red">*</font></if>{$fields[minprice].name}</td>
+		<td width="40%" id="box_{$fields[minprice]['field']}">
+		{$fields[minprice]|getform=$form,###}
+		<font color="#b3b3b3">在此时间段内，满足的消费金额</font>
+		</td>
+	</tr>
+
+	<!-- 内容 -->
+	<tr>
+		<td width="10%" ><if condition="$fields[content]['required']"><font color="red">*</font></if>{$fields[content].name}</td>
+		<td width="90%" colspan="6" id="box_{$fields[content]['field']}">
+		{$fields[content]|getform=$form,###}
+		</td>
+	</tr>
+
+	<tr>
+		<td width="10%" ><if condition="$fields[createtime]['required']"><font color="red">*</font></if>{$fields[createtime].name}</td>
+		<td width="90%" colspan="6" id="box_{$fields[createtime]['field']}">
+		{$fields[createtime]|getform=$form,###}
+		</td>
+	</tr>
+
+	<tr>
+		<td width="10%" ><if condition="$fields[status]['required']"><font color="red">*</font></if>{$fields[status].name}</td>
+		<td width="90%" colspan="6" id="box_{$fields[status]['field']}">
+		{$fields[status]|getform=$form,###}
+		</td>
+	</tr>
+</table>
+<div id="bootline"></div>
+<div id="btnbox" class="btn">
+<if condition="$vo['id']!=''"><input TYPE="hidden" name="id" value="{$vo.id}"></if>
+<input type="hidden"  name="lang" value="{$langid}" />
+<input type="hidden" name="forward" value="{$_SERVER['HTTP_REFERER']}" />
+<INPUT TYPE="submit"  value="{:L('dosubmit')}" class="button" >
+<input TYPE="reset"  value="{:L('cancel')}" class="button">
+</div>
+</form>
+</div>
+<!-- <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script> -->
+<script type="text/javascript" src="__PUBLIC__/Js/jquery-labelauty.js"></script>
+<script type="text/javascript">
+$(function(){
+	$(':input').labelauty();
+});
+</script>
+<script type="text/javascript">
+$("input[name='setstore']").click(function(){
+	$("#setstoreShow").toggle();
+});
+$(".tabPanel").find("ul li:first").addClass("hit");
+$(".panes").find(".pane:first").show();
+$(".thumb_box").css("position","initial");
+$("#box_title").css("display","table-cell");
+</script>

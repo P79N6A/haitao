@@ -1,0 +1,18 @@
+<include file="Home:headerred"/>
+<style type="text/css">
+.bg{width:100%;background-color:#f2f2f4;position: relative;}
+.bg img{width:100%;}
+.bg .text {width: 70%;position: absolute;top: 5%;left: 16%;color: #888;font-size: 24px;font-weight: bolder;text-align: center;}
+.foot img{float:left;margin-right:5%;width:25%}
+</style>
+<div class="bg">
+  <img src="../Public/img/end.png">
+  <p class="text">可惜了，<span>{$userinfo.wechat_name|default="微信用户"}</span>的红包抢完了！</p>
+  <p class="xianshi">限时优惠：即时关注上优舶可获得100元红包</p>
+</div>
+<div class="foot">
+ <img src="../Public/img/erweima.jpg">
+ <p><strong>长按二维码关注上优舶公众号3折海淘大牌</strong></p>
+ <div style="clear:both"></div>
+</div>
+<include file="Home:footer"/>

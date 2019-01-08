@@ -1,0 +1,107 @@
+
+    <!-- 本页自用的 css -->
+    <link rel="stylesheet" href="../Public/Css/index02.css">
+    <style type="text/css">hr{margin-top: 0!important}</style>
+
+    <!-- 本页自用的 js -->
+    <script src="../Public/js/jquery2.min.js?version=1.11.0"></script>
+ 
+<body class="pang">
+    <div class="wid-90">
+      <h3 class="padding-10">我的地址<small class="margin-left-5">Myplace</small></h3>
+      <hr>
+      <volist name="default_address" id="vo">
+      <div class="wodexiaoxi-first-div">
+
+        <div class="media media-div inline-block-p">
+          <div>
+            <strong>姓名:</strong>
+            <p class="margin-right-5">{$vo.consignee}</p>
+            <p class="pull-right">{$vo.mobile}</p> 
+            <strong class="pull-right">手机：</strong>
+          </div>
+          <div>
+            <strong> 省份:</strong>
+            <p class="margin-right-5">{$area[$vo['province']]}</p>
+            <p class="pull-right">{$area[$vo['city']]}</p> 
+            <strong class="pull-right">市：</strong>
+          </div>
+          <div>
+            <strong>区:</strong>
+            <p class="margin-right-5">{$area[$vo['area']]}</p>
+          </div>
+          <div>
+            <strong>详细地址:</strong>
+            <p class="margin-right-5">{$vo.address}</p>
+          </div>
+          <div class="div-none-btn-a"></div><!-- 按钮站位 -->
+          <a href="{:URL('User-Index/edit_address')}&id={$vo.id}" class="btn btn-warning btn-absolute-double">管理</a>
+          <a href="javascript:"  onclick="dele({$vo.id})"  class="btn btn-danger btn-absolute-double btn-absolute-right-0" data-toggle="modal" data-target="#myModal">删除<i class="glyphicon glyphicon-remove margin-left-3"></i></a>
+        </div>
+      </div>
+      </volist>
+      <volist name="address" id="vo">
+      <div class="wodexiaoxi-first-div">
+            <div class="media media-div inline-block-p">
+          <div>
+            <strong>姓名:</strong>
+            <p class="margin-right-5">{$vo.consignee}</p>
+            <p class="pull-right">{$vo.mobile}</p> 
+            <strong class="pull-right">手机：</strong>
+          </div>
+          <div>
+            <strong> 省份:</strong>
+            <p class="margin-right-5">{$area[$vo['province']]}</p>
+            <p class="pull-right">{$area[$vo['city']]}</p> 
+            <strong class="pull-right">市：</strong>
+          </div>
+          <div>
+            <strong>区:</strong>
+            <p class="margin-right-5">{$area[$vo['area']]}</p>
+          </div>
+          <div>
+            <strong>详细地址:</strong>
+            <p class="margin-right-5">{$vo.address}</p>
+          </div>
+          <div class="div-none-btn-a"></div><!-- 按钮站位 -->
+          <a href="{:URL('User-Index/edit_address')}&id={$vo.id}" class="btn btn-warning btn-absolute-double">管理</a>
+          <a href="javascript:" onclick="dele({$vo.id})" class="btn btn-danger btn-absolute-double btn-absolute-right-0" data-toggle="modal" data-target="#myModal" >删除<i class="glyphicon glyphicon-remove margin-left-3"></i></a>
+        </div>
+      </div>
+      </volist>
+      <div class="wodexiaoxi-first-div background-eee">
+        <div class="media media-div padding-25-10">
+          <a href="{:URL('User-Index/edit_address')}">
+            <i class="glyphicon glyphicon-plus glyphicon-plus-button"></i>
+            <p class="text-center add-place-p">添加新地址</p>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="div-none"></div><!-- 底拦站位 -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">删除地址</h4>
+          </div>
+          <div class="modal-body">
+            <strong>亲爱的顾客！</strong>
+            <p>你确定要删除现有地址?</p>
+          </div>
+          <div class="modal-footer margin-top-0">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <a href="#" class="btn btn-danger confi_dele">删除</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <script>
+    function dele(id){
+      $(".confi_dele").attr("href","/index.php?g=User&m=Index&a=delete_address&id="+id);
+    }
+    </script>

@@ -1,0 +1,240 @@
+<include file="Home:header2"/>
+<!-- 本页自用的 css -->
+ <link rel="stylesheet" href="../Public/css/chujia.css" />
+    <!-- dialog对话框 -->
+    <script type="text/javascript" src="__PUBLIC__/src/js/widget/dialog/dialog.js"></script>
+
+    <div  style="width:90%;margin:2em auto">
+    <h1 class="text-center">{$pro_info.title}</h1>
+    <table class="table" style="margin-bottom:0">
+      <tr>
+        <td style="width:114px">起拍价：{$pro_info.start_price}元</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>最小加价：<span class="old-price">{$pro_info.min_price}元</span></td>
+        <td></td>
+      </tr>
+    </table>
+
+    <div class="liuyan" style="background:#5cb85c;color:white">
+    <div class="liuyan2">
+      <table class="wid">
+      <tr>
+        <td>最新出价：<span class="price" style="color:#FFEB00">{$new_price.price}</span>元</td>
+      </tr>
+    </table>
+    </div>
+
+    <div class="liuyan2"><p>{$new_price.realname}：</p>{$new_price.content}<p class="text-right">{$new_price.createtime|date="Y年m月d日H时i分s秒",###}</p></div>
+    </div>
+    <volist name="list" id="vo">
+    <div class="liuyan">
+    <div class="liuyan2">
+      <table class="wid">
+      <tr>
+        <td>第{$vo.num}次出价：<span class="price">{$vo.price}</span>元</td>
+      </tr>
+    </table>
+    </div>
+
+    <div class="liuyan2"><p>{$vo.realname}：</p>{$vo.content}<p class="text-right">{$vo.createtime|date="Y年m月d日H时i分s秒",###}</p></div>
+    </div>
+  </volist>
+<div class="text-center">
+    <ul class="pagination">
+       {$pages}
+     </ul>
+</div>
+</div>
+
+  <table class="fix">
+        <tbody>
+          <tr>
+            <td style="width:15%;border-right:1px solid #c4c4c4"><a href="javascript:history.go(-1)"><img src="__PUBLIC__/Images/f1.png" class="fanhui"></a></td>
+            <td style="width:28.3%"><a href="/index.php" style=" color: #707070;text-decoration:none">商城首页</a></td>
+            <td><bottom id="btn1" class="btn btn-danger fix-bot" type="buttom" onclick="change_price({$pro_info.id})">参与出价</bottom></td>
+          </tr>
+        </tbody>
+      </table>
+
+    <!-- 提示框 -->
+    <div id="dialog2" title="温馨提示">
+      <p class="big_one"></p>
+      <small  class="small_one"></small>
+    </div>
+    <!-- 提示框 -->
+
+
+    <!-- 拍卖提交成功提示框 -->
+    <div id="dialog3" title="参与出价">
+      <p>最新出价：<span class="new_price"></span></p>
+      <p>我的出价：<span class="user_price"></span></p>
+      <div class="input-group">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" onclick="edit_price('sub')">-</button>
+        </span>
+        <input type="text" class="form-control text-center can_price" readonly="true"  value=""/>
+        <input type="hidden" value="" class="now_price" />
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" onclick="edit_price('add')">+</button>
+        </span>
+      </div>
+    <p>留言：</p>
+      <textarea class="form-control height-100 guest_text" rows="3"></textarea>
+    </div>
+    <!-- 拍卖提交成功提示框 -->
+
+    <script type="text/javascript">
+    var productid={$pro_info.id},min_price={$pro_info.min_price},now_toprice;//拍卖价格
+      //隐藏微信底栏
+      document.addEventListener('WeixinJSBridgeReady',function onBridgeReady(){WeixinJSBridge.call('hideToolbar');});
+
+      //创建slider组件
+      $('#slider').slider({loop:true});
+
+      //确认收货
+      $(document).ready(function(){
+        $('#state').hide();
+      })
+      function edit_price(type){
+        if(type=="add"){
+          now_toprice=parseFloat(now_toprice)+parseFloat(min_price);
+          $("#dialog3 .can_price").val(now_toprice.toFixed(2)+"元");
+        }else if(type=='sub'){
+          now_toprice=parseFloat(now_toprice)-parseFloat(min_price);}
+          $("#dialog3 .can_price").val(now_toprice.toFixed(2)+"元");
+      }
+      function change_price(proid){
+        var productid=proid;
+        $.ajax({
+          type:"POST",
+          url:"/index.php/?m=Order&a=change_price",
+          data:{"productid":productid},
+          dataType:"JSON",
+          success:function(result){
+          data=eval('(' + result + ')');
+            if(data.status==1){
+                if(data.new_price!=null){
+                  $('#dialog3 .new_price').text(data.new_price+"元");
+              }else{ 
+                $('#dialog3 .new_price').text("还没人出价，快抢沙发");}
+                if(data.user_price!=null){
+                  $('#dialog3 .user_price').text(data.user_price+"元");}else{
+                      $('#dialog3 .user_price').text("您暂时还没出手，赶紧出手吧");
+                }
+                $("#dialog3 .can_price").val(data.can_price+"元");
+                $("#dialog3 .now_price").val(data.can_price);
+                now_toprice=parseFloat(data.can_price);
+                $('#dialog3').dialog('open');
+            }else{
+           ordererror(data);
+            }
+          },
+          error:function(){
+
+          }
+        });
+      }   
+       function ordererror(data){
+        $("#dialog2 .big_one").text(data.info);
+        $('#dialog2').dialog('open');
+      }
+      
+
+      $('#dialog3').dialog({
+        autoOpen:false,
+        closeBtn:false,
+        buttons:{
+          '取消出价': function(){
+            this.close();
+          },
+          '确定出价': function(){
+             var content=$("#dialog3 .guest_text").val();
+             if(!productid || !now_toprice){data.info="喔噢，出错了，请刷新页面试试~";ordererror(data);return false;}
+             $.ajax({
+              type:"POST",
+              url:"/index.php/?m=Order&a=update_price",
+              data:{"productid":productid,"price":now_toprice,"content":content},
+              dataType:"JSON",
+              success:function(result){
+            data=eval('(' + result + ')');
+              if(data.status==1){
+                window.location.reload();
+              }else{  this.close();ordererror(data); }
+              },
+              error:function(){
+
+              }
+             });
+          }
+        }
+      }).dialog('this')._options['_wrap'].addClass('login-dialog');
+function changeorder(obj,moduleid,id,doit,ordercall){
+  var objs  =  document.getElementById(obj);
+  var datas={'moduleid':moduleid,'id': id,'num':objs.value};
+  $.ajax({
+    type:"POST",
+    url: "/index.php?m=Order&a=ajax&do="+doit,
+    data: datas,
+    timeout:"4000",
+    dataType:"JSON",
+    success: function(result){
+      data=eval('(' + result + ')');
+      if(data.data==1){
+        ordercall.call();
+      }else{
+      ordererror(data);
+        //alert(data.info);
+      }
+      
+    },
+    error:function(){
+      alert("出错");
+    }
+  });
+}
+
+function changeorder_second(moduleid,id,doit){
+  var num=1;
+  var datas={'moduleid':moduleid,'id': id,'num':num};
+  $.ajax({
+    type:"POST",
+    url: "/index.php?m=Order&a=ajax&do="+doit,
+    data: datas,
+    timeout:"4000",
+    dataType:"JSON",
+    success: function(result){
+      data=eval('(' + result + ')');
+      if(data.data==1){
+            window.location.href="{:URL('Home-Order/checkout')}";
+      }else{
+      ordererror(data);
+      }
+      
+    },
+    error:function(){
+      alert("出错");
+    }
+  });
+}
+  
+  function update_guest(proid){
+    var content=$('#guest_content').val();
+    $.ajax({
+      type:"POST",
+      url:"/index.php?a=guest_book&m=Product",
+      data:{"content":content,"productid":proid},
+      dataType:"JSON",
+      success:function(result){
+      data=eval('(' + result + ')');
+        if(data.status==1)location.reload();
+      },
+      error:function(){
+
+      }
+    });
+  }
+      </script>
+  </body>
+</html>

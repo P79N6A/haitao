@@ -1,0 +1,139 @@
+<include file="Home:headerred"/>
+<style type="text/css">
+body{background-color:#f2f2f4;}
+.bg{padding-bottom: 15%;}
+.bg .title{margin: 0 auto;width: 70%;}
+.bg .title img{width: 100%;}
+.bg .explain{margin: 15px auto;}
+.bg .button{margin: 18% auto 0 auto;}
+</style>
+<div class="bg" id="bg">
+  <div class="title"><img src="../Public/img/title.png"></div>
+  <span class="explain">朋友领取您的红包后成为上优舶新用户并成功消费，您就能获得100元现金券，无上限可叠加！</span>
+  <a href="javascript:" class="button ShareTimeline">我要发红包</a>
+</div>
+<div class="share-layer">
+  <img class="responed" src="../Public/img/share.png">
+</div>
+<notempty name="appId">
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script language="javascript" type="text/javascript">
+wx.config({
+    debug: false,//这里是开启测试，如果设置为true，则打开每个步骤，都会有提示，是否成功或者失败
+    appId: '{$appId}',
+    timestamp: '{$timestamp}',//这个一定要与上面的php代码里的一样。
+    nonceStr: '{$nonceStr}',//这个一定要与上面的php代码里的一样。
+    signature: '{$signature}',
+    jsApiList: [
+      // 所有要调用的 API 都要加到这个列表中
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo'
+    ]
+});
+
+wx.ready(function(){
+  wx.onMenuShareTimeline({
+      title: '我在上优舶发购物卡啦，国际名牌服饰3折起', // 分享标题
+      link: '{$share_url}', // 分享链接
+      imgUrl: '{$site_url}/QQCMS/Tpl/User/Default/Public/img/tuijianss.png', // 分享图标
+      desc:'关注上优舶海淘国际名牌，首单立减100，抢到购物卡再减',
+      success: function () {
+          var order_id = "{$order_id}";
+          var enveloper = "{$userid}";
+          $.ajax({
+            type:"POST",
+            url: "{:U('Home/Envelope/makeWallet')}",
+            data: {'order_id': order_id, "enveloper" : enveloper, "iswallet": 1},
+            timeout:"4000",
+            dataType:"json",
+            async:false,
+            success: function(json){
+                var d = dialog({
+                    title: '温馨提示',
+                    quickClose: true,
+                    content: '分享成功！'
+                }).show();
+            },
+            error:function(){}
+          });
+      },
+      cancel: function () { 
+        var d = dialog({
+              title: '温馨提示',
+              quickClose: true,
+              content: '您取消了分享，好东西要与好朋友分享，请再考虑考虑！'
+          }).width(180).show();
+      },
+      fail: function () {
+        var d = dialog({
+              title: '温馨提示',
+              quickClose: true,
+              content: '分享失败，不要紧，可能是网络问题，一会儿再试试'
+          }).width(180).show();
+      }
+  });
+
+  wx.onMenuShareAppMessage({
+    title: '我在上优舶发购物卡啦，国际名牌服饰3折起', // 分享标题
+    desc: '关注上优舶海淘国际名牌，首单立减100，抢到购物卡再减', // 分享描述
+    link: '{$share_url}', // 分享链接
+    imgUrl: '{$site_url}/QQCMS/Tpl/User/Default/Public/img/tuijianss.png', // 分享图标
+    type: 'link', // 分享类型,music、video或link，不填默认为link
+    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+    success: function () { 
+          var order_id = "{$order_id}";
+          var enveloper = "{$userid}";
+          $.ajax({
+            type:"POST",
+            url: "{:U('Home/Envelope/makeWallet')}",
+            data: {'order_id': order_id, "enveloper" : enveloper, "iswallet": 1},
+            timeout:"4000",
+            dataType:"JSON",
+            async:false,
+            success: function(json){
+                var d = dialog({
+                    title: '温馨提示',
+                    quickClose: true,
+                    content: '分享成功！'
+                }).show();
+            },
+            error:function(){}
+          });
+    },
+    cancel: function () { 
+        var d = dialog({
+            title: '温馨提示',
+            quickClose: true,
+            content: '您取消了分享，好东西要与好朋友分享，请再考虑考虑！'
+        }).width(180).show();
+    },
+    fail: function () {
+        var d = dialog({
+              title: '温馨提示',
+              quickClose: true,
+              content: '分享失败，不要紧，可能是网络问题，一会儿再试试'
+          }).width(180).show();
+    }
+  });
+});
+</script>
+<script type="text/javascript">
+$(function($){
+  $(".ShareTimeline").click(function(){
+    $(".share-layer").show();
+  });
+
+  $(".share-layer").click(function(){
+    $(this).hide();
+  });
+});
+</script>
+</notempty>
+<script type="text/javascript">
+//隐藏微信底栏
+document.addEventListener('WeixinJSBridgeReady',function onBridgeReady(){WeixinJSBridge.call('hideToolbar');});
+</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<include file="Public:adminHead" />
+<style type="text/css">
+.nav-tabs{
+	border-bottom: 1px solid #999;
+	margin-bottom:0px;
+}
+.nav-tabs li{
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	padding:10px 10px;
+	display:inline-block;
+	margin-bottom: -1px;
+	border-bottom: 1px solid #999;
+}
+.nav-tabs li.active{
+	border: 1px solid #999;
+	border-bottom: 1px solid #F5F5F5 ;
+}
+div.tab-content{
+	border:1px solid #999;
+	border-top:1px solid transparent;
+	border-bottom:1px solid transparent;
+}
+</style>
+<div id="Right">
+	<ul class="nav nav-tabs" id="myTab">
+		<li <if condition="$activeGroup eq 0">class="active"</if>><a href="{:U('Access/index')}">全部</a></li>
+		<volist name="group" id="vo">
+		<li <if condition="$activeGroup eq $vo['id']">class="active"</if> ><a href="{:U('Access/index',array('group_id'=>$vo['id']))}">{$vo.title}</a></li>
+		</volist>
+		
+	</ul>
+	<div  class="tab-content">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab">
+		<tr>
+			<td class="none">ID</td>
+			<td style="width:200px;">账号</td>
+			<td style="width:100px;">姓名</td>
+			<td style="width:60px;">状态</td>
+			<td style="width:150px;">开通时间</td>
+			<td style="width:150px;">操作</td>
+			<td></td>
+		</tr>
+		<volist name="list" id="vo">
+		<tr align="center">
+			<td  class="none">{$vo.id}</td>
+			<td>{$vo.mobile}</td>
+			<td>{$vo.nickname}</td>
+			<td>{$vo.status|frequent_status_converter=###,$status_converter}</td>
+			<td>{$vo.createtime}</td>
+			<td>
+				[ <a href="__URL__/userAdd?id={$vo.id}">编辑</a> ]
+				[ <a href="__URL__/userPassword?id={$vo.id}">改密码</a> ]
+				[ <a onclick="return confirm('确认删除？')" href="__URL__/userDel?id={$vo.id}">删除</a> ]
+			</td>
+			<td></td>
+		</tr>
+		</volist>
+	</table>
+	</div>
+	<div class="commonBtnArea">
+		<div class="pageWrap">{$page}</div>
+	</div>
+</div>
+<include file="Public:adminFoot" />

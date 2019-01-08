@@ -1,0 +1,125 @@
+
+<style type="text/css">
+	.table1 th{
+		text-align: center;
+		padding: 15px 0px 15px 0px;
+		border-right: 1px solid #E5E3E3;
+		border-bottom: 1px solid #E5E3E3;
+	}
+	.table1 td{
+		text-align: center;
+		border-right: 1px solid #E5E3E3;
+		border-bottom: 1px solid #E5E3E3;
+	}
+	#table_title{
+		height: 30px;
+		line-height: 30px;
+		margin-bottom: 5px;
+	}
+
+	#table_title span{
+		width: 15%;
+		display: inline-block;
+		font-size:20px;
+		text-align: center;
+		border:1px solid #E5E3E3;
+		border-bottom: none;
+	}
+	#table_title span:hover{
+	cursor: pointer;
+	}
+	#table_title .has_select{
+		background:#169BDA; 
+		color:#fff;
+	}
+	#all{
+		display: none;
+	}
+</style>
+	<h1 style="line-height:40px;text-align:center">{$column.column_name}</h1>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+<div id="table_title">
+<span class="has_select" onclick="$(this).next().removeClass('has_select');$(this).addClass('has_select');$('#all').toggle();$('#self').toggle();">已选商品</span>
+<span  onclick="$(this).prev().removeClass('has_select');$(this).addClass('has_select');$('#self').toggle();$('#all').toggle();">可选商品</span>
+</div>
+<tbody id="self">
+	<tr>
+		<th>排序</th>
+		<th>ID</th>
+		<th>产品图标</th>
+		<th>中文名称</th>
+		<th>外文名称</th>
+		<th>产地</th>
+		<th>容量</th>
+		<th>酒精度</th>
+		<th>门市价</th>
+		<th>会员价</th>
+		<th>金会员价</th>
+		<th>状态</th>
+		<th>操作</th>
+	</tr>
+	<volist name="has_info" id='r'>
+	<tr>
+		<td width="60" align='center'><input name='listorders[{$r.col_id}]' type='text' size='3' value='{$r.sort}' class='input-text-c J_ajax_submit_change_input' data-action="{:U('Catimg/private_listorders')}" data-id="{$r.col_id}" data-model="ShopcolumnpcData" /></td>
+		<td>{$r.col_id}</td>
+		<td style="text-align:center"><a href="{$r.url}"><img src="{$r.thumb}" width="50px" /></a></td>
+		<td><a href="{$r.url}" style="color:#000">{$r.title}</a></td>
+		<td>{$r.en_name}</td>
+		<td>{$r.address}</td>
+		<td>{$r.liquid}</td>
+		<td>{$r.vol}</td>
+		<td>{$r.price}</td>
+		<td>{$r.member_price}</td>
+		<td>{$r.gold_price}</td>
+		<td style="text-align:center">
+		<if condition="$r.status eq 1">
+			<font color="green">上架中</font>
+			<else/>
+			<font color="red">已下架</font>
+		</if>
+
+		</td>
+		<td style="text-align:center"><a class='product_edit2' style="border-right:#FD2222 1px solid;border-radius:5px;" href="{:U('Catimgpc/goods_del')}&col_id={$r.col_id}">移除</a></td>
+		</tr>		
+</volist>
+</tbody>
+<tbody id="all">
+	<tr>
+		<th>产品图标</th>
+		<th>中文名称</th>
+		<th>外文名称</th>
+		<th>产地</th>
+		<th>容量</th>
+		<th>酒精度</th>
+		<th>门市价</th>
+		<th>会员价</th>
+		<th>金会员价</th>
+		<th>状态</th>
+		<th>操作</th>
+	</tr>
+	<volist name="info" id='r'>
+	<if condition="$r neq null">
+	<tr>
+		<td style="text-align:center"><a href="{$r.url}"><img src="{$r.thumb}" width="50px" /></a></td>
+		<td><a href="{$r.url}"  style="color:#000">{$r.title}</a></td>
+		<td>{$r.en_name}</td>
+		<td>{$r.address}</td>
+		<td>{$r.liquid}</td>
+		<td>{$r.vol}</td>
+		<td>{$r.price}</td>
+		<td>{$r.member_price}</td>
+		<td>{$r.gold_price}</td>
+		<td style="text-align:center">
+		<if condition="$r.status eq 1">
+			<font color="green">上架中</font>
+			<else/>
+			<font color="red">已下架</font>
+		</if>
+
+		</td>
+		<td style="text-align:center"><a class='product_edit2' style="border-right:#FD2222 1px solid;border-radius:5px;" href="{:U('Catimgpc/goods_add')}&goods_id={$r.id}&slide_data_id={$Pcslide_data.id}">加入</a></td>
+	</tr>
+	</if>
+	</volist>			
+</tbody>			
+</table>

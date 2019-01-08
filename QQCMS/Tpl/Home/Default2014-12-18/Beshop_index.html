@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<title>有酒派经营者申请表格</title>
+<script src="../Public/js/jquery.min.js" type="text/javascript"></script>
+<script src="../Public/js/jquery.validate.js" type="text/javascript"></script>
+  <load href="__PUBLIC__/Js/jquery.form.js"/>
+<script src="../Public/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../Public/css/bootstrap.min.css" rel="stylesheet">
+<link href="../Public/css/bootstrap-responsive.min.css" rel="stylesheet">
+<style type="text/css">
+  .form-horizontal.respon{width:60%;margin:10px auto}
+  .alert.respon{width:60%;margin:10px auto}
+  .head{width:100%;height:200px;margin:0 auto;background:url(../Public/images/123.png);background-size:cover;padding-top:100px}
+  .logo{width:100px;height:100px;display:block;margin:0 auto;border-radius:50%}
+  @media (max-width: 600px) {
+    .form-horizontal.respon{width:90%;margin:0 auto}
+    body{padding:0!important}
+    .alert.respon{width:80%;margin:0 auto 10px}
+    h1.respon{font-size:24px}
+    .head{height:100px;padding-top:50px;padding-bottom:50px}
+    .logo{display:block}
+  }
+</style>
+</head>
+<body style="background:#fffeee">
+
+<div class="head">
+  <img class="logo" src="../Public/images/logo100.png">
+</div>
+  <form id="myform" action="" method="POST" enctype="multipart/form-data"  class="form-horizontal respon"  onsubmit="return check();">
+    <fieldset>
+
+      <div class="page-header">
+        <h1 class="text-center respon">有酒派经营者申请表格</h1>
+      </div>
+
+        <div class="control-group">
+
+          <!-- Text input-->
+          <label class="control-label" for="input01">店铺昵称</label>
+          <div class="controls">
+            <input type="text" placeholder="请填店铺昵称" name="shop_name" class="input-small" validate=" required:true" required >
+            <p class="help-inline">必填</p>
+          </div>
+        </div>
+
+
+        <div class="control-group">
+
+          <!-- Text input-->
+          <label class="control-label" for="input01">真实姓名</label>
+          <div class="controls">
+            <input type="text" placeholder="请填写真实姓名" name="real_name" value="{$user.realname}"  class="input-medium" validate=" required:true" required>
+            <p class="help-inline">必填</p>
+          </div>
+        </div>
+
+        <div class="control-group">
+
+          <!-- Text input-->
+          <label class="control-label" for="input01">身份证号</label>
+          <div class="controls">
+            <input type="text" placeholder="请填写身份证号码" name="id_number" maxlength="18" class="input-xlarge" validate=" required:true,idcard:true"  required>
+            <p class="help-inline">必填</p>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">上传身份证复印件</label>
+
+          <!-- File Upload -->
+          <div class="controls">
+            <input class="input-file" id="fileInput" type="file" name="id_img" validate="  required:true" required>
+            <p class="help-inline">必填</p>
+          </div>
+        </div>
+
+        <div class="control-group">
+
+          <!-- Text input-->
+          <label class="control-label" for="input01">手机号码</label>
+          <div class="controls">
+            <input type="text" placeholder="请填写常用手机号" name="mobile" value="{$user.mobile}" maxlength="11" class="input-large" validate=" required:true,mobile:true"  required>
+            <p class="help-inline">必填</p>
+          </div>
+        </div>
+      <!-- Text input-->
+          <label class="control-label" for="input01">邮箱</label>
+          <div class="controls">
+            <input type="text" placeholder="请填写收取信息邮箱" name="email" value="{$user.email}" class="input-large" validate=" required:true,email:true, minlength:1, maxlength:40"  required>
+            <p class="help-inline">必填</p>
+          </div>
+        </div>
+        <div class="control-group">
+
+          <!-- Textarea -->
+          <label class="control-label">联系地址</label>
+          <div class="controls">
+            <div class="textarea">
+              <textarea type="" class="input-xlarge" name="address"  placeholder="请填写详细地址" validate=" required:true,"  required>{$user.address}</textarea>
+              <p class="help-inline">必填</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-group">
+
+          <!-- Select Basic -->
+          <label class="control-label">省份</label>
+          <div class="controls">
+              <select name="province" id="province" onchange="area_change(this.value, 1,'province','city','area');" class=" input-xlarge " >
+                 <option value="0">选择省份</option>
+              </select>
+            <p class="help-inline">必填</p>
+          </div>
+
+        </div>
+
+        <div class="control-group">
+
+          <!-- Select Basic -->
+          <label class="control-label">城市</label>
+          <div class="controls">
+            <select name="city" onchange="area_change(this.value, 2,'province','city','area');" id="city" class=" input-xlarge " >
+                 <option value="0">选择城市</option>
+             </select>
+            <p class="help-inline">必填</p>
+          </div>
+
+        </div>
+
+        <div class="control-group">
+
+          <!-- Select Basic -->
+          <label class="control-label">区/县</label>
+          <div class="controls">
+            <select class="input-xlarge " name="area" onchange="area_change(this.value, 3,'province','city','area');" id="area" class="" >
+              <option value="0">选择地区</option>
+             </select>
+            <p class="help-inline">必填</p>
+          </div>
+
+        </div>
+
+        <!-- <div class="control-group">
+        
+          Text input
+          <label class="control-label" for="input01">推荐上级</label>
+          <div class="controls">
+            <input type="text" placeholder="注册会员时的上级单位" value="{$parent.realname|default='有酒派'}" readonly="true" class="input-medium">
+            <p class="help-inline">可不填</p>
+          </div>
+        </div> -->
+
+        <div class="control-group">
+
+          <!-- Text input-->
+          <label class="control-label" for="input01">银行账号</label>
+          <div class="controls">
+            <input type="number" placeholder="银行卡或银行存折账号号码" name="account_number" class="input-xlarge" validate=" required:true,creditcard:true" required>
+            <p class="help-inline">必填</p>
+          </div>
+        </div>
+
+        <div class="control-group">
+
+          <!-- Text input-->
+          <label class="control-label" for="input01">账号名称</label>
+          <div class="controls">
+            <input type="text" placeholder="请填写账号名称" name="account_name" class="input-medium"  validate=" required:true" required>
+            <p class="help-inline">必填</p>
+          </div>
+        </div>
+
+        <div class="control-group">
+
+          <!-- Text input-->
+          <label class="control-label" for="input01">开户行</label>
+          <div class="controls">
+            <input type="text" placeholder="请填写开户行" name="bank_name" class="input-large" validate=" required:true"  required>
+            <p class="help-inline">必填</p>
+          </div>
+        </div>
+
+        <div class="alert" style="width:50%;margin:10px auto;display:none"></div>
+
+        <div class="control-group">
+
+          <!-- Button -->
+          <div class="controls">
+            <input id="shouze" type="checkbox" name="" checked>&emsp;我已阅读并同意遵守<a href="{:URL('Home-Beshop/terms')}" target="_blank">《有酒派经营者守则》</a>
+          </div>
+        </div>
+
+        <div class="control-group">
+
+          <!-- Text input-->
+          <label class="control-label" for="input01">会员登录名：</label>
+          <div class="controls">
+            <input  type="text" name="user_name" placeholder="请输入您会员登录时所用的名字" class="input-large" validate=" required:true," required >
+            <p class="help-inline">必填（用作验证）</p>
+          </div>
+        </div>
+        <div class="control-group">
+
+          <!-- Text input-->
+          <label class="control-label" for="input01">密码验证</label>
+          <div class="controls">
+            <input id='password' type="password" name="password" placeholder="请输入您的密码确认身份" class="input-large" validate=" required:true, minlength:6" required >
+            <p class="help-inline">必填（用作验证）</p>
+          </div>
+        </div>
+        <div class="control-group">
+
+          <!-- Button -->
+          <div class="controls">
+          <input type="hidden" name="sub" value="submit" />
+            <button type="submit" class="btn btn-large btn-success" >提交表单</button>
+          </div>
+        </div>
+
+    </fieldset>
+  </form>
+      <input type="hidden" class="button_success" data-toggle="modal" data-target="#myModal" />
+      <input type="hidden" class="button_error" data-toggle="modal" data-target="#myModal2" />
+   <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" onclick="window.opener=null;window.close();"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">申请成功</h4>
+          </div>
+          <div class="modal-body">
+            <p><strong>亲！</strong><span class="msg_success"></span></p>
+            (点击完成关闭当前页面)
+          </div>
+          <div class="modal-footer margin-top-0">
+            <a href="javascript:window.opener=null;window.close();" class="btn btn-default">完成</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">申请失败</h4>
+          </div>
+          <div class="modal-body">
+            <p><strong>亲！</strong><span class="msg_error"></span></p>
+            (请刷新页面重试)
+          </div>
+          <div class="modal-footer margin-top-0">
+            <a href="javascript:location.reload()" class="btn btn-default">刷新页面</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div id="result" style="display:none;width:100%;height:100%;background:url('Public/Images/reing_bg.png');color:#fff;font-size:25px;line-height:300px;text-align:center;position:fixed;z-index:999;top:0px;"></div>
+    <script>  
+  //地址
+    function area_change(id,level,province,city,area,lang,provinceid,cityid,areaid){
+
+  var datas={'level':level,'provinceid':provinceid,'cityid':cityid,'areaid':areaid,'lang':lang};
+  $.ajax({
+    type:"POST",
+    url: "/index.php?m=Areaajax&a=area&id="+id,
+    data: datas,
+    timeout:"4000",
+    dataType:"json",
+    async:false,
+    success: function(data){ 
+      if(level==0){
+      $('#'+province).html(data.province);
+      $('#'+city).html(data.city);
+      $('#'+area).html(data.area);
+      }else if(level==1){
+      $('#'+city).html(data.city);
+      $('#'+area).html(data.area);
+      }else if(level==2){
+        $('#'+area).html(data.area);
+      }
+    },
+    error:function(XMLHttpRequest, textStatus, errorThrown){
+                       /* alert(XMLHttpRequest.status);
+                        alert(XMLHttpRequest.readyState);
+                        alert(textStatus);*/
+                        alert("地区获取失败");
+    }
+  }); 
+}
+area_change(0, 0,'province','city','area');//地址
+/*验证提示*/
+jQuery.extend(jQuery.validator.messages, {
+    required: "此项为必填项",
+    remote: "用户已存在",
+    email: "请输入一个有效的电子邮件地址",
+    url: "请输入一个有效的网址",
+    date: "请输入一个有效的日期",
+    dateISO: "请输入一个有效的(ISO)日期.",
+    number: "请输入一个有效的数字",
+    digits: "请只输入数字",
+    creditcard: "请输入一个有效的银行卡号码",
+    equalTo: "请再次输入相同的值.",
+    accept: "请输入一个有效的扩展名的价值.",
+    maxlength: $.validator.format("请输入不超过 {0} 个字符."),
+    minlength: $.validator.format("请输入至少 {0} 个字符."),
+    rangelength: $.validator.format("请输入介于值 {0} 和 {1} 个字符长."),
+    range: $.validator.format("请输入介于 {0} 和 {1}的值"),
+    max: $.validator.format("请输入大于或等于 {0}的值"),
+    min: $.validator.format("请输入一个值大于或等于 {0}的值"),
+    ip4:  "请输入一个正确的IP地址",
+    mobile: "请输入一个正确的手机号码",
+    zipcode: "请输入一个正确的邮编",
+    qq: "请输入一个正确的QQ号码",
+    idcard: "请输入一个正确的身份证号",
+    chinese: "请输入中文字符",
+    cn_username:"请输入中文英文和数字",
+    tel: "请输入正确的电话号码",
+    english: "只能输入英文字母",
+    en_num: "只能输入英文和数字和下划线"
+});
+    //onclick="alert('谢谢，您的资料已提交，请等待管理员审核。')"
+    jQuery(document).ready(function($){
+    $("#myform").validate({
+          event:"blur",
+          errorElement: "em",
+          errorPlacement: function(error, element) {
+            error.appendTo( element.next("p") );
+          },
+          success: function(label) {
+            label.addClass("success");
+          }
+    });
+
+  $('#myform').ajaxForm({
+    beforeSend:function(){
+      $('#result').html('<img src="__PUBLIC__/Images/loading.gif"><span>正在提交,请稍等</span>').show();;
+     },
+    success: complete,  // post-submit callback
+    dataType: 'json'
+  });
+});
+function complete(data){
+    $('#result').html("").fadeOut();
+  if (data.status==1)
+  {   
+    $(".msg_success").text(data.msg);
+    $(".button_success").click();
+  }else{
+    $(".msg_error").text(data.msg);
+    $(".button_error").click();
+  }
+}
+        function check(){  
+          var item=$('#shouze').attr("checked");
+          if(item!="checked")
+           {
+            $('.alert').append("请勾选同意遵守《有酒派经营者守则》").fadeIn();
+            return false;
+           } 
+          }
+    </script>  
+</body>
+</html>

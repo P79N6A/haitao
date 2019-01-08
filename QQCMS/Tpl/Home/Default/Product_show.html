@@ -1,0 +1,263 @@
+<include file="Home:header2"/>
+    <link rel="stylesheet" href="../Public/src/css/product.css">
+ <section>
+    <div class="back-shopping-bag" id="backShoppingBag">
+      <div class="back-btn"></div>
+      <div class="bag-btn">
+        <div class="cart-num"></div>
+      </div>
+    </div>
+    <div class="zhanwei"></div>
+ <!--幻灯片-->
+  <div class="swiper-container " style="text-align: center;">
+      <div class="swiper-wrapper">
+        <volist name="top_pics" id="r">
+          <div class="swiper-slide swiper-slide-duplicate">
+            <a href="{$r.link|default='javascript:'}">
+              <img style="width:100%;" src="{$r.filepath}">
+              </a>
+            <!-- Any HTML content of the first slide goes here -->
+          </div>
+        </volist>
+      <!--First Slide-->
+        </div>
+      <div class="slide-pagination"></div>
+    </div>
+  <!--幻灯片结束-->
+  <div class="prod-desc-container" id="prodDescContainer">
+          <div class="prod-detail">
+            <div class="prod-name">
+              <p>{$en_name}/{$title}</p>
+           </div>
+            <div class="prod-price">
+            <a href="#">
+            <span>¥<b data-toggle="modal" data-target=".bs-example-modal-sm" class="sys_item_price">{$member_price}</b></span>
+            </a>
+
+              <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                  <div class="modal-content">
+                     <div class="tishi">
+                        <h4>温馨提示</h4>
+                        <p>到手价=外币现价*税率+行邮税+邮费</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <i>点我</i><em>国外价¥11,700</em></div>
+            <div class="prod-other-info"><!-- <i>可用代金券20元</i> --><div>库存：<em class="sys_item_mktprice">{$stock|default='已售罄'}</em></div></div>
+          </div>
+        <div class="prodPrefOtherDescContainer">
+          <div class="prod-pref">
+            <div class="prod-pref-list">
+              <ul>
+                <li>
+                <b>邮</b>
+                运费:&nbsp;&yen;50元
+                <em>行邮税:&yen;10&nbsp;税率20%</em>
+                </li>
+              </ul>
+            </div>
+            <div class="prod-pref-sec">
+              <ul class="clearfix">
+                <li>正品保证</li>
+                <li>维修保养</li>
+                <li>7天退换</li>
+                <li>权威鉴定</li>
+                <li>财险质保</li>
+              </ul>
+            </div>
+          <div class="sys_item_spec">
+          <dl class="clearfix iteminfo_parameter sys_item_specpara" data-sid="1">
+            <dt style="font-size:16px;font-weight:bolder;">颜色</dt>
+            <dd>
+              <ul class="sys_spec_text">
+                <li data-aid="3"><a href="javascript:;" title="白色">白色</a><i></i></li>
+                <li data-aid="4"><a href="javascript:;" title="粉色">粉色</a><i></i></li>
+                <li data-aid="8"><a href="javascript:;" title="蓝色">蓝色</a><i></i></li>
+                <li data-aid="9"><a href="javascript:;" title="绿色">绿色</a><i></i></li>
+                <li data-aid="10"><a href="javascript:;" title="黄色">黄色</a><i></i></li>
+                <li data-aid="12"><a href="javascript:;" title="灰色">灰色</a><i></i></li>
+                <li data-aid="3"><a href="javascript:;" title="白色">白色</a><i></i></li>
+                <li data-aid="4"><a href="javascript:;" title="粉色">粉色</a><i></i></li>
+                <li data-aid="8"><a href="javascript:;" title="蓝色">蓝色</a><i></i></li>
+                <li data-aid="9"><a href="javascript:;" title="绿色">绿色</a><i></i></li>
+                <li data-aid="10"><a href="javascript:;" title="黄色">黄色</a><i></i></li>
+                <li data-aid="12"><a href="javascript:;" title="灰色">灰色</a><i></i></li>
+              </ul>
+
+            </dd>
+          </dl>
+          <dl class="clearfix iteminfo_parameter sys_item_specpara" data-sid="2">
+            <dt style="font-size:16px;font-weight:bolder;">尺码</dt>
+            <dd>
+              <ul class="sys_spec_text">
+                <li data-aid="13"><a href="javascript:;" title="S">S</a><i></i></li>
+                <li data-aid="14"><a href="javascript:;" title="M">M</a><i></i></li>
+                <li data-aid="16"><a href="javascript:;" title="L">L</a><i></i></li>
+                <li data-aid="17"><a href="javascript:;" title="XL">XL</a><i></i></li>
+              </ul>
+            </dd>
+          </dl>
+          <dl class="clearfix iteminfo_parameter " data-sid="2">
+            <dt style="font-size:16px;font-weight:bolder;">数量
+                        <div>
+                          <p>
+                            <span class="pxui-select num">
+                                  <!-- <span>1</span> -->
+                                  <i></i>
+                                  <select>
+                                      <option value="0">1</option>
+                                      <option value="0">2</option>
+                                      <option value="0">3</option>
+                                      <option value="0">4</option>
+                                      <option value="0">5</option>
+                                      <option value="0">6</option>
+                                      <option value="0">7</option>
+                                      <option value="0">8</option>
+                                      <option value="0">9</option>
+                                      <option value="0">10</option>
+                                      <option value="0">11</option>
+                                      <option value="0">12</option>
+                                      <option value="0">13</option>
+                                  </select>
+                                  <span class="pxui-color-red"><!--（库存<span class="js-stock">0</span>件）--></span>
+                              </span>
+                          </p>
+                        </div></dt>
+      <dd>
+        
+      </dd>
+    </dl>
+
+    </div>
+    <script>
+    var sys_item={
+  "mktprice":"13",
+  "price":"680",
+  "sys_attrprice":{"3_13":{"price":"680","mktprice":"13"},"3_14":{"price":"780","mktprice":"14"},"3_16":{"price":"880","mktprice":"15"},"3_17":{"price":"980","mktprice":"16"},"4_13":{"price":"680","mktprice":"13"},"4_14":{"price":"780","mktprice":"14"},"4_16":{"price":"880","mktprice":"15"},"4_17":{"price":"980","mktprice":"16"},"8_13":{"price":"680","mktprice":"13"},"8_14":{"price":"780","mktprice":"14"},"8_16":{"price":"880","mktprice":"15"},"8_17":{"price":"980","mktprice":"16"},"9_13":{"price":"680","mktprice":"13"},"9_14":{"price":"780","mktprice":"14"},"9_16":{"price":"880","mktprice":"15"},"9_17":{"price":"980","mktprice":"16"},"10_13":{"price":"680","mktprice":"13"},"10_14":{"price":"780","mktprice":"14"},"10_16":{"price":"880","mktprice":"15"},"10_17":{"price":"980","mktprice":"16"},"12_13":{"price":"680","mktprice":"13"},"12_14":{"price":"780","mktprice":"14"},"12_16":{"price":"880","mktprice":"15"},"12_17":{"price":"980","mktprice":"16"}}};
+
+
+//商品规格选择
+$(function(){
+  $(".sys_item_spec .sys_item_specpara").each(function(){
+    var i=$(this);
+    var p=i.find("ul>li");
+    p.click(function(){
+      if(!!$(this).hasClass("selected")){
+        $(this).removeClass("selected");
+        i.removeAttr("data-attrval");
+      }else{
+        $(this).addClass("selected").siblings("li").removeClass("selected");
+        i.attr("data-attrval",$(this).attr("data-aid"))
+      }
+      getattrprice() //输出价格
+    })
+  })
+  
+  //获取对应属性的价格
+  function getattrprice(){
+    var defaultstats=true;
+    var _val='';
+    var _resp={
+      mktprice:".sys_item_mktprice",
+      price:".sys_item_price"
+    }  //输出对应的class
+    $(".sys_item_spec .sys_item_specpara").each(function(){
+      var i=$(this);
+      var v=i.attr("data-attrval");
+      if(!v){
+        defaultstats=false;
+      }else{
+        _val+=_val!=""?"_":"";
+        _val+=v;
+      }
+    })
+
+    if(!!defaultstats){
+      _mktprice=sys_item['sys_attrprice'][_val]['mktprice'];
+      _price=sys_item['sys_attrprice'][_val]['price'];
+    }else{
+      _mktprice=sys_item['mktprice'];
+      _price=sys_item['price'];
+    }
+    //输出价格
+    $(_resp.mktprice).text(_mktprice);  ///其中的math.round为截取小数点位数
+    $(_resp.price).text(_price);
+  }
+})</script>
+
+        </div>
+        <table class="fix">
+        <tbody>
+          <tr>
+          <td>
+            <bottom class="btn btn-warning fix-bot">加入购物车</bottom>
+            </td>
+           <td>
+            <bottom class="btn btn-danger fix-bot">立即购买</bottom>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+        <div class="summarybox pl10 pr10">
+          <a href="file:///E:/%E5%B7%A5%E4%BD%9C%E9%A1%B9%E7%9B%AE/%E6%B5%B7%E8%B4%AD%20-%20%E5%89%AF%E6%9C%AC/%E5%95%86%E5%93%81%E5%9B%BE%E7%89%87.html" class="headertitle">商品详情
+          <span class="glyphicon glyphicon-chevron-right fudong" aria-hidden="true"></span>
+          </a>
+        </div>
+      <div class="size-info-content">
+      <p>商品属性</p>
+        <ul>
+          <li><b>商品ID:</b><i>11005838</i></li>
+          <!-- <li><b>外部结构:</b><i></i></li> -->
+          <li><b>五金颜色:</b><i>金色</i></li>
+          <li><b>五金材质:</b><i>合金</i></li>
+          <li><b>材质:</b><i>帆布</i></li>
+          <li><b>内部结构:</b><i>1个内袋</i></li>
+          <li><b>颜色:</b><i>老花</i></li>
+          <!-- <li><b>底部结构:</b><i></i></li> -->
+          <li><b>适用人群:</b><i>女士</i></li>
+          <li><b>尺寸:</b><i>30x21x17cm</i></li>
+          <li><b>开合方式:</b><i>拉链开合</i></li>
+          <li><b>产地:</b><i>法国</i></li>
+          <li><b>肩带尺寸:</b><i>40CM</i></li>
+          <li><b>款式说明:</b><i>横款</i></li>
+          <li><b>附属肩带:</b><i>有</i></li>
+          <!-- <li><b> 功能:</b><i></i></li> -->
+      </ul>
+    </div>
+   <div class="kuandu"></div>
+    <div class="kuan"></div>
+    <!-- <div class="last-nav">
+      <ul class="biao">
+        <li><a herf="#">首页</a></li>
+        <li><a herf="#">分类</a></li>
+        <li><a herf="#">搜索</a></li>
+        <li><a herf="#">我的</a></li>
+      </ul>
+      <a class="beijing">菜单</a>
+    </div> -->
+     <div class="PathInner" id="PathMenu">
+      <div class="PathMain">
+        <div class="Tmain" onclick="PathRun();">
+          <div class="rotate" data-transform="rotate(0deg)"><span class="cover"></span></div>
+        </div>
+      </div>
+      <div class="PathItem"> <a class="link" href="#"> <span class="item" style="background-image:url(../Public/images/moment_icn_pic.png); -moz-transform: rotate(0deg);" data-transform="rotate(0deg)"></span> </a>
+      </div>
+      <div class="PathItem"> <a class="link" href="#"> <span class="item" style="background-image:url(../Public/images/moment_icn_info.png); -moz-transform: rotate(0deg);" data-transform="rotate(0deg)"></span> </a>
+      </div>
+      <div class="PathItem"> <a class="link" href="#"> <span class="item" style="background-image: url(../Public/images/moment_icn_address.png); -moz-transform: rotate(0deg);" data-transform="rotate(0deg)"></span> </a>
+      </div>
+      <div class="PathItem"> <a class="link" href="#"> <span class="item" style="background-image: url(../Public/images/moment_icn_price.png); -moz-transform: rotate(0deg);" data-transform="rotate(0deg)"></span> </a>
+      </div>
+    </div>
+  </section>
+ <script type="text/javascript">
+      //隐藏微信底栏
+      document.addEventListener('WeixinJSBridgeReady',function onBridgeReady(){WeixinJSBridge.call('hideToolbar');});
+
+      //创建slider组件
+      $('#slider').slider({loop:true});
+      </script>
+    </body></html>

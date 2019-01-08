@@ -1,0 +1,265 @@
+<!-- 本页自用的 css -->
+<link rel="stylesheet" href="../Public/css/index02.css">
+<style type="text/css">
+hr{margin-top: 0!important}
+#BgDiv1{background-color:#000; position:absolute; z-index:9999;  display:none;left:0px; top:0px; width:100%; height:100%;opacity: 0.6; filter: alpha(opacity=60);}
+.DialogDiv{position:absolute;z-index:99999;}
+.U-guodu-box { padding:5px 15px;  background:#3c3c3f; filter:alpha(opacity=90); -moz-opacity:0.9; -khtml-opacity: 0.9; opacity: 0.9;  min-heigh:200px; border-radius:10px;}
+.U-guodu-box div{ color:#fff; line-height:20px; font-size:12px; margin:0px auto; height:100%; padding-top:10%; padding-bottom:10%;}
+
+/*充值缴费*/
+#alipdiv button{width: 100%;}
+#allinpdiv .col-xs-3{width: 100%;}
+#allinpdiv .beijing2{background-color: #4EB314!important;}
+</style>
+
+<!-- 本页自用的 js -->
+<script src="../Public/js/jquery2.min.js?version=1.11.0"></script>
+ 
+<body class="pang">
+    <div class="wid-90">
+      <h3 class="padding-10">我的电子现金<small class="margin-left-5">Mymoney</small></h3>
+      <hr>
+      <form class="form-inline biaodan text-center">
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-addon">&yen</div>
+            <input name="amount" style="width: 90%; height:20px;" type="text" class="form-control" placeholder="充值金额">
+            <div class="input-group-addon">.00</div>
+          </div>
+        </div>
+        <button type="button" onclick="doQuery(this);" id="12" class="btn xianjin">通联充值</button>
+        <!-- <button type="button" onclick="doQuery(this);" id="3" class="btn xianjin2">用支付宝充值</button> -->
+      </form>
+      <div id="Querydiv" style="display:none; width:238px;">
+          <h4>请扫描下方二维码进行支付。</h4>
+          <img id="Querycode" src="支付二维码" width="226" alt="支付二维码" />
+      </div>
+      <div id="alipdiv" style="display:none; width:238px;">   
+      </div>
+      <div id="allinpdiv" style="display:none; width:238px;">  
+      </div>
+      <script type="text/javascript">
+      function doQuery(obj)
+      {
+        var amount = $("input[name='amount']").val();
+        var type_pay = obj.id;
+        art.dialog({
+            okVal: "我要支付",
+            lock:true,
+            opacity:0.5,
+            icon: "face-smile",
+            content: "亲！请点击以下支付按钮进入支付进行支付。（本次充值金额 ￥"+amount+".00）",
+            ok: function () {
+                var list = art.dialog.list;
+                $.ajax({
+                  type: "POST",
+                  url: "{:URL('Home-Order/doQuery')}",
+                  data: {"amount":amount,"type_pay":type_pay,'type':1},
+                  timeout: "6000",
+                  dataType: "JSON",
+                  success: function(json){
+                    if (json.status == 0)
+                    {
+
+                      for (var i in list) {
+                          list[i].close();
+                      };
+                      art.dialog({lock:true,time:3,opacity:0.5,icon:"warning",content:json.info});
+                    }
+                    else
+                    {
+                      for (var i in list) {
+                          list[i].close();
+                      };
+                      if (type_pay==3)
+                      {
+                        $("#alipdiv").html(json.data);
+                        art.dialog({title:"支付通道",lock:true,opacity:0.5,content:document.getElementById('alipdiv'),});
+                      }
+                      else if(type_pay == 1)
+                      {
+                        $("#Querycode").attr("src",json.data);
+                        art.dialog({title:"支付通道",lock:true,opacity:0.5,content:document.getElementById('Querydiv'),});
+                      }
+                      else if(type_pay == 12)
+                      {
+                        $("#allinpdiv").html(json.data);
+                        art.dialog({title:"支付通道",lock:true,opacity:0.5,content:document.getElementById('allinpdiv'),});
+                      }
+                    } 
+                  },
+                  error: function(){
+                    alert("出错！");
+                  }
+                });
+                return false;
+            },
+            cancel: true
+        });
+      }
+      
+      </script>
+      <!-- <div class="div-gouwujuanguanli-class">
+        <strong>金额：</strong>
+        <p class="display-inline-block">{$vo.cash_use|default=0}元</p>
+        <a href="#" class="btn btn-warning a-chongzhi" data-toggle="modal" data-target="#myModal3">充值</a>
+      </div> -->
+      <h3 class="padding-10"><small class="margin-left-5">现金消费详情</small></h3>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>金额</th>
+            <th>描述</th>
+            <th>日期</th>
+          </tr>
+        </thead>
+        <tbody>
+        <volist name="fee_list" id="vo">
+          <tr>
+            <td>
+             {$vo.cash}
+            </td>
+            <td>
+             {$vo.source}
+            </td>
+            <td>
+             {$vo.create_time|date='Y年m月d日',###}</td>
+          </tr>
+          </volist>
+        </tbody>
+      </table>
+    <div class="text-center">
+        <ul class="pagination" style="margin-bottom:20px">
+        {$pages}
+        </ul>
+        </div>
+    </div>
+    <div class="div-none"></div><!-- 底拦站位 -->
+
+    <!-- Modal3 -->
+    <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button id="cz_close" type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">充值通道</h4>
+          </div>
+          <div class="modal-body">
+            <p><strong>亲！</strong>请输入您要充值的金额。</p>
+            <input type="text" class="form-control"  name="pay_fee" id="pay_fee" placeholder="(输入单位为1/元,例如充值1元输入数字:1)" /><span class="error_tip" style="color:red"></span><br>
+            <input type="button" onclick="get_order()" value="确定" class=" btn-warning btn btn-block pay_button">
+          </div>
+          <div class="modal-footer margin-top-0">
+            <a href="javascript:location.reload()" class="btn btn-default">取消</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal3 -->
+
+    <!-- Modal -->
+      <input type="hidden" class="button_success" data-toggle="modal" data-target="#myModal" />
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">升级通道</h4>
+          </div>
+          <div class="modal-body">
+            <p><strong>亲！</strong>请点击以下支付按钮进入支付页面。</p>
+            (本次升级需支付<font color="red">&yen;<span class="pay_money"></span></font>)
+            <a href="" class="btn btn-warning btn btn-block pay_button">进入支付</a>
+          </div>
+          <div class="modal-footer margin-top-0">
+            <a href="javascript:location.reload()" class="btn btn-default">取消</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <!-- Modal -->
+      <input type="hidden" class="button_error" data-toggle="modal" data-target="#myModal2" />
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">失败</h4>
+          </div>
+          <div class="modal-body">
+            <p><strong>亲！</strong>获取失败了。</p>
+            (<span class="error_info"></span>)
+          </div>
+          <div class="modal-footer margin-top-0">
+            <a href="javascript:location.reload()" class="btn btn-default">刷新页面试试</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+ <!-- 隐藏界面 -->
+ 
+<div id="BgDiv1"></div>
+  <div class="DialogDiv"  style="display:none; ">
+                    <div class="U-guodu-box">
+                    <div>
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" >
+                        <tr><td  align="center"><img src="__PUBLIC__/Images/loading.gif"></td></tr>
+                        <tr><td  valign="middle" align="center" style="color:#fff">正在获取支付按钮，请稍等！</td></tr>
+                    </table>
+                    </div>
+              </div>
+        </div>
+<script type="text/javascript">
+function get_order(){
+  var fee=$("#pay_fee").val();
+  var str=/^-?(?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d+)?$/;
+  if(!str.test(fee)){
+    $("#pay_fee").next(".error_tip").text("*请输入正确充值金额");
+    return false;
+  }
+  recharge(fee);
+}
+  function recharge(fee){
+    $("#cz_close").click();
+    open_div();
+    $.ajax({
+      type:"POST",
+      url:"/index.php?a=recharge&m=Upleve&g=User",
+      data:{"fee":fee},
+      timeout:"6000",
+      dataType:"JSON",
+      success:function(data){
+        close_div();
+        if(data.status!=0){
+          $(".pay_button").attr("href",data.url);
+          $(".pay_money").text(data.fee);
+        $(".button_success").click();
+        }else{
+        $(".error_info").text(data.msg);
+        $(".button_error").click();
+        }
+      }
+    });
+  }
+  function open_div(){
+      $("#BgDiv1").css({ display: "block", height: $(document).height() });
+      var yscroll = document.documentElement.scrollTop;
+      var screenx=$(window).width();
+      var screeny=$(window).height();
+      $(".DialogDiv").css("display", "block");
+       $(".DialogDiv").css("top",yscroll+"px");
+       var DialogDiv_width=$(".DialogDiv").width();
+       var DialogDiv_height=$(".DialogDiv").height();
+        $(".DialogDiv").css("left",(screenx/2-DialogDiv_width/2)+"px")
+       $(".DialogDiv").css("top",(screeny/2-DialogDiv_height/2)+"px")
+       $("body").css("overflow","hidden");
+  }
+  function close_div(){
+      $("#BgDiv1").css("display", "none");
+      $(".DialogDiv").css("display", "none");
+  }
+</script>
+

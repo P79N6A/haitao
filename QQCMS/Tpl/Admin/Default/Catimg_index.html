@@ -1,0 +1,52 @@
+
+
+<div id="infobox" > 
+<!-- <a href="{:U('Slide/index')}" style="float:right;">{:L(gobacklist)}</a>
+ {$slide[name]}{:L('manage')} : <a href="{:U('Slide/picmanage?fid='.$slide[id])}">图片管理</a>  |  --> <a href="{:U('Catimg/addpic?fid='.$_GET['fid'])}">增加图片</a>
+</div>
+
+<form name="myform" id="myform" action="" method="post">
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+          <tr>
+      <!-- <th width="30">{:L('listorder')}</th> -->
+      <!-- <th width="40">ID</th> -->
+      <th width="180" align="left">{:L(TITLE)}</th>
+      <th align="left">图片</th>
+      <!-- <th align="center">栏目类型</th> -->
+      <th align="center">url链接</th><!-- 
+      <th width="50" align="center">{:L(STATUS)}</th> -->
+      <th  align="center">{:L('manage')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <volist name="list" id="vo" key="k">
+          <tr>
+      <!-- <td width="40" align='center'><input name='listorders[{$vo.id}]' type='text' size='3' value='{$vo.listorder}' class='input-text-c'></td> -->
+      <!-- <td align="center">{$vo['id']}</td> -->
+          <td align="left">{$vo['title']}</td>
+      <td align="left"><img src="{$vo['pic']}"   height=100></td>
+      <!-- <td align="center">{$vo['name']}</td> -->
+      <td align="center">{$vo['this_url']}</td>
+      <!-- <td align="center"><eq name="vo['status']" value="1">
+          {:L('display_yes')}
+          <else />
+          {:L('display_no')}
+          </eq></td> -->
+      <td align="center">
+      <a class="product_edit1" href="{:U('Catimg/editpic',array(fid=>$fid,id=>$vo['id']))}">{:L('edit')}</a><a class="product_edit2" style="border-right:none;border-radius:0px;" href="javascript:confirm_delete('{:U('Catimg/deletepic',array(id=>$vo['id']))}')">{:L('delete')}</a><a style="border-right:#BDBABA 1px solid;border-left:none;border-radius:0px 5px 5px 0px" class="product_edit1" href="{:U('Catimg/edit_goods',array(fid=>$fid,id=>$vo['id']))}">选择商品</a>
+      </td>         
+          </tr>
+          </volist> 
+        </tbody>
+    </table>
+  
+    <div class="btn">
+    <input type="button" class="button" name="dosubmit" value="<?php echo L('listorder')?>" onclick="myform.action='{:U($module_name.'/listorder')}';$('#myform').submit();"/> </div>  
+  </div>
+</div>
+</form>
+
+<div id="pages" class="page">{$page}</div>
+</body></html>

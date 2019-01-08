@@ -1,0 +1,39 @@
+	<div id="tt" style="background:#fff;position:fixed;font-size:20px;line-hight:20px;right:0px;bottom:0px;width:300px;border:2px solid rgb(89, 147, 252);display:none;padding:20px 20px 10px 20px">
+	<h2 style="position:absolute;top:3px;right:0px;cursor:pointer;height: 20px;margin:0px;" onclick="$('#tt').fadeOut(1000);">&times</h2>
+	<p style=" LINE-HEIGHT: 30px;">
+	<switch name="tip_list['type']" >
+                   <case value="1">亲爱的店主，您的试运营时间快到了，为了避免停运营而影响销售，请尽快缴纳保证金方便继续使用。</case>
+                  <case value="2">亲爱的店主，您的试运营时间已经到期，如果想继续运营请缴纳保证金。</case>
+                  <case value="3">亲爱的店主，由于超时没有缴纳平台管理年费，您的商店已经停止运营。请尽快缴纳费用以免造成销售损失。</case>
+                  <case value="4">亲爱的店主，眨眼一年过去了，未来一年的平台管理年费您还没提交哦，为了避免停运营而影响销售，请尽快缴纳方便继续使用。</case>
+                  <default />
+                  </switch>
+	</p></div>
+	<input type="hidden" id="tip" value="{$tip_list['type']}" />
+	</div><!-- mainBody -->
+</div>
+
+<div class="clear"></div>
+<script type="text/javascript" src="{$site_url}__VIEW__/js/jquery.lazyload.js"></script>
+<script type="text/javascript" src="{$site_url}__VIEW__/js/functions.js"></script>
+<script type="text/javascript" src="{$site_url}__VIEW__/js/base.js"></script>
+<script type="text/javascript">
+
+$(window).resize(autoSize);
+$(function(){
+	autoSize();
+	$(".loginOut").click(function(){
+		var url=$(this).attr("href");
+		popup.confirm('你确定要退出吗？','你确定要退出吗',function(action){
+			if(action == 'ok'){ window.location=url; }
+			});
+		return false;
+	});
+	var time=self.setInterval(function(){$("#today").html(date("Y-m-d H:i:s"));},1000);//时钟方法
+	if($("#tip").val()){
+		$("#tt").slideDown(2000);
+	}
+});
+</script>
+</body>
+</html>

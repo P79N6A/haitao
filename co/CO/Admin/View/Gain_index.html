@@ -1,0 +1,39 @@
+<include file="Public:adminHead" />
+<div id="Right">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+
+				<tr>
+					<th style="text-align: center;">商品图标</th>
+					<th width="120" style="text-align: center;">中文名称</th>
+					<th width="120"  style="text-align: center;">英文名称</th>
+					<th style="text-align: center;">会员现金返还</th>
+					<th style="text-align: center;">金会员现金返还</th>
+					<th style="text-align: center;">店主返利</th>
+					<th style="text-align: center;">上级店返利</th>
+					<th style="text-align: center;">库存</th>
+					<th style="text-align: center;">上下架状态</th>
+				</tr>
+				<volist name="prolist" id ="r" key="k">
+					<tr>
+						<td  style="text-align: center;"><img style="width:80px;height:80px;" src="{$r['thumb']}"></td>
+						<td style="text-align: center;">{$r.title}</td>
+						<td style="text-align: center;">{$r.en_name}</td>
+						<td style="text-align: center;">&yen;{$r.menber_ratio}</td>
+						<td style="text-align: center;">&yen;{$r.gold_ratio}</td>
+						<td style="text-align: center;">&yen;{$r.menber_rebate}</td>
+						<td style="text-align: center;">&yen;{$r.parent_rebate}</td>
+						<td style="text-align: center;">{$r.stock}</td>
+						<td align="center"><if condition="$r['status'] eq 1"><font color="green">上架中</font><else/><font color="red">已下架</font></if></td>
+
+					</tr>
+
+				</volist>
+	</table>     
+	<div class="text-center">
+        <ul class="pagination" style="margin-bottom:20px">
+        {$pager}
+        </ul>
+      </div>
+		
+</div>
+<include file="Public:adminFoot" />

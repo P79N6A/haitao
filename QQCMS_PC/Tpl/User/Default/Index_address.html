@@ -1,0 +1,119 @@
+{__NOLAYOUT__}
+<include file="Public:headerart"/>
+<!-- 本页自用的 css -->
+<link rel="stylesheet" href="../Public/Css/index02.css">
+<style type="text/css">
+hr{margin-top: 0!important}
+.wid-90{width: 80%; margin: 0 auto; padding-bottom: 30px;}
+.bing {background-color: #337AB7 !important;color: #fff !important;}
+</style>
+<!-- 本页自用的 js -->
+<script src="../Public/js/jquery2.min.js?version=1.11.0"></script>
+<div class="wid-90">
+  <h1 class="text-center">我的地址</h1>
+  <hr>
+  <div class="tab-pane kuandu m-anniu" id="used">
+    <ul class="list-group">
+    <volist name="default_address" id="vo">
+        <li class="list-group-item">
+            <address class="list-group-item-heading">
+             地址：<br>
+            【默认】{$area[$vo['province']]}&nbsp;&nbsp;{$area[$vo['city']]}{$area[$vo['area']]}&nbsp;&nbsp;{$vo.address}<br><br>
+             姓名：<br>
+             {$vo.consignee}<br><br>
+             电话:<br>
+             {$vo.mobile}
+            </address>
+            <p class="list-group-item-text pull-right">
+                <a class="btn btn-sm btn-primary" href="{:URL('User-Index/edit_address',array('id'=>$vo[id]))}">修改</a>
+                <a class="btn btn-sm btn-warning" href="javascript:dele({$vo.id});">删除</a>
+            </p>
+            <div class="clearfix"></div>
+        </li>
+    </volist>
+    <volist name="address" id="vo">
+        <li class="list-group-item">
+            <address class="list-group-item-heading">
+             地址：<br>
+             {$area[$vo['province']]}&nbsp;&nbsp;{$area[$vo['city']]}{$area[$vo['area']]}&nbsp;&nbsp;{$vo.address}<br><br>
+             姓名：<br>
+             {$vo.consignee}<br><br>
+             电话:<br>
+             {$vo.mobile}
+            </address>
+            <p class="list-group-item-text pull-right">
+                <a class="btn btn-sm btn-default set-default" id="{$vo.id}">设为默认地址</a>
+                <a class="btn btn-sm btn-primary" href="{:URL('User-Index/edit_address',array('id'=>$vo[id]))}">修改</a>
+                <a class="btn btn-sm btn-warning" href="javascript:dele({$vo.id});">删除</a>
+            </p>
+            <div class="clearfix"></div>
+        </li>
+    </volist>
+        <li class="list-group-item">
+            <a href="{:URL('User-Index/edit_address')}"><button type="button" class="btn  btn-block bing " style="margin-bottom:10px" >添加地址</button></a>
+        </li>
+    </ul>
+</div>
+</div>
+<div class="div-none"></div><!-- 底拦站位 -->
+
+<!-- Modal -->
+<div data-toggle='modal' id="showModal" data-target='#myModal' data-whatever='@mdo' style="display:none;"></div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">删除地址</h4>
+      </div>
+      <div class="modal-body">
+        <strong>亲爱的顾客！</strong>
+        <p>你确定要删除现有地址?</p>
+      </div>
+      <div class="modal-footer margin-top-0">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <a href="javascript:" onclick="deladdress(this);" data-adid="0" data-dismiss="modal" class="btn btn-danger confi_dele">删除</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<script>
+function dele(id){
+  // $(".confi_dele").attr("href","/index.php?g=User&m=Index&a=delete_address&id="+id);
+  $(".confi_dele").attr("data-adid",id);
+  $("#showModal").click();
+}
+function deladdress(obj)
+{
+  var adid = $(obj).attr("data-adid");
+  window.location.href = "{:U('User/Index/delete_address')}&id="+adid;
+}
+</script>
+<script type="text/javascript">
+$(function(){
+  $(".set-default").click(function(){
+    var id = $(this).attr("id");
+    $.ajax({
+      type: "POST",
+      url: "{:URL('User-Index/editDefault')}",
+      data: {"id":id},
+      timeout: "4000",
+      dataType: "JSON",
+      success: function(json){
+        if (json.status == 0)
+        {
+          art.dialog({lock: true, time: 3, content:json.info, icon: "error"});
+          return false;
+        }
+        art.dialog({lock: true, time: 3, content:json.info, icon: "ok"});
+        window.location.reload();
+      },
+      error: function(){
+        art.dialog({lock: true, time: 3, content:"系统出错！", icon: "error"});
+      }
+    });
+  });
+})
+</script>
+<include file="Public:footerubo"/>

@@ -1,0 +1,80 @@
+<include file="Public:adminHead" />
+<div id="Right">
+	<form action="" method="post">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+			<tr>
+				<th width="120">名称：</th>
+				<td>
+					<input name="title" type="text" class="input" size="40" value="{$info.title}" />
+					学校 分区 宿舍楼
+				</td>
+			</tr>
+			<tr>
+				<th width="120">类型：</th>
+				<td>
+					<select name="type" style="width: 80px;">
+						<option value="学校">学校</option>
+						<option value="分区">分区</option>
+						<option value="宿舍楼">宿舍楼</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>状态：</th>
+				<td>
+					<select name="status" style="width: 80px;">
+						{$info.status|frequent_status_converter=###,$status_01,'option'}
+					</select>
+				</td>
+			</tr>
+
+			<tr>
+				<th>父级节点：</th>
+				<td>
+					<select name="pid" style="min-width: 80px;">
+						<option value="0">根节点</option>
+						<volist name="list" id="vo">
+						<option <if condition="$info['pid'] eq $vo['id']">selected="selected"</if> value="{$vo.id}">{$vo.title}</option> 
+						</volist>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>显示排序：</th>
+				<td>
+					<input class="input" name="listorder" type="text" size="40" value="{$info.listorder}" />
+				</td>
+			</tr>
+		</table>
+		<input type="hidden" name="id" value="{$info.id}"/>
+
+		<div class="commonBtnArea" >
+			<input type="submit" class="btn submit" />
+		</div>
+	</form>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab">
+		<tr>
+			<td style="width:300px;">结构</td>
+			<td style="width:80px;">类型</td>
+			<td style="width:80px;">排序</td>
+			<td style="width:100px;" >状态</td>
+			<td width="150">操作</td>
+			<td></td>
+		</tr>
+		<tr><td colspan="6">根节点</td></tr>
+		<volist name="list" id="vo">
+		<tr align="center" id="{$vo.id}" pid="{$vo.pid}">
+			<td align="left" class="tree" style="cursor: pointer;font-size:12px;">{$vo.title}</td>
+			<td edit="0" fd="sort">{$vo.type}</td>
+			<td edit="0" fd="sort">{$vo.listorder}</td>
+			<td>{$vo.status|frequent_status_converter=###,$status_converter}</td>
+			<td>
+				[ <a href="{:U('System/school',array('id'=>$vo['id']))}" class="edit">编辑</a> ]
+				[ <a onclick="return confirm('确认删除？')" href="{:U('System/schoolDel',array('id'=>$vo['id']))}">删除</a> ]
+			</td>
+			<td></td>
+		</tr>
+		</volist>
+	</table>
+</div>
+<include file="Public:adminFoot" />

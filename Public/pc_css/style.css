@@ -1,0 +1,74 @@
+html,body {
+	overflow-x: hidden;
+}
+
+div.header {
+	background-image: url(../pc_img/header.png);
+}
+div.header-en {
+	background-image: url(../pc_img/header.en.png);
+}
+
+div.container {
+	position: relative;
+	z-index: 2;
+}
+
+div.extraDiv1 {
+	background: url(../pc_img/guirlande.png) repeat-x;
+	height: 611px;
+	width: 100%;
+	padding-top: 1em;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+}
+
+div.sparklingStar {
+	background: url(../pc_img/star.png) no-repeat;
+	height: 59px;
+	width: 54px;
+	position: absolute;
+	z-index: 3;
+}
+
+div.header-fr a.logo {
+    background-image: url("../pc_img/logo_fr.png");
+}
+
+div.header-en a.logo {
+    background-image: url("../pc_img/logo_en.png");
+}
+
+div.header-fr a.rvf {
+    background-image: url("../pc_img/rvf_fr.png");
+}
+
+div.header-fr a.rvf:hover {
+    background-image: url("../pc_img/rvf_fr.png");
+}
+
+div.header-en a.rvf {
+    background-image: url("../pc_img/rvf_en.png");
+}
+
+div.header-en a.rvf:hover {
+    background-image: url("../pc_img/rvf_en.png");
+}
+
+div.header a.facebook {
+    background-image: url("../pc_img/facebook.png");
+    top:0px;
+    height:151px;
+    right:10px;
+    width:47px;
+}
+
+div.header a.facebook:hover {
+    background-image: url("../pc_img/facebook.png");
+}
+
+div.footer {
+    background-image: url("../pc_img/footer.jpg");
+}

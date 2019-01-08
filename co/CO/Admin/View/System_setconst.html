@@ -1,0 +1,28 @@
+<include file="Public:adminHead" />
+<div id="Right">
+	<div class="contentArea">
+	<if condition="$isConstChanged">
+		<div  style="margin-bottom:10px;">
+			系统常量有更新，请一键更新
+			<a href="{:U('System/updateConst')}" >
+				<button class="btn submit">一键更新</button>
+			</a>
+
+		</div>
+	</if>
+		<form action="" method="post">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+			<volist name="list" id="vo">
+				<tr>
+					<th width="200">{$vo.name}：</th>
+					<td><input name="{$vo.varName}" type="text" class="input" size="40" value="{$vo.value}" /></td>
+				</tr>
+			</volist>
+			</table>
+		<div class="commonBtnArea" >
+			<input type="submit" class="btn submit" value="提交" />
+		</div>
+		</form>
+	</div>
+</div>
+<include file="Public:adminFoot" />

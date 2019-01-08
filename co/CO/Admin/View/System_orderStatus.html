@@ -1,0 +1,14 @@
+<include file="Public:adminHead" />
+<div id="Right">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+			<volist name="list" id="vo">
+			<tr>
+				<th width="120">{$vo.id}：</th>
+				<td>
+					{$vo.value}
+				</td>
+			</tr>
+			</volist>
+		</table>
+</div>
+<include file="Public:adminFoot" />

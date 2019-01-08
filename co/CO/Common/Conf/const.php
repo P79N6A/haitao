@@ -1,0 +1,12 @@
+<?php
+return array (
+  'USER_GROUP_RECEIVER' => '1',
+  'USER_GROUP_PICKER' => '2',
+  'USER_GROUP_DELIVERER' => '3',
+  'ORDER_STATUS_CANCEL' => '0',
+  'ORDER_STATUS_START' => '1',
+  'ORDER_STATUS_PICKED' => '2',
+  'ORDER_STATUS_DELIVERY' => '3',
+  'ORDER_STATUS_FINISH' => '9',
+  'ORDER_STATUS_DELETE' => '-1',
+);

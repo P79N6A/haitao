@@ -1,0 +1,56 @@
+<include file="Public:adminHead" />
+<style type="text/css">
+  iframe{
+    border:none;
+    width:100%;
+  }
+</style>
+<div id="Right">
+	<div class="contentArea">
+	 <h1>平台押金</h1>
+   <if condition="$receipt_url neq null">
+   <table  width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+     <tr>
+       <th>说明</th>
+       <th style="text-align:left"><font color="red">*请用微信扫描下面二维码进入支付页面，支付成功后您的商店将正式运营</font></th>
+     </tr>
+     <tr>
+       <th>支付二维码</th>
+       <td><iframe src="{$receipt_url}" height="400px"></iframe></td>
+     </tr>
+   </table>
+   <else/>
+   <h1><font color="red">
+   您已缴纳保证金，请放心使用本平台
+   <if condition="$consume['id'] neq null">,此金额为系统赠送</if>
+   </font></h1>
+   <if condition="$order neq null">
+   <table  width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+     <tr>
+       <th width="150px">订单号</th>
+       <td style="text-align:left">{$order.sn}</td>
+     </tr>
+     <tr>
+       <th>金额</th>
+       <td style="text-align:left">&yen;{$order.amount}</td>
+     </tr>
+     <tr>
+       <th>状态</th>
+       <td style="text-align:left">
+       <if condition="$order['status'] eq 1"><font color="green">已支付</font>
+       <elseif condition="$order['status'] eq 0 and $order neq null"/>
+       <font color="red">未支付</font></if>
+       </td>
+     </tr>
+     <if condition="$order['pay_time'] neq null">
+     <tr>
+       <th>支付时间</th>
+       <td style="text-align:left">{$order.pay_time|date="Y年m月d日",###}</td>
+     </tr>
+     </if>
+   </table>
+   </if>
+   </if>
+</div>
+</div>
+<include file="Public:adminFoot" />

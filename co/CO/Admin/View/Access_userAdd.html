@@ -1,0 +1,40 @@
+<include file="Public:adminHead" />
+<div id="Right">
+	<form action="" method="post">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+			<tr>
+				<th style="width:120px;">姓名：</th>
+				<td><input class="input" name="nickname" type="text" size="40" value="{$info.nickname}" /></td>
+			</tr>
+			<tr>
+				<th>登录账户：</th>
+				<td><input name="email" type="text" class="input" size="40" value="{$info.email}" /></td>
+			</tr>
+			<tr>
+				<th>状态：</th>
+				<td>
+					<select name="status">
+					{$info.status|frequent_status_converter=###,$status_01,'option'}
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>所属用户组</th>
+				<td>
+					<volist name="group" id="vo">
+					<label style="margin-right:20px;">
+						<input name="gids[]" value="{$vo.id}" type="checkbox"
+						<if condition="in_array($vo['id'],$info['group'])">checked="checked"</if>     
+						/>{$vo.title}
+					</label>
+					</volist>
+				</td>
+			</tr>
+		</table>
+		<input type="hidden" name="id" value="{$info.id}"/>
+	<div class="commonBtnArea">
+		<input type="submit" class="btn submit" />
+	</div>
+	</form>
+</div>
+<include file="Public:adminFoot" />

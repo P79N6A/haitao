@@ -1,0 +1,45 @@
+ 
+<body class="pang">
+<div class="wid-90">
+<h3 class="text-center" style="font-weight:bold">订单状态</h3>
+<table class="table table-bordered table-striped width90">
+        <thead>
+          <tr>
+            <th width="50%">日期/订单号</th>
+            <th width="30%">总消费/状态</th>
+            <th width="20%">状态</th>
+          </tr>
+        </thead>
+        <tbody>
+	<volist name="list" id="vo" key="k">
+          <tr>
+            <td>{$vo['add_time']|toDate=###,'Y年m月d日H时'}<br><a href="{:URL('User-Order/show',array(id=>$vo['id']))}">{$vo.sn}</a></td>
+            <td class="text-right">
+              &yen;{$vo.order_amount|number_format=###,2}<br>
+              {if $vo['status']==2}订单完成{elseif $vo['pay_status']==2}已付款{else}{:L("order_status_".$vo[status])} {/if}
+            </td>
+            <td>
+              <a href="{:URL('User-Order/show',array(id=>$vo['id']))}" class="btn btn-primary btn-block">详情</a>
+              <eq name="vo.iswallet" value="1">
+              <a href="{:URL('Home-Envelope/index',array(id=>$vo['id']))}" class="btn btn-danger btn-block">发红包</a>
+              </eq>
+            </td>
+          </tr>
+	</volist>
+        </tbody>
+      </table>
+</div>
+    <div class="text-center">
+        <ul class="pagination" style="margin-bottom:20px">
+        {$pages}
+        </ul>
+        </div>
+<script>
+	$("#catid").attr("value",'{$catid}');
+		function confirm_deleteall(){
+			art.dialog.confirm("{:L('real_delete')}", function(){ $('#myform').submit();});
+	}
+</script>
+
+	
+ 

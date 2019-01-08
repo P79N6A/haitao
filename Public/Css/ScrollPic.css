@@ -1,0 +1,20 @@
+
+.clearfix:after{content:".";display:block;height:0;visibility:hidden;clear:both;}
+.clearfix{zoom:1;}
+
+
+
+.b_cont{width:99%;overflow:hidden;padding-left: 10px;float: left; position:relative;}
+.ct_p_05{width:730px;height:485px;float:left;text-align:center;}
+.ct_p_05 .ct_txt{display:block;line-height:50px;line-height:50px;overflow:hidden;color:#fff;height:75px;cursor:pointer;filter: progid:DXImageTransform.Microsoft.gradient(GradientType = 0,startColorstr = '#8c000000', endColorstr = '#8c000000' );background-color:rgba(0,0,0,.55);_background:none;position: relative;margin-top: -75px;font-size: 20px;}
+.ct_p_05 a:hover .ct_txt{color:#fff;text-decoration: underline;}
+
+.scrDotList_wrap{text-align:center;width:99%;position:absolute;bottom:10px;}
+.scrDotList{padding:0 10px;zoom:1;line-height: 0;}
+.scrDotList span{display:inline-block;width:10px;height:10px;background:#B8B0B0;cursor:pointer;font-size:0;line-height:0;vertical-align:top;font-size: 0px;margin: 0 5px; border-radius:10px;}
+.scrDotList span.on{background:#49cff1;}
+
+a.scrArrAbsLeft{position:absolute;left:0px; top:180px; bottom:0px;width:75px;height:75px;background:url(../Images/0813_ent_zyc_images_v2.png) 0px -136px no-repeat;cursor:pointer; opacity: 0.5;}
+a.scrArrAbsLeft:hover{background-position: 0 -217px;}
+a.scrArrAbsRight{position:absolute;right:0px; top:170px; bottom:0px;width:75px;height:75px;background:url(../Images/0813_ent_zyc_images_v2.png) no-repeat -83px -136px;cursor:pointer; opacity: 0.5;}
+a.scrArrAbsRight:hover{background-position: -83px -217px;}

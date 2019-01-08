@@ -1,0 +1,30 @@
+<include file="Public:adminHead" />
+<div id="Right">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+	<volist name="has_info" id='r'>
+				<tr>
+					<th width="120">{$r.title}</th>	
+
+					<td>
+						{$r.title}
+					</td>
+				</tr>
+				
+				
+			</table>
+</volist>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+	<volist name="info" id='r'>
+	<tr>
+		<th width="120"></th>	
+
+		<td>
+				{$r.title}		
+			</td>
+	</tr>
+				
+				
+			</table>
+	</volist>	
+</div>
+<include file="Public:adminFoot" />

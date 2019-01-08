@@ -1,0 +1,287 @@
+
+<include file="Home:header"/>
+
+    
+<!-- TARIF -->
+
+
+     	<!--<div class="lastVisitedWine">
+         {$title}
+          <ul>
+                                    <li><a href="http://www.millesimes.com/millesime/26017/Yquem+1982.html" title="Yquem 1982">Yquem 1982</a></li>
+                      </ul>
+        </div>-->     
+<div class="body">
+  <div class="content" style="position:relative;">
+    <!--Home_rindex-->  
+	 <include file="Home:rindex"/>
+	 <!--end--> 
+
+    <!-- 商城商品 -->
+    <div class="preview">
+      <div class="preview-x1">
+        <div class="picture"><img onclick="return popup_fixe(&#39;{$thumb}?vin_id=26017&#39;,342,384, 36017);" src="{$thumb}" border="0"></div>
+        <style>
+            .tooltipster-custom {
+              border-radius: 5px;
+              border: 1px solid #cccccc;
+              background: #ededed;
+              color: #666666;
+            }
+            .tooltipster-custom .tooltipster-content {
+              font-family: Arial, sans-serif;
+              font-size: 12px;
+              line-height: 14px;
+              padding: 8px 10px;
+              text-align:justify;
+            }
+        </style>
+        <script>
+        $(function() {
+          $('.tooltip').tooltipster({theme: '.tooltipster-custom', contentAsHTML: true, maxWidth: 500});
+          });
+        </script>
+
+        <div class="price">
+          <ul>
+          <li>{$en_name}</li>
+            
+                </ul>
+          <p>
+              <span class="number-s0">参考价：{$price}元</span>
+             <!-- <span class="number-x2"><a href="{:URL('Home-Product/pro_collect')}&pro_id={$id}">收藏此商品</a></span>-->
+          </p>
+        
+          <p>
+              <span class="number-s1">会员价：{$member_price}元</span>
+              <span class="number-x2">(返现：{$menber_ratio}元)</span>
+          </p>
+          <p>
+              <span class="number-s2">金会员：{$gold_price}元</span>
+              <span class="number-x2">(返现：{$gold_ratio}元)</span>
+          </p>
+           <p>
+              <span class="number-x3">库存：{$stock|default='已售罄'}</span>
+          </p>
+        </div>
+    
+        <div class="price-conect">
+          <ul>
+          <li class="li-price-comment"><a href="{:URL('Home-Product/appraise')}&id={$id}">商品评价</a></li>
+          <li><a href="{:URL('Home-Product/pro_collect')}&pro_id={$id}" class="li-price-conect">收藏此商品</a></li>
+          <li><a href="javascript:" id="price-btn1" class="li-price-car" onclick="changeorder('buynum','{$moduleid}','{$id}','add',orderok);">加入购物车</a></li>
+          <li><a href="javascript:" class="li-price-buy" onclick="changeorder_second('{$moduleid}','{$id}','add');">立即购买</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="wineInfo">
+        <table style="width:100%">
+          <tbody>
+            <tr>
+                <td><h2>{$title}</h2></td>
+                <td style="text-align:right"></td>
+            </tr>
+          </tbody>
+        </table>
+        <h3 style="margin-top: 2em; font-size: 1.5em;">产品介绍</h3>
+        <?php $content = str_replace('<pre>','',$content)?>
+        <dl>{$content}</dl>
+      </div>
+    </div>
+    <!-- 商城商品END -->
+
+    <!-- 私人酒窖 -->
+    <if condition="$catid eq 25">
+    <div class="preview">
+      <div class="preview-x1">
+        <div class="picture"><img onclick="return popup_fixe(&#39;{$thumb}?vin_id=26017&#39;,342,384, 36017);" src="{$thumb}" border="0"></div>
+        <style>
+            .tooltipster-custom {
+              border-radius: 5px;
+              border: 1px solid #cccccc;
+              background: #ededed;
+              color: #666666;
+            }
+            .tooltipster-custom .tooltipster-content {
+              font-family: Arial, sans-serif;
+              font-size: 12px;
+              line-height: 14px;
+              padding: 8px 10px;
+              text-align:justify;
+            }
+        </style>
+        <script>
+        $(function() {
+          $('.tooltip').tooltipster({theme: '.tooltipster-custom', contentAsHTML: true, maxWidth: 500});
+          });
+        </script>
+
+        <div class="price">
+          <ul>
+          <li>{$en_name}</li>
+            
+                </ul>
+          <p>
+              <span class="number-s0">参考价：{$price}元</span>
+             <!-- <span class="number-x2"><a href="{:URL('Home-Product/pro_collect')}&pro_id={$id}">收藏此商品</a></span>-->
+          </p>
+        
+          <p>
+              <span class="number-s1">会员价：{$member_price}元</span>
+          </p>
+           <p>
+              <span class="number-x3">库存：{$stock|default='已售罄'}</span>
+          </p>
+        </div>
+    
+        <div class="price-conect">
+          <ul>
+          <li class="li-price-comment"><a href="{:URL('Home-Product/appraise')}&id={$id}">商品评价</a></li>
+          <li><a href="{:URL('Home-Product/pro_collect')}&pro_id={$id}" class="li-price-conect">收藏此商品</a></li>
+          <li><a href="javascript:" id="price-btn1" class="li-price-car" onclick="changeorder('buynum','{$moduleid}','{$id}','add',orderok);">加入购物车</a></li>
+          <li><a href="javascript:" class="li-price-buy" onclick="changeorder_second('{$moduleid}','{$id}','add');">立即购买</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="wineInfo">
+        <table style="width:100%">
+          <tbody>
+            <tr>
+                <td><h2>{$title}</h2></td>
+                <td style="text-align:right"></td>
+            </tr>
+          </tbody>
+        </table>
+        <h3 style="margin-top: 2em; font-size: 1.5em;">产品介绍</h3>
+        <?php $content = str_replace('<pre>','',$content)?>
+        <dl>{$content}</dl>
+      </div>
+    </div>
+    <!-- 私人酒窖END -->
+    </if>
+  </div>
+</div>
+
+<!--默认一次只能加一瓶酒-->
+  <input type="hidden" value='1' id="buynum" />
+<!---->
+
+<script type="text/javascript">
+function changeorder(obj,moduleid,id,doit,ordercall){
+  var objs  =  document.getElementById(obj);
+  var datas={'moduleid':moduleid,'id': id,'num':objs.value};
+ 
+  $.ajax({
+    type:"POST",
+    url: "/index.php?m=Order&a=ajax&do="+doit,
+    data: datas,
+    timeout:"4000",
+    dataType:"JSON",
+    success: function(data){
+		
+      //data=eval('(' + result + ')');
+	 
+      if(data.data==1){
+        ordercall.call();
+      }else{
+        if(data.status==101){menbererror(data);}
+        else
+       ordererror(data);
+       //alert(data.info);
+      }
+      
+    },
+    error:function(){
+      alert("出错");
+    }
+  });
+}
+
+function orderok(){
+	//alert(1);return false;
+/*	art.dialog({ lock:true,icon: 'error',time:'2',content: '<div id="dialog1" title="提示成功"><p >成功添加进购物车</p><small>（增加或减少需在购物车里设置！亲）</small></div>'});
+//$('#dialog1').dialog('open');
+}*/ 
+
+	art.dialog({
+    title: '温馨提示',
+    content: '<div id="dialog1" title="提示成功"><p >成功添加进购物车</p><small>（增加或减少需在购物车里设置！亲）</small></div>',
+    width:'20%',
+  	okVal:'去结算',
+  	cancelVal:'继续购物',
+  	lock:true,
+  	background:'#000',
+  	opacity:0.3,
+    fixed: true,
+    icon: "face-smile",
+      ok: function () {
+  		window.location.href="{:URL('Home-Order/checkout')}";
+      },
+      cancel: function(){
+        this.close();
+      }
+    });
+}
+
+function dialogInfo(info,url)
+{
+	art.dialog({
+    title: '温馨提示',
+    content: info,
+    width:'15%',
+	//okVal:'去结算',
+	//cancelVal:'继续购物',
+	lock:true,
+	background:'#000',
+	opacity:0.7,
+	//icon:'skins/icons/',
+    ok: function () {
+		window.location.href=url;
+    },
+    cancel: function(){
+      this.close();
+    }
+    });
+}
+
+function changeorder_second(moduleid,id,doit){
+  var num=1;
+  var datas={'moduleid':moduleid,'id': id,'num':num};
+  
+  $.ajax({
+    type:"POST",
+    url: "/index.php?m=Order&a=ajax&do="+doit,
+    data: datas,
+    timeout:"4000",
+    dataType:"JSON",
+    success: function(data){
+      //data=eval('(' + result + ')');
+      if(data.data==1){
+            window.location.href="{:URL('Home-Order/checkout')}";
+      }else{
+        if(data.status==101){menbererror(data);}
+        else
+      	ordererror(data);
+      }
+      
+    },
+    error:function(){
+      alert("出错");
+    }
+  });
+}
+
+function ordererror(data){
+	var url = "{:URL('User-Login/index')}&goodid={$id}";
+	//$("#dialog2 .big_one").text(data.info);
+	dialogInfo(data.info,url);
+}
+
+function menbererror(data){
+$("#dialog5 .big_one").text(data.info);
+alert(data.info);
+}
+
+</script>
+<include file="Home:footer"/>
+

@@ -1,0 +1,42 @@
+<include file="Home:header"/>
+<!-- 本页自用的 css -->
+    <link rel="stylesheet" href="../Public/css/gouwuche.css" />
+
+
+
+    <p class="chanpin">{$page_title}</p>
+    <div style="overflow:hidden">
+  <volist name="list" id="r">
+    <ul class="ulc">
+      <li><a href="{$r.url}"><img src="{$r.thumb}" class="imgs" style="max-height:200px"></a></li>
+      <li style="padding:5px"><a href="{$r.url}"><p class="mar-bot" style="font-size:15px;font-weight:bold">{$r.title}</p><p class="mar-bot"><small>{$r.en_name}</small></p></a></li>
+      <!-- <li class="halfwid">
+        <div>参考价：{$r.price}元</div>
+        <div>会员价：<span class="redco">{$r.member_price}</span>元</div>
+      </li> -->
+      <li><div class="form-group">
+            <a class="btn btn-primary btn-block" href="{$r.url}">查看详情</a>
+          </div>
+      </li>
+    </ul>
+    </volist>
+  </div>
+    <div class="text-center">
+        <ul class="pagination" style="margin-bottom:20px">
+        {$pages}
+        </ul>
+        </div>
+      <div class="theme-pavilion" style="padding:5px">
+      <ul style="margin:0px;padding:0px;overflow:hidden">
+      <volist name="goods_type" id="r">
+      <li style="list-style-type:none;float:left;width:49%;margin:0px 1% 3px 0px">
+        <a href="{:URL('Home-Product/type_goods')}&typeid={$r.typeid}">
+        <img src="{$r.pic}" class="half-img" style="width:100%" />
+        </a>
+      </li>
+        </volist>
+      </ul>
+    </div>
+
+
+<include file="Home:footer2"/>

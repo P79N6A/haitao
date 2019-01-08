@@ -1,0 +1,104 @@
+
+<!-- 
+<table  class="search_table" width="100%">
+	<tr>
+		<td class="search">
+			<form action="{:U($module_name.'/index')}" method="get">
+			<input type="hidden" name="g" value="{$Think.GROUP_NAME}" />
+			<input type="hidden" name="m" value="{$Think.MODULE_NAME}" />
+			<input type="hidden" name="a" value="{$Think.ACTION_NAME}" />	
+
+			<input id="title" type="text" class="input-text" name="keyword" value="{$Think.get.keyword}" />
+			<select name="searchtype">
+			<option value="sn" <eq  name="searchtype" value='sn'>selected="selected"</eq>>{:L('order_sn')}</option>
+			<option value="realname" <eq name="searchtype" value='realname'>selected="selected"</eq>>{:L('realname')}</option>
+			<option value="username" <eq name="searchtype" value="username">selected="selected"</eq>>{:L('username')}</option>
+			<option value="userid" <eq name="searchtype" value="userid">selected="selected"</eq>>{:L('userid')}</option>
+			<option value="id" <eq name="searchtype" value='id'>selected="selected"</eq>>ID</option>
+			</select>
+ 
+ 
+			<select id="status" name="map[status]">
+			<option value="">{:L('order_status')}</option>			 
+			<option value="0" <if condition="isset($status) && $status ==0">selected="selected"</if>>{:L(order_status_0)}</option>
+			<option value="1" <if condition="isset($status) && $status ==1">selected="selected"</if>>{:L(order_status_1)}</option>
+			<option value="2" <if condition="isset($status) && $status ==2">selected="selected"</if>>{:L(order_status_2)}</option>
+			<option value="3" <if condition="isset($status) && $status ==3">selected="selected"</if>>{:L(order_status_3)}</option>
+			<option value="4" <if condition="isset($status) && $status ==4">selected="selected"</if>>{:L(order_status_4)}</option>
+			</select>
+ 
+			<select id="pay_status" name="map[pay_status]">
+			<option value="">{:L('pay_status')}</option>		
+			<option value="0" <if condition="isset($pay_status) && $pay_status ==0">selected="selected"</if>>{:L(pay_status_0)}</option>
+			<option value="1" <if condition="isset($pay_status) && $pay_status ==1">selected="selected"</if>>{:L(pay_status_1)}</option>
+			<option value="2" <if condition="isset($pay_status) && $pay_status ==2">selected="selected"</if>>{:L(pay_status_2)}</option>
+			<option value="3" <if condition="isset($pay_status) && $pay_status ==3">selected="selected"</if>>{:L(pay_status_3)}</option>
+			<option value="4" <if condition="isset($pay_status) && $pay_status ==4">selected="selected"</if>>{:L(pay_status_4)}</option>
+			</select>
+
+
+			<select id="shipping_status" name="map[shipping_status]">
+			<option value="" >{:L('shipping_status')}</option>			 
+			<option value="0" <if condition="isset($shipping_status) && $shipping_status ==0">selected="selected"</if>>{:L(shipping_status_0)}</option>
+			<option value="1" <if condition="isset($shipping_status) && $shipping_status ==1">selected="selected"</if>>{:L(shipping_status_1)}</option>
+			<option value="2" <if condition="isset($shipping_status) && $shipping_status ==2">selected="selected"</if>>{:L(shipping_status_2)}</option>
+			<option value="3" <if condition="isset($shipping_status) && $shipping_status ==3">selected="selected"</if>>{:L(shipping_status_3)}</option>
+			<option value="4" <if condition="isset($shipping_status) && $shipping_status ==4">selected="selected"</if>>{:L(shipping_status_4)}</option>
+			</select>
+			 
+			 
+			
+			<input type="hidden" id="menuid" name="menuid" value="{$_GET['menuid']}"/>
+			<input type="submit" value="{:L('chaxun')}"  class="button" />
+			<input type="reset" value="{:L('reset')}" class="button"  />
+			</form>
+		</td>
+		
+	</tr>
+</table> -->
+
+<form name="myform" id="myform" action="" method="post">
+
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+		<thead> 
+            <tr> 
+<!-- 			<th width="20"><input type="checkbox" value="" id="check_box" onclick="selectall('ids[]');"></th>          
+            <th width="30">ID</th>  -->
+			<th   align="left">公司</th> 
+            <th  align="left">联系人</th> 
+            <th  align="left">联系电话</th>
+            <th align="left">团购数量</th>
+			<th  align="left">留言</th>
+            <th>提交时间</th> 
+			<th >{:L('manage')}</th> 
+            </tr> 
+        </thead> 
+      	<tbody>
+      		<volist name="list" id="vo" key="k">
+      		<tr>
+<!-- 			<td align="center"><input class="inputcheckbox " name="ids[]" value="{$vo['id']}" type="checkbox" ></td>
+<td align="center">{$vo['id']}</td> -->
+      		<td>{$vo.company}</td>
+      		<td>{$vo.name}</td>
+      		<td>{$vo.mobile}</td>
+			<td><font color="red">{$vo.num}</font></td>
+      		<td title="{$vo.content}">{$vo.content|str_cut=###,20}</td>
+      		<td align="center">{$vo['createtime']|toDate=###,'Y-m-d H:i:s'}</td>			
+			<td align="center"><if condition="$vo['status'] eq 0"><a href="{:U('Order/tuangou_chuli',array(id=>$vo['id'],status=>1))}" class="product_edit1">设置为已处理</a><else/><a href="{:U('Order/tuangou_chuli',array(id=>$vo['id'],status=>0))}" class="product_edit1">设置为未处理</a></if><a class="product_edit2" href="javascript:confirm_delete('{:U($module_name.'/tuangou_delete',array(id=>$vo['id']))}')">{:L('delete')}</a></td>      		
+      		</tr>
+      		</volist>
+      	</tbody>
+    </table>
+  
+    <!-- <div class="btn"><input type="button" class="button" name="dosubmit" value="<?php echo L('delete')?>" onclick="myform.action='{:U($module_name.'/deleteall')}';return confirm_deleteall()"/> <input  type="button" class="button" name="dosubmit" value="<?php echo L('listorder')?>" onclick="myform.action='{:U($module_name.'/listorder')}';$('#myform').submit();" /></div> --> 
+
+</form></div>    
+
+<div id="pages" class="page">{$pages}</div>
+<script>
+$("#catid").attr("value",'{$catid}');
+function confirm_deleteall(){
+	art.dialog.confirm("{:L('real_delete')}", function(){ $('#myform').submit();});
+}
+</script>

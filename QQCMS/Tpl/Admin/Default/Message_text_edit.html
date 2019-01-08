@@ -1,0 +1,149 @@
+<link rel="stylesheet" type="text/css" href="Public/Css/adminuser_edit.css">
+<style type="text/css">
+#myform{
+	display:block;
+	width:100%;
+	border:none;
+	margin:auto;
+	margin-top: 10px;
+}
+#now_select_div span{
+	display: inline-block;
+	padding: 8px 10px 8px 10px;
+	border:1px solid red;
+	margin:0px 5px 0px 5px;
+}
+</style>
+<!--选择上级板块-->
+	<div id="edit_table" class="edit_form" style="display:none">
+	<div style="background:#0B62C0;width:100%;color:#fff;padding:10px 0px 10px 0px;border-radius:6px 6px 0px 0px;">
+	<span onclick="$('#edit_table').fadeToggle();" style="float:right;cursor:pointer;margin-right:10px;">关闭</span><span style="margin-left:10px">选择会员</span>
+	</div>
+	<div id="info_table" style="overflow:hidden;padding:10px 0px 10px 0px">
+		
+	</div>
+	<input style="padding:5px 25px 5px 25px;background: #1b75b6;color: #fff;border:none;margin-left:2%" name="sub" type="submit"   onclick="$('#edit_table').fadeToggle();" value="确定" />
+	</div>
+<!-- 结束 -->
+<div id="msg"></div>
+<form name="myform" id="myform" action="<if condition="$action_name=='add'">{:U($module_name.'/insert')}<else />{:U($module_name.'/update')}</if>&iscreatehtml=1" method="post">
+<div id="filelist" class="hide"></div>
+<div class="error"><ul></ul></div>
+<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+		<tr>
+		<td></td>
+			<td>
+				<input type="radio"  onclick="$('#is_menber').fadeOut();" name="is_all" value="0" <if condition="$action_name eq 'add'">checked<else/><if condition="$vo['is_all'] eq 0">checked</if></if>/>&nbsp;整站发送&nbsp;&nbsp;&nbsp;
+				<input type="radio" onclick="$('#is_menber').fadeIn();" name="is_all" value="1" <if condition="$vo['is_all'] eq 1">checked</if>/>&nbsp;选择会员/微店
+				<div id="is_menber" style="display:none;padding:10px 0px 10px 0px;">
+				<span class="button" onclick="change_menber();" >选择会员/微店</span>
+				<input style="height:25px;margin-left:10px" placeholder="输入微信名" type="text" value="" id="search_par"/><span class="button" onclick="search_menber();" >搜索会员/微店</span></div>
+				<div id="now_select_div"></div>
+			</td>
+		</tr>
+		<if condition="$vo['is_all'] eq 1">
+			<td>已选择会员</td>
+			<td><div id="now_select_div">
+				<volist name="mess_list" id="r">
+					<span>{$r.realname}</span>
+				</volist>
+			</div></td>
+		</if>
+		<tr>
+		<td width="10%" ><if condition="$fields['title']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.title.name}</td>
+		<td width="85%" id="box_{$fields['title']['field']}">
+		{$fields['title']|getform=$form,###}
+		</td>
+		</tr>
+		<tr>
+		<td width="10%" ><if condition="$fields['little_title']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.little_title.name}</td>
+		<td width="85%" id="box_{$fields['little_title']['field']}">
+		{$fields['little_title']|getform=$form,###}
+		</td>
+		</tr>
+		<tr>
+		<td width="10%" ><if condition="$fields['content']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.content.name}</td>
+		<td width="85%" id="box_{$fields['content']['field']}">
+		{$fields['content']|getform=$form,###}
+		</td>
+		</tr>
+
+		<tr>
+		<td width="10%" ><if condition="$fields['createtime']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.createtime.name}</td>
+		<td width="85%" id="box_{$fields['createtime']['field']}">
+		{$fields['createtime']|getform=$form,###}
+		</td>
+		</tr>
+		<tr>
+		 <td width="10%" ><if condition="$fields['status']['required']"><font color="red">*</font><else/>&nbsp&nbsp</if>{$fields.status.name}</td>
+		<td width="85%" id="box_{$fields['status']['field']}">
+		{$fields['status']|getform=$form,###}
+		</td>
+	</tr>
+<!-- 		<volist name="fields" id="r">
+	<tr>
+		<td width="15%" ><if condition="$r['required']"><font color="red">*</font></if>{$r.name}</td>
+		<td width="85%" id="box_{$r['field']}">
+		{$r|getform=$form,###}
+		</td>
+	</tr>
+</if>
+</volist> -->
+</table>
+<div id="bootline"></div>
+<div id="btnbox" class="btn">
+<if condition="$vo['id']!=''"><input TYPE="hidden" name="id" value="{$vo.id}"></if>
+<input type="hidden"  name="lang" value="{$langid}" />
+<input type="hidden" name="forward" value="{$_SERVER['HTTP_REFERER']}" />
+<INPUT TYPE="submit"  value="{:L('dosubmit')}" class="button" >
+<input TYPE="reset"  value="{:L('cancel')}" class="button">
+</div>
+</form>
+</div>
+<script type="text/javascript">
+	function change_menber(){
+		var id=0;
+			$.ajax({
+		type:"get",
+		url: "/index.php?m=Ajax&a=change_menber",
+		data: {"id":id},
+		timeout:"4000",
+		dataType:"html",
+		success: function(data){
+			$('#info_table').empty().append(data);
+			$('#edit_table').fadeIn();
+		},
+		error:function(){
+			alert("time out,try it");
+		}
+	}); 
+	}	
+	function search_menber(){
+		var name=$('#search_par').val();
+			$.ajax({
+		type:"get",
+		url: "/index.php?m=Ajax&a=search_menber",
+		data: {'name':name},
+		timeout:"4000",
+		dataType:"html",
+		success: function(data){
+			$('#info_table').empty().append(data);
+			$('#edit_table').fadeIn();
+		},
+		error:function(){
+			alert("time out,try it");
+		}
+	}); 
+	}
+	function par_select(obj){
+		var id=$(obj).find('input').val();
+		var name=$(obj).find('span').text();
+		if($("#now_select_div span").hasClass('now_select_'+id)){
+			$("#now_select_div .now_select_"+id).remove();
+		$(obj).removeClass('has_select');
+		}else{
+		$(obj).addClass('has_select');
+		$("#now_select_div").append("<span class='now_select_"+id+"'>"+name+"<input type='hidden' value='"+id+"' name='now_select[]' /></span>");
+		}
+	}
+</script>

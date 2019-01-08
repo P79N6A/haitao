@@ -1,0 +1,23 @@
+<include file="Home:headertrade"/>
+<!-- dialog对话框 -->
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.artDialog.js?skin=default"></script>
+<!-- END -->
+<div class="cartCon">
+       <div class="productEmpty">
+        <div class="productEmptyCon">
+         <p>购物车里空空如也，赶紧去&nbsp;<a href="/">逛逛吧&gt;</a></p>
+         <p>或者您可以先进行&nbsp;<a href="javascript:doLogin();">登录&gt;</a></p>
+        </div>
+      </div>
+</div>
+<script type="text/javascript">
+function doLogin()
+{
+  var userid = {$yp_userid};
+  if (userid == 0)
+  $(".dologin-oa").click();
+  else
+  art.dialog({title:"登录提示",fixed: true,lock: true,opacity: "0.3",content:"您已经登录！", time: 3});
+}
+</script>
+<include file="Home:footerubo"/>

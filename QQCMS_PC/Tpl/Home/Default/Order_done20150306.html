@@ -1,0 +1,325 @@
+<include file="Home:header2"/>
+    <link rel="stylesheet" href="../Public/css/goulan.css">
+
+ <!--         <div id="cart_box">
+         <div class="order_ok_message">
+             {if $paybutton}{:L('click_button_to_pay')}<br>
+             {$paybutton}<br>{/if}
+             {:L('ORDER_DOSUBMIT_OK_WAIT')}<br>
+             {:L('ORDER_SN')}:{$order['sn']}<br>
+         </div>
+       </DIV>    -->
+<style type="text/css">
+a#buyNowAddCart {
+  position: relative;
+  float: left;
+  margin-right: 10px;
+  background-image: url(/Public/pc_img/pay_bg.png);
+  color: #999;
+  text-align: center;
+  width: 116px;
+  font-size: 22px;
+  line-height: 40px;
+  color: #FFF;
+  height: 40px;
+  background-position: 117px 58px;
+  text-decoration: none;
+}
+
+a#buyNowAddCart:hover{background-position: 117px -18px;}
+
+a:hover{text-decoration: none;}
+a:visited{text-decoration: none;}
+
+.alerts{
+  width: 115px;
+  float: right;
+}
+</style>
+<div style="width:90%;margin:2em auto">
+    <!-- <legend>……</legend> -->
+    <div class="alert alert-info alert-dismissable">
+      <strong>购买成功</strong>
+      {if $order['id'] && $order_private['id']}
+        由于您的商品中有商家私人商品，所以您有两张订单。
+      {/if}
+      若非电子现金支付请及时付款，感谢惠顾！
+    </div>
+     <div class="alert alert-info alert-dismissable">
+      <strong>【温馨提示】</strong>订单物流信息请在“<a href="/index.php?g=User&m=Order&a=index">个人中心”“我的订单”</a>查看详情
+    </div>
+    {if $order['id']}
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th style="width:50%">商品</th>
+          <th style="width:30%">单价</th>
+          <th style="width:20%">数量</th>
+        </tr>
+      </thead>
+      <tbody>
+      	<volist name="cart" id="vo">
+        <tr>
+          <td>{$vo.product_name}</td>
+          <td class="text-right">&yen;{$vo.product_price}</td>
+          <td>×{$vo.number}</td>
+        </tr>
+        </volist>
+        <tr>
+          <td class="text-right" style="font-weight:bold">邮费</td>
+          <td class="text-right text-warning" style="font-weight:bold" colspan="2">
+        {if $order['shipping_fee']>0}&yen;{$order['shipping_fee']|number_format=###,2}{else}免邮
+        {/if}</td>
+        </tr>
+        <tr>
+          <td class="text-right" style="font-weight:bold">合计</td>
+          <td class="text-right text-warning" style="font-weight:bold" colspan="2">&yen;{$order['order_amount']|number_format=###,2}</td>
+        </tr>
+        {if $order['direct_total']>0}
+         <tr>
+          <td class="text-right" style="font-weight:bold">直购商品行邮税</td>
+          <td class="text-right text-warning" style="font-weight:bold" colspan="2">&yen;{$order['direct_total']|number_format=###,2}</td>
+        </tr>
+        {/if}
+         <tr>
+          <td class="text-right" style="font-weight:bold">需用微信支付</td>
+          <td class="text-right text-warning" style="font-weight:bold" colspan="2">&yen;{$order['wechat_amount']|number_format=###,2}</td>
+        </tr>
+        <tr>
+          <td class="text-right" style="font-weight:bold">货到付款余额</td>
+          <td class="text-right"  colspan="2">&yen;{$order['cod_amount']|default=0|number_format=###,2}</td>
+        </tr>
+        <tr>
+          <td class="text-right" style="font-weight:bold">使用电子现金</td>
+          <td class="text-right"  colspan="2">&yen;{$order['cash_coupon']|default=0|number_format=###,2}</td>
+        </tr>
+        <tr>
+          <td class="text-right" style="font-weight:bold">返电子现金总额</td>
+          <td class="text-right"  colspan="2">&yen;{$order['rebate_fee']|default=0|number_format=###,2}</td>
+        </tr>
+        <if condition="$order['invoice_title'] neq null">
+        <tr>
+          <td class="text-right" style="font-weight:bold">发票台头</td>
+          <td class="text-right"  colspan="2">{$order['invoice_title']}</td>
+        </tr>
+        </if>
+        <tr>
+          <td class="text-right" style="font-weight:bold">订单号</td>
+          <td class="text-right text-info" colspan="2">
+          {$order['sn']}
+          </td>
+        </tr>
+        {if $order['pay_button']}
+        <tr>
+          <td class="text-right" style="font-weight:bold">支付方式</td>
+
+          <td class="text-right text-info" colspan="2">
+            支付宝支付：
+            <input type="radio" checked="checked" name="paybutton" value="2" />
+            微信支付：
+            <input type="radio" name="paybutton" value="1" />
+          </td>
+        </tr>
+        {/if}
+      </tbody>
+    </table>
+
+    {if $order['pay_button']}
+    <!--<a class="btn btn-primary btn-block" href="pay/jsapicall.php?code={$order.pay_button}&showwxpaytitle=1">马上支付</a>-->
+    <div id="alert" class="alert alert-info alert-dismissable" style="text-align: center; display:none;">
+        <h4>扫描下方二维码完成支付</h4>
+        <img src="{$order['pay_button']}" alt="{$order.sn}">
+    </div>
+    <div class="alerts">{$order['alipay_button']}</div>
+
+    {else} 
+    <div class="alert alert-info alert-dismissable">
+      <strong>恭喜</strong>已支付成功！
+    </div>
+    {/if}
+  {/if}
+  {if $order_private['id']}
+    <table class="table table-bordered table-striped" style="margin-top:30px">
+      <thead>
+        <tr>
+          <th style="width:50%">商品</th>
+          <th style="width:30%">单价</th>
+          <th style="width:20%">数量</th>
+        </tr>
+      </thead>
+      <tbody>
+        <volist name="cart_private" id="vo">
+        <tr>
+          <td>{$vo.product_name}</td>
+          <td class="text-right">&yen;{$vo.product_price}</td>
+          <td>×{$vo.number}</td>
+        </tr>
+        </volist>
+        <tr>
+          <td class="text-right" style="font-weight:bold">邮费</td>
+          <td class="text-right text-warning" style="font-weight:bold" colspan="2">
+        {if $order_private['shipping_fee']>0}&yen;{$order_private['shipping_fee']|number_format=###,2}{else}免邮
+        {/if}</td>
+        </tr>
+        <tr>
+          <td class="text-right" style="font-weight:bold">合计</td>
+          <td class="text-right text-warning" style="font-weight:bold" colspan="2">&yen;{$order_private['order_amount']|number_format=###,2}</td>
+        </tr>
+         <tr>
+          <td class="text-right" style="font-weight:bold">需用微信支付</td>
+          <td class="text-right text-warning" style="font-weight:bold" colspan="2">&yen;{$order_private['wechat_amount']|number_format=###,2}</td>
+        </tr>
+        <tr>
+          <td class="text-right" style="font-weight:bold">货到付款余额</td>
+          <td class="text-right"  colspan="2">&yen;{$order_private['cod_amount']|default=0|number_format=###,2}</td>
+        </tr>
+        <tr>
+          <td class="text-right" style="font-weight:bold">返电子现金总额</td>
+          <td class="text-right"  colspan="2">&yen;{$order_private['rebate_fee']|default=0|number_format=###,2}</td>
+        </tr>
+        <if condition="$order_private['invoice_title'] neq null">
+        <tr>
+          <td class="text-right" style="font-weight:bold">发票台头</td>
+          <td class="text-right"  colspan="2">{$order_private['invoice_title']}</td>
+        </tr>
+        </if>
+        <tr>
+          <td class="text-right" style="font-weight:bold">订单号</td>
+          <td class="text-right text-info" colspan="2">
+          {$order_private['sn']}
+          </td>
+        </tr>
+        {if $order_private['pay_button']}
+        <tr>
+          <td class="text-right" style="font-weight:bold">支付方式</td>
+
+          <td class="text-right text-info" colspan="2">
+            支付宝支付：
+            <input type="radio" checked="checked" name="paybutton" value="2" />
+            微信支付：
+            <input type="radio" name="paybutton" value="1" />
+          </td>
+        </tr>
+        {/if}
+      </tbody>
+    </table>
+
+
+    {if $order_private['pay_button']}
+        <!--<a class="btn btn-primary btn-block" href="pay/jsapicall.php?code={$order_private.pay_button}&showwxpaytitle=1">马上支付</a>-->
+        <div id="alert" class="alert alert-info alert-dismissable" style="text-align: center; display:none;">
+            <h4>扫描下方二维码完成支付</h4>
+            <img src="{$order_private['pay_button']}" alt="{$order.sn}">
+        </div>
+
+      <div class="alerts">{$order_private['alipay_button']}</div>
+    {else} 
+    <div class="alert alert-info alert-dismissable">
+      <strong>恭喜</strong>已支付成功！
+    </div>
+    {/if}
+        {/if}
+    <legend>地址及联系信息</legend>
+    <address>
+      {$Area[$order['province']]}{$Area[$order['city']]}{$Area[$order['area']]}-{$order['address']}<br>
+      <strong>联系人</strong>：{$order['consignee']}<br>
+      <strong>电话</strong>{$order['mobile']}<br>
+    </address>
+
+    <legend>订单状态</legend>
+    <ul class="list-group width90">
+        <li class="list-group-item">
+          <p class="list-group-item-heading">{$order['add_time']|date='Y年m月d日H时i分',###}</p>
+          <span class="list-group-item-text">下单成功</span>
+        </li>
+        {if $order['pay_code']=="Cash_pay" || $order_private['pay_code']=="Cash_pay"}
+          {if $order['cash_pay_status']==1 && $order['wechat_amount']>0}
+        <li class="list-group-item">
+          <p class="list-group-item-heading">
+          {if $order['pay_time']}
+          {$order['pay_time']|date='Y年m月d日H时i分',###}
+          {else}
+          {$order_private['pay_time']|date='Y年m月d日H时i分',###}
+          {/if}</p>
+          <span class="list-group-item-text">电子现金支付成功,但仍有部分款项未支付</span>
+        </li>
+         {elseif $order_private['cash_pay_status']==1 && $order_private['wechat_amount']>0}
+        <li class="list-group-item">
+          <p class="list-group-item-heading">
+          {if $order['pay_time']}
+          {$order['pay_time']|date='Y年m月d日H时i分',###}
+          {else}
+          {$order_private['pay_time']|date='Y年m月d日H时i分',###}
+          {/if}</p>
+          <span class="list-group-item-text">电子现金支付成功,但仍有部分款项未支付</span>
+        </li>
+         {elseif $order['cash_pay_status']==1 && $order_private['wechat_amount']>0}
+        <li class="list-group-item">
+          <p class="list-group-item-heading">
+          {if $order['pay_time']}
+          {$order['pay_time']|date='Y年m月d日H时i分',###}
+          {else}
+          {$order_private['pay_time']|date='Y年m月d日H时i分',###}
+          {/if}</p>
+          <span class="list-group-item-text">电子现金支付成功,但仍有部分款项未支付</span>
+        </li>
+          {else}
+        <li class="list-group-item">
+          <p class="list-group-item-heading">
+          {if $order['pay_time']}
+          {$order['pay_time']|date='Y年m月d日H时i分',###}
+          {else}
+          {$order_private['pay_time']|date='Y年m月d日H时i分',###}
+          {/if}</p>
+          <span class="list-group-item-text">电子现金支付成功</span>
+        </li>
+          {/if}
+        {/if}
+      </ul>
+      
+    <div class="copyright"><a href="http://www.miitbeian.gov.cn" target="_blank" title="粤ICP备14063096号-1">粤ICP备14063096号-1</a></div> 
+    </div><!-- container-fluid -->
+        <table class="fix">
+        <tbody>
+          <tr>
+            <td style="width:15%;border-right:1px solid #c4c4c4"><a href="javascript:history.go(-1)"><img src="__PUBLIC__/Images/f1.png" class="fanhui"></a></td>
+            <td style="width:30%"><a href="/index.php" style=" color: #707070;text-decoration:none">商城首页</a></td>
+            <td><a href="/index.php?g=User&m=Order&a=index" class="btn btn-warning fix-bot wid-100 border-radius-0">查看全部订单</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+    <script>
+    //隐藏微信底栏
+      document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+      WeixinJSBridge.call('hideToolbar');
+      });
+      //发票显示
+      $(document).ready(function(){
+        $("#click").click(function(){
+           $("#yinchang").slideToggle("fast");
+         });
+      });
+    </script>
+
+    <script type="text/javascript">
+$(document).ready(function()
+{
+  $("input[type='radio']").click(function(){
+    var val = $(this).val();
+    if (val == 1)
+    {
+      $("#alert").show();
+      $(".alerts").hide();
+    }
+    else
+    {
+      $(".alerts").show();
+      $("#alert").hide();
+    }
+  });
+});
+</script>
+  
+</body>
+</html>

@@ -1,0 +1,37 @@
+
+    <!-- 本页自用的 css -->
+    <link rel="stylesheet" href="../Public/Css/index02.css">
+    <style type="text/css">hr{margin-top: 0!important}</style>
+
+<body class="pang">
+    <div class="wid-90">
+      <h3 class="padding-10">我的消息<small class="margin-left-5">Message</small></h3>
+      <hr>
+      <volist name="news_all" id="vo">
+      <div class="wodexiaoxi-first-div">
+        <small class="wodexiaoxi-small">{$vo.createtime|date='Y年m月d日',###}<a href="javascript:" class="btn btn-success border-radius-0 wodexiaoxi-button"><if condition="$vo['flat'] eq 1">已读<else/>未读</if></a></small>
+        <div class="media media-div">
+          <a href="{:URL('User-Index/news')}&id={$vo.id}">
+            <div class="media-body color-font">
+              <h4 class="media-heading">{$vo.title}</h4>
+             {$vo.little_title}
+            </div>
+          </a>
+        </div>
+      </div>
+  </volist>
+      <volist name="news_single" id="vo">
+      <div class="wodexiaoxi-first-div">
+        <small class="wodexiaoxi-small">{$vo.createtime|date='Y年m月d日',###}<a href="javascript:" class="btn btn-success border-radius-0 wodexiaoxi-button"><if condition="$vo['flat'] eq 1">已读<else/>未读</if></a></small>
+        <div class="media media-div">
+          <a href="{:URL('User-Index/news')}&id={$vo.id}">
+            <div class="media-body color-font">
+              <h4 class="media-heading">{$vo.title}</h4>
+             {$vo.little_title}
+            </div>
+          </a>
+        </div>
+      </div>
+  </volist>
+    </div>
+    <div class="div-none"></div><!-- 底拦站位 -->

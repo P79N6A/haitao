@@ -1,0 +1,77 @@
+<include file="Public:adminHead" />
+<style type="text/css">
+	.table1 th{
+		text-align: center;
+	}
+	.table1 td{
+		border-right: 1px solid #E5E3E3;
+	}
+	#table_title{
+		height: 30px;
+		line-height: 30px;
+		margin-bottom: 5px;
+	}
+
+	#table_title span{
+		width: 15%;
+		display: inline-block;
+		font-size:20px;
+		text-align: center;
+		border:1px solid #E5E3E3;
+		border-bottom: none;
+	}
+	#table_title span:hover{
+	cursor: pointer;
+	}
+	#table_title .has_select{
+		background:#169BDA; 
+		color:#fff;
+	}
+	#all{
+		display: none;
+	}
+</style>
+<div id="Right">
+	<h1 style="line-height:40px;text-align:center">{$slide_data.title}</h1>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+<div id="table_title">
+<span style="float:right" onclick="location.href='/co/index.php/Ad/index';">返回栏目列表</span>
+</div>
+<tbody id="self">
+	<tr>
+		<th>产品图标</th>
+		<th>中文名称</th>
+		<th>外文名称</th>
+		<th>产地</th>
+		<th>容量</th>
+		<th>酒精度</th>
+		<th>门市价</th>
+		<th>会员价</th>
+		<th>金会员价</th>
+		<th>状态</th>
+	</tr>
+	<volist name="has_info" id='r'>
+	<tr>
+		<td style="text-align:center"><a href="{$r.url}"><img src="{$r.thumb}" width="50px" /></a></td>
+		<td><a href="{$r.url}" style="color:#000">{$r.title}</a></td>
+		<td>{$r.en_name}</td>
+		<td>{$r.address}</td>
+		<td>{$r.liquid}</td>
+		<td>{$r.vol}</td>
+		<td>{$r.price}</td>
+		<td>{$r.member_price}</td>
+		<td>{$r.gold_price}</td>
+		<td style="text-align:center">
+		<if condition="$r.status eq 1">
+			<font color="green">上架中</font>
+			<else/>
+			<font color="red">已下架</font>
+		</if>
+
+		</td>
+		</tr>		
+</volist>
+</tbody>
+			</table>
+</div>
+<include file="Public:adminFoot" />

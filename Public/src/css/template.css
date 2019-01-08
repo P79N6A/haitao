@@ -1,0 +1,150 @@
+*{font-family:"Microsoft YaHei",Helvetica,Arial,SimHei,"\5B8B\4F53",simsun,sans-serif}
+a,a:hover,a:active,a:visited,a:focus{text-decoration:none;outline:none}
+img.responed{width:100%;height:auto}
+img.detail{width:110%;margin:0 -5.5% 10px}
+hr.divider{margin:10px auto;width:100%}
+section{margin:0;padding:0}
+section.container{padding-bottom:3em}
+.title{font-size:1.6em;padding-bottom:.3em;margin:20px auto 10px;text-align:center}
+.title-mid{font-size:1.3em}
+.title-sm{font-size:1em}
+.copyright{margin:10px auto 40px;text-align:center;font-size:.8em;color:#aaa}
+.transition{-webkit-transition:height 688ms ease;-moz-transition:height 688ms ease;-ms-transition:height 688ms ease;-o-transition:height 688ms ease}
+.width90{width:90%;margin-left:auto;margin-right:auto}
+.btn.width90{display:block;width:90%;margin-left:auto;margin-right:auto}
+article p{width:90%;margin-left:auto;margin-right:auto}
+.thumbnail .caption{padding:0!important}
+.thumbnail .title{margin:10px auto 5px;padding:0;font-size:1.1em;font-weight:bold}
+.thumbnail p{margin:0}
+textarea{resize:none}
+dd{margin-bottom:8px}
+
+/*label、badge、glyphicon的调整*/
+.label-left,.badge-left,.glyphicon-left{margin-right:6px}
+.label-right,.badge-right,.glyphicon-right{margin-left:6px}
+
+.list-group-item.disabled,.list-group-item.disabled:hover,.list-group-item.disabled:focus{color:#777;background:#eee}
+.list-group-item.warning,.list-group-item.warning:hover,.list-group-item.warning:focus{color:#c09853;background:#fcf8e3}
+
+/* 全局排版 */
+.pull-left{float:left}
+.pull-right{float:right}
+.clearfix{*zoom:1}
+.clearfix:before,.clearfix:after{content:"";display:table}
+.clearfix:after{clear:both}
+.container{background:#fff;box-shadow:2px 0 2px rgba(0,0,0,.2)}
+
+/* GMU 的 slider */
+.ui-slider{width:100%;overflow:hidden;position:relative;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}
+.ui-slider-group{overflow:hidden;position:relative;white-space:nowrap;-webkit-transform:translateZ(0)}
+.ui-slider-item{background-color:#e3e3e3;text-align:center;position:relative;float:left;overflow:hidden;-webkit-box-sizing:border-box}
+.ui-slider-dots{position:absolute;bottom:6px;right:0;padding:0 6px;text-align:right;margin:2px}
+.ui-slider-dots>b{display:inline-block;margin:0 4px;width:6px;height:6px;border-radius:3px;background:rgba(144,144,144,.8);box-shadow:0 0 2px rgba(255,255,255,.4)}
+.ui-slider-dots .ui-state-active{background:#fff;box-shadow:0 0 2px rgba(0,0,0,.2)}
+.ui-slider-item p{float:left;height:20px;margin:4px}
+
+/* 全局顶栏部分 */
+.topbar{position:fixed;z-index:1002;top:0;left:0;right:0;width:100%;height:3em;box-shadow:0 1px 2px rgba(0,0,0,.2);padding:.5em 1em}
+.brand{display:block;width:76%}
+.brand>.logo{display:inline-block;vertical-align:middle;height:2em!important;width:auto}
+.brand>.txt{display:inline-block;vertical-align:middle;width:80%;height:2em;line-height:2em;font-size:1em;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.topbar-space{height:3em;clear:both}
+
+/* GMU 的 panel 及菜单内容 */
+.gmu-panel{display:block;overflow-x:hidden;overflow-y:auto}
+.gmu-panel>.btn-group{width:100%}
+.ui-panel{position:fixed;display:block;width:15em;height:100%;top:0;padding:10px;background:#444;color:#fff}
+.ui-panel-contentWrap{position:relative;z-index:1000!important}
+.ui-panel.ui-panel-right{right:0}
+.ui-panel.ui-panel-left{left:0}
+.ui-panel.ui-panel-push{z-index:999}
+.ui-panel.ui-panel-overlay{z-index:1001}
+.ui-panel.ui-panel-reveal{z-index:0}
+.ui-panel-animate{transition:transform 350ms ease;-webkit-transition:-webkit-transform 350ms ease;-moz-transition:-moz-transform 350ms ease;-ms-transition:-ms-transform 350ms ease;-o-transition:-o-transform 350ms ease}
+.ui-panel-dismiss{position:absolute;z-index:1000;height:100%;top:0;-webkit-tap-highlight-color:rgba(0,0,0,0)}
+.search{margin:10px auto;width:100%;background:url(../img/search-bg.png) 0 0 no-repeat #fff;padding-left:2em}
+ul.nav-side,ul.nav-side ul{list-style:none;display:block;margin:10px auto;margin:0;padding:0;border:1px solid #888;border-radius:4px}
+ul.nav-side ul{margin-bottom:8px}
+ul.nav-side li{padding:6px 6px 0;border-bottom:1px solid #888}
+ul.nav-side>:last-child,ul.nav-side ul>:last-child{border-bottom:0}
+ul.nav-side ul{list-style:none}
+ul.nav-side li{position:relative}
+ul.nav-side li a.collapse{position:absolute;top:7px;right:10px;display:block;padding:.2em;font-size:1em;color:#fff;background:#444;border:1px solid #888;border-top-left-radius:4px;border-top-right-radius:4px}
+ul.nav-side li a.collapse.open{border-bottom:0}
+ul.nav-side li a{display:block;height:2em;color:#fff}
+ul.nav-side .active{background:#428bca}
+
+/* 上拉加载更多按钮 */
+.ui-refresh-down{border-top:1px solid #ccc;height:3em;line-height:3em;text-align:center;text-shadow:0 1px 0 #fff;background:#f4f4f4}
+
+/* 底栏按钮组 */
+.btn-bottom-bar{position:fixed;z-index:1003;left:0;bottom:0;right:0;width:100%;box-shadow:0 -2px 2px rgba(0,0,0,.2)}
+.btn-bottom-bar .btn{border-radius:0!important}
+.btn-bottom-bar .badge{margin-right:10px}
+.btn50{width:50%}
+.btn33{width:33%}
+.btn34{width:34%}
+
+/* 商城部分 */
+.old-price{text-decoration:line-through;color:#888}
+.price{font-weight:bold;color:#f00}
+.input-count{width:50px}
+h2.recommend{width:100%;background:rgba(0,0,0,.6);color:#fff;font-size:18px;text-align:center;padding:4px;margin:0}
+ul.recommend{list-style:none;margin:0;padding:0;display:block;width:100%}
+ul.recommend>:first-child{width:50%}
+ul.recommend li{position:relative;margin:0;padding:0;width:25%;float:left;overflow:hidden}
+ul.recommend li a{display:block;width:100%;height:100%}
+ul.recommend li span{position:absolute;bottom:0;left:0;right:0;display:block;font-size:9px;color:#000;background:rgba(255,255,255,.4);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.mall-btns{width:90%;text-align:center;margin:10px auto}
+.mall-btns>:last-child{margin-right:0}
+.mall-btns a{display:inline-block;text-align:center;font-size:11px;line-height:8px;margin-right:20px;position:relative}
+.mall-btns a .glyphicon{display:block;width:40px!important;height:40px;border-radius:40px;background:#6fb3e7;color:#fff;font-size:16px;line-height:40px;text-align:center;margin-right:0!important}
+.mall-btns a .badge{position:absolute;top:-2px;right:-2px;background:red}
+ul.new-arrival{list-style:none;margin:0;padding:0}
+ul.new-arrival li{display:block;float:left;width:44%;margin:10px 4%;overflow:hidden}
+ul.new-arrival>:nth-child(odd){margin-right:0}
+ul.new-arrival li a{display:block}
+ul.new-arrival li a h4{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:12px;margin:4px auto 0}
+ul.new-arrival li a span{font-size:11px}
+
+/* Tabs 标签页 */
+.ui-tabs-nav{display:box;width:100%}
+.ui-tabs-nav li{border:solid #d4d4d4;border-width:1px 0 1px 1px;box-flex:1;text-align:center;color:#4a4a4a;font-size:16px;background-color:#f4f4f4;height:35px;line-height:35px;white-space:nowrap;cursor:pointer}
+.ui-tabs-nav li a{text-decoration:none;color:#4a4a4a}
+.ui-tabs-nav li:last-child{border-width:1px}
+.ui-tabs-nav li.ui-state-active{background-color:#fff;border-bottom-color:#fff}
+.ui-tabs-content{border:solid #d4d4d4;border-width:0 1px 1px}
+.ui-tabs-content .ui-tabs-panel{padding:1em}
+.ui-tabs-panel .ui-loading{position:absolute;left:50%;top:50px;margin-top:-20px;margin-left:-20px}
+.ui-tabs-panel .ui-load-error{color:red;text-align:center}
+.ui-tabs{-webkit-tap-highlight-color:rgba(0,0,0,0)}
+.ui-tabs-nav{list-style:none;padding:0;margin:0;z-index:11;position:relative}
+.ui-tabs-content{position:relative;min-height:100px;width:100%;box-sizing:border-box;overflow:hidden;transition:height 200ms ease-in-out}
+.ui-tabs-content .ui-tabs-panel{display:none;position:absolute;top:0;left:0;width:100%;box-sizing:border-box;min-height:100px}
+.ui-tabs-panel{transform:translateZ(0)}
+.ui-tabs-content .ui-tabs-panel.ui-state-active,.ui-viewport-transitioning .ui-tabs-panel.out{display:block;z-index:1}
+.ui-tabs-content .ui-tabs-panel.ui-state-active{z-index:2}
+
+/* dialog 对话框 */
+.ui-dialog{overflow:hidden;margin:0 auto;z-index:1002;position:absolute;left:0;top:-10000px;display:none;box-shadow:0px 1px 10px rgba(0,0,0,.6);border-radius:3px;-webkit-tap-highlight-color:rgba(255,255,255,0);background:#fff;-webkit-transform:translateZ(0);-webkit-user-select:none;-webkit-user-drag:none}
+.ui-mask{position:absolute;top:0;left:0;background:#888;opacity:0.5;display:none;z-index:1001;transform:translateZ(0);-webkit-tap-highlight-color:rgba(255,255,255,0);-webkit-user-select:none;-webkit-user-drag:none}
+.ui-dialog .ui-dialog-title{position:relative;text-align:center;color:#fff;background:#6fb3e7;padding:10px 0}
+.ui-dialog .ui-dialog-title h3{font-size:1.4em;margin:0 auto}
+.ui-dialog .ui-dialog-close{position:absolute;top:5px;right:5px;cursor:pointer;border-width:0;display:inline-block;padding:7px 9px;margin:2px;line-height:1;border-radius:3px;}
+.ui-dialog .ui-dialog-content{padding:20px;position:relative}
+.ui-dialog-container{position:relative}
+.ui-dialog-btns{table-layout:fixed;display:table;border-collapse:collapse;margin:0;width:100%}
+.ui-dialog-btns .ui-btn{padding:0;font-size:18px;width:100%;display:table-cell;float:none;text-align:center;height:44px;line-height:44px;color:#232323;border:1px solid #ddd;background:#fff;border-bottom:0 none;cursor:pointer}
+.ui-dialog-btns .ui-btn:first-child{border-bottom-left-radius:3px;border-left:0 none}
+.ui-dialog-btns .ui-btn:last-child{border-bottom-right-radius:3px;border-right:0 none}
+.ui-dialog-btns .ui-btn.ui-state-hover{background-color:#e2e2e2}
+/* dialog css for pad */
+@media all and (min-device-width:768px) and (max-device-width:1024px){
+  .ui-dialog{min-width:500px}
+  .ui-dialog .ui-dialog-title{min-height:1.1em}
+}
+
+/* 首页 */
+.cate-img{width:4em;height:4em}
+.media-cate{display:block;width:100%;padding:10px;border-bottom:1px solid #ccc;margin:0!important}
+.media-cate p{margin:0!important;font-size:14px;line-height:16px}

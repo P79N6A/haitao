@@ -1,0 +1,45 @@
+
+<if condition="$_GET['fid'] lt 5 or $_GET['fid'] gt 10">
+<div id="infobox" > 
+<!--  <a href="{:U('Slide/index')}" style="float:right;">{:L(gobacklist)}</a> -->
+{$slide[name]}{:L('manage')} : <!-- <a href="{:U('Slide/picmanage?fid='.$slide[id])}">图片管理</a>  | -->  <a href="{:U('Catimgpc/addpic?fid='.$slide[id])}">增加图片</a>
+</div>
+</if>
+<form name="myform" id="myform" action="" method="post">
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+      		<tr>
+			<th width="180" align="left">{:L(TITLE)}</th>
+			<th align="left">图片</th>
+      <th align="left">所选链接</th>
+			<th width="140"   align="center">{:L('manage')}</th>
+      		</tr>
+      	</thead>
+      	<tbody>
+      		<volist name="list" id="vo" key="k">
+      		<tr>
+      		<td align="left">{$vo['title']}</td>
+			<td align="left"><img src="{$vo['pic']}"   height=100></td>
+          <td align="left">{$vo['link']}</td>
+			<td align="center">
+<if condition="$_GET['fid'] lt 5 or $_GET['fid'] gt 10">
+			<a class="product_edit1" href="{:U('Catimgpc/editpic',array(fid=>$fid,id=>$vo['id']))}">{:L('edit')}</a><a class="product_edit2" href="javascript:confirm_delete('{:U('Catimgpc/deletepic',array(id=>$vo['id']))}')">{:L('delete')}</a>
+<else/>
+
+      <a class="product_edit2"  style="border-radius:5px;"href="{:U('Catimgpc/editpic',array(fid=>$fid,id=>$vo['id']))}">{:L('edit')}</a>
+</if>
+       </td>      		
+      		</tr>
+      		</volist> 
+      	</tbody>
+    </table>
+  
+		<div class="btn">
+		<input type="button" class="button" name="dosubmit" value="<?php echo L('listorder')?>" onclick="myform.action='{:U($module_name.'/listorder')}';$('#myform').submit();"/> </div>  
+	</div>
+</div>
+</form>
+
+<div id="pages" class="page">{$page}</div>
+</body></html>

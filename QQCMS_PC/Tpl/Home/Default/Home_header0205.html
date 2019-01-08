@@ -1,0 +1,335 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN" class=""><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  
+  <title>{$seo_title}</title>
+  <meta http-equiv="description" content="{$seo_description}">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="__PUBLIC__/pc_css/main.css" type="text/css">
+  <link rel="stylesheet" href="__PUBLIC__/pc_css/jquery.slider.min.css" type="text/css">
+  <link rel="stylesheet" href="__PUBLIC__/pc_css/jquery.slider.millesimes.css" type="text/css">
+  <!--[if IE 6]>
+  <link href="__PUBLIC__/pc_css/v2/main.ie6.css?_=1240571823" rel="stylesheet" type="text/css">
+  <![endif]-->
+  <!--[if IE 7]>
+  <link href="__PUBLIC__/pc_css/v2/main.ie7.css?_=1240570674" rel="stylesheet" type="text/css">
+  <![endif]-->
+  
+  <!--组件依赖 js -->
+  
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/pc_css/tooltipster.css">
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/pc_css/tooltipster-light.css">
+  <script type="text/javascript" async="" src="__PUBLIC__/pc_js/ga.js"></script>
+  
+  <script src="__PUBLIC__/pc_js/jcarousellite_1.0.1.js" type="text/javascript"></script>
+<script src="__PUBLIC__/pc_js/jquery.mousewheel.js" type="text/javascript"></script>
+<script src="__PUBLIC__/pc_js/jquery.easing.js" type="text/javascript"></script>
+  <script src="__PUBLIC__/pc_js/jquery.example.js" type="text/javascript"></script>
+  <script src="__PUBLIC__/pc_js/jquery-ui-personalized-1.5.2.min.js" type="text/javascript"></script>
+  <script src="__PUBLIC__/pc_js/jquery.roundabout.min.js" type="text/javascript"></script>
+  <script src="__PUBLIC__/pc_js/jquery.roundabout-shapes.min.js" type="text/javascript"></script>
+  <script src="__PUBLIC__/pc_js/jquery.event.drag.js" type="text/javascript"></script>
+  <script src="__PUBLIC__/pc_js/jquery.event.drop.js" type="text/javascript"></script>
+  <script src="__PUBLIC__/pc_js/jquery.slider.min.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="__PUBLIC__/pc_css/jquery.fancybox.css" type="text/css">
+  <script src="__PUBLIC__/pc_js/jquery.fancybox.js" type="text/javascript"></script>
+  <script type="text/javascript" src="__PUBLIC__/pc_js/jquery.tooltipster.min.js"></script>
+  
+  
+  
+  <script type="text/javascript">
+  $(document).ready(function() {
+    $(".fancybox").fancybox();
+  });
+</script>
+  <script type="text/javascript" charset="utf-8">
+  window.MILLESIMES = {};
+  MILLESIMES.path = {};
+  MILLESIMES.path.img = 'img/';
+  </script>
+  <script src="__PUBLIC__/pc_js/common.js" type="text/javascript"></script>
+  <script src="__PUBLIC__/pc_js/main.js" type="text/javascript"></script>
+  <script type="text/javascript">
+  var focusChoice = 1;
+  var focusLock= 0;
+  </script>
+    <!-- Xmas theme -->
+  <link rel="stylesheet" href="__PUBLIC__/pc_css/style.css" type="text/css">
+  <!--[if IE 6]>
+  <link href="__PUBLIC__/pc_css/v2/xmas/style.ie6.css?_=1323277207" rel="stylesheet" type="text/css">
+  <![endif]-->
+  <script src="__PUBLIC__/pc_js/jquery.js" type="text/javascript"></script>
+  <script type="text/javascript" src="__PUBLIC__/pc_js/animations.js"></script>
+<!-- dialog对话框 -->
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.artDialog.js?skin=default"></script>
+
+
+<style type="text/css">.fancybox-margin{margin-right:17px;}</style></head>
+<style>
+.create-user{
+	position:absolute;
+	top:0;
+	left:0;
+	display:none;
+	z-index:999;
+	background:#000;
+	opacity:0.7;
+}
+#DoUserForm{
+	display:none;
+}
+</style>
+<body style="">
+<div id="doUser" class="create-user"></div>
+<div id="DoUserForm" class="qr-user"></div>
+  <div class="container">
+    <div class="header header-fr">
+      <a href="/" class="logo"><span>有酒派</span></a>
+      <div class="years"></div>
+      <!--<a class="fancybox rvf" href="http://www.millesimes.com/img/millesimes-article-RVF.jpg"><div></div></a>-->
+      <!--<a class="facebook" target="_blank" href="https://www.facebook.com/pages/millesimescom/245111605647290"><div></div></a>-->
+
+
+
+    
+      <!-- Account creation -->
+      
+      <div class="wrapperConnection">
+        <div class="createAccountBox">
+            <a href="javascript:" onclick="createAccount(this);" data="DoUserForm">注册</a>
+        </div>
+        <script type="text/javascript">
+		function createAccount(obj)
+		{
+			var id = $(obj).attr("data"); 
+			var url = "{:URL('User-Register/creatcode')}";
+			var datas={'id': id};
+			  $.ajax({
+				type:"POST",
+				url: url,
+				data: datas,
+				timeout:"4000",
+				dataType:"JSON",
+				success: function(data){
+				  //data=eval('(' + result + ')');
+				 
+				 var list = data.data;
+				
+				  if(list.status==1){
+					var codedata = '<h3 style="width:100%;text-align: center;color: #4C5A5F;">扫描下方二维码进行注册</h3><img src="'+list.piclink+'" /-->';
+					DoUserForm.innerHTML = codedata;
+					var codetitle = list.info;
+					inier = setInterval("doRegister('"+list.codeid+"')", 2000);
+					getdialog(id,codetitle,codedata);
+				  }else{
+					alert("出错");
+				  }
+				  
+				},
+				error:function(){
+				  alert("出错");
+				}
+			  }); 
+		}
+		
+		function doRegister(token)
+		{
+			//alert(obj);
+			var url = "{:URL('User-Register/serverapprove')}";
+			var datas={'token': token};
+			$.ajax({
+				type:"POST",
+				url: url,
+				data: datas,
+				timeout:"4000",
+				dataType:"JSON",
+				success: function(json){
+				  //data=eval('(' + result + ')');
+				 
+				 var list = json.data;
+				 if (list)
+				 {
+					var ffff = art.dialog.list;
+					for (var i in ffff) {
+						ffff[i].close();
+					};		 
+				 }
+				 if (list.status==1)
+				 {
+					 art.dialog({
+						 width: '20em',
+						 height: 55,
+						content: list.info,
+						init: function () {
+							var that = this, i = 2;
+							var fn = function () {
+								that.title('信息提示');
+								!i && that.function(window.location.href=list.link);
+								i --;
+							};
+							timer = setInterval(fn, 1000);
+							fn();
+						},
+						close: function () {
+							clearInterval(timer);
+						}
+					});
+				 }
+				 else{
+					 art.dialog({
+						 width: '20em',
+						 height: 55,
+						content: list.info,
+						init: function () {
+							var that = this, i = 2;
+							var fn = function () {
+								that.title('信息提示');
+								!i && that.close();
+								i --;
+							};
+							timer = setInterval(fn, 1000);
+							fn();
+						},
+						close: function () {
+							clearInterval(timer);
+						}
+					});
+					
+				 }
+				  clearInterval(inier);
+				},
+				error:function(){
+				  alert("出错");
+				}
+			  }); 
+		}
+		
+		function getdialog(id,codetitle,codedata)
+		{
+			var timer;
+			art.dialog({
+				title: codetitle,
+				//left:"38%",
+				id: id,
+				lock:true,
+				content: '<div class="qr-user">'+codedata+'</div>',
+				init: function () {
+				var that = this, i = 60;
+				var fn = function () {
+					that.title(i + '秒后关闭');
+					!i && that.close();
+					i --;
+				};
+				timer = setInterval(fn, 1000);
+				fn();
+			},
+			close: function () {
+				clearInterval(timer);
+			},
+			});
+		}
+		</script>
+        <!-- LOGIN -->
+        <div class="loginBox">
+            <empty name="yp_userid">
+            <a href="javascript:" id="dologin-oa" target="_blank">登录</a>
+            <else /> 
+            <a href="{:URL('User-Login/logout')}" >退出</a>
+            </empty>
+            
+            <!--<a href="{:URL('User-Login/wxdologin')}" id="toggleLoginForm" onclick="return false;">登录</a>-->
+            <form id="loginForm" action="http://www.millesimes.com/login.php" method="post">
+                <input type="hidden" name="action" value="login">
+                <input type="text" name="email" title="Adresse mail" class="field example"><br>
+                <input type="password" name="pass" title="Mot de passe" value="" class="field">
+                <input type="submit" name="login" value="OK"><br>
+                <a href="http://www.millesimes.com/mot_de_passe_oublie_sur_millesimes_sa.html">Mot de passe oublié ?</a>
+            </form>
+        </div>
+      </div>
+
+      <!-- CART -->
+      <div class="cartBox">
+        <p><a href="/index.php?m=Order&a=checkout">购物车</a></p>
+        <p><a href="/index.php?g=User&m=Order&a=index">我的订单</a></p>
+      </div>
+    </div>
+
+    <div class="nav">
+      <ul class="firstLevel" style="margin:0px;padding:0px;font-size:10px">
+        <li class="searchBar">
+          <form action="{:URL('Home-Product/search_goods')}" method="POST" class="searchForm">
+            <div class="search">
+            <input position="left" type="text" name="nom" placeholder="Rechercher" class="searchInput searchTooltip tooltipstered example" autocomplete="off" value="">
+            </div>
+            <input type="hidden" name="advance" value="1">
+            <input type="hidden" class="price" name="montant" value="">
+            <input type="hidden" class="color" name="couleur_id" value="">
+            <input type="hidden" class="year" name="millesime" value="">
+            <input type="hidden" class="format" name="format_id" value="">
+            <input type="hidden" class="note_parker" name="note_parker" value="">
+            <input type="hidden" class="note_ws" name="note_ws" value="">
+            <input type="hidden" class="note_jmq" name="note_jmq" value="">
+            <input type="hidden" class="note_robinson" name="note_robinson" value="">
+            <input type="hidden" class="note_millesimes" name="note_millesimes" value="">
+            <div class="options">
+
+              <div style="clear:left;"></div>
+            </div>
+          </form>
+        </li>
+        <volist name="goods_type" id="vo">
+        <li><a href="javascript:toggleExpandedNav('box_{$vo.typeid}');">{$vo.name}</a></li>
+        </volist>
+      </ul>
+    <script>
+              $('.searchTooltip').tooltipster({theme: '.tooltipster-light', position: 'top'});
+    </script>
+      <div class="expandedNav">
+      
+      <volist name="goods_type" id="vo">
+          <div class="shopCategory box_{$vo.typeid}">
+            <div class="shopBlock rouge">
+                <h4 style="padding-left:5%;"><a href="/index.php?m=Product&a=type_goods&typeid={$vo.typeid}&shop_id=0" title="{$r.name}">{$vo.name}</a></h4>
+                <ul style="padding-left:5%;">
+                <volist name="vo['next']" id="r">
+                  <li style="padding:5px 0px "><a href="/index.php?m=Product&a=type_goods&typeid={$r.typeid}&shop_id=0" title="{$r.name}">{$r.name}</a></li>
+                </volist>                   
+                </ul>
+                </div>
+                  </div>
+          
+                </volist>        
+              </div>
+          </div>
+          <div style="clear: both;"></div>
+<div id="login-oa">
+    <div id="login_container">
+    
+    </div>
+</div>
+<empty name="yp_userid">
+<!--引入微信获取code JS/css文件（支持https）-->
+<script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/pc_css/weixin_oa.css" type="text/css">
+<!--end-->
+<script type="text/javascript">
+var obj = new WxLogin({
+	id:"login_container", 
+	appid: "{$oa_appId}", 
+	scope: "snsapi_login", 
+	redirect_uri: "{$redirect_uri}",
+});
+
+$(function(){
+	$("#dologin-oa").click(function()
+	{
+		var wxcontent = $("#login-oa").html();
+		art.dialog({
+			title:"有酒派",
+			fixed: true,
+			content: wxcontent
+		});
+	});
+});
+</script>
+</empty>

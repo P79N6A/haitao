@@ -1,0 +1,539 @@
+<include file="Public:adminHead" />
+<style type="text/css">
+#lvyou_table{
+	width: 40%;
+	font-size: 15px;
+	font-family: '宋体';
+	font-weight: normal;
+	position: absolute;
+	right: 10%;
+	top:0px;
+	background: #f5f5f5;
+	z-index: 999;
+	display: none;
+}
+.lvyou_table{
+	font-size: 15px;
+	font-family: '宋体';
+	font-weight: normal;
+	text-align: left;
+}
+	.lvyou_table th{
+		width: 30%;
+		padding: 10px 0px 10px 10px;
+		line-height: 30px;
+	}.lvyou_table td input{
+		width: 40%;
+	}
+	.image-uploader{
+	z-index: 9999;
+	}
+</style>
+<div id="Right">
+	<div class="contentArea">
+	<div id="lvyou_table" class="lvyou_form">
+	<div style="background:#0B62C0;width:100%;color:#fff;padding:10px 0px 10px 0px;border-radius:6px 6px 0px 0px;">
+	<span class="close_table" style="float:right;cursor:pointer;margin-right:10px;">关闭</span><span style="margin-left:10px">编辑模板</span>
+	</div>
+	<table class="lvyou_table" width="100%" style="border:1px solid #ddd;display:;border-radius:0px 0px 10px 10px;color:#444141">
+	
+	<tr>
+		<th>页面顶部图片：</th>
+		<td>
+		<input id="lvyou_save_0" name="avatar" type="text" class="input" size="120" value="{$lvyou_info.img.0}" data="lvyoutarget-1" />
+		<a class="pth-btn" data="lvyou_1">上传</a></td>
+	</tr>	
+	<tr>
+		<th>栏目图标1：</th>
+		<td>
+		<input id="lvyou_save_1" name="avatar" type="text" class="input" size="120" value="{$lvyou_info.img.1}" data="lvyoutarget-2" />
+		<a class="pth-btn" data="lvyou_2">上传</a></td>
+	</tr>
+	<tr>
+		<th>栏目图标1链接：</th>
+		<td>
+		<input id="lvyou_url_1" name="url_1" type="text" class="input" size="120" value="{$lvyou_info.url.1}" />
+	</tr>
+	<tr>
+		<th>栏目图标2：</th>
+		<td>
+		<input id="lvyou_save_2" name="avatar" type="text" class="input" size="120" value="{$lvyou_info.img.2}" data="lvyoutarget-3" />
+		<a class="pth-btn" data="lvyou_3">上传</a></td>
+	</tr>
+	<tr>
+		<th>栏目图标2链接：</th>
+		<td>
+		<input id="lvyou_url_2" name="url_2" type="text" class="input" size="120" value="{$lvyou_info.url.2}"  />
+	</tr>	
+	<tr>
+		<th>栏目图标3：</th>
+		<td>
+		<input id="lvyou_save_3" name="avatar" type="text" class="input" size="120" value="{$lvyou_info.img.3}" data="lvyoutarget-4" />
+		<a class="pth-btn" data="lvyou_4">上传</a></td>
+	</tr>
+	<tr>
+		<th>栏目图标3链接：</th>
+		<td>
+		<input id="lvyou_url_3" name="url_3" type="text" class="input" size="120" value="{$lvyou_info.url.3}"/>
+	</tr>	
+	<tr>
+		<th>栏目图标4：</th>
+		<td>
+		<input id="lvyou_save_4" name="avatar" type="text" class="input" size="120" value="{$lvyou_info.img.4}" data="lvyoutarget-5" />
+		<a class="pth-btn" data="lvyou_5">上传</a></td>
+	</tr>
+	<tr>
+		<th>栏目图标4链接：</th>
+		<td>
+		<input id="lvyou_url_4" name="url_4" type="text" class="input" size="120" value="{$lvyou_info.url.4}" />
+	</tr>	
+	<tr>
+		<th>栏目图标5：</th>
+		<td>
+		<input id="lvyou_save_5" name="avatar" type="text" class="input" size="120" value="{$lvyou_info.img.5}" data="lvyoutarget-6" />
+		<a class="pth-btn" data="lvyou_6">上传</a></td>
+	</tr>
+	<tr>
+		<th>栏目图标5链接：</th>
+		<td>
+		<input id="lvyou_url_5" name="url_5" type="text" class="input" size="120" value="{$lvyou_info.url.5}" />
+	</tr>	
+	<tr>
+		<th>栏目图标6：</th>
+		<td>
+		<input id="lvyou_save_6" name="avatar" type="text" class="input" size="120" value="{$lvyou_info.img.6}" data="lvyoutarget-7" />
+		<a class="pth-btn" data="lvyou_7">上传</a></td>
+	</tr>
+	<tr>
+		<th>栏目图标6链接：</th>
+		<td>
+		<input  id="lvyou_url_6" name="url_6" type="text" class="input" size="120" value="{$lvyou_info.url.6}" />
+	</tr>
+	<tr>
+		<th>页面底部图片：</th>
+		<td>
+		<input id="lvyou_save_7" name="avatar" type="text" class="input" size="120" value="{$lvyou_info.img.7}" data="lvyoutarget-8" />
+		<a class="pth-btn" data="lvyou_8">上传</a></td>
+	</tr>
+	<tr>
+	<th><input style="padding:5px 10px 5px 10px;background: #1b75b6;color: #fff;" name="sub" type="submit"   onclick="lvyou_save()" value="保存" />
+	</th>
+	</tr>				
+	</table>
+	</div>
+
+	<div id="lvyou_table" class="canyin_form">
+	<div style="background:#0B62C0;width:100%;color:#fff;padding:10px 0px 10px 0px;border-radius:6px 6px 0px 0px;">
+	<span class="close_table" style="float:right;cursor:pointer;margin-right:10px;">关闭</span><span style="margin-left:10px">编辑模板</span>
+	</div>
+	<table class="lvyou_table" width="100%" style="border:1px solid #ddd;display:;border-radius:0px 0px 10px 10px;color:#444141">
+	
+	<tr>
+		<th>页面顶部图片：</th>
+		<td>
+		<input id="canyin_save_0" name="avatar" type="text" class="input" size="120" value="{$canyin_info.img.0}" data="canyintarget-1" />
+		<a class="pth-btn" data="canyin_1">上传</a></td>
+	</tr>
+	<tr>
+		<th>栏目图标1：</th>
+		<td>
+		<input id="canyin_save_1" name="avatar" type="text" class="input" size="120" value="{$canyin_info.img.2}" data="canyintarget-2" />
+		<a class="pth-btn" data="canyin_2">上传</a></td>
+	</tr>
+	<tr>
+		<th>栏目图标1链接：</th>
+		<td>
+		<input id="canyin_url_1" name="url_2" type="text" class="input" size="120" value="{$canyin_info.url.1}" />
+	</tr>
+	<tr>
+		<th>栏目图标2：</th>
+		<td>
+		<input id="canyin_save_2" name="avatar" type="text" class="input" size="120" value="{$canyin_info.img.3}" data="canyintarget-3" />
+		<a class="pth-btn" data="canyin_3">上传</a></td>
+	</tr>
+	<tr>
+		<th>栏目图标2链接：</th>
+		<td>
+		<input id="canyin_url_2" name="url_2" type="text" class="input" size="120" value="{$canyin_info.url.2}"  />
+	</tr>	
+	<tr>
+		<th>栏目图标3：</th>
+		<td>
+		<input id="canyin_save_3" name="avatar" type="text" class="input" size="120" value="{$canyin_info.img.4}" data="canyintarget-4" />
+		<a class="pth-btn" data="canyin_4">上传</a></td>
+	</tr>
+	<tr>
+		<th>栏目图标3链接：</th>
+		<td>
+		<input id="canyin_url_3" name="url_3" type="text" class="input" size="120" value="{$canyin_info.url.3}"/>
+	</tr>	
+	<tr>
+		<th>栏目图标4：</th>
+		<td>
+		<input id="canyin_save_4" name="avatar" type="text" class="input" size="120" value="{$canyin_info.img.5}" data="canyintarget-5" />
+		<a class="pth-btn" data="canyin_5">上传</a></td>
+	</tr>
+	<tr>
+		<th>栏目图标4链接：</th>
+		<td>
+		<input id="canyin_url_4" name="url_4" type="text" class="input" size="120" value="{$canyin_info.url.4}" />
+	</tr>
+	<tr>
+		<th>页面底部图片：</th>
+		<td>
+		<input id="canyin_save_5" name="avatar" type="text" class="input" size="120" value="{$canyin_info.img.5}" data="canyintarget-6" />
+		<a class="pth-btn" data="canyin_6">上传</a></td>
+	</tr>
+	<tr>
+	<th><input style="padding:5px 10px 5px 10px;background: #1b75b6;color: #fff;" name="sub" type="submit"   onclick="canyin_save()" value="保存" />
+	</th>
+	</tr>				
+	</table>
+	</div>
+
+
+
+
+
+
+
+
+		<form action="" method="post">
+			
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+				<tr>
+					<th width="120">店铺名称：</th>
+					<td>
+						<input name="id" type="hidden" value="{$info.id}" />
+						<input class="input" name="shop_name" type="text"  size="40" value="{$info.shop_name}" />
+					</td>
+				</tr>
+				<tr>
+					<th width="120">商家头像：</th>
+					<td>
+						
+						<input name="avatar" type="text" class="input" size="120" value="{$info.avatar}" data="target-2" />
+						<a class="pth-btn" data="hook-2">上传</a> <font color="red">*图片大小：100x100</font>
+					</td>
+				</tr>
+				<tr>
+					<th width="120">店铺图片：</th>
+					<td>
+						<input name="store_image" type="text" class="input" size="120" value="{$info.store_image}" data="target-1" />
+						<a class="pth-btn" data="hook-1">上传</a> <font color="red">*图片大小：100x100</font>
+					</td>
+				</tr>
+				<tr>
+					<th width="120">营业时间：</th>
+					<td>
+					
+						<input class="input" name="shop_hours" type="text"  size="40" value="{$info.shop_hours}" />
+						
+						
+
+					</td>
+				</tr>
+
+				<tr>
+					<th width="120">地址：</th>
+					<td>
+					
+						<input class="input" name="address" type="text"  size="40" value="{$info.address}" />
+						
+						
+
+					</td>
+				</tr>
+
+				<tr>
+					<th width="120">电话：</th>
+					<td>
+					
+						<input class="input" name="tel" type="text"  size="40" value="{$info.tel}" />
+						
+						
+
+					</td>
+				</tr>
+				<!-- <tr>
+					<th width="120">商家类型：</th>
+					<td>
+					
+						<select name="leixing" style="min-width: 80px;">
+							
+							<volist name="sj_leixing" id="vo">
+
+								<option <if condition="$info['leixing'] eq $vo['typeid']">selected="selected"</if> 
+									value="{$vo.typeid}">{$vo.name}
+								</option> 
+							</volist>
+						</select>
+						
+						
+
+					</td>
+				</tr> -->
+
+					<tr>
+					<th width="120">商家分类：</th>
+					<td>
+					
+						<select name="sjfenlei" style="min-width: 80px;">
+						
+							<volist name="sj_fenlei" id="vo">
+
+								<option <if condition="$info['sjfenlei'] eq $vo['typeid']">selected="selected"</if>
+									value="{$vo.typeid}">{$vo.name}
+								</option> 
+							</volist>
+						</select>
+						
+						
+
+					</td>
+				</tr>
+					
+				<if condition="$info['groupid'] eq 6">
+					<tr>
+						<th width="120">首页模板：</th>
+						<td>
+							<span> 
+								<input type='radio' name='tempid' value='0' <if condition="$info['tempid'] eq 0">checked="checked"</if> /> 不启用 
+							</span>
+							<span style="margin: 0 0 0 30px;">
+								<input type='radio' name='tempid' value='1'  <if condition="$info['tempid'] eq 1">checked="checked"</if> /> 模板1
+								<span class="lvyou_editor" style="color:#fff;padding:5px 15px 5px 15px;background:#27944A;border-radius:5px;cursor:pointer;">编辑</span>	
+							</span>
+							<span style="margin: 0 0 0 30px;">
+								<input type='radio' name='tempid' value='2'  <if condition="$info['tempid'] eq 2">checked="checked"</if> /> 模板2
+								<span class="canyin_editor" style="color:#fff;padding:5px 15px 5px 15px;background:#27944A;border-radius:5px;cursor:pointer;">编辑</span>	
+							</span>
+						</td>
+					</tr>
+
+				
+				</if>	
+				<if condition="$info['groupid'] eq 7">
+					<tr>
+						<th width="120">首页模板：</th>
+						<td>
+							<span> 
+								<input type='radio' name='tempid' value='0' <if condition="$info['tempid'] eq 0">checked="checked"</if> /> 不启用 
+							</span>
+							<span style="margin: 0 0 0 30px;">
+								<input type='radio' name='tempid' value='1'  <if condition="$info['tempid'] eq 1">checked="checked"</if> /> 模板1
+								<span class="lvyou_editor" style="color:#fff;padding:5px 15px 5px 15px;background:#27944A;border-radius:5px;cursor:pointer;">编辑</span>	
+							</span>
+						</td>
+					</tr>
+
+				
+				</if>
+				
+				<if condition="$info['groupid'] eq 6">
+					<tr>
+						<th width="120">产品显示方式：</th>
+						<td>
+							<span> 
+								<input type='radio' name='pb_typel' value='0' <if condition="$info['pb_typel'] eq 0">checked="checked"</if> /> 横版排列 
+							</span>
+							<span style="margin: 0 0 0 30px;">
+								<input type='radio' name='pb_typel' value='1'  <if condition="$info['pb_typel'] eq 1">checked="checked"</if> /> 方格排列	
+							</span>
+						</td>
+					</tr>
+
+				
+				</if>
+
+
+
+				<tr>
+					<th width="120"></th>
+					<td>
+						
+						
+						&nbsp;
+						<input  name="outside_order" type="checkbox" value="1"  
+							<?php  
+								if($info['outside_order']==1){ 
+									echo 'checked="checked"';
+								}
+							?>  
+						/>
+						&nbsp;
+						紧急外送
+						
+
+					</td>
+				</tr>
+				<!-- <tr>
+					<th width="120">店铺简介：</th>
+					<td>
+				
+						
+						<textarea  id="editor_id"  name="shop_about" style="width:700px;height:400px;">
+
+							{$info['shop_about']}
+
+						</textarea>
+					</td>
+				</tr> -->
+				
+					
+
+					<tr>
+						<th> 店铺简介：</th>
+						<td>
+							<!-- <input type="text" class="input-text"  name="shop_about" value="{$vo.shop_about}"> -->
+							<textarea id="editor_id" name="shop_about" style="width:700px;height:200px;">{$info['shop_about']}</textarea>
+						</td>
+					</tr>
+					<script charset="utf-8" src="/kindeditor/kindeditor.js"></script> 
+					<script charset="utf-8" src="/kindeditor/lang/zh_CN.js"></script> 
+					<script>          
+
+						var editor;         
+						KindEditor.ready(function(K) {
+						                  editor = K.create('#editor_id');
+						               }); 
+					</script>
+
+		
+			</table>
+		
+		<div class="commonBtnArea" >
+			<input type="submit" class="btn submit" />
+		</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+function frequent_submit(url,method,data){
+	    var	f= document.createElement('form')
+		f.action = url;
+		f.method = method;
+		document.body.appendChild(f);
+	eval ("var data = {"+data+"}");
+	
+	for(var key in data){  
+	    if(typeof data[key]  === 'string'||'number'){
+		    var temp=document.createElement('input');
+			temp.type= 'hidden';
+			temp.name= key ;
+			temp.value= data[key];	
+			f.appendChild(temp);
+	    }
+	}
+	f.submit();
+}
+
+
+function lvyou_save(){
+	var groupid=6;
+	var tempid=1;
+	var img_data=$('#lvyou_save_0').val()+":::";
+	for(i=1;i<8;i++){
+		img_data=img_data+$('#lvyou_save_'+i).val()+"||"+$('#lvyou_url_'+i).val()+":::";
+	}
+	//frequent_submit('/co/index.php/Index/temp_save',"post","'img_data':'"+img_data+"','groupid':'"+groupid+"','user_id':'"+user_id+"','tempid':'"+tempid+"'");
+$.post('/co/index.php/Index/temp_save',{"img_data":img_data,"groupid":groupid,"tempid":tempid},function(result){
+	if(Number(result)==1){
+		alert("保存成功!");
+		$('#lvyou_table').hide();
+	}else{
+		alert("保存失败!");
+	}
+});
+}
+function canyin_save(){
+	var groupid=6;
+	var tempid=2;
+	var img_data=$('#canyin_save_0').val()+":::";
+	for(i=1;i<6;i++){
+		img_data=img_data+$('#canyin_save_'+i).val()+"||"+$('#canyin_url_'+i).val()+":::";
+	}
+	//frequent_submit('/co/index.php/Index/temp_save',"post","'img_data':'"+img_data+"','groupid':'"+groupid+"','tempid':'"+tempid+"'");
+$.post('/co/index.php/Index/temp_save',{"img_data":img_data,"groupid":groupid,"tempid":tempid},function(result){
+	if(Number(result)==1){
+		alert("保存成功!");
+		$('.canyin_form').hide();
+	}else{
+		alert("保存失败!");
+	}
+});
+}
+
+function imageUploader(hook,target){
+	//$("[href='#']")
+	this.hook = $("[data='"+hook+"']");
+	this.target =  $("[data='"+target+"']");
+	var self = this;
+	this.hook.click(function(){
+				var obj = $("#image-uploader-wrap .input")[0];
+				if (obj.outerHTML) {
+				 	obj.outerHTML=obj.outerHTML;  
+        		 } else { // FF(包括3.5)
+           			  obj.value = "";
+         			}
+		$("#image-uploader-wrap").css("display","block");
+		$("#imageUploaderTarget").html(target);
+	})
+	
+	if (typeof imageUploader._initialized == "undefined") {
+		//载入上传文件的模板
+		$("<div class=\"iu-container\"></div>").appendTo($("body"));
+		$(".iu-container").load("{$site_url}{$vendor}imageUploader/tpl.html",'',
+				function(){
+					$(".image-uploader-close").click(function(){
+						$("#image-uploader-wrap").css("display","none");
+					});
+					
+				}
+				);
+		imageUploader.uploadCallback = function(data){
+			var target = $("#imageUploaderTarget").html();
+			target = $("[data='"+target+"']");
+			if(data.status==0){
+				alert(data.info);
+			}else{
+				target.val(data.info);
+				$(".image-uploader-close").click();
+			}
+		}
+		
+		imageUploader._initialized = true;
+	}
+
+}
+var imgUp1 = new imageUploader('hook-1','target-1');
+var imgUp2 = new imageUploader('hook-2','target-2');
+var imgUp3 = new imageUploader('lvyou_1','lvyoutarget-1');
+var imgUp4 = new imageUploader('lvyou_2','lvyoutarget-2');
+var imgUp5 = new imageUploader('lvyou_3','lvyoutarget-3');
+var imgUp6 = new imageUploader('lvyou_4','lvyoutarget-4');
+var imgUp7 = new imageUploader('lvyou_5','lvyoutarget-5');
+var imgUp8 = new imageUploader('lvyou_6','lvyoutarget-6');
+var imgUp9 = new imageUploader('lvyou_7','lvyoutarget-7');
+var imgUp9 = new imageUploader('lvyou_8','lvyoutarget-8');
+
+var imgUp3 = new imageUploader('canyin_1','canyintarget-1');
+var imgUp4 = new imageUploader('canyin_2','canyintarget-2');
+var imgUp5 = new imageUploader('canyin_3','canyintarget-3');
+var imgUp6 = new imageUploader('canyin_4','canyintarget-4');
+var imgUp7 = new imageUploader('canyin_5','canyintarget-5');
+var imgUp7 = new imageUploader('canyin_6','canyintarget-6');
+$('.lvyou_editor').click(function(){
+	$('.lvyou_form').show();
+	$('.canyin_form').hide();
+});
+$('.canyin_editor').click(function(){
+	$('.canyin_form').show();
+	$('.lvyou_form').hide();
+});
+$('.close_table').click(function(){
+	$('.canyin_form').hide();
+	$('.lvyou_form').hide();
+});
+</script>
+<include file="Public:adminFoot" />

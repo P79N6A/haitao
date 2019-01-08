@@ -1,0 +1,98 @@
+#home-content{width: 80%; margin: 0 auto; background: #fff;}
+.shoucang {
+	width: 90%;
+	margin-left: 50px;
+}
+.article{width: 90%; margin: 0 auto;}
+.article img{width: 100%;}
+.article h1{padding: 10px !important;}
+
+#cartTable th {
+	text-align: center;
+}
+
+/*地址管理*/
+.m-anniu {
+	margin-left: 150px;
+	width: 70%;
+}
+
+.bing {
+	background-color: #337AB7 !important;
+	color: #fff !important;
+}
+
+/*收货地址管理*/
+.guanli {
+	width: 71%;
+	margin: 20px auto;
+}
+
+/*个人中心*/
+.personal {
+	width: 70%;
+	margin: 30px auto;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-bottom: 3px solid #ccc;
+}
+
+.persona2 {
+	width: 70%;
+	margin: 30px auto;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-top: 3px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 30px;
+}
+
+/*订单信息*/
+.zitidaxiao {
+	font-size: 25px;
+	margin-top: 20px;
+}
+
+.beijing {
+	width: 28%;
+	background-color: #56c018!important;
+	border: 0px!important;
+	margin-right: 50px!important;
+}
+
+.beijing2 {
+	width: 28%;
+	background-color: #ccc!important;
+	border: 0px!important;
+	margin-right: 50px!important;
+}
+
+.beijing3 {
+	width: 28%;
+	background-color: #FF7C00;
+}
+
+.col-md-11 {
+	width: 90%;
+}
+
+.col-xs-11 {
+width: 90%;
+margin-left: 35px;
+}
+
+.xia {
+	margin-left: 50px;
+}
+
+.xianjin {
+	background-color: #56c018!important;
+	border: 0px!important;
+	color: #fff;
+}
+
+.xianjin2 {
+	background-color: #FF8C1D!important;
+	border: 0px!important;
+	color: #fff;
+}

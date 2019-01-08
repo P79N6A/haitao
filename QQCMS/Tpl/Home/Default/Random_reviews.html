@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>闲逛</title>
+    <meta name="description" content="{$seo_keywords}" />
+    <meta name="author" content="有酒派" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+
+    <!-- 手机页面全局 css -->
+    <link rel="stylesheet" href="__PUBLIC__/Css/bootstrap.min.css">
+    <link rel="stylesheet" href="__PUBLIC__/src/css/template.css">
+    <!--拓展样式-->
+    <link rel="stylesheet" href="__PUBLIC__/Css/expand.css">
+
+
+    <!-- 本页自用的 css -->
+    <link rel="stylesheet" href="../Public/css/gouwuche.css">
+
+    <link rel="stylesheet" href="__PUBLIC__/Css/wookmark_main.css">
+    <!-- 瀑布流的js -->
+    <script src="__PUBLIC__/Js/jquery2.min.js"></script>
+    <script src="__PUBLIC__/Js/jquery.imagesloaded.js"></script>
+    <script src="__PUBLIC__/Js/jquery.wookmark.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.artDialog.js?skin=default"></script>
+    <style type="text/css">
+    .top-nav{position:fixed;top:0;left:0;right:0;z-index:9999}
+    .top-nav>:first-child,.top-nav>:last-child{border-radius:0!important}
+    .top-nav>:first-child{border-left:0!important}
+    .top-nav>:last-child{border-right:0!important}
+    .top-nav .btn{border-top:0!important;background:#eee!important}
+    .top-nav .btn.active{background:#fff!important;border-bottom:0!important;box-shadow:inset 0 0 0!important}
+    .space{height:40px;clear:both}
+
+    /*瀑布流排版的样式*/
+    #main{margin:40px 0;position:relative;width:100%;padding-top: 10px;}
+    #tiles{list-style-type:none;position:relative;margin:0;padding:0}
+    #tiles li{width:45%;background:#fff;border:1px solid #ccc;cursor:pointer;padding:0;position:relative}
+    #tiles li>a>img{display:block;width:100%;height:auto}
+    #tiles li>a>p{font-size:9px;margin:2px 2px 0 2px}
+    .wookmark-placeholder{background:#f4f4f4}
+    .loading{background:url(img/loader_16.gif) center center no-repeat}
+    .avatar{width:30px!important;height:30px!important}
+    .media{margin-top:4px!important;padding:4px}
+    .media-left{display:table-cell;vertical-align:top;padding-right:4px}
+    .media-body{display:table-cell;vertical-align:top}
+    .media-heading{font-size:9px;margin:0!important}
+    .comment{font-size:9px}
+    </style>
+</head>
+  <div class="btn-group btn-group-justified top-nav">
+    <a {if $action_name!='hits'}href="{:URL('Home-Random/hits')}"{/if} class="btn btn-default {if $action_name=='hits'}active{/if}">最多人看</a>
+    <a {if $action_name!='reviews'}href="{:URL('Home-Random/reviews')}"{/if} class="btn btn-default {if $action_name=='reviews'}active{/if}">最多人评</a>
+    <a {if $action_name!='sells'}href="{:URL('Home-Random/sells')}"{/if} class="btn btn-default {if $action_name=='sells'}active{/if}">最多人买</a>
+  </div> 
+    <!-- 瀑布流开始 -->
+    <div id="main" role="main">
+      <ul id="tiles">
+      <volist name="list" id="vo">
+        <li>
+          <a href="{:URL('Home-Product/appraise')}&id={$vo.id}"><img class="loading" src="{$vo.thumb}"><p>{$vo.title}</p></a>
+          <div class="media">
+            <a class="media-left">
+              <img class="avatar img-circle loading" src="{$vo.wechat_pic|default='__PUBLIC__/Images/user-thumb-mini.jpg'}">
+            </a>
+            <div class="media-body">
+              <h4 class="media-heading">{$vo.wechat_name|default='游客'}</h4>
+              <p class="comment">{$vo.content}</p>
+            </div>
+          </div>
+        </li>
+        </volist>
+      </ul>
+    </div>
+    <!-- 瀑布流结束 -->    
+    <script type="text/javascript">
+    var page={$page|default=1},listrow={$listrow|default=10},get_flat=1;
+    (function ($){
+      var $tiles = $('#tiles'),
+          $handler = $('li', $tiles),
+          $main = $('#main'),
+          $window = $(window),
+          $document = $(document),
+          options = {
+            autoResize: true, // This will auto-update the layout when the browser window is resized.
+            container: $main, // Optional, used for some extra CSS styling
+            offset: 15, // Optional, the distance between grid items
+            outerOffset:0
+          };
+
+      /**
+       * Reinitializes the wookmark handler after all images have loaded
+       */
+      function applyLayout() {
+        $tiles.imagesLoaded(function() {
+          // Destroy the old handler
+          if ($handler.wookmarkInstance) {
+            $handler.wookmarkInstance.clear();
+          }
+
+          // Create a new layout handler.
+          $handler = $('li', $tiles);
+          $handler.wookmark(options);
+        });
+      }
+
+      /**
+       * When scrolled all the way to the bottom, add more tiles
+       */
+      function onScroll() {
+        // Check if we're within 100 pixels of the bottom edge of the broser window.
+        var winHeight = window.innerHeight ? window.innerHeight : $window.height(), // iphone fix
+            closeToBottom = ($window.scrollTop() + winHeight > $document.height() - 100);
+
+        if (closeToBottom && get_flat==1) {
+          get_flat=0;
+          // Get the first then items from the grid, clone them, and add them to the bottom of the grid
+          /*var $items = $('li', $tiles),
+              $firstTen = $items.slice(0, 10);
+          $tiles.append($firstTen.clone());*/
+          //ajax get reviews
+          $.ajax({
+            url:"{:URL('Home-Random/get_reviews')}",
+            type:'POST',
+            data:{"page":page,"listrow":listrow},
+            dataType:"JSON",
+            async:false,
+            error:function(){},
+            success:function(data){
+              if(data.status==1){
+                var html="";
+                var arr=data.data;
+                $.each(arr,function(index,content){
+                  if(content.wechat_pic==null||content.wechat_pic==""){
+                    content.wechat_pic="./Public/Images/user-thumb-mini.jpg";
+                  }
+                  if(content.wechat_name==null||content.wechat_name==""){
+                    content.wechat_name="游客";
+                  }
+                  html+="<li><a href='"+content.url+"'><img class='loading' src='"+content.thumb+"'><p>"+content.title+"</p></a><div class='media'><a class='media-left'><img class='avatar img-circle loading' src='"+content.wechat_pic+"'></a><div class='media-body'><h4 class='media-heading'>"+content.wechat_name+"</h4><p class='comment'>"+content.content+"</p></div></div></li>";
+                });
+                $('#tiles').append(html);
+                page++;
+                setTimeout('get_flat=1',100);
+              }else{
+       art.dialog({ lock:true,icon: 'error',time:'2',content: data.msg});
+              }
+            }
+          });
+          applyLayout();
+        }
+      };
+
+      // Call the layout function for the first time
+      applyLayout();
+
+      // Capture scroll event.
+      $window.bind('scroll.wookmark', onScroll);
+    })(jQuery);
+  </script>
+ <include file="Home:random_bottom"/>  
+
+
+
+
+

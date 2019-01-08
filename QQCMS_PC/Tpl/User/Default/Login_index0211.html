@@ -1,0 +1,112 @@
+
+    <!-- 本页自用的 css -->
+    <link rel="stylesheet" href="../Public/Css/index02.css">
+    <style type="text/css">table.table tbody tr td{vertical-align: middle}</style>
+
+    <!-- 本页自用的 js -->
+	<load href="__PUBLIC__/Js/jquery.form.js"/>
+ 
+<body class="pang">
+    <div class="wid-90">
+      <h3 class="padding-10">会员登录</h3>
+		<form id="myform"  method="post" action="{:URL('User-Login/dologin')}" >
+      <table class="table table-bordered table-striped">
+        <tbody>
+          <tr>
+            <td>
+              用户名
+            </td>
+            <td> <input type="text" id="username" name="username" class="input-text  form-control"  placeholder="登录名"/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              密码
+            </td>
+            <td><input type="password" class="input-text form-control"  name="password" id="password" placeholder="密码,长度在6-12位">
+            </td>
+          </tr>
+		{if  $member_config['member_login_verify']}
+          <tr>
+            <td>
+              验证码
+            </td>
+            <td><input name="verifyCode" class="form-control"  class="inputbox" id="verifyCode"  size="6" value="" maxlength="4" placeholder="输入下图的验证码"/><br/><img src="{:U('Home/Index/verify')}" onClick="javascript:resetVerifyCode();" class="checkcode" align="absmiddle"  title="{:L('resetVerifyCode')}" id="verifyImage"/>
+            </td>
+          </tr>
+          {/if}
+        </tbody>
+      </table>
+      <input type="submit" class="btn btn-warning btn btn-block" value="{:L(USER_Login)}" />
+      </form>
+      <a style="margin-top:20px;width:150px;float:right"  class="btn btn-warning btn btn-block" href="{:URL('User-Register/index')}">免费注册</a>
+      <input type="hidden" class="button_success" data-toggle="modal" data-target="#myModal" />
+      <input type="hidden" class="button_error" data-toggle="modal" data-target="#myModal2" />
+    </div>
+    <div class="div-none"></div><!-- 底拦站位 -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">登录成功</h4>
+          </div>
+          <div class="modal-body">
+            <p><strong>亲！</strong>登录成功。</p>
+            (点击完成跳转会员页面)
+          </div>
+          <div class="modal-footer margin-top-0">
+          <if condition="$_GET[goodid]">
+            <a href="{:URL('Home-Product/show')}&id={$_GET[goodid]}" class="btn btn-default">完成</a>
+          <else />
+          	<a href="{:URL('User-Index/index')}" class="btn btn-default">完成</a>
+          </if>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">登录失败</h4>
+          </div>
+          <div class="modal-body">
+            <p><strong>亲！</strong>登录失败。</p>
+            (请刷新页面重试)
+          </div>
+          <div class="modal-footer margin-top-0">
+            <a href="javascript:location.reload()" class="btn btn-default">刷新页面</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div id="result" style="width:100%;height:100%;background:filter:alpha(opacity=50);-moz-opacity:0.5;-khtml-opacity: 0.5;opacity: 0.5;"></div>
+<script>
+jQuery(document).ready(function($){
+	$('#myform').ajaxForm({
+		beforeSend:function(){
+			$('#result').html('<img src="__PUBLIC__/Images/msg_loading.gif">').show();;
+		 },
+		success:       complete,  // post-submit callback
+		dataType: 'json'
+	});
+});
+
+function complete(data){
+	if (data.status==1)
+	{	
+		$(".button_success").click();
+	}else{
+		$(".button_error").click();
+	}
+}
+ 
+</script>
+

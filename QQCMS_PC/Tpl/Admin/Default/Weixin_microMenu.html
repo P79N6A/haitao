@@ -1,0 +1,110 @@
+<style type="text/css">
+	th{
+		padding: 8px 0px 8px 0px;
+	}
+	.tab td{
+		padding: 8px 0px 8px 0px;
+	}
+</style>
+<div id="Right">
+	<form action="" method="post">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+			<tr>
+				<th width="120">名称：</th>
+				<td>
+					<input name="name" type="text" class="input input-text" size="40" value="{$info.name}" />
+				</td>
+			</tr>
+			<tr>
+				<th>类型：</th>
+				<td>
+					<input type="radio" name="type" value="click" <if condition="$info.type eq 'click'">checked="checked"</if> />关键字型
+					<input type="radio" name="type" value="view" <if condition="$info.type neq 'click'">checked="checked"</if> />链接型
+				</td>
+			</tr>
+			<tr>
+				<th width="120">key：</th>
+				<td>
+					<input name="key" type="text" class="input input-text" size="40" value="{$info.key}" />
+				</td>
+			</tr>
+			<tr>
+				<th width="120">url：</th>
+				<td>
+					<input name="url" type="text" class="input input-text" size="120" value="{$info.url}" />
+				</td>
+			</tr>
+			<tr>
+				<th>状态：</th>
+				<td>
+					<select name="status" style="width: 80px;">
+					<option value="1" <if condition="$info['status'] eq 1">selected</if>>启用</option>
+					<option value="0" <if condition="$info['status'] eq 0">selected</if>>关闭</option>
+					<!-- {$info.status|frequent_status_converter=###,$status_01,'option'} -->
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>父级节点：</th>
+				<td>
+				<select name="pid" style="min-width: 80px;">
+					<option value="0">根节点</option>
+					<volist name="list" id="vo">
+					<option <if condition="$info['pid'] eq $vo['id']">selected="selected"</if> value="{$vo.id}">{$vo.name}</option> 
+					</volist>
+				</select>
+				</td>
+			</tr>
+			<tr>
+				<th>显示排序：</th>
+				<td>
+					<input class="input  input-text" name="listorder" type="text" size="40" value="{$info.listorder}" />
+				</td>
+			</tr>
+		</table>
+		<input type="hidden" name="id" value="{$info.id}"/>
+	
+	<div class="commonBtnArea" >
+		<input type="hidden" value="submit" name="submit"/>
+		<input type="submit" class="btn submit button" />
+	</div>
+	</form>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab">
+		<tr>
+			<td colspan="6">根节点	
+				<a class="btn" href="{:U('Weixin/createMenu')}">一键生成微信菜单</a>
+				<!-- <empty name="list">
+					<a class="btn" href="{:U('Weixin/downMenu')}">下载菜单到本地</a>
+				<else />
+					<a class="btn" style="background-color:#666;cursor:default;" >下载菜单到本地</a>
+				</empty> -->
+			</td>
+		</tr>
+		<tr>
+			<td style="width:220px;">结构</td>
+			<td style="width:40px;">类型</td>
+			<td style="width:80px;">key</td>
+			<td style="width:500px;">url</td>
+			<td style="width:40px;" >顺序</td>
+			<td style="width:40px;" >状态</td>
+			<td width="150">操作</td>
+			<td></td>
+		</tr>
+		<volist name="list" id="vo">
+		<tr align="center" id="{$vo.id}" pid="{$vo.pid}">
+			<td align="left" class="tree" style="cursor: pointer;font-size:12px;">{$vo.name}</td>
+			<td>{$vo.type}</td>
+			<td >{$vo.key}</td>
+			<td >{$vo.url}</td>
+			<td>{$vo.listorder}</td>
+			<td>
+					<if condition="$vo['status'] eq 0">关闭<else/>启用</if></td>
+			<td>
+				[ <a href="{:U('Weixin/microMenu',array('id'=>$vo['id']))}" class="edit">编辑</a> ]
+				[ <a onclick="return confirm('确认删除？')" href="{:U('Weixin/microMenuDel',array('id'=>$vo['id']))}">删除</a> ]
+			</td>
+			<td></td>
+		</tr>
+		</volist>
+	</table>
+</div>

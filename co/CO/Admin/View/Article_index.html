@@ -1,0 +1,30 @@
+<include file="Public:adminHead" />
+<div id="Right">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+
+				<tr>
+					<th width="50" style="text-align: center;">编号</th>
+					<th width="420" style="text-align: center;">文章标题</th>
+					<th width="120" style="text-align: center;">点击</th>
+					<th width="120" style="text-align: center;">发布时间</th>
+					<td width="100" style="text-align: center;">管理操作</td>
+				</tr>
+				<volist name="prolist" id ="r" key="k">
+					<tr>
+						<th width="50" style="text-align: center;">{$k}</th>
+						<th width="420" style="text-align: center;">{$r.title}</th>
+						<th width="120" style="text-align: center;">{$r.hits}</th>
+						<th width="120" style="text-align: center;"><?php echo date('Y-m-d  H:i:s',$r['createtime']) ;?> </th>
+						<td width="120" style="text-align: center;">
+							[<a href="/co/index.php/Article/edit.shtml?id={$r.id}">修改</a>] 
+							[<a href="javascript:if(confirm('确实要删除吗?'))location='/co/index.php/Article/del.shtml?id={$r.id}'">删除</a>]
+						</td>
+
+					</tr>
+
+				</volist>
+	</table>
+	<div class="pageWrap" style="text-align: center;margin: 30px 0 0 0;">{$pager}</div>
+		
+</div>
+<include file="Public:adminFoot" />

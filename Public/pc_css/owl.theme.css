@@ -1,0 +1,80 @@
+.jslider_millesimes .jslider-bg i,
+.jslider_millesimes .jslider-pointer { background-image: url(../img/jslider.millesimes.png); }
+
+
+.jslider div.jslider-value {
+	background-color:#F0CB6B;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	padding:2px 5px;
+	border:1px solid #9F713D;
+
+}
+
+.jslider div.jslider-pointer {
+	background-position: -70px -40px;
+	top:-1px;
+	z-index: 2;
+}
+
+.jslider div.jslider-pointer.jslider-pointer-to {
+	background-position: 0 -40px;
+	top:-4px;
+}
+
+.jslider div.jslider-pointer.jslider-pointer-hover {
+	background-position: -50px -40px;
+}
+
+.jslider div.jslider-pointer.jslider-pointer-to.jslider-pointer-hover  {
+	background-position: -20px -40px;
+}
+
+.jslider div.jslider-value
+{
+	font-weight:bold;
+	top:13px;
+	min-width: 15px;
+	text-align: center;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.jslider div.jslider-value.jslider-value-to
+{
+	top:-20px;
+}
+
+
+.jslider_millesimes .jslider-bg {
+	height:9px;
+	background-color:black;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 1px solid #6B6B6B;
+}
+
+.jslider .jslider-scale {
+	top:-9px;
+}
+
+.jslider .jslider-scale span {
+	height:7px;
+}
+
+.jslider .jslider-scale span ins {
+	top:-2px;
+	/*left:-7px;*/
+	color:white;
+}
+
+.jslider .jslider-scale span {
+	border-left:0;
+}
+

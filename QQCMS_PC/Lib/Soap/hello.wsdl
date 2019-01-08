@@ -1,0 +1,84 @@
+<?xml version="1.0" ?>
+<definitions name="AllinpayControllerwsdl" targetNamespace="urn:AllinpayControllerwsdl" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="urn:AllinpayControllerwsdl" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+<types xmlns="http://schemas.xmlsoap.org/wsdl/" />
+<portType name="AllinpayControllerwsdlPort"><operation name="greet">
+<input message="tns:greetRequest" />
+<output message="tns:greetResponse" />
+</operation>
+<operation name="serverTimestamp">
+<input message="tns:serverTimestampRequest" />
+<output message="tns:serverTimestampResponse" />
+</operation>
+<operation name="queryOrder">
+<input message="tns:queryOrderRequest" />
+<output message="tns:queryOrderResponse" />
+</operation>
+<operation name="payConfirm">
+<input message="tns:payConfirmRequest" />
+<output message="tns:payConfirmResponse" />
+</operation>
+</portType>
+<binding name="AllinpayControllerwsdlBinding" type="tns:AllinpayControllerwsdlPort">
+<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+<operation name="greet">
+<soap:operation soapAction="urn:AllinpayControllerwsdl#Mywsdl#greet" />
+<input><soap:body use="encoded" namespace="urn:AllinpayControllerwsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+</input>
+<output>
+<soap:body use="encoded" namespace="urn:AllinpayControllerwsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+</output>
+</operation>
+<operation name="serverTimestamp">
+<soap:operation soapAction="urn:AllinpayControllerwsdl#Mywsdl#serverTimestamp" />
+<input><soap:body use="encoded" namespace="urn:AllinpayControllerwsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+</input>
+<output>
+<soap:body use="encoded" namespace="urn:AllinpayControllerwsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+</output>
+</operation>
+<operation name="queryOrder">
+<soap:operation soapAction="urn:AllinpayControllerwsdl#Mywsdl#queryOrder" />
+<input><soap:body use="encoded" namespace="urn:AllinpayControllerwsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+</input>
+<output>
+<soap:body use="encoded" namespace="urn:AllinpayControllerwsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+</output>
+</operation>
+<operation name="payConfirm">
+<soap:operation soapAction="urn:AllinpayControllerwsdl#Mywsdl#payConfirm" />
+<input><soap:body use="encoded" namespace="urn:AllinpayControllerwsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+</input>
+<output>
+<soap:body use="encoded" namespace="urn:AllinpayControllerwsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+</output>
+</operation>
+</binding>
+<service name="AllinpayControllerwsdl">
+<documentation />
+<port name="AllinpayControllerwsdlPort" binding="tns:AllinpayControllerwsdlBinding"><soap:address location="http://localhost/index.php?g=User&m=Pay&a=oop" />
+</port>
+</service>
+<message name="greetRequest">
+<part name="name" type="xsd:string" />
+</message>
+<message name="greetResponse">
+<part name="greet" type="xsd:string" />
+</message>
+<message name="serverTimestampRequest">
+</message>
+<message name="serverTimestampResponse">
+<part name="serverTimestamp" type="xsd:string" />
+</message>
+<message name="queryOrderRequest">
+<part name="xml" type="xsd:string" />
+</message>
+<message name="queryOrderResponse">
+<part name="queryOrder" type="xsd:string" />
+</message>
+<message name="payConfirmRequest">
+<part name="xml" type="xsd:string" />
+</message>
+<message name="payConfirmResponse">
+<part name="payConfirm" type="xsd:string" />
+</message>
+</definitions>

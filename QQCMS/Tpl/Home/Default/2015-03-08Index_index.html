@@ -1,0 +1,156 @@
+<include file="Home:header"/>
+  <script src="__PUBLIC__/Js/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.artDialog.js?skin=default"></script>
+<script type="text/javascript">
+  var isShowArt=0;
+  function setCookie(name,value) 
+{ 
+    var Days = 30; 
+    var exp = new Date(); 
+    exp.setTime(exp.getTime() + Days*24*60*60*1000); 
+    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString(); 
+}
+function getCookie(name) 
+{ 
+    var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+ 
+    if(arr=document.cookie.match(reg))
+ 
+        return unescape(arr[2]); 
+    else 
+        return null; 
+} 
+var getTime=getCookie("time");
+var nowTime=new Date().getTime();
+var betwenTime=nowTime-getTime;
+//alert(betwenTime);
+if(betwenTime>300000){
+  isShowArt=1;
+}else{
+isShowArt=0;
+}
+if(isShowArt==1){
+  var time=new Date().getTime();
+  setCookie("time",time);
+   art.dialog({ 
+            lock:false,
+            icon: 'face-smile',
+            title:'温馨提示',
+            content:'尊敬的客户，您好，由于系统在升级中，交易与注册将暂停两日，为您带来不便敬请原谅!',
+            ok:true
+          });
+}
+</script>
+
+    <!-- 本页自用的 css -->
+    <link rel="stylesheet" href="../Public/css/index02.css">
+
+
+      <div class="wid" style="display:inline-block;margin-bottom:0;padding-right:3px;border-bottom:1px solid #e5e5e5">
+        <div class="left">
+        <!--秒拍-->
+<!--           <a href="{:URL('Home-Product/second_beats')}&shop_id={$shop_id}">
+  <img src="{$offic_column[0]['pic']|thumb=###,350,350}" class="boe">
+</a> -->
+<!--临时流动-->
+          <a href="{$column[7]['url']}">
+          <img src="{$column[7]['pic']|thumb=###,350,350}" class="boe2"></a>
+        </div>
+        <div class="right">
+        <!--小型板块1-->
+          <a href="{$column[0]['url']}">
+          <img src="{$column[0]['pic']|thumb=###,350,219}" class="boe2" style="border-bottom:1px solid #e5e5e5"></a>
+        <!--小型板块2-->
+          <a href="{$column[1]['url']}">
+          <img src="{$column[1]['pic']|thumb=###,350,219}" class="boe2" ></a>
+
+        </div>
+      </div>
+
+      <div class="wid" style="display:inline-block;margin-bottom:0;padding-right:3px;border-bottom:1px solid #e5e5e5">
+        <div class="left">
+        <!--中型板块-->
+          <a href="{$column[5]['url']}">
+            <img src="{$column[5]['pic']|thumb=###,350,350}" class="boe">
+          </a>
+        </div>
+        <div class="right">        
+        <!--小型板块3-->
+          <a href="{$column[2]['url']}">
+          <img src="{$column[2]['pic']|thumb=###,350,219}" class="boe2"style="border-bottom:1px solid #e5e5e5"></a>
+        <!--小型板块4-->
+          <a href="{$column[3]['url']}">
+          <img src="{$column[3]['pic']|thumb=###,350,219}" class="boe2" ></a>
+        </div>
+      </div>
+      <!--拍卖-->
+      <a href="{:URL('Home-Product/auction')}&shop_id={$shop_id}" class="border-a" style="border-bottom:1px solid #e5e5e5"><img src="{$offic_column[2]['pic']|thumb=###,700,305}" class="wid-max"></a>
+<!--临时流动-->
+      <!-- <div class="wid" style="display:inline-block;margin-bottom:0;padding-right:3px;border-bottom:1px solid #e5e5e5">
+          <a href="{$column[8]['url']}">
+          <img src="{$column[8]['pic']|thumb=###,700,305}" class="wid-max"></a>
+          </div> -->
+      <div class="wid" style="display:inline-block;margin-bottom:0;padding-right:3px">
+        <div class="left">
+        <!--直购-->
+<!--           <a href="{:URL('Home-Product/direct_sell')}&shop_id={$shop_id}">
+  <img src="{$offic_column[3]['pic']|thumb=###,350,350}" class="boe">
+</a> -->
+<!--临时流动-->
+          <a href="{$column[9]['url']}">
+          <img src="{$column[9]['pic']|thumb=###,350,350}" class="boe2"></a>
+        </div>
+        <div class="right">
+        <!--小型板块5-->
+          <a href="{$column[4]['url']}">
+          <img src="{$column[4]['pic']|thumb=###,350,219}" class="boe2"style="border-bottom:1px solid #e5e5e5"></a>
+
+        <!--团购-->
+<!--           <a href="{:URL('Home-Product/group_buy')}&shop_id={$shop_id}"><img src="{$offic_column[1]['pic']|thumb=###,350,219}" class="boe2" style="border-bottom:1px solid #e5e5e5"></a> -->
+
+<!--临时流动-->
+          <a href="{$column[10]['url']}">
+          <img src="{$column[10]['pic']|thumb=###,350,219}" class="boe2"></a>
+        </div>
+      </div>
+     <!--私人酒窖-->
+     {if $private_pic}
+      <a href="{:URL('Home-Product/self_goods')}&shop_id={$shop_id}" class="border-a"><img src="{$private_pic|thumb=###,700,305}" class="wid-max"></a>
+     {else}
+      <a href="{:URL('Home-Product/self_goods')}&shop_id={$shop_id}" class="border-a"><img src="{$offic_column[4]['pic']|thumb=###,700,305}" class="wid-max"></a>
+      {/if}
+       <!--奢侈品-->
+      <!-- <a href="{:URL('Home-Product/luxury_goods')}&shop_id={$shop_id}" class="border-a"><img src="{$offic_column[5]['pic']|thumb=###,700,305}" class="wid-max"></a> -->
+<!--分类-->
+      <!-- <div class="theme-pavilion" style="padding:5px">
+      <ul style="margin:0px;padding:0px;overflow:hidden">
+      <volist name="goods_type" id="r">
+      <li style="list-style-type:none;float:left;width:49%;margin:0px 1% 3px 0px">
+        <a href="{:URL('Home-Product/type_goods')}&typeid={$r.typeid}">
+        <img src="{$r.pic|thumb=###,350,135}" class="half-img" style="width:100%" />
+        </a>
+      </li>
+        </volist>
+      </ul>
+        
+      </div> -->
+
+       <!--大型栏目-->
+      <a href="{$column[6]['url']}" class="border-a"><img src="{$column[6]['pic']|thumb=###,700,305}" class="wid-max"></a>
+      
+      <div class="wid" style="display:inline-block;margin-bottom:0;padding-right:3px;border-bottom:1px solid #e5e5e5">
+      <volist name="productad" id="vo">
+        <div class="product">
+         	<a href="{$vo.link}">
+              <img src="{$vo.pic}" class="boe">
+            </a> 
+        </div>
+      </volist>
+      </div>
+                <div class="mar-footder">
+          <a href="{:URL('User-Login/index')}&shop_id={$shop_id}">登录</a>
+          |
+          <a href="{:URL('User-Register/index')}&shop_id={$shop_id}">注册</a>
+          <a href="#top" class="pull-right"> | 回到顶部</a>
+        </div>
+<include file="Home:footer"/>

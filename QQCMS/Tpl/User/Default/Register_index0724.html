@@ -1,0 +1,308 @@
+{__NOLAYOUT__}<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>{$seo_title}</title>
+<meta name="description" content="{$seo_description}" />
+<meta name="author" content="Morry O'conner" />
+<link href="__ROOT__/index.php?m=Format&a=rss" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
+<script src="__PUBLIC__/Js/jquery.min.js"></script>
+<script src="__PUBLIC__/Js/jquery.validate.js"></script>
+<script src="__PUBLIC__/Js/qqcms.js"></script>
+<link href="__PUBLIC__/Css/bootstrap.min.css" rel="stylesheet" media="screen">
+<script src="__PUBLIC__/Js/bootstrap.min.js"></script>  
+<link href="../Public/css/index02.css" rel="stylesheet" media="screen">
+<script type="text/javascript">
+  document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+  WeixinJSBridge.call('hideToolbar');
+  });
+</script> 
+</head>
+<script type="text/javascript">
+var APP  =   '__APP__';
+var ROOT =   '__ROOT__';
+var PUBLIC = '__PUBLIC__';
+</script>
+<!-- 本页自用的 css -->
+<link rel="stylesheet" href="../Public/Css/index02.css">
+<style type="text/css">table.table tbody tr td{vertical-align: middle}</style>
+<style>
+.denglu table td > h6{
+  margin-left: 18px;
+  font-size: 14px;
+  color: #B71916;
+}
+H6{float: left;margin-bottom: 0px;margin-top: 0px;}
+.sendSMS H6{margin-bottom: 0px; float: left;}
+.btn-war {color: #ffffff;background-color: #29A8A3;border-color: #FFFFFF;}
+.btn-send {padding: 5px 5px;font-size: 12px;line-height: 1.3333333;border-radius: 6px;}
+.btn-send:active, .btn-send:link, .btn-send:hover{text-decoration: none; color: #ffffff;}
+.table-striped td.tc{width: 30%;}
+.table-striped td.ac{width: 70%;}
+</style> 
+<!-- 本页自用的 js -->
+<load href="__PUBLIC__/Js/jquery.form.js"/>
+<!--表单验证提示-->
+<load href="__PUBLIC__/Js/messages_cn.js"/>
+<body class="pang">
+    <div class="wid-90">
+      <h3 class="padding-10">完善会员资料</h3>
+<notempty name="user.mobile">
+        <div class="alert alert-info alert-dismissable">
+          <strong>尊敬的{$user.wechat_name}</strong>&nbsp;您的用户资料已完善,绑定手机号为{$user.mobile}
+        </div>
+        <a href="{:U('Home/Index/index')}"><button class="btn btn-warning btn btn-block">返回商城首页</button></a>
+<else/>    
+		<form id="myform"  method="post" action="{:U('User/Register/wechat_doreg')}" onsubmit="return check();">
+      <table class="table table-bordered table-striped">
+        <tbody>
+          <tr>
+            <td class="tc">
+              真实姓名
+            </td>
+            <td class="ac"><input type="text" class="input-text form-control" autocomplete="off"  name="realname" id="realname" validate="required:true, minlength:2, maxlength:25" placeholder="请填写真实姓名">
+            </td>
+          </tr>
+          <tr>
+            <td class="tc">
+            身份证
+            </td>
+            <td class="ac"><input type="text" class="input-text form-control" autocomplete="off" name="identity" validate="required:true, idcard:true,minlength:18, maxlength:18, remote: '{:U('User/Register/checkidentity')}'" placeholder="请输入一个正确的身份证号">
+            </td>
+          </tr>
+          <tr>
+            <td class="tc">
+            手机号码
+            </td>
+            <td class="ac">
+              <input type="text" class="input-text form-control"  name="mobile" validate=" mobile:true,remote: '{:U('User/Register/checkmobile')}', minlength:11, maxlength:11"  placeholder="长度为11位的手机号码">
+              <a href="javascript:" style="float: right;margin-left: 10px;" class="btn btn-send btn-war" onclick="sendSMS(this);">获取验证码</a>
+            </td>
+          </tr>
+          <tr style="display:none;" id="sendsms-text">
+            <td class="align">手机验证码</td>
+              <td>  
+                <input type="text" style="width: 80%;" class="input-text form-control" id="smscode" name="smscode" alt="mobile" validate="sendsms:'{:U('User/Register/checksmscode')}', minlength:1, maxlength:40" placeholder="请输入手机验证码">
+                <font color="#dddddd" size="1" style="line-height: 28px;font-style: italic;font-weight: bold; color: #29A8A3;">&nbsp;&nbsp;【10分钟内有效】</font>
+              </td>
+          </tr>
+          <tr style="display:none">
+            <td class="tc">
+              推荐号码
+            </td>
+            <td class="ac"><input type="text" class="input-text form-control"  name="parent_mobile" validate=" minlength:11, maxlength:11" value="{$mobile|default='00000000000'}" autocomplete="off" placeholder="推荐人的长度为11位的手机号码">
+            </td>
+          </tr>
+          <tr>
+            <td class="tc">
+              邮箱
+            </td>
+            <td class="ac"><input type="text" class="input-text form-control"  name="email" validate="email:true, minlength:1, maxlength:40"  placeholder="选填">
+            </td>
+          </tr>
+          <tr>
+            <td class="tc">
+              省份
+            </td>
+            <td class="ac">
+              <select name="province" id="province" onchange="area_change(this.value, 1,'province','city','area');" class="ddlbox form-control" >
+                 <option value="0">选择省份</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="tc">
+              市
+            </td>
+            <td class="ac">
+            <select name="city" onchange="area_change(this.value, 2,'province','city','area');" id="city" class="ddlbox form-control" >
+                 <option value="0">选择城市</option>
+             </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="tc">
+              区
+            </td>
+            <td class="ac">
+            <select class="form-control ddlbox" name="area" onchange="area_change(this.value, 3,'province','city','area');" id="area" class="" >
+              <option value="0">选择地区</option>
+             </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="tc">
+              
+            </td>
+            <td class="ac"><input type="checkbox" class="input-text terms" checked >我已阅读并同意遵守<a href="{:URL('User-Register/terms')}">《有酒派用户手册》</a>
+            </td>
+          </tr>
+		{if  $member_config['member_login_verify']}
+          <tr>
+            <td class="tc">
+              验证码
+            </td>
+            <td class="ac"><input name="verifyCode" class="form-control"  class="inputbox" id="verifyCode"  size="6" value="" maxlength="4" placeholder="输入下图的验证码"/><br/><img src="{:U('Home/Index/verify')}" onclick="javascript:resetVerifyCode();" class="checkcode" align="absmiddle"  title="{:L('resetVerifyCode')}" id="verifyImage"/>
+            </td>
+          </tr>
+          {/if}
+        </tbody>
+      </table>
+      <input type="submit" class="btn btn-warning btn btn-block" value="{:L(USER_REGISTER)}" />
+      </form>
+      <input type="hidden" class="button_success" data-toggle="modal" data-target="#myModal" />
+      <input type="hidden" class="button_error" data-toggle="modal" data-target="#myModal2" />
+    </div>
+    <div class="div-none"></div><!-- 底拦站位 -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" onclick="location.href='{:URL('User-Index/index')}';"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">注册成功</h4>
+          </div>
+          <div class="modal-body">
+            <p><strong>亲！</strong>注册成功。</p>
+            (点击完成跳转会员页面)
+          </div>
+          <div class="modal-footer margin-top-0">
+            <a href="{:URL('User-Index/index')}" class="btn btn-default">完成</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">注册失败</h4>
+          </div>
+          <div class="modal-body">
+            <p><strong>亲！</strong>注册失败。</p>
+            (请刷新页面重试)
+          </div>
+          <div class="modal-footer margin-top-0">
+            <a href="javascript:location.reload()" class="btn btn-default">刷新页面</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div id="result" style="display:none;width:100%;height:100%;background:url('Public/Images/reing_bg.png');color:#fff;font-size:25px;line-height:300px;text-align:center;position:fixed;z-index:999;top:0px;"></div>
+<script>
+
+  //地址
+    function area_change(id,level,province,city,area,lang,provinceid,cityid,areaid){
+
+  var datas={'level':level,'provinceid':provinceid,'cityid':cityid,'areaid':areaid,'lang':lang};
+  $.ajax({
+    type:"POST",
+    url: "/index.php?m=Ajax&a=Area&id="+id,
+    data: datas,
+    timeout:"4000",
+    dataType:"json",async:false,
+    success: function(data){ 
+      if(level==0){
+      $('#'+province).html(data.province);
+      $('#'+city).html(data.city);
+      $('#'+area).html(data.area);
+      }else if(level==1){
+      $('#'+city).html(data.city);
+      $('#'+area).html(data.area);
+      }else if(level==2){
+        $('#'+area).html(data.area);
+      }
+    },
+    error:function(){
+    }
+  }); 
+}
+area_change(0, 0,'province','city','area','',{$address.province|default=0},{$address.city|default=0},0);//地址
+jQuery(document).ready(function($){
+	$('#myform').ajaxForm({
+		beforeSend:function(){
+			$('#result').html('<img src="__PUBLIC__/Images/loading.gif"><span>正在提交</span>').show();;
+		 },
+		success: complete,  // post-submit callback
+		dataType: 'json'
+	});
+});
+
+function complete(data){
+	if (data.status==1)
+	{	
+		$(".button_success").click();
+	}else{
+    $('#result').html("").fadeOut();
+		$(".button_error").click();
+	}
+}
+ function check(){
+  var item=$('.terms').attr('checked');
+  if(item!='checked'){
+    $('.terms').parent().append("<p><em for='mobile'>请勾选此协议</em></p>");
+    return false;
+  }
+ }
+
+function sendSMS(obj)
+{
+  var aobj = $(obj);
+  var objs = $(obj).parent();
+  var mobile = $(objs).find("input[name='mobile']").val();
+  $.ajax({
+    type:"POST",
+    url: "{:URL('User-Register/sendSMS')}",
+    data: {mobile:mobile},
+    timeout:"4000",
+    dataType:"json",
+    async:false,
+    success: function(json){
+      if (json.status == 1)
+      {
+        aobj.attr('disabled','disabled');
+        aobj.text('已获取');
+        $("#sendsms-text").find('input').attr('id',json.data);
+        $("#sendsms-text").find('input').attr('alt',mobile);
+        $("#sendsms-text").fadeIn();
+      }else if(json.status == '101'){
+        aobj.attr('disabled','disabled');
+        aobj.text('信息已发送');
+        $("#sendsms-text").find('input').attr('id',json.data);
+        $("#sendsms-text").find('input').attr('alt',mobile);
+        $("#sendsms-text").fadeIn();
+      }else{
+        alert(json.info);
+      }
+    },
+    error: function(){
+      alert("连接错误");
+    }
+  });
+}
+</script>
+</notempty>
+    <div class="copyright"><a href="http://www.miitbeian.gov.cn" target="_blank" title="粤ICP备14063096号-1">粤ICP备14063096号-1</a></div> 
+
+   <script>
+    //隐藏微信底栏
+      document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+      WeixinJSBridge.call('hideToolbar');
+      });
+      //发票显示
+      $(document).ready(function(){
+        $("#click").click(function(){
+           $("#yinchang").slideToggle("fast");
+         });
+      });
+    </script>
+</body>
+</html>
+
+

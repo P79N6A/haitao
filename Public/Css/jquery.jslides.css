@@ -1,0 +1,8 @@
+﻿#full-screen-slider { width:67%; height:280px; float:left; position:relative}
+#slides { display:block; width:100%; height:100%; list-style:none; padding:0; margin:0; position:relative}
+#slides li { display:block; width:100%; height:100%; list-style:none; padding:0; margin:0; position:absolute}
+#slides li a { display:block; width:100%; height:100%; text-indent:-9999px}
+#pagination { display:block; list-style:none; position:absolute; left:80%; top:90%; z-index:9900;  padding:5px 15px 5px 0; margin:0}
+#pagination li { display:block; list-style:none; width:15px; height:15px; float:left; margin-left:7px; background: url(../images/index_banner_coin.png) no-repeat 0 -4px;}
+#pagination li a { display:block; width:100%; height:100%; padding:0; margin:0;  text-indent:-9999px;}
+#pagination li.current { background-position:0 -24px; }

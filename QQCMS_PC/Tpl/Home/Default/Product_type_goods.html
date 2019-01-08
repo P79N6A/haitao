@@ -1,0 +1,67 @@
+<include file="Home:headerubo"/>
+<!-- 商品分类 -->
+<div class="g-content">
+	<div class="m-cat-oper">
+		<div class="oper-more-cnt">
+			<dl class="cat-oper-sec cat-sec-fav f-clearfix">
+				<dt class="oper-sec-tit">品牌:</dt>
+				<dd class="oper-sec-cnt">
+					<div class="oper-sec-lit">
+						<div class="oper-lit-cnt">
+							<div class="f-clearfix">
+								<a href="#"><img src="../Public/img/1.jpg"></a>
+								<a href="#"><img src="../Public/img/2.jpg"></a>
+								<a href="#"><img src="../Public/img/3.jpg"></a>
+								<a href="#"><img src="../Public/img/4.jpg"></a>
+								<a href="#"><img src="../Public/img/5.jpg"></a>
+								<a href="#"><img src="../Public/img/6.jpg"></a>
+								<a href="#"><img src="../Public/img/7.jpg"></a>
+							</div>
+						</div>
+					</div>
+				</dd>
+			</dl>
+			<volist name="goods_type" id="vo">
+			<notempty name="vo.next">
+			<dl class="cat-oper-sec cat-sec-fav f-clearfix" style="height:auto">
+				<dt class="oper-sec-tit">{$vo.name}:</dt>
+				<dd class="oper-sec-cnt">
+					<div class="oper-sec-lit">
+						<div class="oper-lit-cnt">
+							<div class="girl">
+								<volist name="vo.next" id="it">
+								<a href="/index.php?m=Product&a=type_goods&typeid={$it.typeid}">{$it.name}</a>
+								</volist>
+							</div>
+						</div>
+					</div>
+				</dd>
+			</dl>
+			</notempty>
+			</volist>
+		</div>
+	</div>
+	 <!-- 商品列表 -->
+	<section class="m-cat-list">
+	<volist name="list" id="vo">
+	<figure class="cat-list-item">
+		<div class="cat-item-pic">
+			<a href="{$vo.url}" title="{$vo.title}"><img src="{$vo.thumb|thumb=###,222,281,1}"></a>
+		</div>
+		<figcaption class="cat-item-inf">
+		<span title="{$vo.title}">{$vo.title|str_cut=###,49}</span>
+		<p>{$vo.description}</p>
+		<p style="margin-top:8px">
+			<em>&yen;</em>
+			<span>{$vo.member_price}</span>
+			<del>￥{$vo.price}</del>
+		</p>
+		</figcaption>
+	</figure>
+	</volist>
+	</section>
+	<div class="pagination" id="pageGro">
+		<div class="meneame">{$pages}</div>
+	</div>
+</div>
+<include file="Home:footerubo"/>

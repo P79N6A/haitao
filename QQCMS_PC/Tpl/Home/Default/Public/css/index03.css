@@ -1,0 +1,144 @@
+/*会员指南*/
+.kuang {
+	width: 80%;
+	height: 115px;
+	border: 1px solid #D8D8D8;
+	border-radius: 8px;
+	margin: 60px auto;
+}
+
+.kuang .box1 {
+	height: 30px;
+	background-color: #2172A9;
+	color: white;
+	padding-left: 5px;
+}
+
+.kuang .box2 {
+	padding-left: 5px;
+}
+
+.yanse {
+	color: #ccc;
+	margin: 0;
+}
+
+.m-box1 {
+	height: 30px;
+	background-color: #900;
+	color: white;
+	padding-left: 5px;
+}
+
+.m-box {
+	height: 30px;
+	background-color: #FCD209;
+	color: white;
+	padding-left: 5px;
+}
+
+.huiyuan {
+	width: 77%;
+	height: 30%;
+	margin: 0 auto;
+}
+
+/*商品专区*/
+div.listing.listing-shop-goods{
+	border-left: dotted 1px #999999;
+	border-right: dotted 1px #999999;
+	 margin-left: 0px; 
+	padding: 0 1em;
+}
+
+table.shop-goods-table th {
+	width: 38px;
+	text-align: center;
+}
+
+table.beats-goods-table th {
+	width: 23px;
+	text-align: center;
+}
+
+/*table.beats-goods-table td a {
+	line-height: 38px;
+}*/
+
+table.listing td.shop-goods-c {
+	vertical-align: middle;
+	text-align: center;
+}
+
+.chanpin {
+	width: 100%;
+	text-align: center;
+	font-size: 16px;
+	padding: 5px;
+	border-top: 1px solid #e5e5e5;
+	border-bottom: 1px solid #e5e5e5;
+	background: #eee;
+	font-weight: bold;
+	padding-top: 12px;
+}
+
+table.listing td .shop-goods-a {
+	color: white;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+/*分类商品*/
+table.listing td.shop_pro p {
+	font-size: 0.8em;
+	width: 145px;
+}
+
+/*商品详情页*/
+div.show-pro{
+	color: #8D002A;
+	font-size: 1.3em;
+	font-weight: bold;
+	float: left;
+	margin: 0;
+	width: 615px;
+	border-top: 0px solid #CAB89F;
+	margin: 0 15px;
+	line-height: 24px;
+}
+
+div.price-conect {
+	color: #8D002A;
+	font-size: 1.3em;
+	font-weight: bold;
+	margin: 0;
+	width: 100%;
+	float: left;
+	border-top: 0px solid #999;
+}
+
+div.show-buttom li {margin: 0 6px;padding-top: 0px;float: left;width: 23%;}
+
+/*拍卖 CSS*/
+.input-group .can_price{width: 200px;height: 20px;}
+
+/*秒拍 CSS*/
+div.jieshao{width: 96%;float: left;padding-left: 20px;}
+
+div.jieshao .leave-msg{height: 35px;float: left;width: 907px;line-height: 35px;background: #C4A24D;border-radius: 4px;margin-bottom: 10px;color: #FFF;}
+
+div.jieshao .btn-primary{float: right;margin-top: 10px;}
+
+div.jieshao .form-control{width: 97%;}
+
+div.jieshao .media{float: left;border-bottom: 1px solid #CCC;margin-bottom: 10px;}
+
+.tooltipster-custom {border-radius: 5px;border: 1px solid #cccccc;background: #ededed;color: #666666;}
+.tooltipster-custom .tooltipster-content {font-family: Arial, sans-serif;font-size: 12px;line-height: 14px;padding: 8px 10px;text-align:justify;}
+.beijing2{width: 100%;}
+
+.sys_spec_text li {float: left;height: 40px;position: relative;margin: 2px 6px 2px 0;outline: none;}
+.sys_spec_text li a {height: 40px;width: 45px;padding: 1px 6px;border: 1px solid #ccc;background: #fff;display: inline-block;line-height: 40px;text-align: center;color: #000;}
+.sys_spec_text li.selected a {border: 2px solid #E8D1B2;padding: 0 5px;}
+
+.sys_spec_text li i {position: absolute;width: 10px;height: 10px;font-size: 0;line-height: 0;right: 2px;bottom: 2px;background: url(../images/choose.png) no-repeat right bottom;z-index: 99;display: none;}

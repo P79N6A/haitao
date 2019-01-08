@@ -1,0 +1,336 @@
+<include file="Home:headerbgg"/>
+<link rel="stylesheet" href="../Public/css/chanpinliebiao.css" />
+<div class="share-layer" style="display:none;">
+      <img class="responed" src="../Public/images/share-layer-bargin.png">
+      <img style="position:absolute;bottom:0;left:50%;margin-left:-75px" src="../Public/images/axe.png">
+    </div>
+
+    <section class="container bg01" style="padding-bottom:0px;padding-left:0px;padding-right:0px">
+
+      <div class="bargin-bubble media">
+        <a class="pull-left">
+          <img class="media-object img-circle" src="../Public/images/0.gif">
+        </a>
+        <div class="media-body">
+          <small>我想买这个，请帮我砍砍价吧，每砍一下便宜 {$product.bargain_num} 元，全靠你了，跪谢！</small>
+        </div>
+      </div>
+
+      <div class="bargin-good media">
+        <a class="pull-left">
+          <img class="media-object product-thumb" src="{$product.thumb|thumb=###,140,140,1}">
+        </a>
+        <div class="media-body">
+          <h2 class="media-heading">{$product.title}</h2>
+          <small>参考价：<strong class="old-price">&yen;{$product.price}</strong></small>
+          <div>会员价：<span class="redco">{$product.member_price}</span>元</div>
+          <div><font color="#e4393c">金会员价：</font><span class="redco"><font color="#e4393c">{$product.gold_price}</span>元</font></div>
+          <a class="details" href="{$product.url}"><small>商品详情<span class="glyphicon glyphicon-chevron-right glyphicon-right"></span></small></a>
+        </div>
+      </div>
+
+      <table class="table table-condensed table-bordered" style="background:#fafafa;color:#666;margin-bottom:0">
+        <tr>
+          <td><span class="glyphicon glyphicon-user glyphicon-left"></span>
+          <notempty name="discuss_count">
+          已有 {$discuss_count} 人帮砍
+          <else />
+          已有 0 人帮砍
+          </notempty>
+          </td>
+          <td><span class="glyphicon glyphicon-arrow-down glyphicon-left"></span>砍价后：<strong class="price">&yen;{$af_bargain_price}</strong></td>
+        </tr>
+      </table>
+
+    
+      <switch name="beg_uid_tag">
+        <case value="1" break="1">
+          <div class="bargin-button">
+            <a type="{$beg_uid_tag}" id="onMenuShareTimeline" class="btn btn-bargin btn-lg btn-block bargin-down" data-toggle="modal">找朋友帮忙砍价!</a>
+          </div>
+        </case>
+        <case value="2" break="1">
+          <div class="bargin-button">
+          <eq name="lock_product" value="1">
+            <p class="text-center">当前砍价商品已购买！</p>
+            <a class="btn btn-bargin btn-lg btn-block" href="{:URL('Home-Product/bargaining')}">更多砍价商品<span class="glyphicon glyphicon-chevron-right glyphicon-right"></span></a>
+          <else/>
+            <eq name="lock_member_price" value="1">
+            <p class="text-center">已到目标价位,非常感谢你的帮助！</p>
+            <a class="btn btn-bargin btn-lg btn-block" href="{:URL('Home-Product/bargaining')}">更多砍价商品<span class="glyphicon glyphicon-chevron-right glyphicon-right"></span></a>
+            <else/>
+            <a type="{$beg_uid_tag}" class="btn btn-bargin btn-lg btn-block bargin-down" data-toggle="modal">砍一下减 {$product.bargain_num} 元</a>
+            </eq>
+          </eq>
+          </div>
+        </case>
+        <case value="3" break="1">
+          <div class="bargin-button">
+            <eq name="lock_product" value="1">
+              <p class="text-center">您已购买当前砍价商品！</p>
+              <a class="btn btn-bargin btn-lg btn-block" href="{:URL('Home-Product/bargaining')}">更多砍价商品<span class="glyphicon glyphicon-chevron-right glyphicon-right"></span></a>
+            <else/>
+              <eq name="lock_member_price" value="1">
+              <p class="text-center">恭喜，已到目标价位！</p>
+              <else/>
+              <p class="text-center">还需 {$bargain_difference} 个朋友帮忙砍到目标价位，加油！</p>
+              </eq>
+              <a type="{$beg_uid_tag}" class="btn btn-bargin btn-lg btn-block" onclick="changeorder_second('{$product.bargainid}');">
+              <eq name="lock_member_price" value="1">
+                立即购买
+              <else/>
+                不等了，现在就买
+              </eq>
+              <span class="glyphicon glyphicon-chevron-right glyphicon-right"></span>
+              </a>
+            </eq>
+          </div>
+        </case>
+        <case value="4" break="1">
+          <div class="bargin-button">
+            <p class="text-center">^_^ 谢谢你，帮我砍掉了 {$product.bargain_num} 元！</p>
+            <a class="btn btn-bargin btn-lg btn-block" href="{:URL('Home-Product/bargaining')}">更多砍价商品<span class="glyphicon glyphicon-chevron-right glyphicon-right"></span></a>
+          </div>
+        </case>
+        <default />
+        default
+      </switch>
+      <div class="result-area">
+        <div class="bargin page-header">
+          <h4 class="text-center">斧头帮英雄榜</h4>
+        </div>
+        <empty name="bargain_discuss">
+        <p class="text-center">榜单暂缺，帮忙砍价，成为帮主！</p>
+        <else />
+        <volist name="bargain_discuss" id="vo">
+        <div class="bargin-bubble media">
+          <a class="pull-left">
+            <notempty name="vo.wechat_pic">
+            <img class="media-object img-circle" src="{$vo.wechat_pic}">
+            <else />
+            <img class="media-object img-circle" src="../Public/images/0.gif">
+            </notempty>
+          </a>
+          <div class="media-body">
+            <h6 class="media-heading">{$vo.username}</h6>
+            <small>{$vo.content}</small>
+          </div>
+        </div>
+        </volist>
+        </empty>
+      </div>
+    </section>
+
+      <div class="theme-pavilion" style="padding:5px">
+      <ul style="margin:0px;padding:0px;overflow:hidden">
+      <volist name="next_list" id="r">
+      <li style="list-style-type:none;float:left;width:49%;margin:0px 1% 3px 0px">
+        <a href="{:URL('Home-Product/type_goods')}&typeid={$r.typeid}">
+        <img src="{$r.pic}" class="half-img" style="width:100%" />
+        </a>
+      </li>
+        </volist>
+      </ul>
+    </div>
+
+
+  <!-- END -->
+    <div class="copyright"><a href="http://www.miitbeian.gov.cn" target="_blank" title="粤ICP备14063096号-1">粤ICP备14063096号-1</a></div> 
+
+      <table class="fix">
+        <tbody>
+          <tr>
+            <td style="width:15%;border-right:1px solid #c4c4c4"><a href="javascript:history.go(-1)"><img src="__PUBLIC__/Images/f1.png" class="fanhui"></a></td>
+            <td style="width:28.3%;border-right:1px dashed #c4c4c4"><a href="/index.php?shop_id={$shop_id}" style=" color: #707070;text-decoration:none">商城首页</a></td>
+            <td style="width:33%;border-right:1px dashed #c4c4c4;position: relative;"><a href="{:URL('Home-Order/checkout')}&shop_id={$shop_id}" style=" color: #707070;text-decoration:none"><span id="shoppingCart" class="badge shuliang">{$shopping_count|default=''}</span>购物车</a></td>
+            <td style="width:28.3%"><a href="{:URL('User-Index/index')}&shop_id={$shop_id}" style="color: #707070;text-decoration:none">会员服务</a></td>
+          </tr>
+        </tbody>
+      </table>
+<script type="text/javascript">
+//隐藏微信底栏
+document.addEventListener('WeixinJSBridgeReady',function onBridgeReady(){WeixinJSBridge.call('hideToolbar');});//
+</script>
+<notempty name="appId">
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</notempty>
+<script type="text/javascript">
+$(function(){
+  $(".bargin-down").click(function(){
+      var tag = this.type;
+      switch (tag)
+      {
+        case '1':
+          $(".share-layer").fadeIn();
+          break;
+        case '2':
+          var d = dialog({
+              title: '要说点什么吗?',
+              content: '<textarea id="_content" name="content" style="width:100%;" cols="25" rows="3" placeholder="帮砍，请叫我雷锋！">帮砍，请叫我雷锋！</textarea>',
+              okValue: '确定',
+              ok: function () {
+                  var that = this;
+                  this.title('正在提交..');
+                  setTimeout(function () {
+                      var fromuser = "{$fromuser}";
+                      var prid = "{$prid}";
+                      var _content = $("textarea[name='content']").val();
+                      var _url = "{:URL('Home-Product/createBargainDiscuss')}";
+                      var bargainid = "{$product[bargainid]}";
+                      var _data_ = {"fromuser":fromuser,"prid":prid,"content":_content,"bargainid":bargainid};
+                      doAjax(_url,_data_);
+                      that.close().remove();
+                  }, 2000);
+                  return false;
+              },
+              cancelValue: '取消',
+              cancel: true
+          });
+          d.showModal();
+        default:
+        break;
+      }
+      
+
+  });
+
+  $(".share-layer").click(function(){
+    $(this).fadeOut();
+  })
+});
+var _thumb = $(".product-thumb").attr("src");
+var site_url = '{$site_url}';
+
+//ajax提交
+function doAjax(url,_data)
+{
+  $.ajax({
+    type:"POST",
+    url: url,
+    data: _data,
+    dataType: "JSON",
+    timeout: 4000,
+    async: false,
+    success: function(json){
+      var d = dialog({
+          title: '温馨提示',
+          content: json.info
+      });
+      d.show();
+      if (json.status == 1)
+      {
+        setTimeout(function () {
+          window.location.reload();
+        }, 2000);
+      }
+      else
+      {
+        setTimeout(function () {
+            d.close().remove();
+        }, 2000);
+      }
+      return false;
+    },
+    error: function(){
+      alert("系统出错!");
+    }
+  })
+}
+
+//生成订单
+function changeorder_second(bargainid){
+  var lock_member_price = "{$lock_member_price}";
+  if (lock_member_price==1) var cfinfo = "你即将购买此商品？！";
+  else var cfinfo = "差点就达到目标价了，确定不等了吗？";
+  var cf = confirm(cfinfo);
+  if (cf==true) var url = "{:URL('Home-Order/createCart')}"; else return false;
+  var num=1;
+  $.ajax({
+    type:"POST",
+    url: url,
+    data: {'bargainid':bargainid,'num':num},
+    timeout:4000,
+    dataType:"JSON",
+    async: false,
+    success: function(result){
+      if(result.data==1){
+            window.location.href="{:URL('Home-Order/checkout')}";
+      }else{
+        var d = dialog({
+          title: '温馨提示',
+          content: result.info
+        });
+      }
+      
+    },
+    error:function(){
+      alert("出错");
+    }
+  });
+}
+</script>
+<notempty name="appId">
+<script language="javascript" type="text/javascript">
+wx.config({
+    debug: false,//这里是开启测试，如果设置为true，则打开每个步骤，都会有提示，是否成功或者失败
+    appId: '{$appId}',
+    timestamp: '{$timestamp}',//这个一定要与上面的php代码里的一样。
+    nonceStr: '{$nonceStr}',//这个一定要与上面的php代码里的一样。
+    signature: '{$signature}',
+    jsApiList: [
+      // 所有要调用的 API 都要加到这个列表中
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo'
+    ]
+});
+
+wx.ready(function(){
+  wx.onMenuShareTimeline({
+      title: '{$product.title}', // 分享标题
+      link: '{$_url}', // 分享链接
+      imgUrl: site_url+_thumb, // 分享图标
+      success: function () {
+        var fromuser = "{$fromuser}";
+        var prid = "{$prid}";
+        var bargain_price = "{$product[bargain_price]}";
+        var url = "{:URL('Home-Product/tobargg')}";
+        var _data = {"prid":prid,"bargain_price":bargain_price};
+        doAjax(url,_data);
+      },
+      cancel: function () { 
+        var d = dialog({
+              title: '温馨提示',
+              content: '分享失败！'
+          });
+      }
+  });
+
+  wx.onMenuShareAppMessage({
+    title: '{$product.title}', // 分享标题
+    desc: '{$product.address}', // 分享描述
+    link: '{$_url}', // 分享链接
+    imgUrl: site_url+_thumb, // 分享图标
+    type: '', // 分享类型,music、video或link，不填默认为link
+    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+    success: function () { 
+        var fromuser = "{$fromuser}";
+        var prid = "{$prid}";
+        var bargain_price = "{$product[bargain_price]}";
+        var url = "{:URL('Home-Product/tobargg')}";
+        var _data = {"prid":prid,"bargain_price":bargain_price};
+        doAjax(url,_data);
+    },
+    cancel: function () { 
+        var d = dialog({
+            title: '温馨提示',
+            content: '分享失败！'
+        });
+    }
+  });
+});
+</script>
+</notempty>
+</body>
+</html>

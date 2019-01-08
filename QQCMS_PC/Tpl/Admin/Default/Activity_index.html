@@ -1,0 +1,94 @@
+<table  class="search_table" width="100%">
+       <tr>
+            <td>
+                  <form action="/index.php?a=index&m=Activity&g=Admin&get_time={$get_time}&get_menber={$get_menber}" method="get">
+                  <input type="hidden" name="g" value="Admin" />
+                  <input type="hidden" name="m" value="Activity" />
+                  <input type="hidden" name="a" value="index" /> 
+                  <input type="hidden" name="menuid" value="177" />   
+                  <input type="hidden" name="get_time" value="{$get_time}" /> 
+                  <input type="hidden" name="get_menber" value="{$get_menber}" />                
+                  选择分类:
+                  <select name="typeid">
+                    <option value="0" >请选择</option>
+                  <volist name="typelist" id="vo">
+                    <option value="{$vo.typeid}" {if $vo['typeid']==$_GET['typeid']}selected{/if}>{$vo.name}</option>
+                  </volist>
+                  </select>
+                  <input type="submit" value="{:L('chaxun')}"  class="button" />
+                  </form>
+            </td>
+            
+      </tr>
+</table>
+<form name="myform" action="" method="post" >
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+      		<tr>
+      	
+			<th >是否会员</th>
+      <th >活动</th>
+      <th align="center" style="padding:5px 0px 5px 0px">名称</th>
+			<th  align="center">手机号码</th>	
+			<th>省份</th>
+			<th>市</th>
+			<th>区域</th>
+			<th>收货地址</th>
+			<th><a href="/index.php?a=index&m=Activity&g=Admin&menuid=177&get_time={$get_time}&get_menber={$get_menber}"><font color="green">提交时间</font></a></th>
+		<!-- 	<th >{:L('manage')}</th> -->
+      		</tr>
+      	</thead>
+      	<tbody>
+      		<volist name="list" id="vo" key="k">
+      		<tr>
+			<td align="center">{if $vo['user_id']>0}是{else}否{/if}</td>
+      <td align="left"><font color="green">{$vo.type_name}</font></td>
+      		<td align="center" style="padding:8px 0px 8px 0px">{$vo['name']}</td>
+          <td align="center" style="padding:5px 0px 5px 0px">{$vo['mobile']}</td>
+			<td align="center">{$area[$vo['province']]}</td>
+      		<td align="center">{$area[$vo['city']]}</td>
+      		<td align="center">{$area[$vo['area']]}</td> 
+      		<td align="center">{$vo['address']}</td>    		
+      		<td align="center">{$vo['createtime']|date="Y年m月d日 H时i分",###}</td> 
+		<!-- 	<td align="center"><a  class="product_edit2" style="border-radius: 5px ;" href="javascript:confirm_delete('{:U('Activity/delete',array(id=>$vo['id']))}')">{:L('delete')}</a></td>    -->   		
+      		</tr>
+      		</volist>
+      	</tbody>
+    </table>
+</div>
+</form>
+
+  
+
+<div id="pages" class="page">{$page}</div>
+
+    <script type="text/javascript">
+            function area_change(id,level,province,city,area,lang,provinceid,cityid,areaid){
+
+      var datas={'level':level,'provinceid':provinceid,'cityid':cityid,'areaid':areaid,'lang':lang};
+      $.ajax({
+            type:"POST",
+            url: "/index.php?m=Ajax&a=Area&id="+id,
+            data: datas,
+            timeout:"4000",
+            dataType:"json",
+            success: function(data){
+                  if(level==0){
+                  $('#'+province).html(data.province);
+                  $('#'+city).html(data.city);
+                  $('#'+area).html(data.area);
+                  }else if(level==1){
+                  $('#'+city).html(data.city);
+                  $('#'+area).html(data.area);
+                  }else if(level==2){
+                        $('#'+area).html(data.area);
+                  }
+            },
+            error:function(){
+                  alert("time out,try it");
+            }
+      }); 
+}
+area_change(0,0,'province','city','area',1);
+</script>

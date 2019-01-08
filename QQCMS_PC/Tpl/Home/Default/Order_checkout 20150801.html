@@ -1,0 +1,509 @@
+<include file="Home:headertrade"/>
+<!-- <link rel="stylesheet" href="../Public/css/goulan.css"> -->
+<script src="__PUBLIC__/Js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.artDialog.js?skin=default"></script>
+<!--qq_cms js-->
+<script src="__PUBLIC__/Js/qqcms.js"></script>
+
+<!-- dialog V6 -->
+<load href="../Public/css/ui-dialog.css" />
+<load href="../Public/dist/dialog-min.js" />
+<style>
+.m-bottom{float: left;margin: 10px 10px;width: 100%;}
+.total p{height: 23px; line-height: 23px;}
+</style>
+<div class="catbox">
+<form method="post" action="{:URL('Home-Order/done')}&shop_id={$shop_id}" id="orderForm" onsubmit="return checkform()">
+  <input type="hidden" name="pay_code" value="Allinpay">
+  <table id="cartTable">
+      <thead>
+          <tr>
+              <th><label><input class="check-all check" type="checkbox"/>&nbsp;全选</label></th>
+              <th>商品</th>
+              <th>单价</th>
+              <th>数量</th>
+              <th>小计</th>
+              <th>操作</th>
+          </tr>
+      </thead>
+      <tbody>
+        <volist name="cart" id="vo">
+          <tr id="{$vo['id']}" data-num="num_{$vo['id']}" data-modid="{$vo['moduleid']}">
+              <td class="checkbox"><input class="check-one check" type="checkbox"/></td>
+              <td class="goods"><img src="{$vo.product_thumb|thumb=###,100,100,1}" alt=""/><span>{$vo.product_name}</span></td>
+              <td class="price">{$vo.product_price}</td>
+              <td class="count"><span class="reduce"></span><input class="count-input" id="num_{$vo['id']}" data-moduleid="{$vo.moduleid}" data-id="{$vo.id}" type="text" data-post_price="{$vo.post_price}" data-post_rate="{$vo.post_rate}" data-direct="{$vo.direct_shipping}" value="{$vo.number}"/><span class="add">+</span></td>
+              <td class="subtotal">{$vo.price}</td>
+              <td class="operation"><span class="delete">删除</span></td>
+          </tr>
+        </volist>
+      </tbody>
+  </table>
+
+    <div class="panel-group" id="accordion" style="margin-bottom:20px">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title text-center">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="collapsed" id="open_ad">
+                常用地址管理
+              </a>
+            </h4>
+          </div>
+<!--地址管理 开始-->
+<!--会员管理地址-->
+          <div id="collapseOne" class="panel-collapse collapse" style="height: 0px;">
+          <input type="hidden" id="addressid" name="addressid" value="{$default_address.id}" />
+            <div class="panel-body">
+{if $user}
+            <ul class="nav nav-tabs">
+      <li class="active"><a href="#oldAddress" data-toggle="tab" class="select_address">默认地址</a></li>
+      <for start="0" end="5">
+          <if condition="$user_address[$i] neq null">
+         <li><a href="#oldAddress_{$i}" data-toggle="tab" class="select_address_{$i}">常用地址{$i+1}</a></li>
+         </if>
+      </for>
+      <li><a href="#newAddress" data-toggle="tab" class="new_address">添加一个地址</a></li>
+
+    </ul>
+             <div class="tab-content">
+            <!--默认收货地址 start-->
+            <div class="tab-pane active" id="oldAddress" style="margin:.8em auto" >
+            <ul class="list-group">
+              <li class="list-group-item active">
+                <div class="form-group">
+                  <label>地址</label>
+                  <p class="form-control-static edit_show_address">{$Area[$default_address['province']]}{$Area[$default_address['city']]}{$Area[$default_address['area']]}-{$default_address['address']}</p>
+                </div>
+                <div class="form-group ">
+                  <label>联系人</label>
+                  <p class="form-control-static edit_show_penson">{$default_address['consignee']}</p>
+                </div>
+                <div class="form-group">
+                  <label>电话</label>
+                  <p class="form-control-static edit_show_phone">{$default_address['mobile']}</p>
+                </div>
+              </li>
+            </ul>
+            <div class="m-bottom ">
+                <p style="float:left;width:45%;">
+                  <button type="button"  class="btn btn-primary btn-block select_show_btn"  onclick="address_change({$default_address['id']})" >选择此收货地址</button>
+                </p>
+                <p style="float:right;width:45%; margin-right: 20px;">
+                  <button type="button" class="btn btn-warning btn-block edit_show_btn" href="#newAddress" data-toggle="tab" onClick="address_edit('edit_default','',{$default_address['id']},{$default_address['province']},{$default_address['city']},{$default_address['area']},'{$default_address['address']}','{$default_address['consignee']}',{$default_address['mobile']})">修 改</button>
+                </p>
+            </div>
+            </div>
+            
+            <!--默认收货地址 end-->
+      <!--常用收货地址-->
+      <for start="0" end="5">
+        <if condition="$user_address[$i] neq null">
+      <div class="tab-pane" id="oldAddress_{$i}" style="margin:.8em auto">
+      <ul class="list-group">
+        <li class="list-group-item activers">
+          <div class="form-group">
+            <label>地址</label>
+            <p class="form-control-static edit_show_address">{$Area[$user_address[$i]['province']]}{$Area[$user_address[$i]['city']]}{$Area[$user_address[$i]['area']]}-{$user_address[$i]['address']}</p>
+          </div>
+          <div class="form-group">
+            <label>联系人</label>
+            <p class="form-control-static edit_show_penson">{$user_address[$i]['consignee']}</p>
+          </div>
+          <div class="form-group">
+            <label>电话</label>
+            <p class="form-control-static edit_show_phone">{$user_address[$i]['mobile']}</p>
+          </div> 
+        </li>
+      </ul>
+      <div class="m-bottom">
+        <p style="float:left;width:45%;">
+          <button type="button" class="btn btn-primary btn-block" href="#newAddress" data-toggle="tab" onClick="address_edit('edit',{$i},{$user_address[$i]['id']},{$user_address[$i]['province']},{$user_address[$i]['city']},{$user_address[$i]['area']},'{$user_address[$i]['address']}','{$user_address[$i]['consignee']}',{$user_address[$i]['mobile']})">修 改</button>
+        </p>
+        <p style="float:right;width:45%; margin-right: 20px;">
+          <button type="button" class="btn btn-warning btn-block"  onclick="address_change({$user_address[$i]['id']})" >选择此收货地址</button>
+        </p>
+      </div>
+      </div>
+        </if>
+      </for>
+      <!--常用收货地址 end-->
+      <!--添加地址与修改地址-->
+      <div class="tab-pane" id="newAddress" style="margin:.8em auto">
+        <ul class="list-group">
+        <li class="list-group-item">
+          <div class="form-group">
+            <label for="address" style="display:block">地址</label>
+            <table class="wid-100 margin-bottom-10">
+              <tbody>
+                <tr>
+                  <td>
+                     <select name="province" id="province" onChange="area_change(this.value, 1,'province','city','area');" class="ddlbox form-control" >
+                     <option value="0">选择省份</option>
+                    </select>
+                  </td>
+                  <td>
+                     <select name="city" onChange="area_change(this.value, 2,'province','city','area');" id="city" class="ddlbox form-control" >
+                     <option value="0">选择城市</option>
+                    </select>
+                  </td>
+                  <td>
+                    <select class="form-control ddlbox" name="area" onchange="area_change(this.value, 3,'province','city','area');" id="area" class="" >
+                    <option value="0">选择地区</option>
+                    </select>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <textarea rows="3" class="form-control"  name="address" class=""  id="address" placeholder="请填写详细街道地址"></textarea>
+          </div>
+        </li>
+        </ul>
+          <div class="form-group">
+            <label for="contact">联系人</label>
+            <input type="text" class="form-control"  name="consignee" id="consignee" placeholder="联系人姓名">
+          </div>
+          <div class="form-group">
+            <label for="phone">联系电话</label>
+            <input type="text"  name="mobile"  class="form-control" id="mobile" placeholder="联系电话">
+          </div>
+          <button type="button" class="btn btn-primary btn-block"  onclick="address_save('add','','')" >确认添加</button>
+      </div>
+  <!--添加地址 end-->
+    </div>
+{else}
+<!--游客填写地址-->
+      <div class="tab-pane" id="newAddress" style="margin:.8em auto">
+          <div class="form-group">
+            <label for="address" style="display:block">地址</label>
+            <table class="wid-100 margin-bottom-10">
+              <tbody>
+                <tr>
+                  <td>
+                     <select name="province" id="province" onChange="area_change(this.value, 1,'province','city','area');" class="ddlbox form-control" >
+                     <option value="0">选择省份</option>
+                    </select>
+                  </td>
+                  <td>
+                     <select name="city" onChange="area_change(this.value, 2,'province','city','area');" id="city" class="ddlbox form-control" >
+                     <option value="0">选择城市</option>
+                    </select>
+                  </td>
+                  <td>
+                    <select class="form-control ddlbox" name="area" onchange="area_change(this.value, 3,'province','city','area');" id="area" class="" >
+                    <option value="0">选择地区</option>
+                    </select>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <textarea rows="3" class="form-control"  name="address" class=""  id="address" placeholder="请填写详细街道地址"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="contact">联系人</label>
+            <input type="text" class="form-control"  name="consignee" id="consignee" placeholder="联系人姓名">
+          </div>
+          <div class="form-group">
+            <label for="phone">联系电话</label>
+            <input type="number"  name="mobile"  class="form-control" id="mobile" placeholder="联系电话">
+          </div>
+      </div>
+      <!--游客地址 end-->
+{/if}
+            </div>
+          </div>
+<!--地址管理-->
+        </div>
+      </div>
+
+<!-- 填充身份证信息 -->
+<div style="display:none;">
+  <table class="table table-bordered table-striped">
+    <tbody>
+      <tr>
+        <td class="text-right" style="font-weight:bold">姓名：</td>
+        <td class="text-right" style="font-weight:bold"><input type="text"  name="identity_name"  class="form-control" placeholder="请输入真实姓名" value="{$realname}"></td>
+      </tr>
+      <tr>
+        <td class="text-right" style="font-weight:bold">身份证：</td>
+        <td class="text-right" style="font-weight:bold"><input type="text"  name="identity"  class="form-control" placeholder="请输入身份证号码" value="{$identity}"></td>
+      </tr>
+    </tbody>
+  </table>
+</div> 
+</form>
+  <div class="foot" id="foot">
+      <label class="fl select-all"><input type="checkbox" class="check-all check"/>&nbsp;全选</label>
+      <a class="fl delete" id="deleteAll" data-id="{$vo['id']}" data-num="num_{$vo['id']}" data-modid="{$vo['moduleid']}" href="javascript:;">删除</a>
+      
+      <empty name="identity">
+      <div class="fr closing" onclick="setIdentity();">结 算</div>
+      <else/>
+      <div class="fr closing" onclick="setsubmit();">结 算</div>
+      </empty>
+
+      <div class="fr total">
+        <p><span>订单关税(亲，关税≤50，免征哦！)</span><span id="directTotal"></span></p>
+        <p>合计(不含邮费)：￥<span id="priceTotal">0.00</span></p>
+      </div>
+      <div class="fr selected" id="selected">已选商品<span id="selectedTotal">0</span>件<span class="arrow up">︽</span><span class="arrow down">︾</span></div>
+      <div class="selected-view">
+          <div id="selectedViewList" class="clearfix">
+              <div><img src="images/1.jpg"><span>取消选择</span></div>
+          </div>
+          <span class="arrow">◆<span>◆</span></span>
+      </div>
+  </div>
+
+   <!-- 填写身份证信息 -->
+<div id="identity-table" style="display:none;">
+  <table class="table table-bordered table-striped" style="margin-bottom:0px;">
+    <tbody>
+      <tr>
+        <td class="text-right" style="font-weight:bold">姓名：</td>
+        <td class="text-right" style="font-weight:bold"><input type="text" style="width: 88%;height: 22px;" name="idtty1"  class="form-control" placeholder="请输入真实姓名" value="{$realname}"></td>
+      </tr>
+      <tr>
+        <td class="text-right" style="font-weight:bold">身份证：</td>
+        <td class="text-right" style="font-weight:bold"><input type="text" style="width: 88%;height: 22px;" name="idtty2"  class="form-control" placeholder="请输入身份证号码" value="{$identity}"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+<script type="text/javascript">
+function setIdentity()
+{
+  var elem = document.getElementById('identity-table');
+  var d = dialog({
+      title: '信息录入',
+      content: elem,
+      id: 'EF893L',
+      okValue: '确定',
+      ok: function () {
+        var identity_name = $("input[name='idtty1']").val();
+        var identity = $("input[name='idtty2']").val();
+        if (identity == '' || identity_name== '')
+        {
+          alert("身份证信息不完整");return false;
+        }
+        $("input[name='identity_name']").val(identity_name);
+        $("input[name='identity']").val(identity);
+        var that = this;
+        this.title('正在提交..');
+        setTimeout(function () {
+            $("#orderForm").submit();
+        }, 2000);
+        return false;
+      },
+      cancelValue: '取消',
+      cancel: true
+  }).show();
+}
+
+function setsubmit()
+{
+  var d = dialog({title:'正在提交..',}).show();
+  setTimeout(function () {
+    $("#orderForm").submit();
+  }, 1500);
+}
+
+function frequent_submit(url,method,data){
+      var f= document.createElement('form')
+    f.action = url;
+    f.method = method;
+    document.body.appendChild(f);
+  eval ("var data = {"+data+"}");
+  for(var key in data){  
+      if(typeof data[key]  === 'string'||'number'){
+        var temp=document.createElement('input');
+      temp.type= 'hidden';
+      temp.name= key ;
+      temp.value= data[key];  
+      f.appendChild(temp);
+      }
+  }
+  f.submit();
+}
+
+var  totalprice=0 ,is_invoice=0,invoice=0 ,addressid={$default_address[id]|intval},insure=0,is_shipping=0,shipping=0 , paymentid=0,pay_fee =0 ,ticket=0,is_cash=0,cash_use={$cash_use|default="0"};
+
+function checkform(){
+  /*alert("{$user_address}");return false;*/
+  {if $user_address}          
+    if(addressid==0){
+      art.dialog({ lock:true,icon: 'error',time:'2',content: "请选择收货人地址"});
+      return false;
+    }
+  {/if}
+  {if $user!=0}
+  if(addressid==0){
+      art.dialog({ lock:true,icon: 'error',time:'2',content: "请选择收货人地址"});
+      return false;
+    }
+    {/if}
+    if(is_cash==1){
+      var fee=$("input[name='cash_pay_amount']").val();
+      if(fee<=0){
+       art.dialog({ lock:true,icon: 'error',time:'2',content: '请输入要支付的电子现金金额'});
+       return false;
+      }
+    }
+
+    // art.dialog({title:"提交订单", lock:true, opacity:"0.3", fixed:true, icon:"face-smile",content:"正在下单，请稍等！",time:5});
+}
+
+
+function delok(obj,moduleid,id,doit,data){
+  window.location.reload();
+}
+      
+//修改电子现金
+ function cash_has_change(obj){
+  var cash=$(obj).val();
+  var str= /^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/;
+  if(!str.test(cash)){
+    $(obj).val("");
+    art.dialog({ lock:true,icon: 'error',time:'2',content: "请输入正确的金额"});
+  }
+  countprice();
+ }
+ 
+//修改地址
+function address_edit(type,row_id,id,province,city,area,address,consignee,mobile){
+
+area_change(0,0,'province','city','area','',province,city,area);
+  $("#newAddress textarea[name='address']").val(address);
+  $("#newAddress input[name='consignee']").val(consignee);
+  $("#newAddress input[name='mobile']").val(mobile);
+  $("#newAddress .btn").attr("onclick","address_save('"+type+"',"+id+",'"+row_id+"')");
+  $("#newAddress .btn").text("确认修改");
+}
+//保存收货地址
+
+function address_save(type,id,row_id){
+  var province = $('#province').val();
+  var city = $('#city').val();
+  var area = $('#area').val();
+  var address = $('#address').val();
+  var consignee = $('#consignee').val();
+  var mobile = $('#mobile').val();
+  if(province=='' || city=='' || area=='' || address=='' || consignee=='' || mobile==''){
+    art.dialog({ lock:true,icon: 'error',time:'2',content: '{:L(EMPTY_ADDRESS)}'});
+    return false;
+  }
+  var address_datas={'id':id,'address':address,'province':province,'city':city,'area':area,'consignee':consignee,'mobile':mobile};
+  $.ajax({
+    type:"POST",
+    url:"/index.php?m=Ajax&a=address&do=save",
+    data: address_datas,
+    timeout:"4000",
+    dataType:"JSON",
+    success: function(data){ 
+      if(data.error){
+        art.dialog({ lock:true,icon: 'error',time:'2',content: data.error});return false;
+      }
+
+      if(data.id){
+       // address_show(data);
+       if(type=="add"){
+          var address_str=data.province_name+data.city_name+data.area_name+"-"+data.address;
+          $("#oldAddress .edit_show_address").text(address_str);
+          $("#oldAddress .edit_show_penson").text(data.consignee);
+          $("#oldAddress .edit_show_phone").text(data.mobile);
+          $("#oldAddress .edit_show_btn").attr("onclick","address_edit('edit_default','',"+data.id+","+data.province+","+data.city+","+data.area+",'"+data.address+"','"+data.consignee+"',"+data.mobile+")");
+          $("#oldAddress .select_show_btn").attr("onclick","address_change("+data.id+")");
+          $(".new_address").click();
+          $(".select_address").click();
+          address_reback();//刷新表单
+          addressid=data.id;
+          $("#addressid").val(data.id);
+        art.dialog({ icon: 'ok',time:'1',content: '添加成功'});
+        //window.location.reload();
+       }
+       if(type=="edit_default"){
+          var address_str=data.province_name+data.city_name+data.area_name+"-"+data.address;
+          $("#oldAddress .edit_show_address").text(address_str);
+          $("#oldAddress .edit_show_penson").text(data.consignee);
+          $("#oldAddress .edit_show_phone").text(data.mobile);
+          $(".new_address").click();
+          $(".select_address").click();
+          address_reback();//刷新表单
+          addressid=data.id;
+          $("#addressid").val(data.id);
+        art.dialog({ icon: 'ok',time:'1',content: '修改成功'});
+       }
+       if(type=="edit"){
+          var address_str=data.province_name+data.city_name+data.area_name+"-"+data.address;
+          $("#oldAddress_"+row_id+" .edit_show_address").text(address_str);
+          $("#oldAddress_"+row_id+" .edit_show_penson").text(data.consignee);
+          $("#oldAddress_"+row_id+" .edit_show_phone").text(data.mobile);
+          $(".new_address").click();
+          $(".select_address_"+row_id+"").click();
+          address_reback();//刷新表单
+          addressid=data.id;
+          $("#addressid").val(data.id);
+        art.dialog({ icon: 'ok',time:'1',content: '修改成功'});
+       }
+        //setTimeout(location.reload(),5000);
+      }else{
+        art.dialog({ lock:true,icon: 'error',time:'2',content: '操作失败'});
+      }
+    },
+    error:function(){
+      art.dialog({ lock:true,icon: 'error',time:'2',content: '连接失败'});
+    }
+  });
+}
+//刷新新增地址表单
+function address_reback(){
+          $("#newAddress input").each(function(){
+           $(this).val("");
+          });
+          $("#newAddress select").each(function(){
+            $(this).val("");
+          });
+          $("#newAddress textarea").val("");
+          $("#newAddress .btn").attr("onclick","address_save('add','','')");
+           $("#newAddress .btn").text("确认添加");
+}
+//选择地址
+function address_change(id){
+  $("#addressid").val(id);
+  addressid=id;
+  $("#open_ad").click();
+  $(".panel-default").css("border","1px solid red");
+
+}
+//地址
+    function area_change(id,level,province,city,area,lang,provinceid,cityid,areaid){
+
+  var datas={'level':level,'provinceid':provinceid,'cityid':cityid,'areaid':areaid,'lang':lang};
+  $.ajax({
+    type:"POST",
+    url: "/index.php?m=Ajax&a=Area&id="+id,
+    data: datas,
+    timeout:"4000",
+    dataType:"json",async:false,
+    success: function(data){ 
+      if(level==0){
+      $('#'+province).html(data.province);
+      $('#'+city).html(data.city);
+      $('#'+area).html(data.area);
+      }else if(level==1){
+      $('#'+city).html(data.city);
+      $('#'+area).html(data.area);
+      }else if(level==2){
+        $('#'+area).html(data.area);
+      }
+    },
+    error:function(){
+    }
+  }); 
+}
+$(document).ready(function(){
+  
+area_change(0, 0,'province','city','area');//地址
+});
+</script>
+<include file="Home:footerubo"/>

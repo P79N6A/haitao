@@ -1,0 +1,47 @@
+<include file="Public:adminHead" />
+<style type="text/css">
+#jj{width:100%;border:1px solid #eee;margin:10px 0px 10px 0px;}
+#jj th{padding:10px 0px 10px 0px;border-bottom:1px solid #d5dfe8;border-right:1px solid #eee;background: #eef3f7;}
+#jj  tr:hover{background: #fbffe4;}
+#jj td{padding:10px 0px 10px 0px;border-right:1px solid #eee;}
+</style>
+<div id="Right">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab"  id="jj">
+		<tr>
+			<th>订单编号</th>
+			<th>收货人</th>
+			<th>收货地址</th>
+            <th>商品总价</th> 
+			<th>使用电子现金</th> 
+			<th>支付金额</th> 
+			<th>订单状态</th>
+			<th>下单时间</th>
+			<th>可获得佣金</th>
+		</tr>
+		<volist name="order_info" id="vo">
+		<tr align="center" id="{$vo.id}">
+			<td>{$vo.sn}</td>
+      		<td>{$vo.consignee}</td>
+      		<td>[{$Area[$vo['province']]}-{$Area[$vo['city']]}-{$Area[$vo['area']]}]</td>
+			<td><font color="red">{$vo.amount|number_format=###,2}</font>[不含税费、邮费]</td>
+      		<td>{$vo.cash_coupon}</td>
+      		<td>{$vo['allinipay_amount']}</td>
+			<td>{$theParam['order_status'][$vo['status']]} | {$theParam['pay_status'][$vo['pay_status']]} | {$theParam['shopping_status'][$vo['shipping_status']]}</td>
+			<td><?php echo date('Y-m-d H:i:s',$vo['add_time']);?></td>
+			<td>{$vo.area_com}</td>
+		</tr>
+		</volist>
+		<div class="commonBtnArea">    
+		 <div class="text-center">
+        <ul class="pagination" style="margin-bottom:20px">
+        {$page}
+        </ul>
+      </div>
+		</div>
+		
+	</table>
+</div>
+<include file="Public:adminFoot" />
+
+
+

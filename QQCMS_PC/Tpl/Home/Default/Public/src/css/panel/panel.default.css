@@ -1,0 +1,8 @@
+.ui-panel{
+    width: 15em;
+    height: 100%;
+    top: 0;
+    padding: 10px;
+    background: #444;
+    color: #ffffff;
+}

@@ -1,0 +1,184 @@
+<include file="Home:headertrade"/>
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.artDialog.js?skin=default"></script>
+<style>
+.beijing2{background-color: #56c018!important;}
+</style>
+<style type="text/css">
+.soonpay{font-size: 25px; font-weight: bold;color: #333333;}
+.aligns .btn-primary{width: 80%;margin: 0px auto 10px auto;}
+.aligns button[type="submit"].btn-danger{width: 80%;margin: 0 auto;}
+.btn-hidden{display: none;}
+</style>
+<div>
+  <div class="dingdanhaoma">订单号码：{$order.sn}</div>
+  <div class="panel-group col-md-9 xia" id="accordion" role="tablist" aria-multiselectable="true" style="margin-left:13%">
+    <div class="panel-heading " role="tab" id="headingOne">
+      <h4 class="panel-title text-center">
+                  商品详情
+                </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body biaoge">
+        <table id="order"class="table table-bordered table-striped">
+          <tr>
+              <th>商品</th>
+              <th>单价</th>
+              <th>数量</th>
+            </tr>
+            <volist name="cart" id="vo">
+            <tr>
+              <td>{$vo.product_name}</td>
+              <td>&yen;{$vo.product_price}</td>
+              <td>{$vo.number}</td>
+            </tr>
+            </volist>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="dingdan2 col-md-9" style="margin-left:13%">
+    <table id="order"class="table table-bordered table-striped">
+      <tr>
+          <td  class="align">下单时间</td>
+          <td class="align">{$order.add_time|date='Y年m月d日H时i分',###}</td>
+      </tr>
+      <tr>
+          <td  class="align">邮费</td>
+          <td class="align">{if $order['shipping_fee']>0}&yen;{$order.shipping_fee|number_format=###,2}{else}免邮{/if}</td>
+      </tr>
+      {if $order['direct_total']>0}
+      <tr>
+          <td class="align">关税</td>
+          <td class="align">&yen;{$order.direct_total|number_format=###,2}</td>
+      </tr>
+      {/if}
+      <tr>
+          <td  class="align kuan">合计</td>
+          <td class="align">&yen;{$order.order_amount|number_format=###,2}</td>
+      </tr>
+     </table>
+  </div>
+  <div class="xia col-md-9" style="margin-left:13%">
+    <div class="zitidaxiao">地址及联系信息</div>
+    <table id="order"class="table table-bordered table-striped">
+      <tr>
+          <td  class="align">地址</td>
+          <td class="aligns">{$Area[$order['province']]}{$Area[$order['city']]}{$Area[$order['area']]}-{$order['address']}</td>
+      </tr>
+      <tr>
+        <td  class="align">姓名</td>
+        <td class="aligns">{$order.consignee}</td>
+      </tr>
+      <tr>
+        <td  class="align">电话</td>
+        <td class="aligns">{$order.mobile}</td>
+      </tr>
+    </table>
+  </div>
+  <div class="xia col-md-9" style="margin-left:13%">
+    <div class="zitidaxiao">订单状态</div>
+    <table id="order"class="table table-bordered table-striped">
+      <tr>
+        <td class="aligns"><button id="xiangqing" onClick="order_save('order_status',12);" class="xiangqing" type="button" style="width:80px " />取消订单</button></td>
+        <td class="aligns">&nbsp&nbsp&nbsp尚未支付可取消订单</td>
+      </tr>
+    <notempty name="order.allinpayInfo">
+      <tr>
+        <td class="aligns soonpay" width="230" align="center">马上支付</td>
+        <td class="aligns" style="padding-left:100px;padding-right:30px">
+          <button type="button" class="btn btn-primary btn-block" onclick="getWxpay({$order.id},0);">微信支付</button>
+          <button type="button" class="btn btn-primary btn-hidden" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" >微信支付</button>
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="exampleModalLabel">欢迎使用微信支付</h4>
+                </div>
+                <div class="modal-body">
+                  <table class="table table-bordered table-striped" style="margin-bottom:0">
+                    <col width="30%" />
+                    <col width="80%" />
+                    <tr>
+                      <td rowspan="3" width="200"><img src="img/erweima.jpg" id="wxqrcode" width="200" height="200"></td>
+                      <td class="aligns">1.扫一扫二维码</td>
+                    </tr>
+                    <tr>
+                      <td class="aligns">2.登陆微信支付</td>
+                    </tr>
+                    <tr>
+                      <td class="aligns">3.完成订单支付</td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <form name="form2" action="{$pay_acturl}" method="{$gateway_method}">
+            <volist name="order['allinpayInfo']" id="vo">
+              <input type="hidden" name="{$key}" id="{$key}" value="{$vo}" />
+            </volist>
+            <button type="submit" target="_blank" class="btn btn-danger btn-block" data-target=".bs-example-modal-sm">手机银行支付</button>
+          </form>
+        </td>
+      </tr>
+    </notempty>
+    </table>
+  </div>
+</div>
+<include file="Home:footerubo"/>
+<script>
+  
+function order_save(doid,num){ 
+  var datas={ id:'{$order.id}', 'num':num};
+  art.dialog({
+    title: '温馨提示',
+    content: '确定要取消此订单吗',
+    width:'30%',
+    ok: function () {
+      $.ajax({
+        type:"POST",
+        url: "/index.php?g=User&m=Order&a=ajax&do="+doid,
+        data: datas,
+        timeout:"4000",
+        dataType:"JSON",
+        success: function(data){ 
+          if(data.id){
+            art.dialog({ icon: 'ok',time:'1',content: '{:L(do_ok)}'});
+            setTimeout(function(){  window.location.href = '{:U("User/Order/show?id=".$order[id])}';},1000);
+          }else{
+            art.dialog({ lock:true,icon: 'error',time:'2',content: '{:L(do_error)}'});
+          }
+        },
+        error:function(){
+          art.dialog({ lock:true,icon: 'error',time:'2',content: 'Link error,{:L(do_error)}'});
+        }
+      });
+      
+    },
+    cancel: true
+  });
+}
+
+function getWxpay(orderid,type){
+    art.dialog({lock:true,time:'3',opacity:0.3,title:'正在获取...'});
+    $.ajax({type:"POST",url: "/index.php?a=getWxqrcode",data: {orderid:orderid,type:type},timeout:"4000",dataType:"JSON",success: function(data){ 
+        if(data.status==1){
+          var list = art.dialog.list;
+          for (var i in list) {
+              list[i].close();
+          };
+          var wxqrcode=document.getElementById("wxqrcode");
+          wxqrcode.src=data.data;
+          $(".btn-hidden").click();
+        }else{
+          art.dialog({title:'支付信息', lock:true,icon: 'error',time:'2',content: '{:L(do_error)}'});
+        }
+      },error:function(){
+        art.dialog({title:'支付信息',lock:true,icon: 'error',time:'2',content: 'Link error,{:L(do_error)}'});
+      }});
+}
+</script>

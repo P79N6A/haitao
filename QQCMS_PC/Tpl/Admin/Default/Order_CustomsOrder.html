@@ -1,0 +1,134 @@
+<style>.product_edit1{  background: #EEEEEE;
+  border: #BDBABA 1px solid;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  padding: 5px 10px 5px 10px;}</style>
+
+<table  class="search_table" width="100%">
+	<tr>
+		<td class="search">
+			<form action="{:U($module_name.'/CustomsOrder')}" method="get">
+			<input type="hidden" name="g" value="{$Think.GROUP_NAME}" />
+			<input type="hidden" name="m" value="{$Think.MODULE_NAME}" />
+			<input type="hidden" name="a" value="{$Think.ACTION_NAME}" />	
+			<input id="title" type="text" class="input-text" name="keyword" value="{$Think.get.keyword}" />
+			<select name="searchtype">
+			<option value="sn" <eq  name="searchtype" value='sn'>selected="selected"</eq>>{:L('order_sn')}</option>
+			<option value="realname" <eq name="searchtype" value='realname'>selected="selected"</eq>>{:L('realname')}</option>
+			<option value="username" <eq name="searchtype" value="username">selected="selected"</eq>>{:L('username')}</option>
+			<option value="userid" <eq name="searchtype" value="userid">selected="selected"</eq>>{:L('userid')}</option>
+			<option value="id" <eq name="searchtype" value='id'>selected="selected"</eq>>ID</option>
+			</select>
+
+			<input type="hidden" id="menuid" name="menuid" value="{$_GET['menuid']}"/>
+			<input type="submit" value="{:L('chaxun')}"  class="button" />
+			<input type="reset" value="{:L('reset')}" class="button"  />
+			</form>
+		</td>
+		<td>
+                  <div style="display:inline-block;margin-left:10px">丢单：<div style="display:inline-block;width:30px;height:10px;background: #79BDFC;"></div></div>
+                  </td>
+	</tr>
+</table>
+
+<form name="myform" id="myform" action="" method="post">
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+		<thead> 
+            <tr> 
+			<th width="20"><input type="checkbox" value="" id="check_box" onclick="selectall('ids[]');"></th>          
+			<th align="left">{:L('order_sn')}</th>
+			<th align="left">店主</th> 
+			<th align="left">收货人</th> 
+			<th align="left">会员名</th> 
+            <th align="left">商品总价</th> 
+			<th align="left">支付金额</th> 
+			<th>{:L("order_status")}</th>
+            <th>下单时间</th>
+            <th>报关状态</th>
+			<th>{:L('manage')}</th> 
+            </tr> 
+        </thead> 
+      	<tbody>
+      		<volist name="list" id="vo" key="k">
+      		<tr <if condition="$vo['shipping_notify'] eq 2">style="background: #79BDFC;"</if>>
+			<td align="center"><input class="inputcheckbox " name="ids[]" value="{$vo['id']}" type="checkbox" ></td>
+      		<td>{$vo.sn}</td>
+      		<td>{$vo.shop_name|default="有酒派"}</td>
+      		<td>{$vo.consignee}</td>
+      		<td>{$vo.wechat_name|default='游客'}</td>
+			<td><font color="red">{$vo.order_amount|number_format=###,2}</font></td>
+      		<td>{$vo['allinipay_amount']}</td>
+			<td>{:L("order_status_".$vo['status'])} | {:L("pay_status_".$vo['pay_status'])}| {:L("shipping_status_".$vo['shipping_status'])}</td> 
+      		<td align="center">{$vo['add_time']|toDate=###,'Y-m-d'}</td>
+      		<td align="center">{$vo['bizinfo']}<notempty name="vo.retInfo"><neq name="vo.retInfo" value="②"> || {$vo['retInfo']}</neq></notempty></td>			
+			<td align="center"><a class="product_edit1" href="javascript:" data-sn="{$vo.sn}" onClick="Customs(this);">重新报关</a></td>
+      		</tr>
+      		</volist>
+      	</tbody>
+    </table>
+  
+ </div>    
+
+</form>
+<div id="pages" class="page">{$page}</div>
+<script>
+$("#catid").attr("value",'{$catid}');
+
+/*发送海关报文*/
+function Customs(obj)
+{
+  var sn = $(obj).attr("data-sn");
+  var url = "{:U('Admin/Order/vnbapiwebpos')}";
+  // alert(sn);alert(url);return false;
+  $.ajax({
+    type: 'POST',
+    url: url,
+    data: {sn:sn},
+    dataType: 'JSON',
+    async: false,
+    success: function(json){
+      if (json.status == 1)
+      {
+        art.dialog({title:'提示信息',content:json.info});
+        window.location.reload();
+      }
+      else
+      art.dialog({title:'提示信息',content:json.info});  
+    },
+    error: function(){
+      alert("连接失败");
+    }
+  });
+}
+
+function confirm_deleteall(){
+	art.dialog.confirm("{:L('real_delete')}", function(){ $('#myform').submit();});
+}
+function check_excel(){
+  var star=$(".btn input[name='star']").val();
+  var end=$(".btn input[name='end']").val();
+  if(star=="" || end==""){
+    alert("请先选择好起始时间");return false;
+  }
+  art.dialog.confirm("确定导出订单明细", function(){ $("#excelform").submit();});
+}
+
+function exportOrder(str)
+{
+	var star=$(".btn input[name='star']").val();
+  	var end=$(".btn input[name='end']").val();
+  	if(star=="" || end==""){
+    	alert("请先选择好起始时间");return false;
+  	}
+  	if (str == 'BBC')
+  	$("#excelform").attr("action","{:URL('Admin-Order/BBCOrder')}");
+  	else
+  	$("#excelform").attr("action","{:URL('Admin-Order/BCOrder')}");
+  	art.dialog.confirm("确定导出订单明细", function(){ $("#excelform").submit();});
+}
+</script>
+<!-- <form id="excelform" action="{:U('Exportdata/import_data')}" method="post" enctype="multipart/form-data" style="display:inline-block">
+    <input  name="excel" type="file"  size="25" value="">
+    <input type="submit" value="提交" />
+	</form> -->

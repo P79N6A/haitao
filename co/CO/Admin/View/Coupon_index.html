@@ -1,0 +1,159 @@
+<include file="Public:adminHead" />
+<div id="Right">
+
+	<form action="" method="post">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+			<tr>
+				<th width="120">名称：</th>
+				<td>
+					<input name="title" type="text" class="input" size="40" value="{$info['0']['title']}" />
+					<!-- <a href="{$info.href}">优惠券地址</a> -->
+				</td>
+			</tr>
+			<tr>
+				<th width="120">图片：</th>
+				<td data="target-2">
+					<input name="image" type="text" class="input" size="120" value="{$info['0']['image']}" data="target-1" />
+					<a class="pth-btn" data="hook-1">上传</a>
+					
+					
+				</td>
+			</tr>
+			<tr>
+				<th>描述：</th>
+				<td>
+					<textarea id="editor_coupon" name="content" style="width:700px;height:300px;">{$info['0']['content']}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<th>开始时间：</th>
+				<td>
+					<input class="input" name="start_time" type="text" size="40" value="{$info['0']['start_time']}" onclick="new Calendar().show(this);" />
+				</td>
+			</tr>
+			<tr>
+				<th>结束时间：</th>
+				<td>
+					<input class="input" name="end_time" type="text" size="40" value="{$info['0']['end_time']}" onclick="new Calendar().show(this);" />
+				</td>
+			</tr>
+			<tr>
+				<th>数量：</th>
+				<td>
+					<input class="input" name="amount" type="text" size="8" value="{$info['0']['amount']}" />
+					<!-- <span class="prompt">剩余：</span> -->
+				</td>
+			</tr>
+			<tr>
+				<th>显示排序：</th>
+				<td>
+					<input class="input" name="listorder" type="text" size="8" value="{$info['0']['listorder']}" />
+					<span class="prompt">数值越大，越靠前</span>
+				</td>
+			</tr>
+			<tr>
+			<th>状态：</th>
+				<td>
+					<select name="status" style="width: 80px;">
+						{$info['0']['status']|frequent_status_converter=###,$status_01,'option'}
+					</select>
+				</td>
+			</tr>
+		</table>
+		<input type="hidden" name="id" value="{$info['0']['id']}"/>
+
+		<div class="commonBtnArea" style="margin:0 0 25px 0;" >
+			<input name="gh_id" type="hidden" value="<?php echo session('uid');?>" />
+			<input type="submit" class="btn submit" />
+		</div>
+	</form>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab">
+		<tr>
+			<td style="width:120px;">名称</td>
+			<td style="width:120px;">图片</td>
+			<td style="width:150px;">开始时间</td>
+			<td style="width:150px;">结束时间</td>
+			<td style="width:40px;">剩余</td>
+			<td style="width:40px;">排序</td>
+			<!--td style="width:150px;">最后更新</td-->
+			<td style="width:40px;">状态</td>
+			<td style="width:100px;">操作</td>
+			<td></td>
+		</tr>
+		<volist name="list" id="vo">
+		<tr align="center" id="{$vo.id}">
+			<td>{$vo.title}</td>
+			<td><img src="{$vo.image}" style="height:30px;"></td>
+			<td>{$vo.start_time}</td>
+			<td>{$vo.end_time}</td>
+			<td>{$vo.amount}</td>
+			<td>{$vo.listorder}</td>	
+			<!--td>{$vo.timestamp} </td-->	
+			
+			<td>{$vo.status|frequent_status_converter=###,$status_converter}</td>
+			<td>
+				[ <a href="/co/index.php/Coupon/index.shtml?id={$vo['id']}" class="edit">编辑</a> ]
+				[ <a onclick="return confirm('确认删除？')" href="/co/index.php/Coupon/del.shtml?id={$vo['id']}">删除</a> ]
+			</td>
+			<td></td>
+		</tr>
+		</volist>
+		
+		<div class="commonBtnArea">
+			<div class="pageWrap">{$page}</div>
+		</div>
+		
+	</table>
+</div>
+
+
+<script charset="utf-8" src="{$site_url}{$vendor}Calendar.js"></script>
+<!-- 简洁的日期选择器，升级考虑使用boostrap的日期控件，可精确到分钟 -->
+<script charset="utf-8" src="{$site_url}{$vendor}editor/kindeditor.js"></script>
+<script charset="utf-8" src="{$site_url}{$vendor}editor/lang/zh_CN.js"></script>
+<script>
+        KindEditor.ready(function(K) {
+                window.editor = K.create('#editor_coupon');
+        });
+</script>
+<script>
+//function(){$(".image-uploader-close").click(function(){alert("xx");});}
+
+function imageUploader(hook,target){
+	//$("[href='#']")
+	this.hook = $("[data='"+hook+"']");
+	this.target =  $("[data='"+target+"']");
+	var self = this;
+	this.hook.click(function(){
+		$("#image-uploader-wrap").css("display","block");
+		$("#imageUploaderTarget").html(target);
+	})
+	
+	if (typeof imageUploader._initialized == "undefined") {
+		//载入上传文件的模板
+		$("<div class=\"iu-container\"></div>").appendTo($("body"));
+		$(".iu-container").load("{$site_url}{$vendor}imageUploader/tpl.html",'',
+				function(){
+					$(".image-uploader-close").click(function(){
+						$("#image-uploader-wrap").css("display","none");
+					});
+					
+				}
+				);
+		imageUploader.uploadCallback = function(data){
+			var target = $("#imageUploaderTarget").html();
+			target = $("[data='"+target+"']");
+			if(data.status==0){
+				alert(data.info);
+			}else{
+				target.val(data.info);
+				$(".image-uploader-close").click();
+			}
+		}
+		
+		imageUploader._initialized = true;
+	}
+}
+var imgUp1 = new imageUploader('hook-1','target-1');
+</script>
+<include file="Public:adminFoot" />

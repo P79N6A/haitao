@@ -1,0 +1,53 @@
+<include file="Public:adminHead" />
+<div id="Right">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+
+				<tr>
+					<th style="text-align: center;">商品图标</th>
+					<th width="120" style="text-align: center;">中文名称</th>
+					<th width="120"  style="text-align: center;">英文名称</th>
+					<th style="text-align: center;">产地</th>
+					<th style="text-align: center;">容量</th>
+					<th style="text-align: center;">酒精度</th>
+					<th style="text-align: center;">会员价</th>
+					<th style="text-align: center;">审核状态</th>
+					<th style="text-align: center;">上下架状态</th>
+					<th style="text-align: center;">发布时间</th>
+					<td style="text-align: center;">管理操作</td>
+					<td style="text-align: center;">上下架</td>
+				</tr>
+				<volist name="prolist" id ="r" key="k">
+					<tr>
+						<td  style="text-align: center;"><img style="width:80px;height:80px;" src="{$r['thumb']}"></td>
+						<td style="text-align: center;">{$r.title}</td>
+						<td style="text-align: center;">{$r.en_name}</td>
+						<td style="text-align: center;">{$r.address}</td>
+						<td style="text-align: center;">{$r.liquid}</td>
+						<td style="text-align: center;">{$r.vol}</td>
+						<td style="text-align: center;">&yen;{$r.member_price}</td>
+						<td align="center"><if condition="$r['status'] eq 1"><font color="green">审核通过</font><else/><font color="red">审核中</font></if></td>
+						<td align="center"><if condition="$r['private_status'] eq 1"><font color="green">上架</font><else/><font color="red">下架</font></if></td>
+						<td style="text-align: center;"><?php echo date('Y-m-d',$r['createtime']) ;?> </td>
+						<td style="text-align: center;">
+							<a href="/co/index.php/Product/edit.shtml?id={$r.id}" class="product_edit1">修改</a><a  class="product_edit2" href="javascript:if(confirm('确实要删除吗?'))location='/co/index.php/Product/del.shtml?id={$r.id}'">删除</a>
+						</td>
+						<td style="text-align: center;">
+						<if condition="$r['private_status'] eq 1">
+							<a href="/co/index.php/Product/edit_status.shtml?id={$r.id}&type=0" class="product_edit1" style="border-right:#EEEEEE;border-radius:5px;border: #BDBABA 1px solid;">下架</a>
+							<else/>
+							<a href="/co/index.php/Product/edit_status.shtml?id={$r.id}&type=1" class="product_edit1" style="border-right:#EEEEEE;border-radius:5px;border: #BDBABA 1px solid;">上架</a>
+							</if>
+						</td>
+
+					</tr>
+
+				</volist>
+	</table>     
+	<div class="text-center">
+        <ul class="pagination" style="margin-bottom:20px">
+        {$pager}
+        </ul>
+      </div>
+		
+</div>
+<include file="Public:adminFoot" />

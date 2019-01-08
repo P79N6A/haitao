@@ -1,0 +1,85 @@
+<style type="text/css">
+.badge {
+display: inline-block;
+min-width: 10px;
+padding: 3px 7px;
+font-size: 12px;
+font-weight: bold;
+line-height: 1;
+color: #fff;
+text-align: center;
+white-space: nowrap;
+vertical-align: baseline;
+background-color: #999;
+border-radius: 10px;}
+</style>
+<table class="fix">
+  <tbody>
+    <tr>
+      <td style="width:15%;border-right:1px solid #c4c4c4"><a href="javascript:history.go(-1)"><img src="__PUBLIC__/Images/f1.png" class="fanhui"></a></td>
+      <td style="width:28.3%;border-right:1px dashed #c4c4c4"><a href="/index.php?shop_id={$shop_id}" style=" color: #707070;text-decoration:none">商城首页</a></td>
+      <td style="width:28.3%;border-right:1px dashed #c4c4c4"><a href="{:URL('Home-Order/ischeckout')}&shop_id={$shop_id}" style=" color: #707070;text-decoration:none"><span id="shoppingCart" class="badge shuliang">{$shopping_count|default=''}</span>购物车</a></td>
+      <td style="width:28.3%"><a href="{:URL('User-Index/index')}&shop_id={$shop_id}" style="color: #707070;text-decoration:none">会员服务</a></td>
+    </tr>
+  </tbody>
+</table>
+<div class="copyright"><a href="http://www.miitbeian.gov.cn" target="_blank" title="粤ICP备14063096号-1">粤ICP备14063096号-1</a></div>
+<!-- 提示框 -->
+<div id="dialog2" title="温馨提示">
+  <p class="big_one"></p>
+  <small  class="small_one"></small>
+</div>
+<!-- 提示框 -->
+<script type="text/javascript">
+function ordererror(data){
+  $("#dialog2 .big_one").text(data.info);
+  $('#dialog2').dialog('open');
+}
+$('#dialog2').dialog({
+  autoOpen:false,
+  closeBtn:false,
+  buttons:{
+    '继续购物': function(){
+      this.close();
+    }
+  }
+}).dialog('this')._options['_wrap'].addClass('login-dialog');
+function changeorder(moduleid,id,doit,ordercall){
+  var datas={'moduleid':moduleid,'id': id,'num':1};
+  $.ajax({
+    type:"POST",
+    url: "/index.php?m=Order&a=ajax&do="+doit,
+    data: datas,
+    timeout:"4000",
+    dataType:"JSON",
+    success: function(result){
+      data=eval('(' + result + ')');
+      if(data.data==1){
+        ordercall.call();
+      }else{
+      ordererror(data);
+      }
+      
+    },
+    error:function(){
+      alert("出错");
+    }
+  });
+}
+</script>
+<script type="text/javascript">
+//隐藏微信底栏
+document.addEventListener('WeixinJSBridgeReady',function onBridgeReady(){WeixinJSBridge.call('hideToolbar');});
+
+//创建slider组件
+$('#slider').slider({loop:true});
+//购物车
+var cartCount = {$shopping_count};
+function addCart(){
+  cartCount++;
+  $('#shoppingCart').removeClass("badge").addClass("badge");
+  $('#shoppingCart').text(cartCount);
+}
+</script>
+</body>
+</html>

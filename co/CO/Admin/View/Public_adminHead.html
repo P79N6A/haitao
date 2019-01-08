@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$site_name}</title>
+<link href="{$site_url}__VIEW__/css/adminStyle.css" rel="stylesheet" />
+<link href="{$site_url}__VIEW__/css/layout.css" rel="stylesheet" />
+<link href="{$site_url}__VIEW__/css/bootstrap.min.css" rel="stylesheet" />
+<link href="{$site_url}__VIEW__/js/asyncbox/skins/default.css" rel="stylesheet" />
+<script type="text/javascript" src="{$site_url}__VIEW__/js/jquery-1.9.0.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+	<!-- menu start -->
+	<div id="Top">
+		<div class="logo">
+			<a href="{$site_url}/Admin" style="color:#0099ff;font-size:25px;">上优舶经营者平台<!-- <img src="{$site_url}/Public/admin/images/dbbg.png"> --></a>
+		</div>
+		<div class="menu">
+			<ul>
+			<volist name='menu' id="vo">
+			<li {$vo.theclass} >
+			<span><a href="{$site_url}{:U($vo['name'].'/index')}?{$vo.data}">{$vo.title}</a></span>
+			</li>
+			</volist>
+			</ul>
+		</div>
+	</div>
+	<div id="Tags">
+		<div class="navArea">
+			<div class="userInfo">
+				<div>
+					<if condition="$admin.id !=26">
+					<a href="{$site_url}{:U('Index/change_password')}" class="sysSet"><span>&nbsp;</span>修改信息</a> </if>
+					<a href="{$site_url}{:U("Index/logout")}" class="loginOut"><span>&nbsp;</span>退出系统</a>
+				</div>
+				<font id="today"><php>echo date("Y-m-d H:i:s");</php></font>&nbsp;&nbsp;&nbsp;&nbsp;
+				欢迎您：{$admin.nickname}
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+	<!-- menu end -->
+	<div class="mainBody">
+		<div id="Left">
+			<div id="control" class=""></div>
+			<div class="subMenuList">
+				<div class="itemTitle"><if condition="MODULE_NAME eq 'Index'">常用操作<else/>子菜单</if> </div>
+				<ul>
+				<volist name="subMenu" id="vo">
+					<li <if condition="$_GET['id'] eq $vo['id']">style="background:#0B2074;"</if>><a href="{$site_url}{:U(CONTROLLER_NAME.'/'.$vo['name'])}?id={$vo.id}&{$vo.data}">{$vo.title}</a></li>
+				</volist>
+				</ul>
+			</div>
+
+		</div>

@@ -1,0 +1,822 @@
+
+<include file="Home:headerubo"/> 
+<style>.body_css{background-color:#fff;}</style> 
+    <!-- 商品详情容器 -->
+    <div class="right-extra" style="width:1000px;margin:50px auto;">
+  <!--产品参数开始-->
+      <div id="preview" class="spec-preview"> 
+          <span class="jqzoom"><img jqimg="{$top_pics[0].filepath|thumb=###,1100,1390,1}" src="{$top_pics[0].filepath|thumb=###,383,483,1}" /></span>
+      </div>
+        <!--缩图开始-->
+      <div class="spec-scroll"> <a class="prev">&lt;</a> <a class="next">&gt;</a>
+        <div class="items">
+          <ul>
+            <volist name="top_pics" id="vo">
+            <li><img alt="裙子" bimg="{$vo.filepath|thumb=###,1100,1390}" src="{$vo.filepath|thumb=###,383,483}" onmousemove="preview(this);"></li>
+            </volist>
+          </ul>
+        </div>
+      </div>
+      <!--缩图结束-->
+        <!-- 商品价格 -->
+    <div class="M-productInfo">
+      <div class="pi-title-box clearfix">
+        <div class="pib-title">
+          <p class="pib-title-class">
+            <a href="javascript:">{$en_name}</a>
+          </p>
+          <p class="pib-title-detail">{$title}</p>
+        </div>
+      </div>
+      <div class="pi-price-box">
+        <span class="pbox-price">
+          <em class="pbox-yen">&yen;
+          </em>
+          <i class="sys_item_price">{$member_price}</i>
+        </span>
+        <span class="pbox-off">{$discount}折</span>
+        <span class="pbox-market">&yen;<del class="sys_item_price_">{$price}</del></span>
+        <div></div>
+      </div>
+    <div class="tab">
+      <div class="iteminfo_buying">
+        <!--规格属性-->
+        <div class="sys_item_spec">
+          <dl class="clearfix iteminfo_parameter sys_item_specpara" data-sid="1">
+            <dt >运费:</dt>
+            <dd>
+            <gt name="data_info.freight_num" value="0">
+            <span style="font-size:16px;color:#333">&yen;{$data_info.freight_num}(全场满220包邮)</span>
+            <else/>
+            <span style="font-size:16px;color:#333">免运费</span>
+            </gt>
+            </dd>
+          </dl>
+          <dl class="clearfix iteminfo_parameter sys_item_specpara" data-sid="1">
+            <dt >关税:</dt>
+            <dd>
+            <notempty name="data_info.post_rate">
+            <span style="font-size:16px;color:#333">&yen;{$data_info.post_price|default='免邮'}<em>&nbsp;税率{$data_info.post_rate}%</em></span>
+            <else/>
+            <span style="font-size:16px;color:#333">免行邮税</span>
+            </notempty>
+            </dd>
+          </dl>
+          <dl class="clearfix iteminfo_parameter sys_item_specpara" data-sid="1">
+            <dt >库存:</dt>
+            <dd>
+            <span style="font-size:16px;color:#333" class="sys_item_mktprice">{$stock|default='已售罄'}</span>
+            </dd>
+          </dl>
+          <div class="re_sys_item_spec">
+          <volist name="all_specs_group" id="vo">
+            <dl class="clearfix iteminfo_parameter sys_item_specpara" data-sid="1">
+              <dt>{$vo['specsname']}:</dt>
+              <dd>
+                <ul class="sys_spec_text">
+                <?php $fli=0;?>
+                <volist name="vo['attribute_group']" id="item">
+                  <li data-aid="{$item.extend_id}" <in name="fli" value="0">data-li="first-li"</in>><a href="javascript:;" title="{$item.propertyvalue}">{$item.propertyvalue}</a><i></i></li>
+                <?php $fli++;?>
+                </volist>
+                </ul>
+              </dd>
+            </dl>
+          </volist>
+          </div>
+          <dl class="clearfix iteminfo_parameter " data-sid="2">
+            <dt>数量:
+              <dd>
+              <center style="width:71px">
+              <input type="text" class="spinnerExample" name="num" />
+              </center>
+              </dd>
+              <script type="text/javascript">
+              $('.spinnerExample').spinner({
+              });
+              </script>
+            </dt>
+          </dl>
+        </div>
+        <!--规格属性-->
+      </div>
+    </div>
+    <div class="i_button" >
+      <div class="button-box">
+        <button type="submit" class="ui-btn-large <eq name='stock' value='0'>active</eq>" <eq name="stock" value="0">disabled="disabled"</eq>>
+          <span class="ui-btn-loading-before" <gt name="stock" value="0"> onclick="changeorder('buynum','{$moduleid}','{$id}','add',orderok);"</gt>>
+            <i class="shopping-bag"><img src="../Public/img/cart10.png" width="30px" height="30px"></i>
+            <eq name="stock" value="0">缺货<else/>加入购物车</eq>
+          </span>
+        </button>
+      </div>
+      <div class="button-box">
+        <button type="submit" data-href="{:URL('Home-Product/pro_collect')}&pro_id={$id}" onclick="toCollect(this);" class="ui-btn-larges <eq name='hascollect' value='1'>active</eq>" <eq name='hascollect' value='1'>disabled="disabled"</eq>> <span class="ui-btn-loading-before"><eq name='hascollect' value='1'>已收藏<else/>加入收藏夹</eq></span> </button>
+      </div>
+    </div>
+  </div>
+  <!-- 商品属性 -->
+<style>
+.dc-img-con img{max-width: 95%;}
+.dc-tit-new{background:none;padding-left:0px;}
+</style>
+  <div class="box demo2">
+      <ul class="tab_menu">
+        <li class="current" style="margin-left:0px">商品详情</li>
+        <li>商品展示</li>
+        <li>用户评价 </li>
+      </ul>
+      <div class="tab_box">
+        <div class="M-detailCon">
+          <!-- <div class="J-dc-tit-new dc-tit-new dc-tit-1">
+            <p class="dc-title">商品详情</p>
+          </div> -->
+          {$content}
+        </div>
+        <div class="hide">
+          <!-- <div class="J-dc-tit-new dc-tit-new dc-tit-3">
+            <p class="dc-title">商品展示</p>
+          </div> -->
+          <div class="dc-img">
+            <div class="dc-img-con">
+              <volist name="photos" id="vo">
+              <img src="{$vo.filepath}">
+              </volist>
+            </div>
+           <!--  <div class="dc-img-detail">
+              <p><img src="../Public/img/c7.jpg"></p>
+            </div> -->
+          </div>
+        </div>
+        <div class="hide">
+          <ul id="discussShowWay" class="rate rateNav clearfix">
+            <li class="active">
+              <label for="commentSelect1"> <a href="javascript:;" class="wrapnRadio nRadioChecked">
+                <input type="radio" name="commentSelect" <empty name="_GET.level"> checked="checked"</empty> onclick="setlevel(0);">
+                </a>全部评价 ({$_count['allcount']})</label>
+            </li>
+            <li>
+              <label for="commentSelect2"><a href="javascript:" class="wrapnRadio nRadioUnchecked">
+                <input type="radio" name="commentSelect" <eq name="_GET.level" value="1">checked="checked"</eq> onclick="setlevel(1);">
+                </a>好评 ({$_count['hcount']})</label>
+            </li>
+            <li>
+              <label for="commentSelect3"><a href="javascript:" class="wrapnRadio nRadioUnchecked">
+                <input type="radio" name="commentSelect" <eq name="_GET.level" value="2">checked="checked"</eq> onclick="setlevel(2);">
+                </a>中评 ({$_count['mcount']})</label>
+            </li>
+            <li>
+              <label for="commentSelect4"><a href="javascript:" class="wrapnRadio nRadioUnchecked">
+                <input type="radio" <eq name="_GET.level" value="3">checked="checked"</eq> name="commentSelect" onclick="setlevel(3);">
+                </a>差评 ({$_count['lcount']})</label>
+            </li>
+            <!-- <li>
+              <label for="commentSelect5"><a href="javascript:" class="wrapnRadio nRadioUnchecked">
+                <input type="radio" name="commentSelect" id="commentSelect5">
+                </a>晒单 (3) </label>
+            </li> -->
+          </ul>
+          <div id="commWrap">
+            <div class="commWrap">
+              <volist name="guestList" id="item">
+              <dl class="eachInfo clearfix">
+                <dt class="c_666">
+                  <span class="comm-from-app fr"></span>
+                  {$item.realname|default='游客'}　发表于　{$item.createtime|date='Y年m月d日',###}
+                </dt>
+                <!-- <span class="comm-left-icon">
+                  <div class="comm-good"></div>
+                  <span class="emptyStar percentStar">
+                    <span class="fullStar smw10" style="width:100%"></span>
+                  </span>
+                </span> -->
+                <dd>
+                  <ul class="commItem">
+                    <li class="clearfix c_666"><span class="itemDetail">{$item.content}</span></li>
+                    <!-- <li class="clearfix c_666 replyLi"><span class="itemDetail"> <span class="c_888">当日追加：</span>好</span></li> -->
+                  </ul>
+                </dd>
+              </dl>
+              </volist>
+            </div>
+            <notempty name="guepages">
+            <div id="pageNavWrap">
+              <div id="pageNav">
+                <div class="splitPages" id="pageBox" style="display: block;">
+                  <ul class="pageBox-ul">{$guepages}</ul>
+                  <div class="jumptopage">
+                    <span class="jumptoTip">到第</span>
+                    <input class="jumptoTxt" name="jumptopage" type="text">
+                    <span class="jumptoTip">页</span>
+                    <a class="jumptoBtn" onclick="jumpToPage(this);" href="javascript:void(0);">确定</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </notempty>
+          </div>
+          <form id="setcomment" method="POST">
+          <div class="rate rateNav clearfix rateNav_bottom">
+            <div class="poster_head_text">
+              <span>发表评论</span>
+              <span class="label"><em>*</em>评分：</span>
+              <div class="fl">
+                <ul>
+                  <li>
+                    <label for="commentrd1"><a href="javascript:" class="wrapnRadio nRadioUnchecked">
+                      <input type="radio" name="level" id="commentrd1" checked="checked" value="1">
+                      </a>好评</label>
+                  </li>
+                  <li>
+                    <label for="commentrd2"><a href="javascript:" class="wrapnRadio nRadioUnchecked">
+                      <input type="radio" name="level" id="commentrd2" value="2">
+                      </a>中评</label>
+                  </li>
+                  <li>
+                    <label for="commentrd3"><a href="javascript:" class="wrapnRadio nRadioUnchecked">
+                      <input type="radio" name="level" id="commentrd3" value="3">
+                      </a>差评</label>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="old_style_wrapper">
+              <div class="edui-container" style="width: 598px;">
+                <div class="edui-editor-body">
+                  <textarea rows="3" cols="20" name="content" class="rate-textarea" placeholder="请输入评论..."></textarea>
+                </div>
+              </div>
+            </div>
+            <input type="hidden" value="{$product_id}" name="id"/>
+            <div class="j_floating">
+              <button type="button" class="ui_btn ui_btn_m j_submit poster_submit" onClick="setcomment(this);">
+                <span><em>发 表</em></span>
+              </button>
+            </div>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!--商品数量-->
+<input type="hidden" value='0' id="buynum" />
+<!---->
+<script type="text/javascript">
+attribute_key = 0; //初始化已选择属性
+attribute_count = 0; //实际拥有属性
+var i_count = false;
+</script>
+<notempty name="all_specs_group">
+<script type="text/javascript">
+var sys_item={
+  "price":"{$price}",
+  "member_price":"{$member_price}",
+  "stock":"{$stock|default='已售罄'}",
+  "sys_attrprice":{
+    <volist name="product_property" id="vv">
+    "{$key}":{"attribute_group":"{}","price":"{$vv.price}","member_price":"{$vv.member_price}","stock":"{$vv.stock|default='已售罄'}","prop_count":"{$vv.prop_count}"},
+    </volist>
+  }
+};
+
+//商品规格选择
+$(function(){
+  $(".re_sys_item_spec .sys_item_specpara").each(function(){
+    var i=$(this);
+    var p=i.find("ul>li");
+    p.click(function(){
+      if(!!$(this).hasClass("selected")){
+        $(this).removeClass("selected");
+        i.removeAttr("data-attrval");
+      }else{
+        $(this).addClass("selected").siblings("li").removeClass("selected");
+        i.attr("data-attrval",$(this).attr("data-aid"))
+      }
+      getattrprice() //输出价格
+    })
+  });
+
+  //获取对应属性的价格
+  function getattrprice(){
+    i_count = 0; //初始化已选择属性个数
+    var defaultstats=true;
+    var _val='';
+    var _resp={
+      stock:".sys_item_mktprice",
+      price:".sys_item_price_",
+      member_price:".sys_item_price"
+    }  //输出对应的class
+    $(".re_sys_item_spec .sys_item_specpara").each(function(){
+      var i=$(this);
+      var v=i.attr("data-attrval");
+      if(!v){
+        defaultstats=false;
+      }else{
+        _val+=_val!=""?"_":"";
+        _val+=v;
+        i_count++;
+      }
+    });
+    attribute_key = _val;
+    if(!!defaultstats){
+      _stock=sys_item['sys_attrprice'][_val]['stock'];
+      _price=sys_item['sys_attrprice'][_val]['price'];
+      _member_price=sys_item['sys_attrprice'][_val]['member_price'];
+      attribute_count = sys_item['sys_attrprice'][_val]['prop_count'];
+    }else{
+      _stock=sys_item['stock'];
+      _member_price=sys_item['member_price'];
+      _price=sys_item['price'];
+    }
+    //输出价格
+    $(_resp.stock).text(_stock);  ///其中的math.round为截取小数点位数
+    $(_resp.price).text(_price);
+    $(_resp.member_price).text(_member_price);
+  }
+
+  $("[data-li='first-li']").click(); 
+});
+</script>
+</notempty>
+<script type="text/javascript">
+$(function(){
+  $("#pageBox ul>li>a").live('click',function(){
+    var url = this.href;
+    if(!url) return;
+    gotopage(url);
+    return false;
+  });
+  /*切换数量*/
+  $(".increase").click(function(){
+    var pnum = $("input[name='num']").val();
+    $("#buynum").val(pnum);
+  });
+
+  $(".decrease").click(function(){
+    var pnum = $("input[name='num']").val();
+    $("#buynum").val(pnum);
+  });
+  /*end*/
+
+  $("img[original]").lazyload({ placeholder:"images/color3.gif" });
+  $('.demo2').Tabs({
+    event:'click'
+  });
+  
+  //部分区域图片延迟加载
+  function lazyloadForPart(container) {
+    container.find('img').each(function () {
+      var original = $(this).attr("original");
+      if (original) {
+        $(this).attr('src', original).removeAttr('original');
+      }
+    });
+  }
+}); 
+</script>
+<script type="text/javascript">
+/*无刷新分页*/
+function gotopage(pageurl){
+  $("#commWrap").load(pageurl+"?"+Math.random());
+}
+
+function jumpToPage(obj)
+{
+  var boj = $(obj).parent();
+  var topage = $(boj).find('input').val();
+  var url = "{:U('Home/Product_oversea/show',array('id'=>$product_id,'shop_id'=>$shop_id))}&p="+topage;
+  if (topage > 0)
+  gotopage(url);
+}
+
+function setlevel(c)
+{
+  var url = "{:U('Home/Product_oversea/show',array('id'=>$product_id,'shop_id'=>$shop_id))}&level="+c;
+  if (c==0)
+  var url = "{:U('Home/Product_oversea/show',array('id'=>$product_id,'shop_id'=>$shop_id))}";
+  else
+  var url = "{:U('Home/Product_oversea/show',array('id'=>$product_id,'shop_id'=>$shop_id))}&level="+c;
+  gotopage(url);
+}
+
+function toCollect(obj)
+{
+  var url = "{:URL('Home-Product/pro_collect')}";
+  var pro_id = "{$product_id}";
+  $.post(url,{'pro_id': pro_id},function(json){
+    if (json.status == 1)
+    {
+      $(obj).find('span').text("已收藏");
+      $(obj).addClass('active');
+      obj.disabled = true;
+    }
+    else
+    {
+      art.dialog({
+        title:'登录提示',
+        lock:true,
+        background:'#FFF',
+        opacity:0.1,
+        content:json.info,
+        ok: function(){
+          $(".dologin-oa").click();
+        },
+        cancel:true
+      });
+    }
+  },"JSON");
+}
+
+function count(o){
+    var t = typeof o;
+    if(t == 'string'){
+        return o.length;
+    }else if(t == 'object'){
+        var n = 0;
+        for(var i in o){
+            n++;
+        }
+        return n;
+    }
+    return false;
+}
+
+function changeorder(obj,moduleid,id,doit,ordercall){
+  var objs  =  document.getElementById(obj);
+  if (objs.value == 0)
+  {
+    alert("请选择商品数量！");return false;
+  }
+
+  if (attribute_count > i_count && i_count !== false)
+  {
+    alert("每组商品属性必须选择其中一项！");return false;
+  }
+  if (attribute_key == '' && i_count !== false){
+    alert("请选择商品属性规格！");return false;
+  }
+  var datas={'moduleid':moduleid,'id': id,'num':objs.value,'attribute_key':attribute_key};
+  $.ajax({
+    type:"POST",
+    url: "/index.php?m=Order&a=ajax&do="+doit,
+    data: datas,
+    timeout:"4000",
+    dataType:"JSON",
+    success: function(data){
+    
+      //data=eval('(' + result + ')');
+   
+      if(data.data==1){
+        ordercall.call();
+      }else{
+        if(data.status==101){menbererror(data);}
+        /*else if(data.status==201)
+        orderRegister(data); */ 
+        else
+        ordererror(data);
+       //alert(data.info);
+      }
+      
+    },
+    error:function(){
+      alert("出错");
+    }
+  });
+}
+
+function change_price(proid){
+  var productid=proid;
+  var list = art.dialog.list;
+  $.ajax({
+    type:"POST",
+    url:"/index.php/?m=Order&a=change_price",
+    data:{"productid":productid},
+    dataType:"JSON",
+    success:function(json){
+      if(json.status==1){
+          if(json.new_price!=null){
+            $('#dialog3 .new_price').text(json.new_price+"元");
+          }else{ 
+            $('#dialog3 .new_price').text("还没人出价，快抢沙发");
+          }
+          if(json.user_price!=null){
+            $('#dialog3 .user_price').text(json.user_price+"元");}else{
+            $('#dialog3 .user_price').text("您暂时还没出手，赶紧出手吧");
+          }
+          $("#dialog3 .can_price").val(json.can_price+"元");
+          $("#dialog3 .now_price").val(json.can_price);
+          now_toprice=parseFloat(json.can_price);
+          art.dialog({
+            okVal: "确定出价",
+            cancelVal: '我放弃了',
+            content: document.getElementById('dialog3'),
+            ok: function () {
+              for (var i in list) {
+                  list[i].close();
+              };
+              var content=$("#dialog3 .guest_text").val();
+              if(!productid || !now_toprice){
+                art.dialog({
+                  time: 3,
+                  icon: "face-sad",
+                  content: "喔噢，出错了，请刷新页面试试~",
+                  fixed: true,
+                });
+                return false;
+              }
+              $.ajax({
+                type:"POST",
+                url:"/index.php/?m=Order&a=update_price",
+                data:{"productid":productid,"price":now_toprice,"content":content},
+                dataType:"JSON",
+                success:function(result){
+                  if(result.status==1){
+                    window.location.reload();
+                  }
+                  else{  
+                    art.dialog({
+                      icon: "warning",
+                      time: 3,
+                      icon: "face-sad",
+                      content: result.info,
+                      fixed: true,
+                    });
+                  }
+                },
+                error:function(){
+                  art.dialog({
+                    // time: 3,
+                    icon: "face-sad",
+                    content: result.info,
+                    fixed: true,
+                  });
+                }
+              });
+              return false;
+            },
+            cancel: true 
+          });
+      }else{
+        art.dialog({
+          content: json.info,
+          ok: function () {
+            for (var i in list) {
+                list[i].close();
+            };
+            art.dialog({
+              content: document.getElementById('up_menber'),
+              id: 'EF893L',
+              fixed: true
+            });
+            return false;
+          },
+          cancel: true 
+        });
+      }
+    },
+    error:function(){
+
+    }
+  });
+}
+
+function setcomment(obj)
+{
+  var id = $("#setcomment input[name='id']").val();
+  var content = $("#setcomment textarea[name='content']").val();
+  var level;
+  $("#setcomment input[name='level']").each(function(){
+    if (this.checked)
+      level = $(this).val();
+  });
+  $.ajax({
+    type:"POST",
+    url:"{:U('Home/Product/appraise')}",
+    data:{"id":id,"content":content,"level":level},
+    dataType:"JSON",
+    success:function(result){
+      if(result.status==1){
+        window.location.reload();
+      }
+      else{  
+        art.dialog({
+          icon: "warning",
+          time: 3,
+          icon: "face-sad",
+          content: result.info,
+          fixed: true,
+        });
+      }
+    },
+    error:function(){
+      art.dialog({
+        icon: "face-sad",
+        content: '连接失败',
+        fixed: true,
+      });
+    }
+  });
+}
+
+function doQuery(obj)
+{
+  var amount = $(obj).attr("data");
+  var type_pay = obj.id;
+  var type = $(obj).parent().attr("id");
+  art.dialog({
+    okVal: "我要支付",
+    lock:true,
+    opacity:0.5,
+    icon: "face-smile",
+    content: "亲！请点击以下支付按钮进入支付进行支付。（本次充值金额 ￥"+amount+".00）",
+    ok: function () {
+        var list = art.dialog.list;
+        $.ajax({
+          type: "POST",
+          url: "{:URL('Home-Order/doQuery')}",
+          data: {"amount":amount,"type_pay":type_pay,'type':type},
+          timeout: "6000",
+          dataType: "JSON",
+          success: function(json){
+            if (json.status == 0)
+            {
+
+              for (var i in list) {
+                  list[i].close();
+              };
+              art.dialog({lock:true,time:30,opacity:0.5,icon:"warning",content:json.info});
+            }
+            else
+            {
+              for (var i in list) {
+                  list[i].close();
+              };
+              if (type_pay==3)
+              {
+                $("#alipdiv").html(json.data);
+              art.dialog({title:"支付通道",lock:true,opacity:0.5,content:document.getElementById('alipdiv'),});
+              }
+              else
+              {
+                $("#Querycode").attr("src",json.data);
+              art.dialog({title:"支付通道",lock:true,opacity:0.5,content:document.getElementById('Querydiv'),});
+              }
+              
+            } 
+          },
+          error: function(){
+            alert("出错！");
+          }
+        });
+        return false;
+    },
+    cancel: true
+  });
+}
+
+function edit_price(type){
+  if(type=="add"){
+    now_toprice=parseFloat(now_toprice)+parseFloat(min_price);
+    $("#dialog3 .can_price").val(now_toprice.toFixed(2)+"元");
+  }else if(type=='sub'){
+    now_toprice=parseFloat(now_toprice)-parseFloat(min_price);}
+    $("#dialog3 .can_price").val(now_toprice.toFixed(2)+"元");
+}
+
+  function update_guest(proid){
+    var content=$('#guest_content').val();
+    $.ajax({
+      type:"POST",
+      url:"/index.php?a=guest_book&m=Product",
+      data:{"content":content,"productid":proid},
+      dataType:"JSON",
+      success:function(result){
+        if(result.status==1)location.reload();
+      },
+      error:function(){
+
+      }
+    });
+  }
+
+function orderok(){
+  //alert(1);return false;
+/*  art.dialog({ lock:true,icon: 'error',time:'2',content: '<div id="dialog1" title="提示成功"><p >成功添加进购物车</p><small>（增加或减少需在购物车里设置！亲）</small></div>'});
+//$('#dialog1').dialog('open');
+}*/ 
+
+  art.dialog({
+    title: '温馨提示',
+    content: '<div id="dialog1" title="提示成功"><p >成功添加进购物车</p><small>（增加或减少需在购物车里设置！亲）</small></div>',
+    width:'20%',
+    okVal:'去结算',
+    cancelVal:'继续购物',
+    lock:true,
+    background:'#000',
+    opacity:0.3,
+    fixed: true,
+    icon: "face-smile",
+      ok: function () {
+      window.location.href="{:URL('Home-Order/checkout')}";
+      },
+      cancel: function(){
+        this.close();
+      }
+    });
+}
+
+function dialogInfo(info,url)
+{
+  art.dialog({
+    title: '温馨提示',
+    content: info,
+    fixed: true,
+  okVal:'好的',
+  icon: "warning",
+  cancelVal:'还是算了',
+  lock:true,
+  background:'#000',
+  opacity:0.3,
+  //icon:'skins/icons/',
+    ok: function () {
+    window.location.href=url;
+    },
+    cancel: function(){
+      this.close();
+    }
+    });
+}
+
+function changeorder_second(moduleid,id,doit){
+  var num=1;
+  if (attribute_key)
+  var datas={'moduleid':moduleid,'id': id,'num':num,'attribute_key':attribute_key};
+  
+  $.ajax({
+    type:"POST",
+    url: "/index.php?m=Order&a=ajax&do="+doit,
+    data: datas,
+    timeout:"4000",
+    dataType:"JSON",
+    success: function(data){
+      //data=eval('(' + result + ')');
+      if(data.data==1){
+            window.location.href="{:URL('Home-Order/checkout')}";
+      }else{
+        if(data.status==101){menbererror(data);}
+        else
+        ordererror(data);
+      }
+      
+    },
+    error:function(){
+      alert("出错");
+    }
+  });
+}
+
+function ordererror(data){
+    switch (data.status)
+    {
+      case 202:
+        var _title = '登录提示';
+        break;
+      case 666:
+        var _title = '注册提示';
+        break;
+      default:this.close();
+        break;
+    }
+    
+    art.dialog({
+      title: _title,
+      content: data.info,
+      fixed: true,
+      okVal:'确定',
+      icon: "warning",
+      cancelVal:'关闭',
+      lock:true,
+      background:'#FFF',
+      opacity:0.1,
+      ok: function () {
+        switch (data.status)
+        {
+          case 202:
+            $(".dologin-oa").click();
+            break;
+          case 666:
+            createAccount(this);
+            break;
+          default:
+            this.close();
+            break;
+        }
+      },
+      cancel: true
+    });
+}
+</script>
+<include file="Home:footerubo"/>
+

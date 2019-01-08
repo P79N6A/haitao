@@ -1,0 +1,55 @@
+<include file="Public:adminHead" />
+<div id="Right">
+	<form action="" method="post">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+			<tr>
+				<th width="120">快递名称：</th>
+				<td>
+					<input name="title" type="text" class="input" size="40" value="{$info.title}" />
+				</td>
+			</tr>
+			<tr>
+				<th>状态：</th>
+				<td>
+					<select name="status" style="width: 80px;">
+						{$info.status|frequent_status_converter=###,$status_01,'option'}
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>显示排序：</th>
+				<td>
+					<input class="input" name="listorder" type="text" size="40" value="{$info.listorder}" />
+				</td>
+			</tr>
+		</table>
+		<input type="hidden" name="id" value="{$info.id}"/>
+
+		<div class="commonBtnArea" >
+			<input type="submit" class="btn submit" />
+			<div class="pageWrap" style="float:left;">{$page}</div>
+		</div>
+	</form>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab">
+		<tr>
+			<td style="width:80px;">快递公司</td>
+			<td style="width:80px;">排序</td>
+			<td style="width:100px;" >状态</td>
+			<td width="150">操作</td>
+			<td></td>
+		</tr>
+		<volist name="list" id="vo">
+		<tr align="center">
+			<td>{$vo.title}</td>
+			<td>{$vo.listorder}</td>
+			<td>{$vo.status|frequent_status_converter=###,$status_converter}</td>
+			<td>
+				[ <a href="{:U('System/express',array('id'=>$vo['id']))}" class="edit">编辑</a> ]
+				[ <a onclick="return confirm('确认删除？')" href="{:U('System/express',array('id'=>$vo['id']))}">删除</a> ]
+			</td>
+			<td></td>
+		</tr>
+		</volist>
+	</table>
+</div>
+<include file="Public:adminFoot" />

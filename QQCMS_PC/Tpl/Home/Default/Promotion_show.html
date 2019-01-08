@@ -1,0 +1,207 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>{$Promotion.title}</title>
+<meta name="description" content="{$info.title}" />
+<meta name="author" content="{$info.title}" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+
+<!-- 手机页面全局 css -->
+<link rel="stylesheet" href="__PUBLIC__/Css/bootstrap.min.css?ver=3.2">
+<link rel="stylesheet" href="../Public/css/template.css">
+<link rel="stylesheet" href="../Public/css/jquery.mmenu.all.min.css?ver=4.5.3">
+
+<!-- 本页自用的 css，遵循全局设置 -->
+<style type="text/css">
+.topbar,#reveal-right{background:#ffffff!important}
+.topbar .txt,#reveal-right{color:#000000!important}
+</style>
+
+<!--组件依赖 js -->
+<script type="text/javascript" src="../Public/js/jquery.min.js?ver=2.1.1"></script>
+<load href="../Public/css/ui-dialog.css" />
+<load href="../Public/dist/dialog-min.js" />
+
+<!--拓展样式-->
+<link rel="stylesheet" href="__PUBLIC__/Css/expand.css">
+<link rel="stylesheet" href="../Public/css/index02.css">
+ <style type="text/css">
+  .shuliang {
+position: absolute;
+right: 0;
+background: rgb(35, 189, 21)!important;
+}</style>
+
+<!-- <link rel="stylesheet" href="__PUBLIC__/src/css/template.css"> -->
+<!-- <link rel="stylesheet" href="../Public/css/index02.css"> -->
+<style type="text/css">
+  .margin-bottom-0{
+    margin-bottom: 0!important
+  }
+  .margin-bottom-5{
+    margin-bottom: 5px
+  }
+  .wenzhangye-small-font{
+    text-align: center;
+    display: block;
+    color: #aaa;
+    margin-bottom: 5px
+  }
+  .margin-0-10{
+    margin: 0 10px;
+    margin-bottom: 5px
+  }
+  .div-none-zhanwei{
+    height: 60px
+  }
+  .h1-wenzhangye{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-family: "微软雅黑"
+  }
+</style>
+</head>
+<body class="article">
+  <article class="article">
+    <h1 class="text-center h1-wenzhangye">{$Promotion.title}</h1>
+    <small class="wenzhangye-small-font">发布时间：{$Promotion.createtime|date="Y年m月d日",###}</small>
+    {if $Promotion[thumb]}
+    <img src="{$Promotion.thumb}" class="wid-100 margin-bottom-5">
+    {/if}
+    <div>
+    {$Promotion.content}
+    </div>
+
+    <in name="locksignup" value="1">
+      <a class="btn-warning btn btn-block sign-up" style="width:60%;margin:auto" href="{:URL('Home-Promotion/index',array('catid'=>36))}">更多活动</a>
+      <else/>
+      <a class="btn-warning btn btn-block sign-up" style="width:60%;margin:auto" href="javascript:">立即报名</a>
+    </in>
+  </article>
+
+  <div class="result-area">
+    <div class="bargin page-header">
+      <h4 class="text-center">已有{$userjoincount}人报名</h4>
+    </div>
+    <empty name="userjoin">
+    <p class="text-center">目前还没有人报名，快抢沙发！</p>
+    <else />
+    <volist name="userjoin" id="vo">
+    <div class="bargin-bubble media">
+      <a class="pull-left">
+        <notempty name="vo.wechat_pic">
+        <img class="media-object img-circle" src="{$vo.wechat_pic}">
+        <else />
+        <img class="media-object img-circle" src="../Public/images/0.gif">
+        </notempty>
+      </a>
+      <div class="media-body">
+        <h6 class="media-heading"><notempty name="vo.realname">{$vo.realname}<else />{$vo.username}</notempty></h6>
+        <small>{$vo.comment}</small>
+      </div>
+    </div>
+    </volist>
+    </empty>
+  </div>
+
+  <div class="div-none-zhanwei"></div><!-- 底拦站位 -->
+  <script type="text/javascript">
+    //隐藏微信底栏
+    document.addEventListener('WeixinJSBridgeReady',function onBridgeReady(){WeixinJSBridge.call('hideToolbar');});
+    //格式化内容
+  $(document).ready(function(){
+    $('#wz').find("*").each(function(){
+      var tem_width=$(this).outerWidth(true);
+      if(Number(tem_width)>=640){
+        $(this).css('width','98%');
+        $(this).css('margin',0);
+        $(this).css('margin','auto');
+      }
+      if($(this).css("margin-left")!='0px'){
+        $(this).css("margin-left",0);
+      }
+      if($(this).css("padding-left")!='0px'){
+        $(this).css("padding-left",0);
+      }
+      if($(this).css("padding-right")!='0px'){
+        $(this).css("padding-right",0);
+      }
+      if($(this).css("margin-right")!='0px')
+        $(this).css("margin-right",0);
+      if($(this).css("text-align")=='center')
+        $(this).css("text-align",'left');
+    });
+
+    $('#wz').find("img").each(function(){
+      $(this).addClass("wid-100 margin-bottom-5");
+    });
+  });
+</script>
+<script>
+$(".sign-up").click(function(){
+  var d = dialog({
+      title: '要说点什么吗?',
+      content: '<textarea name="comment" cols="25" rows="3" placeholder="这个活动不错！">这个活动不错！</textarea>',
+      okValue: '确定',
+      ok: function () {
+          var that = this;
+          this.title('正在提交..');
+          setTimeout(function () {
+              var promotionid = {$Promotion[id]};
+              // alert(promotionid);return false;
+              var comment = $("textarea[name='comment']").val();
+              var url = "{:URL('Home-Promotion/doEvent')}";
+              var _data = {'promotionid':promotionid,'comment':comment};
+              doAjax(url,_data);
+              that.close().remove();
+          }, 2000);
+          return false;
+      },
+      cancelValue: '取消',
+      cancel: true
+  });
+  d.showModal();
+});
+
+//ajax提交
+function doAjax(url,_data)
+{
+  $.ajax({
+    type:"POST",
+    url: url,
+    data: _data,
+    dataType: "JSON",
+    timeout: 4000,
+    async: false,
+    success: function(json){
+      var d = dialog({
+          title: '温馨提示',
+          content: json.info
+      });
+      d.show();
+      if (json.status == 1)
+      {
+        setTimeout(function () {
+          window.location.reload();
+        }, 2000);
+      }else if (json.status == '101' || json.status == '102'){
+          setTimeout(function () {
+            window.location.href=json.data;
+          }, 2000);
+      }else{
+        setTimeout(function () {
+            d.close().remove();
+        }, 5000);
+      }
+      return false;
+    },
+    error: function(){
+      alert("系统出错!");
+    }
+  })
+}
+</script>
+</body>
+</html>

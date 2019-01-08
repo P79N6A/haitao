@@ -1,0 +1,81 @@
+<include file="Public:adminHead" />
+<style type="text/css">
+	#slide_button{
+		cursor:pointer;position:absolute;border:1px solid #415EF5;padding:3px 5px 3px 5px ;top:0px;right:10px;text-align:center;width:150px;height:25px;background:#fff;color:#fff;background: #33A3EE;
+	}
+</style>
+<div id="Right">
+	<div style="width:100%">
+	<form action="" method="post">
+		<h1 style="margin:auto;display:block;">微店二维码页面推广说明</h1>
+		<table  width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+			<tr>
+				<th width="120">页面栏目标题：</th>
+				<td><input type="text" name="page_title" value="{$info['page_title']}" class="input form-control" size="80" /></td>
+			</tr>
+			<tr>
+				<th width="120">标题：</th>
+				<td><input type="text" name="title" value="{$info['title']}" class="input form-control" size="80" /></td>
+			</tr>
+			<!-- <tr>
+				<th width="120">视频地址:</th>
+				<td><input type="text" name="video" value="{$info['video']|urldecode=###}" class="input form-control" size="80" /></td>
+			</tr> -->
+			<tr>
+				<th width="120">内容：</th>
+				<td>
+					<textarea  id="editor_id"  class="input form-control" name="content" style="height:500px;width:100%">
+						{$info['content']}
+					</textarea></td>
+			</tr>
+			<tr>
+				<th width="100"></th>
+		<td>
+		<input type="hidden" name="submit" value="1" />
+      <input type="submit"  style="font-size:20px" class="btn btn-warning btn btn-block" value="提交" /></td>
+			</tr>
+		</table>
+	</form>
+	</div>
+	<div  id="slide_button" flat="0" onclick="slide(this);" >拉下查看二维码</div>
+	<div id="code_frame" style="position:absolute;top:25px;right:10px;width:40%;height:100%;background:#fff;display:none">
+	<iframe  name="frame" id="frame2" height="100%" width="100%" align="center"  src="http://<?php echo $_SERVER['HTTP_HOST'];?>/index.php?a=code&m=Qrcode&id=<?php echo session('uid');?>"  style="border: 0px;z-index:9999999"></iframe>
+	</div>
+</div>
+
+				<script charset="utf-8" src="/kindeditor/kindeditor.js"></script> 
+				<script charset="utf-8" src="/kindeditor/lang/zh_CN.js"></script> 
+				<script>          
+
+function fading(level){ 
+	if(level==0){
+		$("#slide_button").animate({"top":"3px"},1000,"swing",
+			function(){
+				fading(1);
+			});
+	}else{
+		$("#slide_button").animate({"top":"0px"},1000,"swing",
+			function(){
+				fading(0);
+			});
+	}
+} 
+fading(0);
+function slide(obj){
+	if($(obj).attr("flat")==0){
+		$(obj).text("拉上页面");
+		$(obj).attr("flat","1");
+	}else{
+		$(obj).text("拉下查看二维码");
+		$(obj).attr("flat","0");
+	}
+$("#code_frame").slideToggle();
+}
+
+var editor;         
+KindEditor.ready(function(K) {
+	 editor = K.create('#editor_id');
+	}); 
+</script>
+<include file="Public:adminFoot" />
+ 

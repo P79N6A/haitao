@@ -1,0 +1,245 @@
+<include file="Home:header"/>
+<!-- 本页自用的 css -->
+    <link href="../Public/css/fenlei.css" rel="stylesheet" media="screen">
+    <script type="text/javascript">
+      //隐藏微信底栏
+      document.addEventListener('WeixinJSBridgeReady',function onBridgeReady(){WeixinJSBridge.call('hideToolbar');});
+      </script>
+<h1 class="text-center">产品分类</h1>
+  <div class="width98" >
+  <form action="{:URL('Home-Product/search_goods')}" method="GET">
+    <table>
+      <col width="10%" />
+      <col width="90%" />
+      <tbody>
+        <tr>
+          <td class="text-right">
+            <div class="col-xs-4">
+              <input type="submit" style="width:54px;" class="btn  btn-primary btn-warning" value="搜索" >
+            </div>
+          </td>
+          <td>
+              <input type="hidden" name="m" value="Product" />
+              <input type="hidden" name="a" value="search_goods" />
+              <input type="search" name="key_word" class="form-control chang" id="exampleInputEmail1" placeholder="请输入需要查找的宝贝">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+    <div class="xiao">
+            <ul>
+            <volist name="goods_type" id="r">
+              <li>
+                <span>
+                  <a href="{:URL('Home-Product/type_goods')}&typeid={$r.typeid}&shop_id={$shop_id}">
+                    <img src="{$r.pic}" width="100%" height="170px">
+                      <br>{$r.name}
+                  </a>
+                </span>
+              </li>
+            </volist>
+            </ul>
+    </div>
+  </div>
+<div class="listel" style="margin-top:10px; clear:both;"></div>
+<div class="body">
+  <div class="homeMosaic">
+        <div class="row">
+            <div class="news largeBlock">
+                <a href="{$column[0].url}">
+                    <img src="{$column[0].pic}" width="480" height="234" alt="champagne"  border="0">
+                </a>
+            </div>
+          <div class="blockSeparator"></div>
+            <div class="news largeBlock">
+                <a href="{$column[1].url}">
+                    <img src="{$column[1].pic}" width="480" height="234" alt="champagne"  border="0">
+                </a>
+            </div>
+        </div>
+      <div class="rowSeparator"></div>
+    <div class="row">
+      <div class="newcomings largeBlock">
+        <img class="title" src="__PUBLIC__/pc_img/nouveautes_titre.gif">
+        <table class="layoutTable">
+          <tbody><tr>
+            <td><img class="image" src="__PUBLIC__/pc_img/nouveautes_image.jpg"></td>
+            <td>
+
+
+<img class="subTitle" src="__PUBLIC__/pc_img/nouveautes_soustitre.gif">
+
+
+<style>
+
+  li.newcommingsCarouselItem {
+    border-bottom: 1px solid #999999;
+    padding:0px 4px;
+    height:45px;
+  }
+
+  table.verticalAlignWrapper
+  {
+    height:45px;
+    padding:0;
+    margin:0;
+  }
+
+  table.newcommingsWine {
+    width:338px;
+    margin:0;
+    padding:0;
+    max-height:45px;
+    line-height:normal;
+    vertical-align: middle;
+  }
+
+  table.newcommingsWine tr td {
+    padding:0;
+    margin:0;
+  }
+
+  table.newcommingsWine span.wineName {
+    font-weight: bold;
+    font-size:12px;
+  }
+
+  table.newcommingsWine span.wineName a {
+    text-decoration: none;
+    color:#000000;
+  }
+
+  table.newcommingsWine span.wineName a:visited {
+    color:#000000;
+  }
+
+  table.newcommingsWine span.wineName a:hover {
+    text-decoration: underline;
+  }
+  
+  table.newcommingsWine span.wineYear {
+    font-size:10px;
+  }
+
+  table.newcommingsWine span.winePrice {
+    font-size:12px;
+    font-weight:bold;
+  }
+
+  table.newcommingsWine span.winePrice span {
+    font-size:12px;
+    color:#BE1B1B;
+  }
+
+  table.newcommingsWine span.wineTax {
+    font-size:12px;
+    font-weight: bold;
+  }
+
+  table.newcommingsWine span.wineDescription {
+    font-size:10px;
+    color:#999999;
+  } 
+
+</style>
+<div class="newsContainer" id="newcomingsContainer" >
+  <ul>
+  <volist name="comment" id="vo">
+      <li class="newcommingsCarouselItem" >
+        <table class="verticalAlignWrapper" cellpadding="0" cellspacing="0">
+          <tbody>
+            <tr>
+              <td>
+                <table class="newcommingsWine" cellpadding="0" cellspacing="0">
+                  <colgroup>
+                  <col style="">
+                  <col style="width:80px;">
+                  </colgroup>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <span class="wineName">
+                          <a href="/index.php?a=show&m=Product&id={$vo.product_id}">{$vo.title|str_cut=###,35}</a>
+                        </span>
+                        <!-- <span class="wineYear">1995</span> -->
+                      </td>
+                      <td rowspan="2" style="text-align:right;">
+                        <span class="winePrice">
+                        <span>{$vo.member_price}</span>&nbsp;￥
+                      </span>
+                      <!-- <span class="wineTax">TTC</span> -->
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="wineDescription">
+                       {$vo.content|str_cut=###,70}     
+                        </span>
+                        <!-- - 
+                        <span class="wineDescription">Etiquette légèrement abimée</span> -->
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    </li>
+  </volist> 
+  </ul>
+</div>
+
+
+            </td>
+          </tr>
+        </tbody></table>
+    <div class="footerBar">
+        <a href="http://www.millesimes.com/liste.html?pageType=newcomings">
+            <div class="imageDiv">
+                <img src="__PUBLIC__/pc_img/nouveautes_bt.gif">
+            </div>
+            <div class="textDiv">Toute la liste</div>
+        </a>
+    </div>
+</div>
+<div class="blockSeparator"></div>
+    <div class="amateurs midBlock">
+      <a class="more" href="{$column[3].url}"><img src="{$column[3].pic}" width="236" height="234"></a>      
+    </div>
+        <div class="blockSeparator"></div>
+        <div class="primeurs midBlock">
+            <a href="{$column[4].url}">
+                <img src="{$column[4].pic}" width="223" height="109" alt="{$column[4].column_name}">
+            </a> 
+            <p> </p>
+            <a href="{$column[5].url}">
+                <img src="{$column[5].pic}" width="223" height="109" alt="{$column[5].column_name}">
+            </a>
+            <p></p>      
+        </div>
+    </div>
+  </div>
+</div>
+
+<script src="__PUBLIC__/pc_js/jcarousellite_1.0.1.js" type="text/javascript"></script>
+<script src="__PUBLIC__/pc_js/jquery.mousewheel.js" type="text/javascript"></script>
+<script type="text/javascript">
+var MyMar = null;
+var SleepTime = 3000;                             //滚动间隔时间
+////
+// 垂直滚动，不带悬停效果 //
+////
+$(document).ready(function(){
+  $(".newsContainer").jCarouselLite({
+    mouseWheel:true,  //鼠标滚轮动作，需要”jquery.mousewheel.js“
+    vertical:true,    //垂直滚动
+    auto:2000,        //滚动间隔时间
+    visible:3,                            
+    scroll:1,
+    speed: 500
+  });
+});
+</script>
+<include file="Home:footer"/>

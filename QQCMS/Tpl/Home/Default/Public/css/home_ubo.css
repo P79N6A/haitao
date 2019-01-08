@@ -1,0 +1,68 @@
+body{background-color:#fff}
+/*搜索*/
+.tab2{width:100%;margin-bottom:15px}
+/*分类*/
+.daohang{width:45px;height:45px;border-radius:50%;background:#C2D488;display:block;margin:10px auto;text-decoration:none !important;text-align:center}
+.yanse2{background:#CF1B42}
+.yanse3{background:#99243F}
+.yanse4{background:#4E4A49}
+.tab2 tr td img{width:25px;}
+.tab2 tr td p{margin-top:10px;color:#000 !important}
+/*内容修改*/
+.u-brand-list{margin:0 auto .2rem;padding-left:5px;padding-right:5px}
+.u-brand{width:auto;margin-top:20px}
+.u-brand .p-relative{position:relative;}
+.u-brand .p-relative .u-brand-pic{width:100%;height:auto;overflow:hidden;}
+.u-brand .p-relative .u-brand-pic img{width:100%;}
+.u-brand .u-brand-msg{position:relative;height:30px;width:98%;padding:5px 1%;font-size:14px;color:#000;}
+.u-brand .u-brand-msg .u-brand-name{width:80%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;float:left}
+.u-brand-name .u-brand-discount{margin-right:10px;color:#CF1B42;}
+.e-border-b:before{content:"";position:absolute;bottom:0;left:0;right:0;border-bottom:1px solid #c8c7cc;}
+.u-loading{padding:.4rem .2rem;text-shadow:0 .02rem 0 #fff;text-align:center;vertical-align:middle;}
+.u-loading-text{font-size:.28rem;color:#999;}
+
+
+.shuliang{position:absolute;right:7px;top:-7px;background-color:red}
+.kuan{width:100%;height:40px}
+/*增加部分*/
+.big{width:100%;position:relative;}
+.big img{width:100%;}
+.row{position:absolute;top:6px;right:15px;width:50%;}
+
+
+/*新修改样式*/
+body{background-color:#fff}
+/*搜索*/
+.tab2{width:100%;margin-bottom:0px}
+/*分类*/
+.daohang{width:45px;height:45px;border-radius:50%;background:#C2D488;display:block;margin:10px auto;text-decoration:none !important;text-align:center}
+.yanse2{background:#D5BEFF  !important;}
+.yanse3{background:#FF9EB4 !important;}
+.yanse4{background:#FFAF9A !important;line-height:40px !important}
+
+.tab2 tr td p{margin-top:10px;color:#000 !important}
+/*内容修改*/
+.u-brand-list{margin:0 auto .2rem;padding-left:5px;padding-right:5px}
+.u-brand{width:auto;margin-top:15px}
+.u-brand .p-relative{position:relative;}
+.u-brand .p-relative .u-brand-pic{width:100%;height:auto;overflow:hidden;display: block;}
+.u-brand .p-relative .u-brand-pic img{width:100%;}
+.u-brand .u-brand-msg{position:relative;height:30px;width:98%;padding:5px 1%;font-size:14px;color:#000;}
+.u-brand .u-brand-msg .u-brand-name{width:80%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;float:left}
+.u-brand-name .u-brand-discount{margin-right:10px;color:#CF1B42;}
+.e-border-b:before{content:"";position:absolute;bottom:0;left:0;right:0;border-bottom:1px solid #c8c7cc;}
+.u-loading{padding:.4rem .2rem;text-shadow:0 .02rem 0 #fff;text-align:center;vertical-align:middle;}
+.u-loading-text{font-size:.28rem;color:#999;}
+
+
+.shuliang{position:absolute;right:7px;top:-7px;background-color:red}
+.kuan{width:100%;height:40px}
+/*增加部分*/
+.big{width:100%;padding:5px;}
+.big .logo{width:35%;max-width:125px;float:left;}
+.big .logo img{width:75%; margin-top: 4px; margin-left: 2%;}
+.searchs{float:right;margin-top:10px;width:60%;margin-right:3%}
+.searchs_box{background-color:transparent;border:1px solid #B5B5B5;border-radius:5px;height:30px;width:100%;padding:5px;}
+.searchs_button{width:32px;height:32px;background:url(img/moment_icn_pic.png) 12px no-repeat;border:0;position:absolute;right: 10px;top:-1px;cursor:pointer;}
+.daohangs{text-align:center}
+.list{width:45px;height:45px;border-radius:50%;background:#7DC3F1;display:block;margin:10px auto;text-decoration:none !important;text-align:center;line-height:43px}

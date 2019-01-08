@@ -1,0 +1,5 @@
+@charset "utf-8";
+.dingdan {width: 80%; margin: 0 auto;/*margin-left: 100px;margin-top: 20px;   text-align: left;*/}
+.table-striped td{line-height: 45px;}
+.text-center {text-align: center;  padding-bottom: 15px;}
+.pagination {display: inline-block;padding-left: 0;margin: 20px 0;border-radius: 4px;}

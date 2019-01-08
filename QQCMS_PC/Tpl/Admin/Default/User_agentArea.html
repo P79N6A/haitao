@@ -1,0 +1,304 @@
+<style>
+.hide_area{display: none; width: 100%;}
+.product_edit1 {background: #EEEEEE;border: #BDBABA 1px solid;margin-bottom: 10px;border-radius: 5px;padding: 5px 10px 5px 10px;}
+</style>
+<script type="text/javascript" src="./Public/Js/MyDate/WdatePicker.js"></script>
+<link href="./Public/Js/MyDate/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<table  class="search_table" width="100%">
+	<tr>
+		<td>
+			<form action="{:U('User/index')}" method="get">
+				<input type="hidden" name="g" value="{$Think.GROUP_NAME}" />
+				<input type="hidden" name="m" value="{$Think.MODULE_NAME}" />
+				<input type="hidden" name="a" value="{$Think.ACTION_NAME}" />			
+				{:L('user_select_option')}: <input type="text" name="keyword"  class="input-text" value="{$keyword}"/>
+				<select name="searchtype">
+	            <option value="wechat_name" <eq name="searchtype" value="wechat_name">selected</eq>>微信名</option>
+				<option value="mobile" <eq name="searchtype" value="mobile">selected</eq>>手机号码</option>
+				</select>
+				<select name="groupid">
+				<option value="">级别</option>
+				<volist name="role" id="row">
+				<option value="{$row['id']}" <eq name="groupid" value="$row['id']">selected="selected"</eq>>{$row['name']}</option>
+				</volist>
+				</select>
+				<!-- 省份：<select name="province" id="province" onchange="area_change(this.value,1,'province','city','area',{$langid});" class="ddlbox" value="{$vo.province}"></select>
+				城市：<select name="city" onchange="area_change(this.value, 2,'province','city','area',{$langid});" 	id="city" class="ddlbox" ></select>
+				区域：<select name="area" onchange="area_change(this.value, 3,'province','city','area',{$langid});" 	id="area" class="ddlbox" ></select> -->
+				<input type="submit" value="{:L('chaxun')}"  class="button" />
+				<input type="reset" value="{:L('reset')}" class="button"  />
+                <div style="float:right;margin-right:20px;">
+                  <div style="display:inline-block;margin-left:10px">试运营将结束：<div style="display:inline-block;width:30px;height:10px;background: #E2CD32;"></div></div>
+                  <div style="display:inline-block;margin-left:10px">即将缴纳年费：<div style="display:inline-block;width:30px;height:10px;background: #E42B2B;"></div></div>
+                  <div style="display:inline-block;margin-left:10px">金会员即将结束：<div style="display:inline-block;width:30px;height:10px;background: #79BDFC;"></div></div>
+                </div>
+			</form>
+		</td>
+	</tr>
+</table>
+
+<form name="myform" action="{:U('User/pay_receipt')}" method="post" id="shop_form">
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+      		<tr>
+      		<th ><input type="checkbox"  id="check_box"  onclick="selectall('ids[]');" /></th>
+			<!-- <th width="40">ID</th> -->
+      <th align="center" style="padding:5px 0px 5px 0px">店铺名</th>
+			<th width="60" align="center" style="padding:5px 0px 5px 0px">微信名</th>
+			<th>级别</th>
+			<th>成立时间</th>
+			<th>手机</th>
+			<th>负责区域</th>
+			<th>佣金比例</th>
+			<th>所获佣金</th>
+			<th>{:L('status')}</th>
+			<th>{:L('manage')}</th>
+      		</tr>
+      	</thead>
+      	<tbody>
+      		<volist name="list" id="user" key="k">
+      		<tr id="{$user.id}"
+      		<switch name="user['status_flat']" >
+			 <case value="1"></case>
+ 			<case value="2">style="background: #E2CD32;"</case>
+            <case value="3">style="background: #E42B2B;"</case>
+ 			<default />
+ 			</switch>
+			>
+      		<td align="center"><input type="checkbox" name="ids[]" value="{$user['id']}" /></td>
+			<!-- <td align="center">{$user['id']}</td> -->
+      		<td align="center" style="padding:8px 0px 8px 0px">{$user['shop_name']}</td>
+          <td align="center" style="padding:5px 0px 5px 0px">{$user['wechat_name']|mb_substr=###,0,9,'utf-8'}</td>
+			<td align="center">{$usergroup[$user['groupid']]['name']}</td>
+      		<td align="center">{$user['beshop_time']|date="Y-m-d",###}</td>
+      		<td align="center">{$user['mobile']}</td>
+      		<td align="center">{$user['agentarea']|default='无'}</td>
+      		<td align="center">{$user['commission']|default='0'}%</td>
+      		<td align="center">{$user['com_price']|default='0.00'}</td>
+			<td align="center">
+      	    <if condition="$user['beshop_time']+2592000 gt time() and $user['test_status'] eq 0"> 
+                  <font color="red">试运营中</font>
+                  <else/>
+                        <if condition="$user['status'] eq 1">
+      		<font color="green">运营中</font>
+      		<else />
+      		<font color="red">停营中</font>
+      		</if>
+                  </if>
+      		</td>
+			<td align="center">
+				<empty name="agentlist[$user['id']]">
+				<a class="product_edit1" href="JavaScript:" onclick="setAreaII(this);">设置区域</a>
+				<else/>
+				<a class="product_edit1" href="JavaScript:" onclick="setArea(this);">设置区域</a>
+				</empty>
+			</td>      		
+      		</tr>
+      		</volist>
+      	</tbody>
+    </table>
+  
+    <!-- <div class="btn"><input type="submit" class="button" name="dosubmit" value="<?php echo L('delete')?>" /></div> -->  </div>
+</div>
+</form>
+<div id="pages" class="page">{$page}</div>
+
+<!-- 隐藏域 -->
+<volist name="agentlist" id="item">
+<div id="hide_area{$item.userId}" data-area="{$item.agentarea}" class="hide_area">
+<form name="myform" method="post" id="setareaform{$item.userId}">
+	<fieldset>
+		<legend>设置区域</legend> 
+		<table class="search_table" width="100%"> 
+			<tr>
+				<td width="10%">省市区：</td>
+			  	<td>
+			  		省份：<select name="province" class="province" onchange="setAreachange(this.value,1,'province','city','area',{$langid});" class="ddlbox" value="{$vo.province}"></select>
+					城市：<select name="city" onchange="setAreachange(this.value, 2,'province','city','area',{$langid});" class="city" class="ddlbox" ></select>
+					区域：<select name="area" onchange="setAreachange(this.value, 3,'province','city','area',{$langid});" class="area" class="ddlbox" ></select>
+			  	</td>
+			</tr>
+			<tr>
+				<td width="10%">佣金比例：</td>
+				<td><input type="number" name="commission" class="input-text" value="{$item.commission}"/>%</td></tr>
+		</table>
+	</fieldset>
+</form>	
+</div>
+</volist>
+<!-- END -->
+
+<!-- 隐藏域II -->
+<div id="hide_areaII" class="hide_area">
+<form name="myformII" method="post" id="setareaformII">
+	<fieldset>
+		<legend>设置区域</legend> 
+		<table class="search_table" width="100%"> 
+			<tr>
+				<td width="10%">省市区：</td>
+			  	<td>
+			  		省份：<select name="province" class="province" onchange="setAreachange(this.value,1,'province','city','area',{$langid});" class="ddlbox" value="{$vo.province}"></select>
+					城市：<select name="city" onchange="setAreachange(this.value, 2,'province','city','area',{$langid});" class="city" class="ddlbox" ></select>
+					区域：<select name="area" onchange="setAreachange(this.value, 3,'province','city','area',{$langid});" class="area" class="ddlbox" ></select>
+			  	</td>
+			</tr>
+			<tr>
+				<td width="10%">佣金比例：</td>
+				<td><input type="number" name="commission" class="input-text" />%</td></tr>
+		</table>
+	</fieldset>
+</form>		
+</div>
+<!-- END -->
+
+<script type="text/javascript">
+function area_change(id,level,province,city,area,lang,provinceid,cityid,areaid){
+
+	var datas={'level':level,'provinceid':provinceid,'cityid':cityid,'areaid':areaid,'lang':lang};
+	$.ajax({
+		type:"POST",
+		url: "/index.php?m=Areaajax&a=area&id="+id,
+		data: datas,
+		dataType:"json",
+		success: function(data){
+			if(level==0){
+			$('#'+province).html(data.province);
+			$('#'+city).html(data.city);
+			$('#'+area).html(data.area);
+			}else if(level==1){
+			$('#'+city).html(data.city);
+			$('#'+area).html(data.area);
+			}else if(level==2){
+				$('#'+area).html(data.area);
+			}
+		},
+		error:function(){
+			//alert("time out,try it");
+		}
+	}); 
+}
+area_change(0,0,'province','city','area',1);
+function check_shop(){
+art.dialog.confirm("确定免费支付押金", function(){ $("#shop_form").submit();});
+}
+function check_excel(){
+var star=$(".btn input[name='star']").val();
+var end=$(".btn input[name='end']").val();
+if(star=="" || end==""){
+	alert("请先选择好起始时间");return false;
+}
+art.dialog.confirm("确定导出所有商店销售数据", function(){ $("#excelform").submit();});
+}
+setAreachange(0,0,'province','city','area',1);
+function setAreachange(id,level,province,city,area,lang,provinceid,cityid,areaid){
+
+	var datas={'level':level,'provinceid':provinceid,'cityid':cityid,'areaid':areaid,'lang':lang};
+	$.ajax({
+		type:"POST",
+		url: "/index.php?m=Areaajax&a=area&id="+id,
+		data: datas,
+		dataType:"json",
+		success: function(data){
+			if(level==0){
+			$('.'+province).html(data.province);
+			$('.'+city).html(data.city);
+			$('.'+area).html(data.area);
+			}else if(level==1){
+			$('.'+city).html(data.city);
+			$('.'+area).html(data.area);
+			}else if(level==2){
+				$('.'+area).html(data.area);
+			}
+		},
+		error:function(){
+			//alert("time out,try it");
+		}
+	}); 
+}
+
+function setArea(obj)
+{
+	var userid = $(obj).parent().parent().attr("id");
+	var data_area = $("#hide_area"+userid).attr('data-area');
+	// alert(data_area);
+	var _area = data_area.split(",");
+	setAreachange(0,0,'province','city','area',1,_area[0],_area[1],_area[2]);
+	art.dialog({
+		title: '代理商区域管理',
+		lock:true,
+		opacity:"0.3",
+		background:"#FFF",
+		content: document.getElementById('hide_area'+userid),
+		id: 'hide_area',/*agentArea*/
+		ok: function(){
+			var province = $("#setareaform"+userid+" select[name='province']").val();
+			var city = $("#setareaform"+userid+" select[name='city']").val();
+			var area = $("#setareaform"+userid+" select[name='area']").val();
+			var commission = $("#setareaform"+userid+" input[name='commission']").val();
+			$.ajax({
+				type: "POST",
+				url: "{:U('Home/Ajax/agentarea')}",
+				data : {'userid':userid,'province':province,'city':city,'area':area,'commission':commission},
+				async: false,
+				timeout: 5000,
+				dataType: "JSON",
+				success: function(json){
+					if (json.status==1)
+					{
+						window.location.reload();
+					}
+					else{
+						alert(json.info);
+					}
+				},
+				error: function(){
+					alert("系统出错")
+				}
+			});
+		},
+		cancel: true
+	});
+}
+
+function setAreaII(obj)
+{
+	var userid = $(obj).parent().parent().attr("id");
+	setAreachange(0,0,'province','city','area',1);
+	art.dialog({
+		title: '代理商区域管理',
+		lock:true,
+		opacity:"0.3",
+		background:"#FFF",
+		content: document.getElementById('hide_areaII'),
+		id: 'hide_areaII',/*agentArea*/
+		ok: function(){
+			var province = $("#setareaformII select[name='province']").val();
+			var city = $("#setareaformII select[name='city']").val();
+			var area = $("#setareaformII select[name='area']").val();
+			var commission = $("#setareaformII input[name='commission']").val();
+			$.ajax({
+				type: "POST",
+				url: "{:U('Home/Ajax/agentarea')}",
+				data : {'userid':userid,'province':province,'city':city,'area':area,'commission':commission},
+				async: false,
+				timeout: 5000,
+				dataType: "JSON",
+				success: function(json){
+					if (json.status==1)
+					{
+						window.location.reload();
+					}
+					else{
+						alert(json.info);
+					}
+				},
+				error: function(){
+					alert("系统出错")
+				}
+			});
+		},
+		cancel: true
+	});
+}
+</script>

@@ -1,0 +1,115 @@
+<include file="Home:headerbgg"/>
+<!-- 本页自用的 css -->
+    <link rel="stylesheet" href="../Public/css/chanpinliebiao.css" />
+    <script type="text/javascript">
+      //隐藏微信底栏
+      document.addEventListener('WeixinJSBridgeReady',function onBridgeReady(){WeixinJSBridge.call('hideToolbar');});
+      </script>
+<body class="pang">
+  <table class="tabl">
+    <tbody>
+      <tr>
+        <td style="width:50px;"><img src="__PUBLIC__/Images/xiuda.png" class="logo"></td>
+        <td>
+     <form action="{:URL('Home-Product/search_goods')}" method="GET">
+        <input type="hidden" name="m" value="Product" />
+        <input type="hidden" name="a" value="search_goods" />
+        <input type="search" name="key_word" class="form-control chang" id="exampleInputEmail1" placeholder="请输入需要查找的宝贝">
+        </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+    <table class="wid2">
+      <tbody>
+        <tr>
+           <td><a href="{:URL('Home-Product/type_goods_list')}" class="yuan"><img src="__PUBLIC__/Images/1.png" class="wa" style="margin-top:12px;margin-left:8px;width:29px"><p class="ps" >分类</p></a></td>
+           <td><a href="{:URL('Home-Random/reviews')}&shop_id={$shop_id}" class="yuan"><img src="__PUBLIC__/Images/3.png" class="wa" style="width:27px;margin-top:9px;margin-left:10px"><p class="ps" style="margin-left:9px;width:53px">闲逛</p></a></td>
+           <td><a href="{:URL('User-Index/index')}" class="yuan"><img src="__PUBLIC__/Images/4.png" class="wa"><p class="ps" style="margin-left:9px">个人</p></a></td>
+           <td><a href="/index.php?a=index&m=Page&id=30" class="yuan"><img src="__PUBLIC__/Images/5.png" class="wa" style="margin-top:8px;margin-left:9px"><p class="ps">客服</p></a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <section class="container bg01" style="padding:0px;background-color: #EFEFEF;">
+
+      <div class="bargin-head media">
+        <a class="pull-left">
+          <img class="media-object img-circle" src="__PUBLIC__/Images/xiuda.png">
+        </a>
+        <div class="media-body">
+          <h1>有酒派</h1>
+          <p>以下是支持砍价的商品</p>
+        </div>
+      </div>
+    <volist name="list" id="vo">
+      <div class="bargin-good media">
+        <a class="pull-left" href="{$vo.url}">
+          <img class="media-object" style="border: 1px solid #EFEFEF;" src="{$vo.thumb|thumb=###,140,140,1}">
+        </a>
+        <div class="media-body">
+          <h2 class="media-heading"><a href="{$vo.url}">{$vo.title}</a></h2>
+          <small>参考价：<strong class="old-price">&yen;{$vo.price}</strong></small>
+          <div>会员价：<span class="redco">{$vo.member_price}</span>元</div>
+          <div><font color="#e4393c">金会员价：</font><span class="redco"><font color="#e4393c">{$vo.gold_price}</span>元</font></div>
+          <a class="details" href="{$vo.url}"><small>商品详情<span class="glyphicon glyphicon-chevron-right glyphicon-right"></span></small></a>
+        </div>
+      </div>
+
+      <div class="bargin list-group width100">
+        <a href="{:URL('Home-Product/bargg_show',array('prid'=>$vo[id],'beg_uid'=>$userid))}" class="list-group-item">
+          <h4 class="list-group-item-heading">找朋友帮忙砍价</h4>
+          <p class="list-group-item-text">最低可以砍到 <strong class="price">{$vo.lowestbgg}</strong> 元</p>
+        </a>
+      </div>
+    </volist>
+    <notempty name="pages">
+      <div class="text-center">
+        <ul class="pagination">
+          {$pages}
+        </ul>
+      </div>
+    </notempty>
+
+    </section>
+
+      <div class="theme-pavilion" style="padding:5px">
+      <ul style="margin:0px;padding:0px;overflow:hidden">
+      <volist name="next_list" id="r">
+      <li style="list-style-type:none;float:left;width:49%;margin:0px 1% 3px 0px">
+        <a href="{:URL('Home-Product/type_goods')}&typeid={$r.typeid}">
+        <img src="{$r.pic}" class="half-img" style="width:100%" />
+        </a>
+      </li>
+        </volist>
+      </ul>
+    </div>
+
+   <table class="wid3">
+      <tbody>
+        <tr>
+           <td><a href="{:URL('Home-Product/type_goods_list')}&shop_id={$shop_id}" class="yuan"><img src="__PUBLIC__/Images/1.png" class="wa" style="margin-top:12px;margin-left:8px;width:29px"><p class="ps" style="margin-left:9px">分类</p></a></td>
+           <td><a href="{:URL('Home-Random/reviews')}&shop_id={$shop_id}" class="yuan"><img src="__PUBLIC__/Images/3.png" class="wa" style="width:27px;margin-top:9px;margin-left:10px"><p class="ps" style="margin-left:9px;width:43px">闲逛</p></a></td>
+           <td><a href="{:URL('User-Index/index')}&shop_id={$shop_id}" class="yuan"><img src="__PUBLIC__/Images/4.png" class="wa"><p class="ps" style="margin-left:9px">个人</p></a></td>
+           <td><a href="/index.php?a=index&m=Page&id=30&shop_id={$shop_id}" class="yuan"><img src="__PUBLIC__/Images/5.png" class="wa" style="margin-top:8px;margin-left:9px"><p class="ps">客服</p></a></td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
+    <div class="copyright"><a href="http://www.miitbeian.gov.cn" target="_blank" title="粤ICP备14063096号-1">粤ICP备14063096号-1</a></div> 
+
+      <table class="fix">
+        <tbody>
+          <tr>
+            <td style="width:15%;border-right:1px solid #c4c4c4"><a href="javascript:history.go(-1)"><img src="__PUBLIC__/Images/f1.png" class="fanhui"></a></td>
+            <td style="width:28.3%;border-right:1px dashed #c4c4c4"><a href="/index.php?shop_id={$shop_id}" style=" color: #707070;text-decoration:none">商城首页</a></td>
+            <td style="width:33%;border-right:1px dashed #c4c4c4;position: relative;"><a href="{:URL('Home-Order/checkout')}&shop_id={$shop_id}" style=" color: #707070;text-decoration:none"><span id="shoppingCart" class="badge shuliang">{$shopping_count|default=''}</span>购物车</a></td>
+            <td style="width:28.3%"><a href="{:URL('User-Index/index')}&shop_id={$shop_id}" style="color: #707070;text-decoration:none">会员服务</a></td>
+          </tr>
+        </tbody>
+      </table>
+</body>
+</html>

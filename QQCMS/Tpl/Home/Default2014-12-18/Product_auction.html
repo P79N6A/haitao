@@ -1,0 +1,145 @@
+<include file="Home:header2"/>
+
+<body class="pang">
+<!-- 本页自用的 css -->
+    <link rel="stylesheet" href="../Public/css/paimai.css">
+    <!-- panel 导航边栏 -->
+<script type="text/javascript" src="__PUBLIC__/src/js/widget/panel/panel.js"></script>
+
+ <div class="topbar" style="background:rgba(255,255,255,1)">
+      <a class="brand pull-left" href="{:URL('Home-Index/index')}">
+        <img src="__PUBLIC__/Images/f1.png" class="fanhui" title="返回">
+        <span class="txt" style="color:rgba(0,0,0,1)">返回</span>
+      </a>
+      <a id="reveal-right" class="btn btn-default btn-sm pull-right">查询场次</a>
+    </div>
+
+   <div class="container no_pa" >
+
+      <div class="topbar-space"></div><!-- 顶栏的占位 -->
+  <foreach  name="today_list" item="r" key="i">
+  <if condition="$r['star_time']['time'] lt $tomorrow_small and $r['end_time']['time'] gt $today_small">
+      <div class="padding-head" id="{$i}"><p class="colos">{$i}</p><p class="colos2">距离本场结束：<span class="time_out">{$r.end_time.time_out}</span></p></div>
+    <volist name="r" id="vo" >
+    <if condition="$vo['id'] neq 0 and $vo['status'] neq 0">
+      <div class="ui">
+                  <div class="uia">
+                  <a href="{$vo.url}">
+                    <img src="{$vo['thumb']}" class="t">
+                  </a>
+                  </div>
+                    <div class="uib">
+                  <a href="{$vo.url}"><p class="large">{$vo.title}</p></a>
+                        <p class="margin-bottom-0 paimai-p"><small>产品描述：{$vo.content|strip_tags=###|mb_substr=###,0,20,'utf8'}……</small></p>
+                          <span class="col">起拍价：
+                            <i>
+                            &yen;{$vo.start_price}
+                            </i>
+                          </span>
+                          <p style="margin:5px auto;font-size:13px;color:#ACACAC">参考价：<del>&yen;{$vo.price}</del></p>
+                        <a href="{$vo.url}" type="button" class="btn btn-danger wid">参与出价</a>
+                   </div>
+      </div>
+      </if>
+</volist>
+</if>
+</foreach >
+    </div>
+
+
+
+
+
+
+
+
+          <div class="gmu-panel">
+      <div class="topbar-space"></div><!-- 顶栏的占位 -->
+      <div class="colo-beside">今日拍卖场</div>
+
+
+  <foreach  name="today_list" item="r" key="i">
+    <if condition="$r['star_time']['time'] lt $tomorrow_small and $r['end_time']['time'] gt $today_small">
+    <if condition="$r['star_time']['time'] gt $today_small and $r['end_time']['time'] lt $tomorrow_small">  
+    <p href="#"  class="disa">{$i}</p>
+    <else/>
+      <a href="#{$i}" class="time">{$i}<if condition="$r['star_time']['time'] lt time() and $r['end_time']['time'] gt time()"><span class="label label-danger qianggou">正在拍卖</span></a></if>
+    </if>
+    </if>
+  </foreach>
+      <div class="colo-beside">明日拍卖场</div>  
+  <foreach  name="today_list" item="r" key="i">
+    <if condition="$r['star_time']['time'] lt $after_to_small and $r['end_time']['time'] gt $tomorrow_small">
+      <a href="#{$i}" class="time">{$i}</a>
+       </if>
+  </foreach>
+
+      
+    <div class="copyright"><a href="http://www.miitbeian.gov.cn" target="_blank" title="粤ICP备14063096号-1">粤ICP备14063096号-1</a></div> 
+    </div><!-- .gmu-panel -->
+
+    <script type="text/javascript">
+      //隐藏微信底栏
+      document.addEventListener('WeixinJSBridgeReady',function onBridgeReady(){WeixinJSBridge.call('hideToolbar');});
+
+      //创建slider组件
+      $('#slider').slider({loop:true});
+
+      //panel初始化
+      $('.gmu-panel').panel({
+        contentWrap:$('.container'),
+        display:'reveal'
+      });
+      //panel 按钮
+      $('#reveal-right').on('click', function () {
+        $('.gmu-panel').panel('toggle','reveal','right');
+      });
+
+      //导航侧栏栏目折叠效果
+      $('ul.nav-side li ul').hide();
+      function collapse(object){
+        $(object).next().toggle();
+        $(object).toggleClass('open');
+        if ($(object).html()==='展开') {
+          $(object).html('收起')
+        }else{
+          $(object).html('展开')
+        }
+      }
+
+    /*倒计时*/
+function timer(intDiff,obj){
+    window.setInterval(function(){
+    var day=0,
+        hour=0,
+        minute=0,
+        second=0;//时间默认值        
+    if(intDiff > 0){
+        day = Math.floor(intDiff / (60 * 60 * 24));
+        hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+        minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+        second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+    }
+    if (minute <= 9) minute = '0' + minute;
+    if (second <= 9) second = '0' + second;
+    obj.html(hour+'小时'+minute+'分'+second+'秒');
+    intDiff--;
+    if(intDiff<1){
+      location.reload();
+    }
+    }, 1000);
+} 
+$(function(){
+
+    $(".time_out").each(function(){
+    var intDiff = parseInt($(this).text());//倒计时总秒数量
+    timer(intDiff,$(this));
+    })
+}); 
+    /**/
+    </script>
+
+</body>
+</html>
+
+

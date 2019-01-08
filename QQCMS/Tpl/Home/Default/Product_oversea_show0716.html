@@ -1,0 +1,466 @@
+<include file="Home:header2"/>
+    <!--qq_cms js-->
+    <script src="__PUBLIC__/Js/qqcms.js"></script>
+    <!-- dialog对话框 -->
+    <script type="text/javascript" src="__PUBLIC__/src/js/widget/dialog/dialog.js"></script>
+
+    <!-- 本页自用的 css -->
+    <!-- <link rel="stylesheet" href="../Public/css/chanpin.css"> -->
+    <link rel="stylesheet" href="../Public/src/css/product.css">
+    <!-- <link rel="stylesheet" href="../Public/css/miaopaichanpin.css"> -->
+    <!-- <link rel="stylesheet" href="../Public/css/miaopaitu.css" /> -->
+ <section>
+    <div class="back-shopping-bag" id="backShoppingBag">
+      <a href="javascript:history.go(-1);"><div class="back-btn"></div></a>
+      <div class="bag-btn">
+        <div class="cart-num"></div>
+      </div>
+    </div>
+    <div class="zhanwei"></div>
+    <!--幻灯片-->
+    <div class="swiper-container " style="text-align: center;">
+      <div class="swiper-wrapper">
+        <volist name="top_pics" id="r">
+          <div class="swiper-slide swiper-slide-duplicate">
+            <a href="{$r.link|default='javascript:'}">
+              <img style="width:100%;" src="{$r.filepath}">
+            </a>
+            <!-- Any HTML content of the first slide goes here -->
+          </div>
+        </volist>
+      <!--First Slide-->
+        </div>
+      <div class="slide-pagination"></div>
+    </div>
+    <!--幻灯片结束-->
+    <div class="prod-desc-container" id="prodDescContainer">
+          <div class="prod-detail">
+            <div class="prod-name">
+              <p>{$en_name}/{$title}</p>
+           </div>
+
+          <div class="prod-price" style="width: 100%;font-size: 15px;">
+            <a href="JavaScript:" style="color: #A19B9B;">
+            <span>参考价：¥<del><b data-toggle="modal" data-target=".bs-example-modal-sm" class="sys_item_price_">{$price}</b></del></span>
+            </a>
+          </div>
+
+            <div class="prod-price">
+            <a href="JavaScript:">
+            <span>¥<b data-toggle="modal" data-target=".bs-example-modal-sm" class="sys_item_price">{$member_price}</b></span>
+            </a>
+
+              <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                  <div class="modal-content">
+                     <div class="tishi">
+                        <h4>温馨提示</h4>
+                        <p>到手价=外币现价*税率+行邮税+邮费</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <i>点我</i><em>国外价¥11,700</em> --></div>
+            <div class="prod-other-info"><!-- <i>可用代金券20元</i> --><div>库存：<em class="sys_item_mktprice">{$stock|default='已售罄'}</em></div></div>
+          </div>
+        <div class="prodPrefOtherDescContainer">
+          <div class="prod-pref">
+            <div class="prod-pref-list">
+              <ul>
+                <li>
+                <b>邮</b>
+                运费:&nbsp;&yen;{$data_info.freight_num}元
+                <em>行邮税:&yen;{$data_info.post_price}&nbsp;税率{$data_info.post_rate}%</em>
+                </li>
+              </ul>
+            </div>
+            <div class="prod-pref-sec">
+              <ul class="clearfix">
+                <li>正品保证</li>
+                <li>维修保养</li>
+                <li>7天退换</li>
+                <li>权威鉴定</li>
+                <li>财险质保</li>
+              </ul>
+            </div>
+          <!-- 商品属性 -->
+          <div class="sys_item_spec">
+            <volist name="all_specs_group" id="vo">
+            <dl class="clearfix iteminfo_parameter sys_item_specpara" data-sid="1">
+              <dt style="font-size:16px;font-weight:bolder;">{$vo['specsname']}</dt>
+              <dd>
+                <ul class="sys_spec_text">
+                <?php $fli=0;?>
+                <volist name="vo['attribute_group']" id="item">
+                  <li data-aid="{$item.extend_id}" <in name="fli" value="0">data-li="first-li"</in>><a href="javascript:;" title="{$item.propertyvalue}">{$item.propertyvalue}</a><i></i></li>
+                  <?php $fli++;?>
+                </volist>
+                </ul>
+              </dd>
+            </dl>
+            </volist>
+          </div>
+          <!-- end -->
+
+        </div>
+        <table class="fix">
+        <tbody>
+          <tr>
+          <td>
+            <bottom class="btn btn-warning fix-bot" onclick="changeorder('buynum','{$moduleid}','{$id}','add',orderok);">加入购物车</bottom>
+            </td>
+           <td>
+            <bottom class="btn btn-danger fix-bot" onclick="changeorder_second('{$moduleid}','{$id}','add');">立即购买</bottom>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+        <div class="summarybox pl10 pr10">
+          <a href="file:///E:/%E5%B7%A5%E4%BD%9C%E9%A1%B9%E7%9B%AE/%E6%B5%B7%E8%B4%AD%20-%20%E5%89%AF%E6%9C%AC/%E5%95%86%E5%93%81%E5%9B%BE%E7%89%87.html" class="headertitle">商品详情
+          <span class="glyphicon glyphicon-chevron-right fudong" aria-hidden="true"></span>
+          </a>
+        </div>
+      <!-- 商品属性 -->
+      <div class="size-info-content">
+      <p>商品属性</p>
+        <ul>
+          <li><b>商品ID:</b><i>{$id}</i></li>
+          <volist name="all_specs_group" id="vo">
+            <li><b>{$vo.specsname}:</b>
+              <volist name="vo.attribute_group" id="item">
+                <i>{$item.propertyvalue}</i>
+              </volist>
+            </li>
+          </volist>
+        </ul>
+      </div>
+    <!-- end -->
+
+    <div class="prod-detail-panel">
+      <div class="prod-content">
+        {$content}
+      </div>
+    </div>
+   <div class="kuandu"></div>
+    <div class="kuan"></div>
+<!--      <div class="PathInner" id="PathMenu">
+      <div class="PathMain">
+        <div class="Tmain" onclick="PathRun();">
+          <div class="rotate" data-transform="rotate(0deg)"><span class="cover"></span></div>
+        </div>
+      </div>
+      <div class="PathItem"> <a class="link" href="#"> <span class="item" style="background-image:url(../Public/images/moment_icn_pic.png); -moz-transform: rotate(0deg);" data-transform="rotate(0deg)"></span> </a>
+      </div>
+      <div class="PathItem"> <a class="link" href="#"> <span class="item" style="background-image:url(../Public/images/moment_icn_info.png); -moz-transform: rotate(0deg);" data-transform="rotate(0deg)"></span> </a>
+      </div>
+      <div class="PathItem"> <a class="link" href="#"> <span class="item" style="background-image: url(../Public/images/moment_icn_address.png); -moz-transform: rotate(0deg);" data-transform="rotate(0deg)"></span> </a>
+      </div>
+      <div class="PathItem"> <a class="link" href="#"> <span class="item" style="background-image: url(../Public/images/moment_icn_price.png); -moz-transform: rotate(0deg);" data-transform="rotate(0deg)"></span> </a>
+      </div>
+    </div> -->
+</section>
+<input type="hidden" value="1" id="buynum">
+    <!-- 订单提交成功提示框 -->
+    <div id="dialog1" title="提示成功">
+      <p >成功添加进购物车</p>
+      <small >（增加或减少需在购物车里设置！亲）</small>
+    </div>
+    <!-- 订单提交成功提示框 -->
+
+    <!-- 提示框 -->
+    <div id="dialog2" title="温馨提示">
+      <p class="big_one"></p>
+      <small  class="small_one"></small>
+    </div>
+    <!-- 提示框 -->
+
+    <!-- 登录提示框 -->
+    <div id="dialog10" title="温馨提示">
+      <p class="big_one"></p>
+      <small  class="small_one"></small>
+    </div>
+    <!-- 提示框 -->
+
+        <!-- 团购提交提示框 -->
+    <!-- 直购跟拍卖升级金会员 -->
+    <div id="dialog5" title="温馨提示">
+      <p class="big_one"></p>
+      <small  class="small_one"></small>
+    </div>
+
+<script type="text/javascript">
+attribute_key = '';
+var sys_item={
+  "stock":"{$stock|default='已售罄'}",
+  "member_price":"{$member_price}",
+  "price":"{$member_price}",
+  "sys_attrprice":{
+    <volist name="product_property" id="vv">
+    "{$key}":{"attribute_group":"{$vv.attribute_group}","price":"{$vv.price}","member_price":"{$vv.member_price}","stock":"{$vv.stock|default='已售罄'}"},
+    </volist>
+  }
+};
+
+//商品规格选择
+$(function(){
+  $(".sys_item_spec .sys_item_specpara").each(function(){
+    var i=$(this);
+    var p=i.find("ul>li");
+    p.click(function(){
+      if(!!$(this).hasClass("selected")){
+        $(this).removeClass("selected");
+        i.removeAttr("data-attrval");
+      }else{
+        $(this).addClass("selected").siblings("li").removeClass("selected");
+        i.attr("data-attrval",$(this).attr("data-aid"))
+      }
+      getattrprice() //输出价格
+    })
+  });
+
+  //获取对应属性的价格
+  function getattrprice(){
+    var defaultstats=true;
+    var _val='';
+    var _resp={
+      stock:".sys_item_mktprice",
+      price:".sys_item_price_",
+      member_price:".sys_item_price"
+    }  //输出对应的class
+    $(".sys_item_spec .sys_item_specpara").each(function(){
+      var i=$(this);
+      var v=i.attr("data-attrval");
+      if(!v){
+        defaultstats=false;
+      }else{
+        _val+=_val!=""?"_":"";
+        _val+=v;
+      }
+    })
+    attribute_key = _val;
+    if(!!defaultstats){
+      _stock=sys_item['sys_attrprice'][_val]['stock'];
+      _price=sys_item['sys_attrprice'][_val]['price'];
+      _member_price=sys_item['sys_attrprice'][_val]['member_price'];
+    }else{
+      _stock=sys_item['stock'];
+      _member_price=sys_item['member_price'];
+      _price=sys_item['price'];
+    }
+    //输出价格
+    $(_resp.stock).text(_stock);  ///其中的math.round为截取小数点位数
+    $(_resp.price).text(_price);
+    $(_resp.member_price).text(_member_price);
+  }
+
+  $("[data-li='first-li']").click();
+  
+});
+
+</script>
+
+  <script type="text/javascript">
+  // var productid={$id},min_price={$min_price},now_toprice;//拍卖价格
+    //隐藏微信底栏
+    document.addEventListener('WeixinJSBridgeReady',function onBridgeReady(){WeixinJSBridge.call('hideToolbar');});
+
+    //确认收货
+    $(document).ready(function(){
+      $('#state').hide();
+    })
+
+
+    function orderok(){
+      $('#dialog1').dialog('open');
+    }  
+
+    function ordererror(data){
+      $("#dialog2 .big_one").text(data.info);
+      $('#dialog2').dialog('open');
+    }
+
+     function orderLogin(data){
+      $("#dialog10 .big_one").text(data.info);
+      $('#dialog10').dialog('open');
+    }
+    // dialog 对话框（onclick="$('#dialog1').dialog('open')"）
+    $('#dialog1').dialog({
+      autoOpen:false,
+      closeBtn:false,
+      buttons:{
+        '继续购物': function(){
+          this.close();
+        },
+        '去结算': function(){
+          window.location.href="{:URL('Home-Order/checkout')}";
+        }
+      }
+    }).dialog('this')._options['_wrap'].addClass('login-dialog');
+    $('#dialog2').dialog({
+      autoOpen:false,
+      closeBtn:false,
+      buttons:{
+        '继续购物': function(){
+          this.close();
+        }
+      }
+    }).dialog('this')._options['_wrap'].addClass('login-dialog');
+
+    $('#dialog10').dialog({
+      autoOpen:false,
+      closeBtn:false,
+      buttons:{
+        '好的': function(){
+          window.location.href="{:URL('User-Login/index')}";
+        },
+        '我再逛逛': function(){
+          this.close();
+        }
+      }
+    }).dialog('this')._options['_wrap'].addClass('login-dialog');
+
+
+    $('#dialog5').dialog({
+      autoOpen:false,
+      closeBtn:false,
+      buttons:{
+        '升级金会员': function(){
+         this.close();
+      $.ajax({
+       type:"POST",
+        url:"/index.php?a=get_role_fee&m=Upleve&g=User",
+        data:{},
+       timeout:"6000",
+       dataType:"JSON",
+       success:function(result){
+        data=eval('(' + result + ')');
+        $("#up_year").val("直接支付"+data.gold_fee+"元年费");
+        $("#up_fee").val("充值"+data.gold_money+"元电子现金");
+    }
+  });
+        $("#myModal3").show();
+        },
+        '继续购物': function(){
+          this.close();
+        }
+      }
+    }).dialog('this')._options['_wrap'].addClass('login-dialog');
+
+function uplevel(type){
+  open_div();
+  $.ajax({
+    type:"POST",
+    url:"/index.php?a=index&m=Upleve&g=User",
+    data:{"type":type},
+    timeout:"6000",
+    dataType:"JSON",
+    success:function(result){
+      close_div();
+     data=eval('(' + result + ')');
+      if(data.status!=0){
+        $(".pay_button").attr("href",data.url);
+        $(".pay_money").text(data.fee);
+        $("#myModal").show();
+      }else{
+      $(".error_info").text(data.msg);
+        $("#myModal2").show();
+      }
+    }
+  });
+}
+function menbererror(data){
+  $("#dialog5 .big_one").text(data.info);
+  $('#dialog5').dialog('open');
+}
+function open_div(){
+  $("#BgDiv1").css({ display: "block", height: $(document).height() });
+  var yscroll = document.documentElement.scrollTop;
+  var screenx=$(window).width();
+  var screeny=$(window).height();
+  $(".DialogDiv").css("display", "block");
+  $(".DialogDiv").css("top",yscroll+"px");
+  var DialogDiv_width=$(".DialogDiv").width();
+  var DialogDiv_height=$(".DialogDiv").height();
+  $(".DialogDiv").css("left",(screenx/2-DialogDiv_width/2)+"px")
+  $(".DialogDiv").css("top",(screeny/2-DialogDiv_height/2)+"px")
+  $("body").css("overflow","hidden");
+}
+function close_div(){
+  $("#BgDiv1").css("display", "none");
+  $(".DialogDiv").css("display", "none");
+}
+function changeorder(obj,moduleid,id,doit,ordercall){
+var objs  =  document.getElementById(obj);
+
+var datas={'moduleid':moduleid,'id': id,'num':objs.value,'attribute_key':attribute_key};
+$.ajax({
+  type:"POST",
+  url: "/index.php?m=Order&a=ajax&do="+doit,
+  data: datas,
+  timeout:"4000",
+  dataType:"JSON",
+  success: function(result){
+    data=eval('(' + result + ')');
+    if(data.data==1){
+      ordercall.call();
+    }else{
+      switch (data.status)
+      {
+        case 101:menbererror(data);break;
+        case 201:orderLogin(data);break;
+        default:ordererror(data);break;
+      }
+    }
+    
+  },
+  error:function(){
+    alert("出错");
+  }
+});
+}
+
+function changeorder_second(moduleid,id,doit){
+var num=1;
+var datas={'moduleid':moduleid,'id': id,'num':num,'attribute_key':attribute_key};
+$.ajax({
+  type:"POST",
+  url: "/index.php?m=Order&a=ajax&do="+doit,
+  data: datas,
+  timeout:"4000",
+  dataType:"JSON",
+  success: function(result){
+    data=eval('(' + result + ')');
+    if(data.data==1){
+          window.location.href="{:URL('Home-Order/checkout')}";
+    }else{
+      if(data.status==101){menbererror(data);}
+      else
+    ordererror(data);
+    }
+    
+  },
+  error:function(){
+    alert("出错");
+  }
+});
+}
+
+function update_guest(proid){
+  var content=$('#guest_content').val();
+  $.ajax({
+    type:"POST",
+    url:"/index.php?a=guest_book&m=Product",
+    data:{"content":content,"productid":proid},
+    dataType:"JSON",
+    success:function(result){
+    data=eval('(' + result + ')');
+      if(data.status==1)location.reload();
+    },
+    error:function(){
+
+    }
+  });
+}
+</script>
+</body>
+</html>

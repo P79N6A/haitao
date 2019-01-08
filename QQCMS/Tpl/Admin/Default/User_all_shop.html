@@ -1,0 +1,161 @@
+<script type="text/javascript" src="./Public/Js/MyDate/WdatePicker.js"></script>
+<link href="./Public/Js/MyDate/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<table  class="search_table" width="100%">
+	<tr>
+		<td>
+			<form action="{:U('User/index')}" method="get">
+			<input type="hidden" name="g" value="{$Think.GROUP_NAME}" />
+			<input type="hidden" name="m" value="{$Think.MODULE_NAME}" />
+			<input type="hidden" name="a" value="{$Think.ACTION_NAME}" />			
+			{:L('user_select_option')}: <input type="text" name="keyword"  class="input-text" value="{$keyword}"/>
+			<select name="searchtype">
+              <option value="wechat_name" <eq name="searchtype" value="wechat_name">selected</eq>>微信名</option>
+			<option value="username" <eq name="searchtype" value="username">selected</eq>>{:L('username')}</option>
+			<option value="mobile" <eq name="searchtype" value="mobile">selected</eq>>手机号码</option>
+			</select>
+			<select name="groupid">
+			<option value="">级别</option>
+			<volist name="role" id="row">
+			<option value="{$row['id']}" <eq name="groupid" value="$row['id']">selected="selected"</eq>>{$row['name']}</option>
+			</volist>
+			</select>
+			省份：<select name="province" id="province" onchange="area_change(this.value,1,'province','city','area',{$langid});" class="ddlbox" value="{$vo.province}"></select>
+			城市：<select name="city" onchange="area_change(this.value, 2,'province','city','area',{$langid});" 	id="city" class="ddlbox" ></select>
+			区域：<select name="area" onchange="area_change(this.value, 3,'province','city','area',{$langid});" 	id="area" class="ddlbox" ></select>
+			<input type="submit" value="{:L('chaxun')}"  class="button" />
+			<input type="reset" value="{:L('reset')}" class="button"  />
+                  <div style="float:right;margin-right:20px;">
+                  <div style="display:inline-block;margin-left:10px">试运营将结束：<div style="display:inline-block;width:30px;height:10px;background: #E2CD32;"></div></div>
+                  <div style="display:inline-block;margin-left:10px">即将缴纳年费：<div style="display:inline-block;width:30px;height:10px;background: #E42B2B;"></div></div>
+                  <div style="display:inline-block;margin-left:10px">金会员即将结束：<div style="display:inline-block;width:30px;height:10px;background: #79BDFC;"></div></div>
+                  </div>
+			</form>
+		</td>
+		
+	</tr>
+</table>
+
+<form name="myform" action="{:U('User/pay_receipt')}" method="post" id="shop_form">
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+      		<tr>
+      		<th ><input type="checkbox"  id="check_box"  onclick="selectall('ids[]');" /></th>
+			<!-- <th width="40">ID</th> -->
+      <th align="center" style="padding:5px 0px 5px 0px">店铺名</th>
+			<th width="60" align="center" style="padding:5px 0px 5px 0px">微信名</th>		
+			<th >级别</th>
+			<th>上级单位</th>
+			<th >成立时间</th>	
+			<th >手机</th>
+			<th >押金</th>
+			<th>平台管理年费</th>
+			<th >自消费金额</th>
+			<th >客户消费</th>
+            <th >自消费比例</th>
+			<th >销售返利</th>
+			<th >下级返利</th>
+			<th >下级平台管理费分润</th>
+			<th >总返利</th>
+			<th >{:L('status')}</th>
+			<th  >{:L('manage')}</th>
+      		</tr>
+      	</thead>
+      	<tbody>
+      		<volist name="ulist" id="user" key="k">
+      		<tr
+      		<switch name="user['status_flat']" >
+			 <case value="1"></case>
+ 			<case value="2">style="background: #E2CD32;"</case>
+            <case value="3">style="background: #E42B2B;"</case>
+ 			<default />
+ 			</switch>
+			>
+      		<td align="center"><input type="checkbox" name="ids[]" value="{$user['id']}" /></td>
+			<!-- <td align="center">{$user['id']}</td> -->
+      		<td align="center" style="padding:8px 0px 8px 0px">{$user['shop_name']}</td>
+          <td align="center" style="padding:5px 0px 5px 0px">{$user['wechat_name']|mb_substr=###,0,9,'utf-8'}</td>
+			<td align="center">{$usergroup[$user['groupid']]['name']}</td>
+      		<td align="center">{$user['parent_name']}</td>
+      		<td align="center">{$user['beshop_time']|date="Y-m-d",###}</td>
+      		<td align="center">{$user['mobile']}</td>     		
+      		<td align="center">{$user['receipt']}</td>  		
+      		<td align="center">{$user['manage']}</td> 
+      		<td align="center">{$user['self_fee']}</td> 
+      		<td align="center">{$user['next_fee']}</td> 
+            <td align="center">{$user['scale']}</td> 
+      		<td align="center">{$user['sell_back']}</td> 
+      		<td align="center">{$user['next_sell_back']}</td> 
+      		<td align="center">{$user['next_splitt']}</td> 
+      		<td align="center">{$user['total_back']}</td> 
+			<td align="center">
+      	    <if condition="$user['beshop_time']+2592000 gt time() and $user['test_status'] eq 0"> 
+                  <font color="red">试运营中</font>
+                  <else/>
+                        <if condition="$user['status'] eq 1">
+      		<font color="green">运营中</font>
+      		<else />
+      		<font color="red">停营中</font>
+      		</if>
+                  </if>
+      		</td>
+			<td align="center"><a class="product_edit1" href="{:U('User/edit',array(id=>$user['id'],groupid=>$user['groupid']))}">详情</a><a class="product_edit2" href="javascript:confirm_delete('{:U('User/delete',array(id=>$user['id']))}')">{:L('delete')}</a></td>      		
+      		</tr>
+      		</volist>
+      	</tbody>
+    </table>
+  
+    <!-- <div class="btn"><input type="submit" class="button" name="dosubmit" value="<?php echo L('delete')?>" /></div> -->  </div>
+</div>
+</form>
+
+    <div class="btn">
+    <input type="submit" class="button" name="dosubmit" value="批量支付押金" onclick="check_shop()"/>
+    <form id="excelform" action="{:U('Exportdata/index')}" method="post" style="display:inline-block">
+    <input class="Wdate input-text valid" name="star" type="text"  size="25" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" value="">&nbsp;至&nbsp;
+	<input class="Wdate input-text valid"name="end" type="text"  size="25" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" value="">
+	</form>
+	<input type="submit" class="button"   value="导出微店汇总表"  onclick="check_excel()"/>
+	</div>
+<div id="pages" class="page">{$page}</div>
+
+    <script type="text/javascript">
+    		function area_change(id,level,province,city,area,lang,provinceid,cityid,areaid){
+
+	var datas={'level':level,'provinceid':provinceid,'cityid':cityid,'areaid':areaid,'lang':lang};
+	$.ajax({
+		type:"POST",
+		url: "/index.php?m=Ajax&a=Area&id="+id,
+		data: datas,
+		timeout:"4000",
+		dataType:"json",
+		success: function(data){
+			if(level==0){
+			$('#'+province).html(data.province);
+			$('#'+city).html(data.city);
+			$('#'+area).html(data.area);
+			}else if(level==1){
+			$('#'+city).html(data.city);
+			$('#'+area).html(data.area);
+			}else if(level==2){
+				$('#'+area).html(data.area);
+			}
+		},
+		error:function(){
+			alert("time out,try it");
+		}
+	}); 
+}
+area_change(0,0,'province','city','area',1);
+function check_shop(){
+  art.dialog.confirm("确定免费支付押金", function(){ $("#shop_form").submit();});
+}
+function check_excel(){
+	var star=$(".btn input[name='star']").val();
+	var end=$(".btn input[name='end']").val();
+	if(star=="" || end==""){
+		alert("请先选择好起始时间");return false;
+	}
+  art.dialog.confirm("确定导出所有商店销售数据", function(){ $("#excelform").submit();});
+}
+</script>

@@ -1,0 +1,89 @@
+
+<include file="Home:headerubo"/>
+<!-- 轮播图开始 -->
+<div class="banner">
+    <div class="bd">
+        <ul>
+            <YP:list sql="select id,title,pic,link from `qq_pcslide_data` where fid=11 and status=1 Order by id desc limit 0,5">
+            <li style="background:url({$r.pic}) #CCE1F3 center 0 no-repeat;"><a target="_blank" href="{$r.link}"></a></li>
+            </YP:list>
+        </ul>
+    </div>
+    <div class="hd"><ul></ul></div>
+</div>
+<script type="text/javascript">jQuery(".banner").slide({ titCell:".hd ul", mainCell:".bd ul", effect:"fold",  autoPlay:true, autoPage:true, trigger:"click" });
+</script>
+<!-- 轮播图结束 -->
+<!-- 商品分类 -->
+<div class="wrap clearfix">
+    <div class="left J_scrollspy">
+        <h4>限时特卖</h4>
+        <ul class="meun">
+            <volist name="topics" id="vo">
+            <li class="meun1">
+                <div class="font">
+                    <p class="s_name">{$vo.description}</p>
+                    <p class="s_off">{$vo.title}</p>
+                </div>
+                <div class="s_pic">
+                    <a href="{$vo.this_url}">
+                        <img src="{$vo.pic}">
+                    </a>
+                </div>
+            </li>
+            </volist>
+        </ul>
+    </div>
+    <div class="right">
+        <div class="s_1">
+            <a href="{$column_data[1].url}"><img src="{$column_data[1].pic|thumb=###,300,370,1}"></a>
+        </div>
+        <div class="m_1">
+            <div class="m_s_1">
+                <ul class="sale-plan-big-list">
+                    <li class="spbl-item">
+                        <a href="{$column_data[3].url}"><img src="{$column_data[3].pic|thumb=###,300,135,1}"></a>
+                    </li>
+                    <li class="spbl-item">
+                        <a href="{$column_data[2].url}"><img src="{$column_data[2].pic|thumb=###,300,135,1}"></a>
+                    </li>
+                </ul>
+                <strong  class="logo">品牌分类</strong>
+                <div class="logos">
+                    <span class="forecast-logo">
+                        <a href="#"><img src="../Public/img/1.jpg"></a>
+                    </span>
+                    <span class="forecast-logo">
+                        <a href="#"><img src="../Public/img/2.jpg"></a>
+                    </span>
+                    <span class="forecast-logo">
+                        <a href="#"><img src="../Public/img/3.jpg"></a>
+                    </span>
+                    <span class="forecast-logo">
+                        <a href="#"><img src="../Public/img/4.jpg"></a>
+                    </span>
+                    <span class="forecast-logo">
+                        <a href="#"><img src="../Public/img/5.jpg"></a>
+                    </span>
+                    <span class="forecast-logo">
+                        <a href="#"><img src="../Public/img/6.jpg"></a>
+                    </span>
+                    <span class="forecast-logo">
+                        <a href="#"><img src="../Public/img/7.jpg"></a>
+                    </span>
+                    <span class="forecast-logo">
+                        <a href="#"><img src="../Public/img/8.jpg"></a>
+                    </span>
+                    <span class="forecast-logo">
+                        <a href="#"><img src="../Public/img/9.jpg"></a>
+                    </span>
+                    <span class="forecast-logo">
+                        <a href="#"><img src="../Public/img/10.jpg"></a>
+                    </span>
+                    <div style="clear:both"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="Home:footerubo"/>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>上优舶</title>
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+<!-- 手机页面全局 css -->
+<link rel="stylesheet" href="__PUBLIC__/Css/bootstrap.min.css">
+<!-- 本页自用css全局 -->
+<link rel="stylesheet" href="../Public/css/ischeckout.css">
+<!--组件依赖 js -->
+<script type="text/javascript" src="../Public/js/jquery-1.10.2.js"></script>
+<!-- dialog V6 -->
+<load href="../Public/css/ui-dialog.css" />
+<load href="../Public/dist/dialog-min.js" />
+<script type="text/javascript">
+$(function(){
+  $("input[type='checkbox']").each(function(k,e){
+    e.checked = true;
+    e.value = 1;
+  });
+  $(".che_span").click(function(){
+    if($(this).parents('.check').hasClass('on')){
+      $(this).parents('.check').removeClass('on');
+      $(this).siblings('.che_input').attr('checked',false);
+      $(this).siblings('.che_input').val(0);
+    }else{
+      $(this).parents('.check').addClass('on');
+      $(this).siblings('.che_input').attr('checked',true);
+      $(this).siblings('.che_input').val(1);
+    }
+    gettotalprice();
+  });
+})
+</script>
+<style type="text/css">
+.Spinner {float: right; display: block;overflow: hidden;width: 17%;}
+.Spinner a {display: inline-block;width: 24%;height: 25px;border: 1px solid #d9d9d9;background-color: #f7f7f7;float: left;cursor: pointer;outline: 0;}
+.Spinner .Amount {width: 36%;height: 25px;line-height: 17px;border-width: 1px 0;border-style: solid;border-color: #d9d9d9;float: left;text-align: center;color: #565656;outline: 0;}
+.Spinner .Increase i {background-position: -47px 6px;}
+.Spinner .DisIn i {background-position: 0px 6px;}
+.Spinner a i {font-style: normal;background: url(__PUBLIC__/Images/Buyn_Btn.png) no-repeat;display: block;width: 100%;height: 100%;text-indent: 999999%;overflow: hidden;}
+.Spinner .Decrease i {background-position: -46px -42px;}
+.Spinner .DisDe i {background-position: 0px -43px;}
+</style>
+</head>
+<body>
+  <header>
+    <div class="back-shopping-bag" id="backShoppingBag">
+      <div class="back-btn"></div>
+      购物车
+    </div>
+  </header>
+  <section class="main_pt">
+    <dl class="shop_cat" id="shop_cat">
+      <volist name="cart" id="vo">
+      <dt></dt>
+      <dd id="{$vo.id|default='0'}" data-model="{$vo['moduleid']|default='0'}" data-stock="{$vo.stock|default='0'}" shipping-fee="{$vo.shipping_fee|default='0'}" data-direct="{$vo.direct_shipping|default='0'}" product-price="{$vo.product_price|default='0'}" post-rate="{$vo.post_rate|default='0'}" post-price="{$vo.post_price|default='0'}">
+        <div class="con">
+          <div class="check on">
+            <span class="che_span"></span>
+            <input type="checkbox" style="display:none;" class="che_input" value="0">
+          </div>
+          <a href="{$vo['product_url']|default='JavaScript:void(0);'}" class="img">
+            <img src="{$vo['product_thumb']|default='__PUBLIC__/Images/nopic.jpg'|thumb=###,100,120,1}" alt="{$vo['product_name']|default='暂无图片'}"/>
+          </a>
+          <p class="p1">{$vo['product_name']|default='暂无标题'}</p>
+          <div class="much">
+            <span class="price">{$vo['price']|default='0.00'}</span>
+            <span class="number" style="display:none;">{$vo['number']|default='0'}</span>
+            <input type="hidden" value="{$vo['price']|default='0.00'}">
+            <input type="hidden" value="{$vo['direct_shipping']|default='0.00'}">
+            <input type="hidden" name="num" value="{$vo['number']|default='0'}">
+          </div>
+          <div id="d{$vo['id']}" class="Spinner"></div>
+          <div class="del">删除</div>
+        </div>
+      </dd>
+      </volist>
+    </dl>
+    <p class="text-info"><small>由于海关规定购买多件商品的总价不能超过￥1000元，如有需要请分次购买。</small></p>
+    <div class="foot">
+      <p class="chose">已选<span id="choose">0</span>件商品</p>
+      <div class="all">
+        <p class="total">商品总额：&yen;<span id="totalprice">0.00</span></p>
+        <p class="total">关税：&yen;<span id="totaldirect">0.00</span></p>
+        <p class="total">运费：<span id="totalshipping">&yen;0.00</span></p>
+        <p class="alls">总计:<span class="red">&yen;<i id="cartprice">0.00</i></span></p>
+      </div>
+      <a href="#" class="btn">去结算</a>
+    </div>
+  </section>
+<script type="text/javascript">
+$(window).load(function(){
+    $('.shop_cat dd .con').each(function(){
+        var i =$(this).index();
+        console.log(i);
+        var unlock_btn = $(this)[i];
+        unlock_btn.addEventListener('touchstart', tstart);
+        unlock_btn.addEventListener('touchmove', tsmove);
+        unlock_btn.addEventListener('touchend', tsend);
+    });
+
+    $('.shop_cat dd .del').click(function(){
+        $(this).parents('dd').hide();
+    });
+});
+var down= 0;
+var up=0;
+function tsmove(event)
+{
+  event.preventDefault();
+  console.log('move');
+}
+function tstart(event)
+{
+  down=event.changedTouches[0].pageX;
+  console.log('tart');
+}
+function tsend(event)
+{
+  up=event.changedTouches[0].pageX;
+  var downj=down-up;
+  if(downj<-30)
+  {
+      this.className= "con";
+      console.log('end');
+  }else if(downj>30)
+  {
+      this.className= "con on";
+      console.log('end2');
+  }
+}
+</script>
+<script type="text/javascript">
+$(function(){
+    var dl = document.getElementById('shop_cat'); // 购物车列表
+    var dd = dl.childNodes; //行
+    for (var i = 0, len = dd.length; i < len; i++) {
+      var tagName = dd[i].tagName;
+      if (tagName == 'DD')
+      {
+        var cartid = dd[i].id;
+        var div = dd[i].childNodes[0];
+        var model = dd[i].getAttribute("data-model");
+        var stock = dd[i].getAttribute("data-stock");
+        var product_price = dd[i].getAttribute("product-price");
+        var post_rate = dd[i].getAttribute("post-rate");
+        var post_price = dd[i].getAttribute("post-price");
+        var much_div = div.childNodes[3];
+        var ddiv = div.childNodes[4];
+        var number = much_div.childNodes[1].innerHTML;
+        var did = ddiv.id;
+        $("#"+did).Spinner({value:number, min:1, len:3, max:stock, cartid:cartid, model:model, product_price:product_price, post_rate:post_rate, post_price:post_price, htmlobj:div});
+      }
+    }
+    // gettotalprice(dd);
+});
+
+/*购物车总价*/
+function gettotalprice()
+{
+  var dl = document.getElementById('shop_cat'); // 购物车列表
+  var dd = dl.childNodes; //行
+  var totalprice = 0; //商品总价
+  var totaldirect = 0; //关税总额
+  var totalshipping = 0; //关税总额
+  var cartprice = 0; //总价格
+  var choose = 0; //已选数量
+  var chooseobj = document.getElementById('choose'); // 已选数量节点
+  var cartobj = document.getElementById('cartprice'); // 商品总价节点
+  var totalobj = document.getElementById('totalprice'); // 商品总价节点
+  var directobj = document.getElementById('totaldirect'); // 关税总价节点
+  var shippingobj = document.getElementById('totalshipping'); // 运费总价节点
+  for (var i = 0, len = dd.length; i < len; i++) {
+    var tagName = dd[i].tagName;
+    if (tagName == 'DD')
+    {
+      var div = dd[i].childNodes[0];
+      var checkdiv = div.childNodes[0];
+      var checkbox = checkdiv.childNodes[1];
+      if (checkbox.value == 1)
+      {
+        choose++;
+        var much_div = div.childNodes[3];
+        var rowshipping = parseInt((parseInt(dd[i].getAttribute("shipping-fee"))*parseInt(much_div.childNodes[4].value))); //单价商品运费
+        var rowprice = parseInt(much_div.childNodes[2].value);
+        var rowdirect = parseInt(much_div.childNodes[3].value);
+        totalprice += rowprice;
+        totaldirect += rowdirect;
+        totalshipping += rowshipping;
+        cartprice = (totalprice + totaldirect + totalshipping);
+      }
+    }
+  }
+
+  if (totalshipping == 0)
+  {
+    shippingobj.innerHTML = '免邮';
+  }
+  else
+    shippingobj.innerHTML = '&yen;'+totalshipping.toFixed(2);
+
+  totalobj.innerHTML = totalprice.toFixed(2);
+  directobj.innerHTML = totaldirect.toFixed(2);
+  cartobj.innerHTML = cartprice.toFixed(2);
+  chooseobj.innerHTML = choose;
+}
+</script>
+<script type="text/javascript">
+/* jQuery.Spinner V1.0 CopyRight (c) 2014 by:Loyaoo Taobao:http://isseven.taobao.com */
+(function($) {
+  $.fn.Spinner = function (opts) {
+    var defaults = {value:1, min:1, len:3, max:99}
+    var options = $.extend(defaults, opts)
+    var keyCodes = {up:38, down:40}
+    return this.each(function() {
+      var a = $('<a></a>'); f(a,0,"Decrease","-");  //鍔�
+      var c = $('<a></a>'); f(c,0,"Increase","+");  //鍑�
+      var b = $('<input/>');f(b,1,"Amount");cv(0);  //鍊�
+      
+      $(this).append(a).append(b).append(c);
+      a.click(function(){if($(this).attr('disabled')=='disabled')return false;cv(-1, 'change')});
+      b.keyup(function(){cv(0, 'change')});
+      c.click(function(){if($(this).attr('disabled')=='disabled')return false;cv(+1, 'change')});
+      b.bind('keyup change paste',function(e){
+        e.keyCode == keyCodes.up && cv(+1);
+        e.keyCode == keyCodes.down && cv(-1);
+      });
+      
+      function cv(n,act){
+        b.val(b.val().replace(/[^\d]/g,''));
+        bv = parseInt(b.val()||options.min)+n;
+        bv >= options.min&&bv<=options.max&&b.val(bv);
+        if(bv <= options.min){b.val(options.min);}
+        if(bv >= options.max){b.val(options.max);}
+        var url = "{:U('Home/Order/ajax',array('do' => update))}";
+        var data = {'moduleid':options.model,'id': options.cartid,'num':b.val()};
+        if (act == 'change')
+        {
+          $.ajax({type:"POST",url: url,data: data,timeout:"4000",dataType:"JSON",success: function(json){
+                if(json.data == 1){
+                  if(bv <= options.min){b.val(options.min);f(a,2,"DisDe","Decrease","disabled");}else{f(a,2,"Decrease","DisDe");}
+                  if(bv >= options.max){b.val(options.max);f(c,2,"DisIn","Increase","disabled");}else{f(c,2,"Increase","DisIn");}
+                }else{
+                  cv(0, 'change');
+                }
+              },
+              error:function(){
+                var d = dialog({title: '购物车提示', content: '无法连接'}).width('150').show();
+                setTimeout(function () {
+                    window.location.reload();
+                }, 1000);
+              }
+          });
+        }
+        else
+        {
+          if(bv <= options.min){b.val(options.min);f(a,2,"DisDe","Decrease","disabled");}else{f(a,2,"Decrease","DisDe");}
+          if(bv >= options.max){b.val(options.max);f(c,2,"DisIn","Increase","disabled");}else{f(c,2,"Increase","DisIn");}
+        }
+        getrowprice();
+      }
+
+      function change_error(data){
+        var d = dialog({title: '购物车提示', content: data.info,quickClose: true}).width('150').show();
+        cv(0);
+      }
+
+      /*计算单件商品总价、购物车总价、关税*/
+      function getrowprice()
+      {
+        //当前节点
+        ddobj = options.htmlobj;
+        //单价商品总价
+        var goodsprice = parseInt(parseInt(options.product_price) * parseInt(b.val()));
+        //商品关税
+
+        if (parseInt(options.post_rate) > 0)
+        var goodsdirect = parseInt((parseInt(options.product_price) * parseInt(options.post_rate)/100) * parseInt(b.val()));
+        else
+        var goodsdirect = parseInt(parseInt(options.post_price) * parseInt(b.val()));
+
+        var muchdiv = ddobj.childNodes[3];
+        muchdiv.childNodes[0].innerHTML = goodsprice.toFixed(2);
+        muchdiv.childNodes[2].value = goodsprice.toFixed(2);
+        muchdiv.childNodes[3].value = goodsdirect.toFixed(2);
+        muchdiv.childNodes[4].value = b.val();
+        gettotalprice();
+      }
+
+      /*购物车总价*/
+      /*function getdlprice()
+      {
+        var dl = document.getElementById('shop_cat'); // 购物车列表
+        var dd = dl.childNodes; //行
+        var totalprice = 0; //商品总价
+        var totaldirect = 0; //关税总额
+        var totalshipping = 0; //关税总额
+        var cartprice = 0; //总价格
+        var choose = 0; //已选数量
+        var chooseobj = document.getElementById('choose'); // 已选数量节点
+        var cartobj = document.getElementById('cartprice'); // 商品总价节点
+        var totalobj = document.getElementById('totalprice'); // 商品总价节点
+        var directobj = document.getElementById('totaldirect'); // 关税总价节点
+        var shippingobj = document.getElementById('totalshipping'); // 运费总价节点
+        for (var i = 0, len = dd.length; i < len; i++) {
+          var tagName = dd[i].tagName;
+          if (tagName == 'DD')
+          {
+            var div = dd[i].childNodes[0];
+            var checkdiv = div.childNodes[0];
+            var checkbox = checkdiv.childNodes[1];
+            if (checkbox.value == 1)
+            {
+              choose++;
+              var much_div = div.childNodes[3];
+              var rowshipping = parseInt((parseInt(dd[i].getAttribute("shipping-fee"))*parseInt(b.val()))); //单价商品运费
+              var rowprice = parseInt(much_div.childNodes[2].value);
+              var rowdirect = parseInt(much_div.childNodes[3].value);
+              totalprice += rowprice;
+              totaldirect += rowdirect;
+              totalshipping += rowshipping;
+              cartprice = (totalprice + totaldirect + totalshipping);
+            }
+          }
+        }
+
+        if (totalshipping == 0)
+        {
+          shippingobj.innerHTML = '免邮';
+        }
+        else
+          shippingobj.innerHTML = '&yen;'+totalshipping.toFixed(2);
+
+        totalobj.innerHTML = totalprice.toFixed(2);
+        directobj.innerHTML = totaldirect.toFixed(2);
+        cartobj.innerHTML = cartprice.toFixed(2);
+        chooseobj.innerHTML = choose;
+      }*/
+    });
+
+    function f(o,t,c,s,w){
+      t==0&&o.addClass(c).attr("href","javascript:void(0)").append("<i></i>").find("i").append(s);
+      t==1&&o.addClass(c).attr({"value":options.value,"autocomplete":"off","maxlength":options.len});
+      t==2&&o.addClass(c).removeClass(s);
+      if(w == 'disabled'){o.attr('disabled',true);}else{o.attr('disabled',false);}
+    }
+  }
+})(jQuery);
+</script>
+<script type="text/javascript">
+//隐藏微信底栏
+document.addEventListener('WeixinJSBridgeReady',function onBridgeReady(){WeixinJSBridge.call('hideToolbar');});
+</script>
+</body>
+</html>

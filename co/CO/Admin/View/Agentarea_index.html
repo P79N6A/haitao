@@ -1,0 +1,42 @@
+<include file="Public:adminHead" />
+<style type="text/css">
+#jj{
+width:100%;
+border:1px solid #eee;
+margin:10px 0px 10px 0px;
+}
+  #jj th{
+    padding:10px 0px 10px 0px;
+    border-bottom:1px solid #d5dfe8;
+    border-right:1px solid #eee;
+    background: #eef3f7;
+  }
+   #jj  tr:hover{
+
+    background: #fbffe4;
+   }
+    #jj td{
+    padding:10px 0px 10px 0px;
+    border-right:1px solid #eee;
+    }
+</style>
+<div id="Right">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+		<tr align="center">
+			<th width="120">负责区域</th>
+      		<td>[{$Area[$info['agentarea'][0]]}-{$Area[$info['agentarea'][1]]}-{$Area[$info['agentarea'][2]]}]</td>
+		</tr>
+		<tr align="center">
+			<th width="120">佣金比例</th>
+      		<td>{$info.commission}%</td>
+		</tr>
+		<tr align="center">
+			<th width="120">所获佣金</th>
+      		<td>&yen;{$info.com_price}</td>
+		</tr>
+	</table>
+</div>
+<include file="Public:adminFoot" />
+
+
+

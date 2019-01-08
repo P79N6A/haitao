@@ -1,0 +1,124 @@
+{__NOLAYOUT__}<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>{$info.title}</title>
+    <meta name="description" content="{$info.title}" />
+    <meta name="author" content="{$info.title}" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+
+    <!-- 手机页面全局 css -->
+    <link rel="stylesheet" href="__PUBLIC__/Css/bootstrap.min.css">
+    <link rel="stylesheet" href="__PUBLIC__/src/css/template.css">
+    <!--拓展样式-->
+    <link rel="stylesheet" href="__PUBLIC__/Css/expand.css">
+
+
+    <!-- 本页自用的 css -->
+	<script src="__PUBLIC__/Js/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Public/css/index02.css">
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.artDialog.js?skin=default"></script>
+    <style type="text/css">
+      .margin-bottom-0{
+        margin-bottom: 0!important
+      }
+      .margin-bottom-5{
+        margin-bottom: 5px
+      }
+      .wenzhangye-small-font{
+        text-align: center;
+        display: block;
+        color: #aaa;
+        margin-bottom: 5px
+      }
+      .margin-0-10{
+        margin: 0 10px;
+        margin-bottom: 5px
+      }
+      .div-none-zhanwei{
+        height: 60px
+      }
+      .h1-wenzhangye{
+        margin-top: 20px;
+        margin-bottom: 10px;
+        font-family: "微软雅黑"
+      }
+    </style>
+</head>
+<body class="article">
+  <article class="article">
+    <h1 class="text-center h1-wenzhangye">{$info.title}</h1>
+    <small class="wenzhangye-small-font">发布时间：{$info.createtime|date="Y年m月d日",###}</small>
+    {if $info['thumb']}
+    <img src="{$info.thumb}" class="wid-100 margin-bottom-5">
+    {/if}
+    <div id="wz">
+    {$info.content}
+    </div>
+  <a class="btn-warning btn btn-block pay_button" style="width:60%;margin:auto" href="{:URL('Home-Tosell/jumpurl')}&id={$info.id}&shop_id={$shopid}">{$info.button}</a>
+  </article>
+
+
+  <div class="div-none-zhanwei"></div><!-- 底拦站位 -->
+  <script type="text/javascript">
+    //隐藏微信底栏
+    document.addEventListener('WeixinJSBridgeReady',function onBridgeReady(){WeixinJSBridge.call('hideToolbar');});
+    //格式化内容
+	$(document).ready(function(){
+		$('#wz').find("*").each(function(){
+			var tem_width=$(this).outerWidth(true);
+			if(Number(tem_width)>=640){
+				$(this).css('width','98%');
+				$(this).css('margin',0);
+				$(this).css('margin','auto');
+			}
+			if($(this).css("margin-left")!='0px'){
+				$(this).css("margin-left",0);
+			}
+			if($(this).css("padding-left")!='0px'){
+				$(this).css("padding-left",0);
+			}
+			if($(this).css("padding-right")!='0px'){
+				$(this).css("padding-right",0);
+			}
+			if($(this).css("margin-right")!='0px')
+				$(this).css("margin-right",0);
+			if($(this).css("text-align")=='center')
+				$(this).css("text-align",'left');
+		});
+
+		$('#wz').find("img").each(function(){
+			$(this).addClass("wid-100 margin-bottom-5");
+		});
+	});
+  function changeorder_second(moduleid,id,doit){
+  var num=1;
+  var datas={'moduleid':moduleid,'id': id,'num':num};
+  $.ajax({
+    type:"POST",
+    url: "/index.php?m=Order&a=ajax&do="+doit,
+    data: datas,
+    timeout:"4000",
+    dataType:"JSON",
+    success: function(data){
+      if(data.data==1){
+            window.location.href="{:URL('Home-Order/checkout')}";
+      }else{
+        art.dialog({ lock:true,icon: 'error',time:'2',content: data.info});
+      }
+      
+    },
+    error:function(){
+        art.dialog({ lock:true,icon: 'error',time:'2',content: "出错"});
+    }
+  });
+}
+  </script>
+</body>
+</html>
+
+
+
+
+
+

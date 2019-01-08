@@ -1,0 +1,356 @@
+<?php
+
+			function getCategoryTree($table,$pid = 0,$cat_tree = array(),$level=0){
+				$result = getTreeTop($table,$pid);
+				foreach ($result as $r) {
+					$str='';
+					for($i=0;$i<$level;$i++){
+						$str.='&nbsp;&nbsp;';
+					}
+					if($level!=0){
+
+					$str.='';
+					}
+					$r['name']='<font color="red">'.$str.'</font>'. $r['realname'];
+					$cat_tree[]=$r;
+					$pid=$r['id'];
+					$cat_tree = getCategoryTree($table,$pid,$cat_tree,$level+1);
+				}
+				return $cat_tree;
+			}
+			function getCategoryTreeAll($table,$pid = 0,$cat_tree = array(),$level=0){
+				$result = getTreeTopAll($table,$pid);
+				foreach ($result as $r) {
+					$str='';
+					for($i=0;$i<$level;$i++){
+						$str.='&nbsp;&nbsp;';
+					}
+					if($level!=0){
+
+					$str.='';
+					}
+					$r['name']='<font color="red">'.$str.'</font>'. $r['realname'];
+					$cat_tree[]=$r;
+					$pid=$r['id'];
+					$cat_tree = getCategoryTreeAll($table,$pid,$cat_tree,$level+1);
+				}
+				return $cat_tree;
+			}
+			function getTreeTop($table, $pid = 0){
+				if($_GET['groupid']!=6){
+				$sql='select id,realname,parent_id from '.$table.' where groupid>5 and groupid<14 and parent_id ='. $pid ;
+				}else{
+
+				/*$sql='select id,realname,parent_id from '.$table.' where groupid =(select groupid from '.$table.' where id='.$_GET['id'].') and parent_id ='. $pid ;*/
+				}
+				//echo $sql;exit;
+				$query=mysql_query($sql);
+				$result= array();
+				while($r = mysql_fetch_assoc($query)){
+					if($r['id']!=$_GET['id'])
+					$result[]=$r;
+
+				}
+				///print_r($result);exit;
+				return $result;
+			}
+			function getTreeTopAll($table, $pid = 0){
+				$sql='select id,realname,parent_id from '.$table.' where groupid >5 and groupid < 14 and parent_id ='. $pid ;
+				//echo $sql;exit;
+				$query=mysql_query($sql);
+				$result= array();
+				while($r = mysql_fetch_assoc($query)){
+					$result[]=$r;
+
+				}
+				///print_r($result);exit;
+				return $result;
+			}
+				$sql='select groupid from qq_user where  id='.$_GET['id'];
+				//echo $sql;exit;
+				$query=mysql_query($sql);
+				$result= mysql_fetch_assoc($query);
+				if($result['groupid']>5&&$result['groupid']<13){
+				$cat_tree = getCategoryTree("qq_user");
+				}else{
+					$cat_tree = getCategoryTreeAll("qq_user");
+				}
+			//print_r($cat_tree);exit();
+
+		?>
+<style type="text/css">
+	
+#edit_table{
+	width: 70%;
+	font-size: 15px;
+	font-family: '宋体';
+	font-weight: normal;
+	position: absolute;
+	top:0px;
+	right:0px;
+	background: #fff;
+	z-index: 999;
+	display: none;
+	text-align: left;
+}
+#select_ul li{
+	border:2px solid #779DB3;
+	cursor: pointer;
+}
+#select_ul .has_select{
+	border:2px solid #c30008;
+	background:url(/co/Public/admin/images/select_icon1.png)no-repeat scroll 100% 100% transparent;
+	background-size: 15px;
+}
+</style>
+	<div id="edit_table" class="edit_form">
+	<div style="background:#0B62C0;width:100%;color:#fff;padding:10px 0px 10px 0px;border-radius:6px 6px 0px 0px;">
+	<span onclick="$('#edit_table').fadeToggle();" style="float:right;cursor:pointer;margin-right:10px;">关闭</span><span style="margin-left:10px">选择上级</span>
+	</div>
+	<div id="info_table" style="overflow:hidden;padding:10px 0px 10px 0px">
+		
+	</div>
+	<input type="hidden" value="" id="fianl_par" />
+	<input type="hidden" value="" id="fianl_parname" />
+	<input style="padding:5px 25px 5px 25px;background: #1b75b6;color: #fff;border:none;margin-left:2%" name="sub" type="submit"   onclick="par_save()" value="确定" />
+	</div>
+      <form id="myform" action="<if condition="$action_name=='add'">{:U('User/insert')}<else />{:U('User/update')}</if>" method="post">
+      	<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+      	<tr>
+		<td width="120">{:L('username')}</td>
+		<td><if condition="$action_name=='add'"> <input type="text" class="input-text"  name="username" validate="required:true,en_num:true, minlength:5, maxlength:20"/><else />{$vo['username']}</if></td>
+		</tr>
+		<tr>
+		<td>{:L('password')}</td><td><input type="password" id="pwd" name="pwd" class="input-text" validate=" <if condition="$action_name=='add'">required:true,</if> minlength:5, maxlength:20"/></td>
+		</tr>
+		<tr>
+			<td>{:L('realname')}</td>
+			<td><input type="text" class="input-text"  name="realname" value="{$vo.realname}" ></td>
+		</tr>
+		<tr>
+			<td>{:L('email')}</td>
+			<td><input type="text" class="input-text"  name="email" value="{$vo.email}" validate="required:true,email:true,remote: '{:U('Login/checkEmail?userid='.$vo[id])}' , minlength:1, maxlength:40"></td>
+		</tr>
+		<tr>
+
+		<td>{:L('user_is_enable')}</td>
+		<td>
+		{:L('yes')}<input type="radio" name="status" value="1" <eq name="vo['status']" value="1">checked="checked"</eq> />
+		{:L('no')}<input type="radio" name="status" value="0" <eq name="vo['status']" value="0">checked="checked"</eq> />
+		</td>
+		</tr>
+		<tr>
+		<td valign="top">{:L('user_group')}</td>
+		<td>
+		<input type="hidden" name="groupid"<if condition="$vo['groupid'] neq null">value="{$vo['groupid']}" <elseif condition="$_GET['groupid']  neq null" />value="{$_GET['groupid']}"</if> />
+		<select name="groupid" disabled>
+		<volist name="rlist" id="row" >
+			<option value="{$row['id']}" <eq name="_GET['groupid']" value="$row['id']">selected="selected"</eq> <eq name="vo['groupid']" value="$row['id']">selected="selected"</eq>>{$row['name']}</option>
+		</volist>
+		</select>
+		</td>
+		</tr>
+		<!-- <tr>
+			<td>{:L('question')}</td>
+			<td><input type="text" class="input-text"  name="question" value="{$vo.question}"></td>
+		</tr> -->
+		<!-- <tr>
+			<td>{:L('answer')}</td>
+			<td><input type="text" class="input-text"  name="answer" value="{$vo.answer}"></td>
+		</tr> -->
+		<tr>
+			<td>{:L('sex')}</td>
+			<td><input type="radio" id="" name="sex" value=1 <eq name='vo.sex' value='1'>checked </eq> /> {:L('sex1')}&nbsp;<input type="radio" id="" name="sex" value=2 <eq name='vo.sex' value='2'>checked </eq> /> {:L('sex2')} &nbsp;<input type="radio" id="" name="sex" value=1 <eq name='vo.sex' value='0'>checked </eq> />{:L('sex0')}</td>
+		</tr>
+		<!-- <tr>
+			<td>{:L('telephone')}</td>
+			<td><input type="text" class="input-text"  name="tel" value="{$vo.tel}"></td>
+		</tr> -->
+		<tr>
+			<td>{:L('mobile')}</td>
+			<td><input type="text" class="input-text"  name="mobile" value="{$vo.mobile}"></td>
+		</tr>
+		<tr>
+			<td>{:L('fax')}</td>
+			<td><input type="text" class="input-text"  name="fax" value="{$vo.fax}"></td>
+		</tr>
+		<!-- <tr>
+			<td>{:L('web_url')}</td>
+			<td><input type="text" class="input-text"  name="web_url" value="{$vo.web_url}"></td>
+		</tr> -->
+		<tr>
+			<td>{:L('address')}</td>
+			<td><input type="text" class="input-text"  name="address" value="{$vo.address}"></td>
+		</tr>
+
+		<tr>
+			<td >省份：</td><td>
+			<select name="province" id="province" onchange="area_change(this.value,1,'province','city','area',{$langid});" class="ddlbox" value="{$vo.province}">
+			<?php $province=$vo['province'];
+			$sql="select name from `qq_area` where `id`=".$province;
+			$query=mysql_query($sql);
+			$result=mysql_fetch_assoc($query);
+			if($province){
+			?>
+			<option value="{$vo.province}"><?php echo $result['name'];?></option><?php }else{?>
+			<option value="0" onchange="area_change(0,0,'province','city','area',1);">请选择省份</option><?php }?>
+				 </select> <span class="button" onclick="area_change(0,0,'province','city','area',1);" >修改地域</span></td>
+				</tr><tr>
+			<td >城市：</td><td>
+			<select name="city" onchange="area_change(this.value, 2,'province','city','area',{$langid});" 	id="city" class="ddlbox" >
+			<?php $city=$vo['city'];
+			$sql="select name from `qq_area` where `id`=".$city;
+			$query=mysql_query($sql);
+			$result=mysql_fetch_assoc($query);
+			if($province){
+			?>
+			<option value="{$vo.city}"><?php echo $result['name'];?></option><?php }else{?>
+			<option value="0"  onkeypress="area_change(0,0,'province','city','area',1);">请选择城市</option><?php }?>
+			</select>
+		</td>
+		</tr>
+		<tr>
+			<td >城市：</td><td>
+			<select name="area" onchange="area_change(this.value, 3,'province','city','area',{$langid});" 	id="area" class="ddlbox" >
+			<?php $area=$vo['area'];
+			$sql="select name from `qq_area` where `id`=".$area;
+			$query=mysql_query($sql);
+			$result=mysql_fetch_assoc($query);
+			if($province){
+			?>
+			<option value="{$vo.province}"><?php echo $result['name'];?></option><?php }else{?>
+			<option value="0"  onkeypress="area_change(0,0,'province','city','area',1);">请选择区域</option><?php }?>
+			</select>
+		</td></tr>
+		<tr>
+<if  condition="$vo['groupid'] neq null">
+<if  condition="$vo['groupid'] gt 5 and $vo['groupid'] lt 14">
+		<td valign="top">微店类型</td>
+		<td>
+		<select name="groupid">
+		<volist name="rlist" id="row">
+			<if  condition="$row['id'] gt 5 and $row['id'] lt 13 ">
+			<option   value="{$row['id']}" <eq name="vo['groupid']" value="$row['id']">selected="selected"</eq>>{$row['name']}</option>
+			</if>
+		</volist>
+		</select>
+		</td>
+		</tr>
+</if>				
+		<tr>
+			<td>上级单位</td>
+			<td>
+			<!-- 
+				<select name="parent_id">
+					<option value="0" {if 0==$vo['parent_id']}selected="selected"{/if}>有酒派</option>
+					<?php foreach ($cat_tree as $k=> $rr): ?>
+						<option value="{$rr.id}" {if $rr['id']==$vo['parent_id']}selected="selected"{/if}>{$rr.name}</option>
+					            <?php endforeach;?>
+				</select> -->
+				<span id="parent_name">
+				{if 0==$vo['parent_id']}有酒派{/if}
+					<?php foreach ($cat_tree as $k=> $rr): ?>
+						 {if $rr['id']==$vo['parent_id']}{$rr.name}{/if}
+					<?php endforeach;?>
+				</span>
+					<input name="parent_id" type="hidden" value="{$vo['parent_id']}" />
+				<span class="button" onclick="change_par({$vo['id']});" >更换上级</span>
+				<input style="height:25px;" placeholder="输入微店真实姓名" type="text" value="" id="search_par"/><span class="button" onclick="search_par({$vo['id']});" >搜索上级</span>
+			</td>
+		</tr>
+</if>
+
+
+		</table>
+
+		<div class="btn">
+		<if condition="$action_name=='edit'"><input type="hidden" name="id" value="{$vo['id']}" />
+		<input type="hidden" name="opwd" value="{$vo['password']}" /></if>
+		<input type="hidden" name="forward" value="{$_SERVER['HTTP_REFERER']}" />
+		<INPUT TYPE="submit"  value="{:L('dosubmit')}" class="button" >
+		<input TYPE="reset"  value="{:L('cancel')}" class="button">
+		</div>
+
+      </form>
+     </div>
+
+
+    <script type="text/javascript">
+    		function area_change(id,level,province,city,area,lang,provinceid,cityid,areaid){
+
+	var datas={'level':level,'provinceid':provinceid,'cityid':cityid,'areaid':areaid,'lang':lang};
+	$.ajax({
+		type:"POST",
+		url: "/index.php?m=Ajax&a=Area&id="+id,
+		data: datas,
+		timeout:"4000",
+		dataType:"json",
+		success: function(data){
+			if(level==0){
+			$('#'+province).html(data.province);
+			$('#'+city).html(data.city);
+			$('#'+area).html(data.area);
+			}else if(level==1){
+			$('#'+city).html(data.city);
+			$('#'+area).html(data.area);
+			}else if(level==2){
+				$('#'+area).html(data.area);
+			}
+		},
+		error:function(){
+			alert("time out,try it");
+		}
+	}); 
+}
+/*area_change(0,0,'province','city','area',1);*/
+
+	function change_par(id){
+			$.ajax({
+		type:"get",
+		url: "/index.php?m=Ajax&a=change_par",
+		data: {'id':id},
+		timeout:"4000",
+		dataType:"html",
+		success: function(data){
+			$('#info_table').empty().append(data);
+			$('#edit_table').fadeIn();
+		},
+		error:function(){
+			alert("time out,try it");
+		}
+	}); 
+	}	
+	function search_par(id){
+		var name=$('#search_par').val();
+			$.ajax({
+		type:"get",
+		url: "/index.php?m=Ajax&a=search_par",
+		data: {'name':name,'id':id},
+		timeout:"4000",
+		dataType:"html",
+		success: function(data){
+			$('#info_table').empty().append(data);
+			$('#edit_table').fadeIn();
+		},
+		error:function(){
+			alert("time out,try it");
+		}
+	}); 
+	}
+	function par_select(obj){
+		var id=$(obj).find('input').val();
+		var name=$(obj).find('span').text();
+		$('#fianl_par').val(id);
+		$('#fianl_parname').val(name);
+		$(obj).prevAll().removeClass('has_select');
+		$(obj).nextAll().removeClass('has_select');
+		$(obj).addClass('has_select');
+	}
+	function par_save(){
+		var id=$('#fianl_par').val();
+		var name=$('#fianl_parname').val();
+		$("input[name='parent_id']").val(id);
+		$("#parent_name").text(name);
+		$('#edit_table').fadeToggle();
+	}
+</script>

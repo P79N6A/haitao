@@ -1,0 +1,51 @@
+<include file="Home:headerred"/>
+<div class="bg" id="bg">
+  <div class="sponsor">
+    <switch name="isget" >
+      <case value="1">
+        <p class="haveto">可惜了，<span>{$userinfo.wechat_name|default="微信用户"}</span>的红包抢完了！</p>
+      </case>
+      <case value="2">
+        <span class="sponsors"><img src="{$userinfo.wechat_pic|default='__PUBLIC__/Images/user.jpg'}"></span>
+        <p class="have">您领过<span>{$userinfo.wechat_name|default="微信用户"}</span> 发的上优舶红包了！</p>
+      </case>
+      <case value="3">
+        <span class="sponsors"><img src="{$userinfo.wechat_pic|default='__PUBLIC__/Images/user.jpg'}"></span>
+        <p class="have">您已经抢过<span>{$userinfo.wechat_name|default="微信用户"}</span> 发的上优舶红包了！</p>
+      </case>  
+      <default />
+    </switch>
+    <div style="clear:both"></div>
+  </div>
+  <eq name="isget" value="1">
+  <div class="ding ding1">
+      <img src="../Public/img/end1.png">
+  </div>
+  <else/>
+  <div class="ding">
+    <img src="../Public/img/zhong.png">
+    <p class="text">&yen<strong>{$onewallet|default='0'}元</strong></p>
+  </div>
+  </eq>
+</div>
+<ul class="friend">
+<volist name="allenvelope" id="item">
+<li>
+  <img src="{$item.wechat_pic|default='__PUBLIC__/Images/user.jpg'}">
+  <span class="name">{$item.wechat_name|default="微信用户"}</span>
+  <span class="money">{$item.drawwallet|default="0"}元</span>
+  <div class="clear"></div>
+</li>
+</volist>
+</ul>
+<div class="foot">
+ <img src="../Public/img/ubologo.jpg">
+ <p>长按二维码关注上优舶公众号海淘时尚大牌</p>
+ <div style="clear:both"></div>
+</div>
+<script type="text/javascript">
+//隐藏微信底栏
+document.addEventListener('WeixinJSBridgeReady',function onBridgeReady(){WeixinJSBridge.call('hideToolbar');});
+</script>
+</body>
+</html>

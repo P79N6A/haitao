@@ -1,0 +1,297 @@
+<style type="text/css">
+  .rad{display: inline-block;
+min-width: 10px;
+padding: 3px 7px;
+font-size: 12px;
+font-weight: bold;
+line-height: 1;
+color: #fff;
+text-align: center;
+white-space: nowrap;
+vertical-align: baseline;
+background-color: #999;
+border-radius: 10px;margin-right: 13px;
+background: red;
+margin-top: 1px;line-height: normal;
+float: right;
+}
+ #BgDiv1{background-color:#000; position:absolute; z-index:9999;  display:none;left:0px; top:0px; width:100%; height:100%;opacity: 0.6; filter: alpha(opacity=60);}
+.DialogDiv{position:absolute;z-index:99999;}
+  .U-guodu-box { padding:5px 15px;  background:#3c3c3f; filter:alpha(opacity=90); -moz-opacity:0.9; -khtml-opacity: 0.9; opacity: 0.9;  min-heigh:200px; border-radius:10px;}
+.U-guodu-box div{ color:#fff; line-height:20px; font-size:12px; margin:0px auto; height:100%; padding-top:10%; padding-bottom:10%;}
+</style>
+ <body style="padding:0 ;background:#f7f7f7" >
+<!--  {if $the_u['groupid']>=4}
+<img src="__PUBLIC__/Images/is_gold.jpg" class="wid-100">
+{elseif $the_u['groupid']==3 && $the_u['username']!=''}
+<img src="__PUBLIC__/Images/be_gold.jpg" class="wid-100" onclick="open_select()">
+{else}
+<img src="__PUBLIC__/Images/be_menber.jpg" class="wid-100" onclick="location.href='{:URL('User-Register/index')}';">
+{/if} -->
+    <div class="tiao"><h3 class="text-center">个人中心{if $shop_info['shop_name']}{$shop_info.shop_name}-有酒派{else}有酒派{/if} 欢迎您：{$vo.wechat_name}</h3></div>
+
+    <div class="personal">
+      <table class="table table-striped table-hover"style="margin-bottom:0px">
+        <tr>
+          <td align="left" width="60"><img src="__PUBLIC__/Images/q1.png" class="s0"></td>
+          <td align="left" colspan="3"><a href="/index.php?g=User&m=Order&a=index" class="ism" style="text-decoration:none">我的订单</a></td>
+        </tr>
+        <tr>
+          <td align="left" width="60"><img src="__PUBLIC__/Images/q3.png" class="s0"></td>
+          <td align="left" colspan="3"><a href="/index.php?g=User&m=Index&a=news_list" class="ism" style="text-decoration:none">我的消息{if $news_count}<span  class="rad">{$news_count}</span>{/if}</a></td>
+        </tr>
+        <tr>
+          <td align="left" width="60"><img src="__PUBLIC__/Images/q6.png" class="s0"></td>
+          <td align="left" colspan="3"><a href="{:URL('User-Index/address')}" class="ism" style="text-decoration:none">收货地址管理</a></td>
+        </tr>
+        <tr>
+          <td align="left" width="60"><img src="__PUBLIC__/Images/q8.png" class="s0"></td>
+          <td align="left" colspan="3"><a href="/index.php?g=User&m=Index&a=cash_use" class="ism" style="text-decoration:none">我的电子现金<span class="dianzixianjin-money">&yen;{$vo.cash_use}</span></a></td>
+        </tr>
+      </table>
+    </div>
+
+  <div class="persona2">
+    <table class="table table-striped table-hover"style="margin-bottom:0px" >
+      <tr>
+        <td align="left" width="60"><img src="__PUBLIC__/Images/q7.png" class="s0"></td>
+        <td align="left" colspan="3"><a href="/index.php?a=index&m=Page&id=12" class="ism" style="text-decoration:none">会员指南</a></td>
+      </tr>
+      <tr>
+        <td align="left" width="60"><img src="__PUBLIC__/Images/q9.png" class="s0"></td>
+        <td align="left" colspan="3"><a href="/index.php?a=index&m=Page&id=31" class="ism" style="text-decoration:none">消费指南</a></td>
+      </tr>
+      <tr>
+        <td align="left" width="60"><img src="__PUBLIC__/Images/q10.png" class="s0"></td>
+        <td align="left" colspan="3"><a href="/index.php?a=index&m=Page&id=11" class="ism" style="text-decoration:none">公司介绍</a></td>
+      </tr>
+      <tr>
+        <td align="left" width="60"><img src="__PUBLIC__/Images/q111.png" class="s0"></td>
+        <td align="left" colspan="3"><a href="/index.php?g=User&m=Index&a=my_collect" class="ism" style="text-decoration:none">我的收藏</a></td>
+      </tr>
+
+    <if condition="$vo['groupid'] gt 5 and $vo['groupid'] lt 14 ">
+      <tr>
+        <td align="left" width="60"><img src="__PUBLIC__/Images/q2.png" class="s0"></td>
+        <td align="left" colspan="3"><a href="/index.php?g=Home&m=Qrcode&a=code&id={$vo.id}" class="ism" style="text-decoration:none">我的推广二维码(经营者)</a></td>
+      </tr>
+
+      <tr>
+        <td align="left" width="60"><img src="__PUBLIC__/Images/q2.png" class="s0"></td>
+        <td align="left" colspan="3"><a href="/index.php?g=Home&m=Tosell&a=index&shop_id={$vo.id}&catid=34" class="ism" style="text-decoration:none">推广文章</a></td>
+      </tr>
+
+      <tr>
+        <td align="left" width="60"><img src="__PUBLIC__/Images/q2.png" class="s0"></td>
+        <td align="left" colspan="3"><a href="/index.php?g=Home&m=Tosell&a=index&shop_id={$vo.id}&catid=35" class="ism" style="text-decoration:none">推广产品</a></td>
+      </tr>
+    <elseif condition="$vo['groupid'] gt 2 and $vo['groupid'] lt 5 " />
+      <!-- <a href="/index.php?g=User&m=Index&a=beshop" class="ism" style="text-decoration:none"><img src="__PUBLIC__/Images/q2.png" class="s0"><p class="mmd">申请成为经营者</p><i class=" icon-chevron-right margin-right-12"></i></a> -->
+    </if>
+    </table>
+  </div>
+
+  <div class="zhongxin">
+    <h1 class="text-center" style="margin-top:0px;margin-bottom:0px">个人中心</h1>
+    <table class="liebiao text-center">
+    <col width="30%"/>
+            <col width="30%"/>
+            <col width="30%"/>
+      <tr>
+        <td class="gao">
+          <span class="glyphicon glyphicon-list-alt daxiao2" aria-hidden="true"><br>
+          <a href="/index.php?g=User&m=Order&a=index" class="ism" style="text-decoration:none">我的订单</a>
+          </span>
+        </td>
+        <td class="gao">
+          <span class="glyphicon glyphicon-envelope daxiao2" aria-hidden="true"></span><br>
+          <span class="glyphicon-class"><a href="/index.php?g=User&m=Index&a=news_list" class="ism" style="text-decoration:none">我的消息{if $news_count}<span  class="rad">{$news_count}</span>{/if}</a></span>
+        </td>
+        <td class="gao">
+          <span class="glyphicon glyphicon-wrench daxiao2" aria-hidden="true"></span><br>
+          <span class="glyphicon-class"><a href="{:URL('User-Index/address')}" class="ism" style="text-decoration:none">收货地址管理</a></span>
+        </td>
+      </tr>
+      <tr>
+        <td class="gao">
+          <span class="glyphicon glyphicon-yen daxiao2" aria-hidden="true"></span><br>
+          <span class="glyphicon-class"><a href="/index.php?g=User&m=Index&a=cash_use" class="ism" style="text-decoration:none">我的电子现金<span class="dianzixianjin-money">&yen;{$vo.cash_use}</span></a></span>
+        </td>
+        <td class="gao">
+          <span class="glyphicon glyphicon-export daxiao2" aria-hidden="true"></span><br>
+          <span class="glyphicon-class"><a href="/index.php?a=index&m=Page&id=12" class="ism" style="text-decoration:none">会员指南</a></span>
+        </td>
+        <td class="gao">
+          <span class="glyphicon glyphicon-hand-down daxiao2" aria-hidden="true"></span><br>
+          <span class="glyphicon-class"><a href="/index.php?a=index&m=Page&id=31" class="ism" style="text-decoration:none">消费指南</a></span>
+        </td>
+      </tr>
+      <tr>
+        <td class="gao">
+          <span class="glyphicon glyphicon-bookmark daxiao2" aria-hidden="true"></span><br>
+          <span class="glyphicon-class"><a href="/index.php?a=index&m=Page&id=11" class="ism" style="text-decoration:none">公司介绍</a></span>
+        </td>
+        <td class="gao">
+          <span class="glyphicon glyphicon-inbox daxiao2" aria-hidden="true"></span><br>
+          <span class="glyphicon-class"><a href="/index.php?g=User&m=Index&a=my_collect" class="ism" style="text-decoration:none">我的收藏</a></span>
+        </td>
+        <td class="gao">
+          <span class="glyphicon glyphicon-home daxiao2" aria-hidden="true"></span><br>
+          <span class="glyphicon-class"><a href="file:///C:/Users/Administrator/Desktop/youjiupaikuangjia/first.html">首页</a></span>
+        </td>
+
+        
+        <if condition="$vo['groupid'] gt 5 and $vo['groupid'] lt 14 ">
+          <td class="gao">
+            <span class="glyphicon glyphicon-home daxiao2" aria-hidden="true"></span><br>
+            <span class="glyphicon-class"><a href="/index.php?g=Home&m=Qrcode&a=code&id={$vo.id}" class="ism" style="text-decoration:none">我的推广二维码(经营者)</a></span>
+          </td>
+          <td class="gao">
+            <span class="glyphicon glyphicon-home daxiao2" aria-hidden="true"></span><br>
+            <span class="glyphicon-class"><a href="/index.php?g=Home&m=Tosell&a=index&shop_id={$vo.id}&catid=34" class="ism" style="text-decoration:none">推广文章</a></span>
+          </td>
+          <td class="gao">
+            <span class="glyphicon glyphicon-home daxiao2" aria-hidden="true"></span><br>
+            <span class="glyphicon-class"><a href="/index.php?g=Home&m=Tosell&a=index&shop_id={$vo.id}&catid=35" class="ism" style="text-decoration:none">推广产品</a></span>
+          </td>
+        <elseif condition="$vo['groupid'] gt 2 and $vo['groupid'] lt 5 " />
+          <td class="gao">
+            <span class="glyphicon glyphicon-home daxiao2" aria-hidden="true"></span><br>
+            <span class="glyphicon-class"><a href="/index.php?g=User&m=Index&a=beshop" class="ism" style="text-decoration:none">申请成为经营者</a></span>
+          </td>
+          <!-- <a href="/index.php?g=User&m=Index&a=beshop" class="ism" style="text-decoration:none"><img src="__PUBLIC__/Images/q2.png" class="s0"><p class="mmd">申请成为经营者</p><i class=" icon-chevron-right margin-right-12"></i></a> -->
+        </if>
+      </tr>
+    </table>
+  </div>
+
+    <!-- Modal -->
+      <input type="hidden" class="button_select" data-toggle="modal" data-target="#myModal3" />
+    <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">升级通道</h4>
+          </div>
+          <div class="modal-body">
+            <p><strong>亲！</strong>请选择升级方式。</p>
+            <input type="button" id="up_year"  onclick="uplevel('1')" class="btn-warning btn btn-block pay_button" value="直接支付288元年费" />
+            <input type="button" id="up_fee" onclick="uplevel('2')" class="btn-primary btn btn-block pay_button" value="充值2000元电子现金" />
+          </div>
+          <div class="modal-footer margin-top-0">
+            <a href="javascript:location.reload()" class="btn btn-default">取消</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <!-- Modal -->
+      <input type="hidden" class="button_success" data-toggle="modal" data-target="#myModal" />
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">金会员升级通道</h4>
+          </div>
+          <div class="modal-body">
+            <p><strong>亲！</strong>请点击以下支付按钮进入支付页面。</p>
+            (本次升级需支付<font color="red">&yen;<span class="pay_money"></span></font>)
+            <a href="" class="btn btn-warning btn btn-block pay_button">进入支付</a>
+          </div>
+          <div class="modal-footer margin-top-0">
+            <a href="javascript:location.reload()" class="btn btn-default">取消</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <!-- Modal -->
+      <input type="hidden" class="button_error" data-toggle="modal" data-target="#myModal2" />
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">失败</h4>
+          </div>
+          <div class="modal-body">
+            <p><strong>亲！</strong>获取失败了。</p>
+            (<span class="error_info"></span>)
+          </div>
+          <div class="modal-footer margin-top-0">
+            <a href="javascript:location.reload()" class="btn btn-default">刷新页面试试</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+ <!-- 隐藏界面 -->
+ 
+<div id="BgDiv1"></div>
+  <div class="DialogDiv"  style="display:none; ">
+                    <div class="U-guodu-box">
+                    <div>
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" >
+                        <tr><td  align="center"><img src="__PUBLIC__/Images/loading.gif"></td></tr>
+                        <tr><td  valign="middle" align="center" style="color:#fff">正在获取支付按钮，请稍等！</td></tr>
+                    </table>
+                    </div>
+              </div>
+        </div>
+<script type="text/javascript">
+  function open_select(){
+        $.ajax({
+         type:"POST",
+          url:"/index.php?a=get_role_fee&m=Upleve&g=User",
+          data:{},
+         timeout:"6000",
+         dataType:"JSON",
+         success:function(data){
+          $("#up_year").val("直接支付"+data.gold_fee+"元年费");
+          $("#up_fee").val("充值"+data.gold_money+"元电子现金");
+      }
+    });
+    $(".button_select").click();
+  }
+  function uplevel(type){
+    open_div();
+    $.ajax({
+      type:"POST",
+      url:"/index.php?a=index&m=Upleve&g=User",
+      data:{"type":type},
+      timeout:"6000",
+      dataType:"JSON",
+      success:function(data){
+        close_div();
+        if(data.status!=0){
+          $(".pay_button").attr("href",data.url);
+          $(".pay_money").text(data.fee);
+        $(".button_success").click();
+        }else{
+        $(".error_info").text(data.msg);
+        $(".button_error").click();
+        }
+      }
+    });
+  }
+  function open_div(){
+      $("#BgDiv1").css({ display: "block", height: $(document).height() });
+      var yscroll = document.documentElement.scrollTop;
+      var screenx=$(window).width();
+      var screeny=$(window).height();
+      $(".DialogDiv").css("display", "block");
+       $(".DialogDiv").css("top",yscroll+"px");
+       var DialogDiv_width=$(".DialogDiv").width();
+       var DialogDiv_height=$(".DialogDiv").height();
+        $(".DialogDiv").css("left",(screenx/2-DialogDiv_width/2)+"px")
+       $(".DialogDiv").css("top",(screeny/2-DialogDiv_height/2)+"px")
+       $("body").css("overflow","hidden");
+  }
+  function close_div(){
+      $("#BgDiv1").css("display", "none");
+      $(".DialogDiv").css("display", "none");
+  }
+</script>
+

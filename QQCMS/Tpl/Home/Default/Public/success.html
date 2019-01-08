@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>上优舶 - {:L('message_title')}</title>
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv='Refresh' content='{$waitSecond};URL={$jumpUrl}'>
+<link rel="stylesheet" href="./Public/Css/bootstrap.min.css">
+<!--拓展样式-->
+<link rel="stylesheet" href="./Public/Css/index02.css">
+<!-- 本页自用css全局 -->
+ <style type="text/css">
+body{background-color:#fff}
+.u-default-btn{width: 80%;font-size: 15px;}
+.u-default-text{font-size: 20px;}
+</style>
+</head>
+<body>
+<div>
+<div class="u-module u-default-page">
+	<div class="u-default-logo">
+	<span class="u-d-icon i-d-cart">
+	  <img src="./Public/Images/check50.png">
+	</span>
+	</div>
+  	<p class="u-default-text">{$message} {$error}</p>
+  	<p class="u-default-btn">
+	<present name="closeWin" >
+	{:L('msg_system_1')} <span style="color:blue;font-weight:bold">{$waitSecond}</span> {:L('msg_system_2')} <a href="{$jumpUrl}">{:L('close')}</a> {:L('click_this')}
+	</present>
+	<notpresent name="closeWin" >
+	{:L('msg_system_1')} <span style="color:blue;font-weight:bold">{$waitSecond}</span> {:L('msg_system_2')} <a href="{$jumpUrl}">{:L('click_this')}</a> {:L('jump')}
+	</notpresent>
+	</p>
+  	<!-- <a href="{:U('Home/Index/index')}" class="u-default-btn" >先去首页逛逛吧</a> -->
+</div>
+</div>
+<?php if ($dialog):?>
+<script type="text/javascript" src="./Public/Js/jquery.min.js"></script> 
+<script type="text/javascript" src="./Public/Js/jquery.artDialog.js?skin=default"></script> 
+<script type="text/javascript" src="./Public/Js/iframeTools.js"></script> 
+<script type="text/javascript" src="./Public/Js/my.js"></script> 
+<script type="text/javascript" src="./Public/Js/swfupload.js"></script> 
+<script style="text/javascript"> 
+ setTimeout(function(){ 
+ <?php if ($jumpUrl!=1):?>art.dialog.open.origin.location.href='{$jumpUrl}';<?php endif;?>
+ art.dialog.close(); 
+ },{:$waitSecond*1000}); 
+</script>
+<?php endif;?>
+
+<?php if ($script):?>
+<script style="text/javascript">{$script}</script>
+<?php endif;?>
+
+<script type="text/javascript">
+//隐藏微信底栏
+document.addEventListener('WeixinJSBridgeReady',function onBridgeReady(){WeixinJSBridge.call('hideToolbar');});
+
+//创建slider组件
+$('#slider').slider({loop:true});
+</script>
+</body>
+</html>

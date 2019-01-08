@@ -1,0 +1,77 @@
+{__NOLAYOUT__}<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>欢迎关注上优舶</title>
+    <meta name="description" content="{$seo_keywords}" />
+    <meta name="author" content="{$site_name}" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+
+    <!-- 手机页面全局 css -->
+    <link rel="stylesheet" href="__PUBLIC__/Css/bootstrap.min.css">
+    <link rel="stylesheet" href="__PUBLIC__/src/css/template.css">
+
+    <!-- 本页自用的 css -->
+    <link rel="stylesheet" href="../Public/css/index02.css">
+<style type="text/css">
+/*文章样式*/
+body.article{background:#fffeee}
+article.article{width:100%;display:block;margin:10px auto}
+article.article p{width:90%;margin:10px auto;font-size:14px}
+article.article img{max-width:100%!important}
+article.article h1{font-size:20px;border-left:10px solid #f06200;padding:0 10px 0 4px}
+article.article h2{font-size:18px;border-left:10px solid #f06200;padding:0 10px 0 4px}
+article.article h3,article.article h4,article.article h5,article.article h6{font-size:16px;border-left:10px solid #f06200;padding:0 10px 0 4px}
+article.article li{max-width:90%;margin-bottom:5px}
+article.article div{width:90%;margin:10px auto}
+article.article div div{width:100%!important}
+article.article div p{width:100%!important}
+article.article div li{width:100%!important}
+article.article p div{width:100%!important}
+article.article p p{width:100%!important}
+article.article>span{display:block;width:90%;margin:10px auto}
+article.article .code-zoom{width:100%;padding:20px 0 4px 0;margin-top:-10px;background:url(Public/Images/123.png) #ccc;background-size:cover;box-shadow:inset 0 0 10px #000}
+article.article .code-zoom h1,article.article .code-zoom p{color:#fff;text-shadow:1px 1px 2px #000;font-weight:bold}
+article.article .code-zoom h1{border-right:10px solid #f06200}
+article.article .qrcode{background:#fff;border-radius:6px;overflow:hidden;width:60%;box-shadow:1px 1px 6px #000}
+</style>
+</head>
+
+<body class="pang article">
+  <article class="article">
+    <div class="code-zoom">
+      <h1 class="text-center">{$shop_info.page_title|default="上优舶二维码"}</h1>
+  <img src="{$code.url}" class="margin-auto display-block margin-bottom-20 qrcode">
+      <p class="text-center">微信扫一扫，立即关注</p>
+    </div>
+    <div class="wid-90">
+      <h2>{$info.title}</h2>
+      <p>{$info.content}</p>
+      <h2>{$shop_info.title}</h2>
+      <p>{$shop_info.content|htmlspecialchars_decode=###}</p>
+    </div>
+   <!-- <a href="{:URL('User-Register/index')}&shop_id={$shop_id}" class="btn btn-warning btn-block" style="padding:20px auto;width:90%;margin:auto">立即注册</a> -->
+  </article>
+
+    <table class="fix">
+      <tbody>
+        <tr>
+          <td style="width:15%;border-right:1px solid #c4c4c4"><a href="javascript:history.go(-1)"><img src="__PUBLIC__/Images/f1.png" class="fanhui"></a></td>
+          <td style="width:28.3%;border-right:1px dashed #c4c4c4"><a href="/index.php?shop_id={$shop_id}" style=" color: #707070;text-decoration:none">商城首页</a></td>
+          <td style="width:28.3%;border-right:1px dashed #c4c4c4"><a href="{:URL('Home-Order/ischeckout')}" style=" color: #707070;text-decoration:none"><span id="shoppingCart" class="badge shuliang"></span>购物车</a></td>
+          <td style="width:28.3%"><a href="{:URL('User-Index/index')}" style="color: #707070;text-decoration:none">会员服务</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="copyright"><a href="http://www.miitbeian.gov.cn" target="_blank" title="粤ICP备14063096号-1">粤ICP备14063096号-1</a></div> 
+
+     <script type="text/javascript">
+      //隐藏微信底栏
+      document.addEventListener('WeixinJSBridgeReady',function onBridgeReady(){WeixinJSBridge.call('hideToolbar');});
+
+      //创建slider组件
+      $('#slider').slider({loop:true});
+      </script>
+</body>
+
+</html>

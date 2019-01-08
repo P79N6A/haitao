@@ -1,0 +1,261 @@
+
+
+<table  class="search_table" width="100%">
+	<tr>
+		<td class="search">
+			<form action="{:U($module_name.'/index')}" method="get">
+			<input type="hidden" name="g" value="{$Think.GROUP_NAME}" />
+			<input type="hidden" name="m" value="{$Think.MODULE_NAME}" />
+			<input type="hidden" name="a" value="{$Think.ACTION_NAME}" />
+			<input type="hidden" name="status" value="<?php echo $_GET['status'];?>" />
+
+			<input id="title" type="text" class="input-text" name="keyword" value="{$Think.get.keyword}" />
+			<select name="searchtype">
+			<option value="title" <eq name="searchtype" value='title'>selected="selected"</eq>>中文名称</option>
+			<if condition="$_GET['catid'] eq 25">
+			<option value="username" <eq  name="searchtype" value='username' >selected="selected"</eq>>微店名</option></if>
+			</select>
+			<if condition="$fields['catid']">
+			<select id="catid" name="catid">
+			<option value="">{:L('select_category')}</option>
+			{$select_categorys}
+			</select>
+			</if>
+
+			<if condition="$fields['typeid']">
+			<select id="typeid" name="typeid">
+			<option value="">{:L('select_typeid')}</option>
+			<?php 
+			$flat=0;
+			function each_type($id=0,$typeid=0,$level=0){
+				$sql="SELECT * from `qq_type` where parentid=".$id;
+				$query=mysql_query($sql);	
+
+				while ($row = mysql_fetch_assoc($query)) {
+					$str.='<option  value='.$row['typeid'];
+					if($typeid==$row['typeid'] && $flat!=1){
+							$str.=' selected="selected" ';
+							$flat=1;
+						}
+					$str.=' >';
+					for($i=0;$i<$level;$i++){
+						$str.='&nbsp;├';
+					}
+					$str.=$row['name'];
+					$str.='</option>';
+					$str.=each_type($row['typeid'],$typeid,$level+1);
+				}
+
+				return $str;
+			}
+			$str.=each_type(8,$typeid,0);
+			echo $str;
+		?>
+			</select>
+			</if>
+
+
+			<if condition="$fields['posid']">
+			<select id="posid" name="map[posid]">
+			<option value="">{:L('select_posids')}</option>
+			<volist name="posids" id="row">
+			<option value="{$row['id']}" <if condition="$posid ==$row['id']">selected="selected"</if>>{$row['name']}</option>
+			</volist>
+			</select>
+			</if>
+
+
+			<select id="status" name="map[status]">
+			<option value="">{:L('status')}</option>
+			<option value="0" <if condition="isset($status) && $status ==0">selected="selected"</if>>{:L(noshenhe)}</option>
+			<option value="1" <if condition="isset($status) && $status ==1">selected="selected"</if>>{:L(isshenhe)}</option>
+			</select>
+
+
+			<select id="order" name="order">
+			<option value="listorder" <eq name="order" value="listorder">selected="selected"</eq>>{:L('listorder')}</option><!-- 
+			<option value="{$pkid}" <eq name="order" value="$pkid">selected="selected"</eq>>ID{:L('listorder')}</option> -->
+			<if condition="$fields['hits']"><option value="hits" <eq name="order" value="hits">selected="selected"</eq>>{:L('hits')}{:L('listorder')}</option></if>
+			</select>
+
+			<select name="sort">
+				<option value="asc" <if condition="$sort =='asc'">selected="selected"</if>>{:L('order_by_asc')}</option>
+				<option value="desc" <if condition="$sort =='desc'">selected="selected"</if>>{:L('order_by_desc')}</option>
+			</select>
+
+			<select name="listRows">
+				<option value="15" <if condition="$listRows ==5">selected="selected"</if>>15{:L('listRows')}</option>
+				<option value="20" <if condition="$listRows ==20">selected="selected"</if>>20{:L('listRows')}</option>
+				<option value="50" <if condition="$listRows ==50">selected="selected"</if>>50{:L('listRows')}</option>
+				<option value="100" <if condition="$listRows ==100">selected="selected"</if>>100{:L('listRows')}</option>
+			</select>
+
+			<input type="hidden" id="menuid" name="menuid" value="{$_GET['menuid']}"/>
+			<input type="submit" value="{:L('chaxun')}"  class="button" />
+			<input type="reset" value="{:L('reset')}" class="button"  />
+			</form>
+		</td>
+
+	</tr>
+</table>
+
+<form name="myform" id="myform" action="" method="post">
+
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+<!-- 秒拍商品列表 -->
+<if condition="$_GET['catid'] eq 9 or $vo['catid'] eq 9">
+<style type="text/css">
+	.table-list td, .table-list th {
+padding-left: 0px; 
+}
+</style>
+		<thead>
+            <tr>
+			<th width="30"><input type="checkbox" value="" id="check_box" onclick="selectall('ids[]');"></th>
+            <th width="40">{:L('listorder')}</th>
+            <th >秒拍图标</th>
+            <!-- <th width="40">ID</th> -->
+			<th  width="120">中文名称</th>
+			<th width="120">外文名称</th>
+			<th>原价</th>
+			<th>秒拍价</th>
+			<th width="170">产品简介</th>
+			<th>开始时间</th>
+			<th>结束时间</th>
+<!-- 			<th>产地</th>
+<th>容量</th>
+<th>酒精度</th> -->
+
+			<if condition="$fields['status']"><th width="60">{:L('status')}</th> </if>
+			<!-- <if condition="$fields['hits']"><th width="40">{:L('hits')}</th> </if> -->
+			<!-- <th width="60">{:L('username')}</th> -->
+            
+			<th >编辑产品</th>
+            </tr>
+        </thead>
+      	<tbody>
+      		<volist name="list" id="vo" key="k">
+      		<tr >
+			<td  width="30" align="center"><input class="inputcheckbox " name="ids[]" value="{$vo['id']}" type="checkbox" ></td>
+			<td width="40" align='center'><input name='listorders[{$vo.id}]' type='text' size='3' value='{$vo.listorder}' class='input-text-c'></td>
+			<!-- <td align="center">{$vo['id']}</td> -->
+
+			<td  align='center' style="padding:10px 0px 10px 10px;"><img style="width:80px;height:80px;" src="{$vo['thumb']}"></td>
+
+      		<td  align='center'><if condition="$vo['catid']">[<font color="green">{$categorys[$vo['catid']]['catname']}</font>]</if> <a href="{$vo.url}" <if condition="$vo['title_style']!=''">style ="{$vo['title_style']}"</if> target="_blank">{$vo['title']} </a>
+			<if condition="$vo['posid']!=0"><img src="./Public/Images/admin_elite.gif"></if></td>
+
+			<td   align='center'>{$vo['en_name']}</td>
+<!-- 
+			<td   align='center'>{$vo['address']}</td>
+			<td   align='center'>{$vo['liquid']}</td>
+			<td   align='center'>{$vo['vol']}</td> -->
+			<td   align='center'>{$vo['price']}</td>
+			<td   align='center'>{$vo['second_price']}</td>
+			<td   align='center' title="<?php echo strip_tags($vo['content']);?>">{$vo['content']|strip_tags=###|mb_substr=###,0,30,'utf8'}……</td>
+			<td   align='center'>{$vo['second_star']|date='Y-m-d H:i',###}</td>
+			<td   align='center'>{$vo['second_end']|date='Y-m-d H:i',###}</td>
+			<if condition="$fields['status']"><td align="center">{if $vo['status']==1}<font color="green">上架中</font>{else}<a href="{:U($module_name.'/status',array(id=>$vo['id'],status=>1))}"><font color="red">下架中</font></a>{/if}</td></if>
+			<!-- <if condition="$fields['hits']"> <td align="center">{$vo['hits']}</td></if> -->
+
+      		<!-- <td align="center">{$vo['username']}</td> -->
+      	 
+			<td align="center"><a class="product_edit1" href="{:U($module_name.'/edit',array(id=>$vo['id']))}">编辑</a><a style="margin:0px;"  class="product_edit2" href="javascript:confirm_delete('{:U($module_name.'/delete',array(id=>$vo['id']))}')">{:L('delete')}</a></td>
+      		</tr>
+      		</volist>
+      	</tbody>
+
+
+
+
+
+
+
+<else/>
+<!-- 非秒拍商品列表 -->
+		<thead>
+            <tr>
+			<th width="30"><input type="checkbox" value="" id="check_box" onclick="selectall('ids[]');"></th>
+            <th width="40">{:L('listorder')}</th>
+            <if condition="$_GET['catid'] eq 25"><th >店主</th></if>
+            <th >产品图标</th>
+            <!-- <th width="40">ID</th> -->
+			<th width="120">中文名称</th>
+			<th width="120">外文名称</th>
+			<th>产地</th>
+			<th>容量</th>
+			<th>酒精度</th>
+			<th>门市价</th>
+   <if condition="$_GET['catid'] eq 25"><th >实际价格</th></if>
+<if condition="$_GET['catid'] eq 5 or $vo['catid'] eq 5">
+			<th>会员价</th>
+			<th>金会员价</th>
+</if>
+			<if condition="$fields['status']"><th width="60">{:L('status')}</th> </if>
+
+			<if condition="$_GET['catid'] eq 25"><th width="60">上下架情况</th></if>
+            
+			<th width="120px">编辑产品</th>
+            </tr>
+        </thead>
+      	<tbody>
+      		<volist name="list" id="vo" key="k">
+      		<tr >
+			<td  width="30" align="center"><input class="inputcheckbox " name="ids[]" value="{$vo['id']}" type="checkbox" ></td>
+			<td width="40" align='center'><input name='listorders[{$vo.id}]' type='text' size='3' value='{$vo.listorder}' class='input-text-c'></td>
+			<!-- <td align="center">{$vo['id']}</td> -->
+
+			<if condition="$_GET['catid'] eq 25"><td  align='center' style="padding:10px 0px 10px 10px;">{$vo.username}</td></if>
+			<td  align='center' style="padding:10px 0px 10px 10px;"><img style="width:80px;height:80px;" src="{$vo['thumb']}"></td>
+
+      		<td  align='center'><if condition="$vo['catid']">[<font color="green">{$categorys[$vo['catid']]['catname']}</font>]</if> <a href="{$vo.url}" <if condition="$vo['title_style']!=''">style ="{$vo['title_style']}"</if> target="_blank">{$vo['title']} </a>
+			<if condition="$vo['posid']!=0"><img src="./Public/Images/admin_elite.gif"></if></td>
+
+			<td   align='center'>{$vo['en_name']}</td>
+
+			<td   align='center'>{$vo['address']}</td>
+			<td   align='center'>{$vo['liquid']}</td>
+			<td   align='center'>{$vo['vol']}</td>
+			<td   align='center'>{$vo['price']}</td>
+       <if condition="$_GET['catid'] eq 25"><td >{$vo['member_price']}</td></if>
+<if condition="$_GET['catid'] eq 5 or $vo['catid'] eq 5">
+			<td   align='center'>{$vo['member_price']}</td>
+			<td   align='center'>{$vo['gold_price']}</td>
+</if>
+			<if condition="$_GET['catid'] eq 25">
+			<if condition="$fields['status']"><td align="center">{if $vo['status']==1}<font color="green">审核通过</font>{else}<a style=" text-decoration:underline;" href="{:U($module_name.'/status',array(id=>$vo['id'],status=>1))}"><font color="red">未审核</font></a>{/if}</td></if>
+			<td align="center">{if $vo['private_status']==1}<font color="green">已上架</font>{else}<font color="red">已下架</font>{/if}</td>
+			<else/>
+			<if condition="$fields['status']"><td align="center">{if $vo['status']==1}<font color="green">上架中</font>{else}<a href="{:U($module_name.'/status',array(id=>$vo['id'],status=>1))}"><font color="red">下架中</font></a>{/if}</td></if>
+			</if>
+			<!-- <if condition="$fields['hits']"> <td align="center">{$vo['hits']}</td></if> -->
+
+      		<!-- <td align="center">{$vo['username']}</td> -->
+      	 	
+			<td align="center">
+			<if condition="$_GET['catid'] eq 25">
+<!-- 			{if $vo['status']==1}
+<a class="product_edit1" style="border:#BDBABA 1px solid;border-radius:5px" href="/index.php?a=status&m=Product&g=Admin&status=0&id={$vo['id']}">下架</a>
+{else}
+<a class="product_edit1" style="border:#BDBABA 1px solid;border-radius:5px" href="/index.php?a=status&m=Product&g=Admin&status=1&id={$vo['id']}">上架</a>
+{/if} -->
+			</if><a class="product_edit1" href="{:U($module_name.'/edit',array(id=>$vo['id']))}">编辑</a><a style="margin:0px;"  class="product_edit2" href="javascript:confirm_delete('{:U($module_name.'/delete',array(id=>$vo['id']))}')">{:L('delete')}</a>
+			</td>
+      		</tr>
+      		</volist>
+      	</tbody>
+</if>
+    </table>
+
+    <div class="btn"><input type="button" class="button" name="dosubmit" value="<?php echo L('delete')?>" onclick="myform.action='{:U($module_name.'/deleteall')}';return confirm_deleteall()"/> <input  type="button" class="button" name="dosubmit" value="<?php echo L('listorder')?>" onclick="myform.action='{:U($module_name.'/listorder')}';$('#myform').submit();" />  <input  type="button" class="button" name="dosubmit" value="批量上架" onclick="myform.action='{:U($module_name.'/statusallok')}';$('#myform').submit();" /> </div>
+
+</form></div>
+
+<div id="pages" class="page">{$page}</div>
+<script>
+$("#catid").attr("value",'{$catid}');
+function confirm_deleteall(){
+	art.dialog.confirm("{:L('real_delete')}", function(){ $('#myform').submit();});
+}
+</script>

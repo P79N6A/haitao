@@ -1,0 +1,29 @@
+/*推荐分享*/
+*{-webkit-font-smoothing:antialiased;font-family:"Microsoft YaHei",Helvetica,Arial,SimHei,"\5B8B\4F53",simsun,sans-serif  !important}
+.clear{clear:both;}
+.bg{background:url(../img/tuijians.png) no-repeat;width:100%;text-align:center;padding:20%;background-size:cover}
+.bg img{width:50%;}
+.bg p{margin-top:25px;font-size:15px}
+.bg .chai{display:block;padding:14%;border-radius:50%;background-color:#F4AE4B;color:white;text-align:center;line-height:80px;font-size:18px;position: absolute;bottom:18%;left:33%;}
+.foot{margin: 10px;background-color: #F2F2F4;}
+.foot img{float: left;width: 20%;margin: 10px 10px 10px 39px;}
+.foot p{margin-top: 22px;margin-left: 10px;font-weight: bold;float: left;width: 55%;font-size: 15px;text-align: center;line-height: 25px;margin-bottom: 0;}
+.share{ margin-bottom: 10%;}
+.share a{display:block;background-color:#fff;border:1px solid #F18731;color:#F18731;height:40px;width:70%;text-align:center;font-size:15px;padding:10px;border-radius:5px;margin:15px auto;}
+.share a:hover{background-color:#F18731;border:1px solid #F18731;color:#fff;}
+.share p{text-align: center}
+@media(min-height:768px){.bg .ding img{width:53%;}}
+@media(min-height:568px){.bg .have{font-size:21px;}}
+@media(min-height:768px){
+.bg{padding-top:3%}
+.bg img{width:30%;}}
+.share-layer {display: none; position: fixed;top: 0;left: 0;right: 0;bottom: 0;background: rgba(0,0,0,.7);}
+@media(max-height:556px){.share-layer{bottom:-18%}}
+@media(min-width:1024px){.share-layer{bottom:-80%}}
+.share-layer .responed{width: 90%;}
+.bg .ding{position:relative;width:100%;}
+.bg .ding img{width:75%;margin:0 auto;display: block;}
+.bg .ding .text{width:60%;position:absolute;top:23%;left:20%;text-align:center;color:#CE1B41;font-size:20px;}
+.bg .ding .text strong{font-size:40px}
+.bg .texts{position:absolute;top:66%;left:20%;text-align:center;color:#CE1B41;font-size:20px;width:60%}
+/*end*/

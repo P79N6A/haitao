@@ -1,0 +1,21 @@
+{__NOLAYOUT__}
+<include file="Public:headerart"/>
+<!-- 本页自用的 css -->
+<link rel="stylesheet" href="../Public/Css/index02.css">
+<style type="text/css">hr{margin-top: 0!important}</style>
+<style>
+.denglu table td > h6{margin-left: 18px;font-size: 14px;color: #B71916;}
+.denglu{border-left:none; border-right:none;background-color: #fff;width: 70%;margin: 20px auto;border: 1px solid #fff;background-color: #fff;}
+.news-content{width: 100%; padding: 10px;}
+.news-content p{text-indent: 2em;}
+</style>
+<div class="denglu">
+  <h3 class="padding-10">订单消息<small class="margin-left-5">DingdanMessage</small></h3>
+  <h4 class="text-center">{$info.title}</h4>
+  <div class="news-content">
+    <p>{$info.little_title}</p>
+    <p>{$info.content}</p>
+  </div>
+</div>
+<div class="listel" style="margin-top:10px; clear:both;"></div>
+<include file="Public:footerubo"/>

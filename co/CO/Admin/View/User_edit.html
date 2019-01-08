@@ -1,0 +1,200 @@
+<include file="Public:adminHead" />
+<style type="text/css">
+#jj{
+width:100%;
+border:1px solid #eee;
+margin:10px 0px 10px 0px;
+}
+  #jj th{
+    padding:10px 0px 10px 0px;
+    border-bottom:1px solid #d5dfe8;
+    border-right:1px solid #eee;
+    background: #eef3f7;
+  }
+   #jj  tr:hover{
+
+    background: #fbffe4;
+   }
+    #jj td{
+    padding:10px 0px 10px 0px;
+    border-right:1px solid #eee;
+    }
+    #next {
+width: 100%;
+}#user_info {
+width: 100%;
+overflow: hidden;
+position: relative;
+}
+.info_ul li {
+width: 33%;
+font-size: 18px;
+float: left;
+border-bottom: 1px solid #eee;
+border-left: 1px solid #eee;
+line-height: 40px;
+}
+.info_ul li span {
+display: inline-block;
+width: 40%;
+font-size: 15px;
+text-align: right;
+border-right: 1px solid #eee;
+margin-right: 5px;
+}
+h1 {
+display: block;
+font-size: 2em;
+-webkit-margin-before: 0.67em;
+-webkit-margin-after: 0.67em;
+-webkit-margin-start: 0px;
+-webkit-margin-end: 0px;
+font-weight: bold;
+}
+#next table{
+  width: 100%;
+}
+#next table th {
+border-bottom: 1px solid #eee;
+margin: 0px;
+padding: 10px 0px 10px 0px;
+text-align: center;
+}#next table td {
+border-left: 1px solid #eee;
+border-bottom: 1px solid #eee;
+margin: 0px;
+padding: 10px 0px 10px 0px;
+text-align: center;
+}
+user agent stylesheettd, th {
+display: table-cell;
+vertical-align: inherit;
+}
+</style>
+<div id="Right">
+	<div class="contentArea">
+  
+<!-- 详细信息 -->
+  <div id="user_info">
+    <ul class="info_ul">
+      <li><span>真实姓名：</span>{$user_list.realname}</li>
+      <li><span>邮箱：</span>{$user_list.email}</li>
+      <li><span>级别：</span>
+    <volist name="rlist" id="row" >
+      <if condition="$user_list['groupid'] eq $row['id']" >{$row['name']}</if>
+    </volist></li>
+      <li><span>手机号码：</span>{$user_list.mobile}</li>
+      <li><span>传真地址：</span>{$user_list.fax}</li>
+      <li><span>省份：</span>{$adress['name'][0]}</li>
+      <li><span>城市：</span>{$adress['name'][1]}</li>
+      <li><span>区域：</span>{$adress['name'][2]}</li>
+      <li style="width:100%"><span style="width:13%">真实地址：</span>{$user_list.address}</li>
+    </ul>
+    
+  </div>
+<if condition="$user_list['groupid'] gt 5 and $user_list['groupid'] lt 14">
+<!--下属微店板块-->
+  <div id="next">
+    <h1>下级微店<span>统计共有：{$shop_count}家</span></h1>
+    <table>
+    <tr>
+    <th>名称</th>
+    <th>级别</th>
+    <th>成立时间</th>
+    <th>电话</th>
+    <th>地址</th>
+    </tr>
+    <volist name="shop_list" id="vo">
+    <tr>
+      <td>{$vo.realname}</td>
+      <td>{$vo.role_name}</td>
+      <td>{$vo.createtime|date='Y-m-d',###}</td>
+      <td>{$vo.mobile}</td>
+      <td>{$vo.address}</td>
+    </tr>
+    </volist> 
+    </table>
+  </div>
+
+<!--下属会员板块-->
+  <!-- <div id="next">
+    <h1>下级会员<span>统计共有：{$menber_count}位</span></h1>
+    <table>
+    <th>名称</th>
+    <th>级别</th>
+    <th>成立时间</th>
+    <th>电话</th>
+    <th>地址</th>
+    <th>操作</th>
+    <volist name="menber_list" id="vo">
+    <tr>
+      <td>{$vo.realname}</td>
+      <td>{$vo.role_name}</td>
+      <td>{$vo.createtime|date='Y-m-d',###}</td>
+      <td>{$vo.mobile}</td>
+      <td>{$vo.address}</td>
+      <td><a  class="product_edit1" style="border-radius:5px;border-right:#BDBABA 1px solid" href="/co/index.php/User/edit?id={$vo.id}">查看详情</a></td>
+    </tr>
+    </volist> 
+    </table>
+  </div> -->
+<!--销售详情板块-->
+<div id="next">
+  <h1>销售详情：<font color="red">自消费{$sell_list.self_fee}￥</font>,
+  <font color="green">客户消费{$sell_list.next_fee}￥</font>,
+  <font color="red">自消费比例{$sell_list.scale}</font>
+  </h1>
+  <table>
+  <th>订单号</th>
+  <th>消费会员</th>
+  <th>消费总金额</th>
+  <th>创建时间</th>
+  <th>支付时间</th>
+  <th>操作</th>
+  <volist name="order_list" id="vo">
+    <tr>
+      <td>{$vo.sn}</td>
+      <td>{$vo.realname}</td>
+      <td>{$vo.amount}</td>
+      <td>{$vo.add_time|date='Y-m-d',###}</td>
+      <td>{$vo.pay_time|date='Y-m-d',###}</td>
+      <td><a  class="product_edit1" style="border-radius:5px;border-right:#BDBABA 1px solid" href="/co/index.php/Order/edit.shtml?order_id={$vo.id}">查看详情</a></td>
+    </tr>
+    </volist> 
+    </table>
+</div>
+<else/>
+
+<!--订单详情板块-->
+<div id="next">
+  <h1>消费详情：<font color="green">历史消费金额{$menber_total.total_price}￥,已购买{$menber_num.num}件商品,可用电子现金{$user_list.cash_use}￥</font></h1>
+  <table>
+  <th>订单号</th>
+  <th>消费总金额</th>
+  <th>创建时间</th>
+  <th>支付时间</th>
+  <th>操作</th>
+  <volist name="menber_order" id="vo">
+    <tr>
+      <td>{$vo.sn}</td>
+      <td>{$vo.amount}</td>
+      <td>{$vo.add_time|date='Y-m-d',###}</td>
+      <td>{$vo.pay_time|date='Y-m-d',###}</td>
+      <td>
+      <if condition="$vo['is_private'] eq 1">
+      <a  class="product_edit1" style="border-radius:5px;border-right:#BDBABA 1px solid" href="/co/index.php/Order/info.shtml?order_id={$vo.id}">查看详情</a>
+      <elseif condition="$vo['is_private'] eq 0" />
+      <a  class="product_edit1" style="border-radius:5px;border-right:#BDBABA 1px solid" href="/co/index.php/Order/edit.shtml?order_id={$vo.id}">查看详情</a>
+      </if>
+      </td>
+    </tr>
+    </volist> 
+    </table>
+</div>
+</if>
+</div>
+	
+	</div>
+</div>
+
+<include file="Public:adminFoot" />

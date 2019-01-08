@@ -1,0 +1,63 @@
+<include file="Public:adminHead" />
+<div id="Right">
+	<div class="contentArea">
+		<form action="" method="post">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+				<tr>
+					<th width="120">分组名称：</th>
+					<td><input name="title" type="text" class="input" size="40" value="{$info.title}" /> </td>
+				</tr>
+				<tr>
+					<th>状态：</th>
+					<td>
+						<select name="status" style="width: 80px;">
+							{$info.status|frequent_status_converter=###,$status_01,'option'}
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>排序：</th>
+					<td><input class="input" name="sort" type="text" size="40" value="{$info.listorder}" /> </td>
+				</tr>
+			</table>
+			<input type="hidden" name="id" value="{$info.id}"/>
+			<div class="commonBtnArea" >
+				<input type="submit" class="btn submit" />
+			</div>
+		</form>
+		<div class="Item hr">
+			<div class="current">分组列表(角色)</div>
+		</div>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab">
+			<tr>
+				<td style="width:150px;">组名</td>
+				<td style="width:60px;">状态</td>
+				<td style="width:220px;">操作</td>
+				<td></td>
+			</tr>
+			<tr align="center">
+				<td>所有分组</td>
+				<td>[{$flotsam}]垃圾</td>
+				<td>
+					<notempty name="flotsam">
+					[ <a href="__URL__/groupClearFlotsam.shtml">一键优化</a> ]
+					</notempty>
+				</td>
+				<td></td>
+			</tr>
+			<volist name="group" id="vo" key="k">
+			<tr align="center" id="{$vo.id}">
+				<td>{$vo.title}</td>
+				<td>{$vo.status|frequent_status_converter=###,$status_converter}</td>
+				<td>
+					[ <a href="__URL__/group?id={$vo.id}" class="edit">编辑</a> ]
+					[ <a href="__URL__/groupDel?id={$vo.id}" class="edit">删除</a> ]
+					[ <a href="__URL__/changeRole?id={$vo.id}" class="edit">权限分配</a> ]
+				</td>
+				<td></td>
+			</tr>
+			</volist>
+		</table>
+	</div>
+</div>
+<include file="Public:adminFoot" />
